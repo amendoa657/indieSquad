@@ -170,23 +170,18 @@ main {
 
 
 
-
-
-
-
 .comoFunciona {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 250px;
+    margin-top: 200px;
+    margin-bottom: 100px;
     color: white;
 }
-
 .comoFunciona h3 {
     margin-top: 18px;
 }
-
 
 
 .cards123 {
