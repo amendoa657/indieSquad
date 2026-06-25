@@ -1,6 +1,13 @@
 from models.usuario import Usuario
 from database.database import db
 
+
+def mostrarUsuario(id):
+    return Usuario.query.get(id)
+
+def mostrarUsuarios():
+    return Usuario.query.all()
+
 def registrarUsuario(usuario, email, senha):
     usuarioTable = Usuario(
         usuario=usuario,
