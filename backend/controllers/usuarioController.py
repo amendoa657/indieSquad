@@ -13,4 +13,9 @@ def getUsuario(id):
     return jsonify(usuarioService.mostrarUsuario(id))
 
 
+@usuarioBp.route("/usuarios/atualizar/<id>", methods=["PUT"])
+def atualizarUsuario(id):
+    return usuarioService.alterarUsuario(id, request.json)
+
+
 

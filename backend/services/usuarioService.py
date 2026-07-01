@@ -1,23 +1,23 @@
-import repositories.usuarioRepository as r
+import models.usuario as u
 
 
 def mostrarUsuarios():
-    usuarios = r.mostrarUsuarios()
+    usuarios = u.mostrarUsuarios()
 
     lista = []
 
-    for u in usuarios:
+    for user in usuarios:
         usuarioD = {
-            "id": u.id,
-            "usuario": u.usuario,
-            "email": u.email
+            "id": user.id,
+            "usuario": user.usuario,
+            "email": user.email
         }
         lista.append(usuarioD)
 
     return lista
 
 def mostrarUsuario(id):
-    usuario = r.mostrarUsuario(id)
+    usuario = u.mostrarUsuario(id)
 
     usuarioD = {
         "id": usuario.id,
@@ -26,3 +26,30 @@ def mostrarUsuario(id):
     }
 
     return usuarioD
+
+def alterarUsuario(id, dados):
+    Usuario = u.buscarPorId(id)
+
+    if(Usuario == None):
+        return {"erro" : "Usuario nao encontrado"}, 404
+
+
+    if "usuario" in dados:
+        Usuario.usuario = dados["usuario"]
+
+    if "email" in dados:
+        Usuario.email = dados["email"]
+
+    if "senha" in dados:
+        Usuario.senha = dados["senha"]
+
+    if "bio" in dados:
+        Usuario.bio = dados["bio"]
+
+    if "fotoDePerfil" in dados:
+        Usuario.fotoDePerfil = dados["fotoDePerfil"]
+
+    u.salvar()
+
+
+

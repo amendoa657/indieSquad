@@ -2,7 +2,7 @@ POST http://localhost:5000/auth/registrar
 Content-Type: application/json
 
 {
-  "usuario": "Pedro Cunha cisar",
-  "email": "pedrocisarpinheiro@gmail.com",
+  "usuario": "Usuario legal top",
+  "email": "usuarioLegalTop@gmail.com",
   "senha": "123456"
 }

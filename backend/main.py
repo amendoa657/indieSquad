@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from database.database import db
 from controllers.usuarioController import usuarioBp
 from controllers.authController import authBp
+from models.usuario import buscarPorId
 
 
 app = Flask(__name__)

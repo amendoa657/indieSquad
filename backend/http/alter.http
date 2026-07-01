@@ -1,0 +1,8 @@
+PUT http://localhost:5000/usuarios/atualizar/5
+Content-Type: application/json
+
+{
+  "usuario": "usuario2",
+  "bio": "Apenas um usuario qualquer por ai",
+  "senha": "125235"
+}

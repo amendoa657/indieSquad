@@ -1,4 +1,4 @@
-import repositories.usuarioRepository as r
+import models.usuario as r
 
 
 def registrar(dados):

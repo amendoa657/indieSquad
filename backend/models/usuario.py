@@ -16,3 +16,27 @@ class Usuario(db.Model):
     bio = db.Column(MEDIUMTEXT, nullable=True)
     dataCriacao = db.Column(db.DateTime, default=func.now())
     fotoDePerfil = db.Column(db.String(255), nullable=True)
+
+def buscarPorId(id):
+    return db.session.get(Usuario, id)
+
+def salvar():
+    db.session.commit()
+
+def mostrarUsuario(id):
+    return Usuario.query.get(id)
+
+def mostrarUsuarios():
+    return Usuario.query.all()
+
+def registrarUsuario(usuario, email, senha):
+    usuarioTable = Usuario(
+        usuario=usuario,
+        email=email,
+        senha=senha
+    )
+
+    db.session.add(usuarioTable)
+    db.session.commit()
+
+    return f"Usuario {usuario} registrado com sucesso"
