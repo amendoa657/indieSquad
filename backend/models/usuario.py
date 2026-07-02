@@ -40,3 +40,7 @@ def registrarUsuario(usuario, email, senha):
     db.session.commit()
 
     return f"Usuario {usuario} registrado com sucesso"
+
+def deletarUsuario(Usuario):
+    db.session.delete(Usuario)
+    db.session.commit()

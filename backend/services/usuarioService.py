@@ -51,5 +51,19 @@ def alterarUsuario(id, dados):
 
     u.salvar()
 
+    return "Usuario alterado com sucesso",200
+
+def deletarUsuario(id):
+    Usuario = u.buscarPorId(id)
+
+    if(Usuario == None):
+        return {"erro" : "Usuario nao encontrado"}, 404
+
+    u.deletarUsuario(Usuario)
+
+    return "Usuario deletado com sucesso",200
+
+
+
 
 

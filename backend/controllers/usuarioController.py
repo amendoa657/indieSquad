@@ -17,5 +17,13 @@ def getUsuario(id):
 def atualizarUsuario(id):
     return usuarioService.alterarUsuario(id, request.json)
 
+@usuarioBp.route("/usuarios/deletar/<id>", methods=["DELETE"])
+def deletarUsuario(id):
+    return usuarioService.deletarUsuario(id)
+
+
+
+
+
 
 
