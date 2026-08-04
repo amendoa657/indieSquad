@@ -138,7 +138,7 @@ main {
 
 .estatisticas {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 15vh;
     width: 80%;
@@ -148,7 +148,7 @@ main {
 .estatisticas div {
     text-align: center;
     line-height: 0.1;
-    margin: 0 20px;
+    margin: 0 30px;
 }
 
 .estatisticas div h1 {
@@ -319,7 +319,78 @@ footer{
     color: #2cbcc9;
 }
 
-
+@media (max-width: 850px) {
+    .subtituloPrincipal {
+        font-size: 14px;
+    }
+    .estatisticas div h1{
+        font-size: 45px;
+    }
+    .estatisticas div h3{
+        font-size: 16px;
+    }
+    .mediaQuebrar{
+        display: block;
+    }
+}
+@media (max-width: 650px) {
+    .mediaSumir{
+        display: none;
+    }
+    nav{
+        justify-content: space-between;
+    }
+    .botoesNav{
+        width: 120px;
+    }
+    .subtituloPrincipal {
+        font-size: 12px;
+    }
+    #principal h1{
+        font-size: 50px;
+    }
+    .botoesTituloPrincipal a{
+        padding: 12px 18px;
+        font-size: 14px;
+    }
+    .estatisticas div h1{
+        font-size: 35px;
+    }
+    .estatisticas div h3{
+        font-size: 14px;
+    }
+    .estatisticas div{
+        margin: 0 15px;
+    }
+    .comoFunciona h1{
+        font-size: 40px;
+    }
+    .comoFunciona h3{
+        font-size: 14px;
+    }
+    .card h2{
+        font-size: 20px;
+    }
+    .infraCompleta h1{
+        font-size: 40px;
+    }
+    .infraCompleta h3{
+        font-size: 14px;
+    }
+    .talentos h1{
+        font-size: 40px;
+    }
+    .talentos h3{
+        font-size: 14px;
+    }
+    .pronto h1{
+        font-size: 40px;
+    }
+    .pronto h3{
+        font-size: 14px;
+    }
+    
+}
 
 
 
