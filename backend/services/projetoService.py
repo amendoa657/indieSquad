@@ -1,7 +1,26 @@
 import models.projeto as p
+import models.usuario as u
+from models.membroProjeto import MembroProjeto
 
 
-def mostrarProjetos():
+def adicionarMembro(idProjeto, idUsuario):
+    usuario = u.buscarPorId(idUsuario)
+    projeto = p.buscarPorId(idProjeto)
+
+    membro = MembroProjeto(
+        projeto=projeto,
+        usuario=usuario,
+        cargo="MEMBRO"
+    )
+
+    return p.adicionarMembro(projeto, membro)
+
+
+def getCriador(id):
+    projeto = p.buscarPorId(id)
+
+    return u.to_dict(projeto.criador)
+def getProjetos():
     projetos = p.mostrarProjetos()
 
     lista = []

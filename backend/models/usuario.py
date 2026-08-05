@@ -1,8 +1,8 @@
-import datetime
-
 from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
+
+from models.membroProjeto import MembroProjeto
 
 
 
@@ -20,6 +20,12 @@ class Usuario(db.Model):
     projetosCriados = db.relationship(
         "Projeto",
         back_populates="criador"
+    )
+
+    participacoes = db.relationship(
+        "MembroProjeto",
+        back_populates="usuario",
+        cascade="all, delete-orphan"
     )
 
 def to_dict(self):

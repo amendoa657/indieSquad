@@ -2,7 +2,7 @@ from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
 
-
+from models.membroProjeto import MembroProjeto
 
 class Projeto(db.Model):
     __tablename__ = "projeto"
@@ -23,6 +23,12 @@ class Projeto(db.Model):
     criador = db.relationship(
         "Usuario",
         back_populates="projetosCriados"
+    )
+
+    membros = db.relationship(
+        "MembroProjeto",
+        back_populates="projeto",
+        cascade="all, delete-orphan"
     )
 
 def to_dict(self):
@@ -61,3 +67,7 @@ def registrarProjeto(nome, status, usuario_id, descricao, logoProjeto):
     salvar()
 
     return f"Projeto {nome} registrado com sucesso"
+
+def adicionarMembro(projeto, membro):
+    projeto.membros.append(membro)
+    return f"O membro {membro.usuario.usuario} foi adicionado com sucesso!"
