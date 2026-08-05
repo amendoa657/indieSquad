@@ -1,0 +1,9 @@
+POST http://localhost:5000/projetos/criar
+Content-Type: application/json
+
+{
+  "nome": "IndieSquad",
+  "status": "ativo",
+  "usuario_id": "6",
+  "descricao": "A indie squad eh o melhor projetos de todos!"
+}

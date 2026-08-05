@@ -1,4 +1,18 @@
 import models.usuario as u
+import models.projeto as p
+
+
+def mostrarProjeto(id):
+    usuario = u.buscarPorId(id)
+
+    lista = []
+
+    for projeto in usuario.projetosCriados:
+        lista.append(p.to_dict(projeto))
+
+    return lista
+
+
 
 
 def mostrarUsuarios():
@@ -7,23 +21,14 @@ def mostrarUsuarios():
     lista = []
 
     for user in usuarios:
-        usuarioD = {
-            "id": user.id,
-            "usuario": user.usuario,
-            "email": user.email
-        }
-        lista.append(usuarioD)
+        lista.append(u.to_dict(user))
 
     return lista
 
 def mostrarUsuario(id):
     usuario = u.mostrarUsuario(id)
 
-    usuarioD = {
-        "id": usuario.id,
-        "usuario": usuario.usuario,
-        "email": usuario.email
-    }
+    usuarioD = u.to_dict(usuario)
 
     return usuarioD
 

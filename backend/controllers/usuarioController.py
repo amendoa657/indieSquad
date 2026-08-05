@@ -8,6 +8,10 @@ usuarioBp = Blueprint("usuarios", __name__)
 def getUsuarios():
     return jsonify(usuarioService.mostrarUsuarios())
 
+@usuarioBp.route("/usuarios/projeto/<id>", methods=["GET"])
+def getPU(id):
+    return jsonify(usuarioService.mostrarProjeto(id))
+
 @usuarioBp.route("/usuarios/<id>", methods=["GET"])
 def getUsuario(id):
     return jsonify(usuarioService.mostrarUsuario(id))

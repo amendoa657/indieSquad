@@ -1,14 +1,19 @@
+from controllers.projetoController import projetoBp
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from database.database import db
+
+from models.usuario import Usuario
+from models.projeto import Projeto
+
 from controllers.usuarioController import usuarioBp
 from controllers.authController import authBp
-from models.usuario import buscarPorId
+from controllers.projetoController import projetoBp
 
 
 app = Flask(__name__)
 app.register_blueprint(usuarioBp)
 app.register_blueprint(authBp)
+app.register_blueprint(projetoBp)
 
 
 

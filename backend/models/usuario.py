@@ -17,6 +17,21 @@ class Usuario(db.Model):
     dataCriacao = db.Column(db.DateTime, default=func.now())
     fotoDePerfil = db.Column(db.String(255), nullable=True)
 
+    projetosCriados = db.relationship(
+        "Projeto",
+        back_populates="criador"
+    )
+
+def to_dict(self):
+    return {
+        "id": self.id,
+        "usuario": self.usuario,
+        "email": self.email,
+        "bio": self.bio,
+        "dataCriacao": self.dataCriacao,
+        "fotoDePerfil": self.fotoDePerfil
+    }
+
 def buscarPorId(id):
     return db.session.get(Usuario, id)
 
