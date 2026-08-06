@@ -28,6 +28,12 @@ class Usuario(db.Model):
         cascade="all, delete-orphan"
     )
 
+    skills = db.relationship(
+        "SkillUsuario",
+        back_populates="usuario",
+        cascade="all, delete-orphan"
+    )
+
 def to_dict(self):
     return {
         "id": self.id,
@@ -58,10 +64,21 @@ def registrarUsuario(usuario, email, senha):
     )
 
     db.session.add(usuarioTable)
-    db.session.commit()
-
-    return f"Usuario {usuario} registrado com sucesso"
+    salvar()
 
 def deletarUsuario(Usuario):
     db.session.delete(Usuario)
-    db.session.commit()
+    salvar()
+
+
+def getSkillsUsuario(usuario):
+    return usuario.skills
+
+
+def adicionarSkill(usuario, skill):
+    usuario.skills.append(skill)
+    salvar()
+
+def removerSkill(usuario, skill):
+    usuario.skills.remove(skill)
+    salvar()

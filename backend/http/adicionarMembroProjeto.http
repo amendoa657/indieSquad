@@ -1,4 +1,0 @@
-### GET request to example server
-POST http://localhost:5000/projetos/1/membros/add/9
-
-###

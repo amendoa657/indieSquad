@@ -1,0 +1,9 @@
+POST http://localhost:5000/projetos
+Content-Type: application/json
+
+{
+  "nome": "ZeGotinha",
+  "status": "ativo",
+  "usuario_id": "6",
+  "descricao": "Ze gota eh top demais"
+}

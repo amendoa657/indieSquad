@@ -6,4 +6,6 @@ def registrar(dados):
     email = dados["email"]
     senha = dados["senha"]
 
-    return r.registrarUsuario(usuario, email, senha)
+    r.registrarUsuario(usuario, email, senha)
+
+    return f"O usuario {usuario} foi registrado com sucesso!"

@@ -31,6 +31,8 @@ class Projeto(db.Model):
         cascade="all, delete-orphan"
     )
 
+
+
 def to_dict(self):
     return {
         "id": self.id,
@@ -48,11 +50,15 @@ def buscarPorId(id):
 def salvar():
     db.session.commit()
 
+
+
 def mostrarProjeto(id):
     return Projeto.query.get(id)
 
 def mostrarProjetos():
     return Projeto.query.all()
+
+
 
 def registrarProjeto(nome, status, usuario_id, descricao, logoProjeto):
     ProjetoTable = Projeto(
@@ -68,6 +74,25 @@ def registrarProjeto(nome, status, usuario_id, descricao, logoProjeto):
 
     return f"Projeto {nome} registrado com sucesso"
 
+def removerProjeto(projeto):
+    db.session.delete(projeto)
+    salvar()
+
+    return f"Projeto {projeto.nome} removido com sucesso!"
+
+
+
+def getMembrosProjeto(projeto):
+    return projeto.membros
+
+
 def adicionarMembro(projeto, membro):
     projeto.membros.append(membro)
+    salvar()
     return f"O membro {membro.usuario.usuario} foi adicionado com sucesso!"
+
+def removerMembro(projeto, membro):
+    projeto.membros.remove(membro)
+    salvar()
+    return f"O membro {membro.usuario.usuario} foi removido com sucesso!"
+

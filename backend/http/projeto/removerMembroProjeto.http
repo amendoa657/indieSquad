@@ -1,0 +1,4 @@
+### GET request to example server
+DEL http://localhost:5000/projetos/1/membros/9
+
+###

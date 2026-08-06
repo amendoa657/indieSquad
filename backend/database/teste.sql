@@ -19,3 +19,16 @@ add column logoProjeto VARCHAR(255);
 select * from membroProjeto;
 alter table membroProjeto
 add column cargo varchar(30);
+
+
+select * from skillUsuario;
+
+alter table skillUsuario
+modify nivel int not null;
+
+
+insert into skills (nome) values ("Progamador");
+
+select * from skills;
+
+describe skillUsuario;

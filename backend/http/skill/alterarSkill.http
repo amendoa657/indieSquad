@@ -1,0 +1,6 @@
+PATCH http://localhost:5000/skills/2
+Content-Type: application/json
+
+{
+  "nome": "Artista"
+}

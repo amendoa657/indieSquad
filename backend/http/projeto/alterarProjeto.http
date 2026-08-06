@@ -1,0 +1,7 @@
+PATCH http://localhost:5000/projetos/1
+Content-Type: application/json
+
+{
+  "nome": "IndieSquad",
+  "status": "ativo"
+}

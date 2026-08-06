@@ -27,6 +27,21 @@ def deletarUsuario(id):
 
 
 
+@usuarioBp.route("/usuarios/<id>/skills/", methods=["GET"])
+def getSkillsUsuario(id):
+    return usuarioService.getSkillsUsuario(id)
+
+
+@usuarioBp.route("/usuarios/<id>/skills/", methods=["POST"])
+def adicionarSkill(id):
+    return usuarioService.adicionarSkill(id, request.json)
+
+@usuarioBp.route("/usuarios/<idUsuario>/skills/<idSkill>", methods=["DEL"])
+def removerSkill(idUsuario, idSkill):
+    return usuarioService.removerSkill(idUsuario, idSkill)
+
+
+
 
 
 

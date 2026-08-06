@@ -1,0 +1,7 @@
+POST http://localhost:5000/usuarios/6/skills/
+Content-Type: application/json
+
+{
+  "idSkill": "6",
+  "nivel": "6"
+}
