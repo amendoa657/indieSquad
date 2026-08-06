@@ -1,32 +1,6 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>IndieSquad</title>
+{% extends "base.html" %}
 
-        <link rel="stylesheet" href="style/style.css" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-    </head>
-    <a class="botaoLogo" href="index.html">
-    <body>
-        <nav>
-                <div class="logo">
-                <img src="assets/Logo.svg" alt=""/>
-                <h3>INDIE<span>SQUAD</span></h3>
-                </div>
-            </a>
-
-            <div class="botoesNav">
-                <a class="mediaSumir" href="#comoFunciona"> Como funciona? </a>
-                <a class="mediaSumir" href="#infraCompleta"> Estrutura </a>
-                <a class="mediaSumir" href="#talentos"> Talentos</a>
-                <a href="#pronto" class="botaoComecar"> Comecar Agora</a>
-            </div>
-        </nav>
-
+{% block content %}
         <main>
             <div id="principal" class="tituloPrincipal">
                 <h1>
@@ -46,12 +20,12 @@
                 </h3>
 
                 <div class="botoesTituloPrincipal">
-                    <a class="botaoPublicarProjeto" href=""
+                    <a class="botaoPublicarProjeto" href="{{ url_for('login') }}"
                         >Publicar Projeto
-                        <img src="assets/setaDireita.svg" alt=""
+                        <img src="{{ url_for('static', filename='assets/setaDireita.svg') }}" alt=""
                     /></a>
-                    <a class="botaoEncontrarEquipe" href=""
-                        >Encontrar Equipe <img src="assets/pessoa.svg" alt="" />
+                    <a class="botaoEncontrarEquipe" href="{{ url_for('login') }}"
+                        >Encontrar Equipe <img src="{{ url_for('static', filename='assets/pessoa.svg') }}" alt="" />
                     </a>
                 </div>
 
@@ -115,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="infraCompleta" class="gapSlide"></div>
             <div class="infraCompleta">
                 <h1>Infraestrutura <span style="color: #2bbcc9"> Completa </span></h1>
@@ -193,27 +167,14 @@
                 </div>
 
             </div>
-            </div>
 
             <div id="pronto" class="gapSlide"></div>
             <div class="pronto">
                 <h1 style="color: white">Pronto para criar algo <span style="color: #2ebdcc">incrivel</span>?</h1>
                 <h3>Junte-se a desenvolvedores e artistas transformando ideias<br> em jogos reais — com estrutura, dados e IA.</h3>
 
-                <a>Criar Conta Grátis</a>
+                <a href="{{ url_for('login') }}">Criar Conta Grátis</a>
 
             </div>
         </main>
-
-        <footer>
-                <a class="botaoLogo" href="#principal">
-                    <div class="logoF">
-                    <img src="assets/Logo.svg" alt=""/>
-                    <h3>INDIE<span>SQUAD</span></h3>
-                    </div>
-
-                </a>
-        </footer>
-    </body>
-
-</html>
+{% endblock %}

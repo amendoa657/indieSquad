@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Criar Conta - IndieSquad</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    </head>
+    <body class="corpoLogin">
+        <main class="paginaLogin">
+            <a class="botaoLogo" href="{{ url_for('index') }}">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='assets/Logo.svg') }}" alt=""/>
+                    <h3>INDIE<span>SQUAD</span></h3>
+                </div>
+            </a>
+
+            <div class="cardLogin">
+                <h2>Criar Conta</h2>
+                <h3>Junte-se à comunidade indie</h3>
+
+                <div class="etapaPerfil" id="etapaPerfil">
+                    <p class="perguntaPerfil">Qual é o seu perfil?</p>
+
+                    <button type="button" class="opcaoPerfil" data-perfil="desenvolvedor">
+                        <div class="opcaoPerfilTopo">
+                            <span class="iconePerfil">🎮</span>
+                            <span class="tituloPerfil">Desenvolvedor</span>
+                        </div>
+                        <p>Tenho um projeto e preciso de equipe</p>
+                    </button>
+
+                    <button type="button" class="opcaoPerfil" data-perfil="profissional">
+                        <div class="opcaoPerfilTopo">
+                            <span class="iconePerfil">🎨</span>
+                            <span class="tituloPerfil">Profissional</span>
+                        </div>
+                        <p>Quero colaborar e fortalecer meu portfólio</p>
+                    </button>
+                </div>
+
+                <div class="etapaFormulario" id="etapaFormulario">
+                    <a href="#" class="botaoVoltar" id="botaoVoltar">← Voltar</a>
+
+                    <form class="formLogin" id="formCadastro">
+                        <div class="campoLogin">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+                        </div>
+
+                        <div class="campoLogin">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+                        </div>
+
+                        <div class="campoLogin">
+                            <label for="senha">Senha</label>
+                            <div class="wrapperSenha">
+                                <input type="password" id="senha" name="senha" placeholder="••••••••" required />
+                                <button type="button" class="botaoOlho" id="botaoOlho">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 128C147.3 128 21.6 245.7 3.5 262.4C-1.2 266.8-1.2 274.2 3.5 278.6C21.6 295.3 147.3 413 320 413C492.7 413 618.4 295.3 636.5 278.6C641.2 274.2 641.2 266.8 636.5 262.4C618.4 245.7 492.7 128 320 128zM320 349C275.3 349 239 312.7 239 268C239 223.3 275.3 187 320 187C364.7 187 401 223.3 401 268C401 312.7 364.7 349 320 349z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="campoLogin" id="campoEspecialidade">
+                            <label for="especialidade">Especialidade</label>
+                            <input type="text" id="especialidade" name="especialidade" placeholder="Ex: Artista 2D, Compositor, Dublador..." />
+                        </div>
+
+                        <button type="submit" class="botaoEntrarLogin">Criar Conta</button>
+                    </form>
+                </div>
+
+                <a class="linkCadastro" href="{{ url_for('login') }}">Já tem conta? <span>Entrar</span></a>
+            </div>
+        </main>
+
+        <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
+    </body>
+</html>
