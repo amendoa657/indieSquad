@@ -1,6 +1,7 @@
 const formLogin = document.getElementById("formLogin");
 const campoSenha = document.getElementById("senha");
 const botaoOlho = document.getElementById("botaoOlho");
+const mensagemErro = document.getElementById("mensagemErro");
 
 botaoOlho.addEventListener("click", () => {
     const tipoAtual = campoSenha.getAttribute("type");
@@ -9,6 +10,7 @@ botaoOlho.addEventListener("click", () => {
 
 formLogin.addEventListener("submit", async (evento) => {
     evento.preventDefault();
+    if (mensagemErro) mensagemErro.textContent = "";
 
     const dados = {
         email: document.getElementById("email").value,
@@ -16,22 +18,30 @@ formLogin.addEventListener("submit", async (evento) => {
     };
 
     try {
-        // ajustar essa URL pro endereço real da API do back-end
-        const resposta = await fetch("http://localhost:5000/api/login", {
+        const resposta = await fetch("http://localhost:5000/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados),
         });
 
+        const resultado = await resposta.json();
+
         if (!resposta.ok) {
-            throw new Error("Credenciais invalidas");
+            throw new Error(resultado.erro || "Credenciais invalidas");
         }
 
-        const resultado = await resposta.json();
-        console.log(resultado);
-        // redirecionar pra pagina apos login 
+        localStorage.setItem("token", resultado.token);
+        window.location.href = "/dashboard";
     } catch (erro) {
         console.error(erro);
-        // mostrar mensagem de erro pro usuario na tela
+        const texto = erro.message === "Failed to fetch"
+            ? "Não foi possível conectar ao servidor. Verifique se o back-end está rodando."
+            : erro.message;
+
+        if (mensagemErro) {
+            mensagemErro.textContent = texto;
+        } else {
+            alert(texto);
+        }
     }
 });

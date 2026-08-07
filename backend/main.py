@@ -1,7 +1,9 @@
 from controllers.projetoController import projetoBp
 from controllers.vagaProjetoController import vagaBp
 from flask import Flask
+from flask_cors import CORS
 from database.database import db
+
 
 from models.usuario import Usuario
 from models.projeto import Projeto
@@ -16,6 +18,8 @@ from controllers.vagaProjetoController import vagaBp
 
 
 app = Flask(__name__)
+CORS(app, origins=["http://127.0.0.1:5001", "http://localhost:5001"])
+
 app.register_blueprint(usuarioBp)
 app.register_blueprint(authBp)
 app.register_blueprint(projetoBp)

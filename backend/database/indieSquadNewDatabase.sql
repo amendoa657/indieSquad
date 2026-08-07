@@ -280,7 +280,7 @@ CREATE TABLE `vagaProjeto` (
   `status` varchar(45) NOT NULL,
   `skills_id` int(11) NOT NULL,
   `projeto_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`skills_id`,`projeto_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_vagaProjeto_skills1_idx` (`skills_id`),
   KEY `fk_vagaProjeto_projeto1_idx` (`projeto_id`),
   CONSTRAINT `fk_vagaProjeto_projeto1` FOREIGN KEY (`projeto_id`) REFERENCES `projeto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

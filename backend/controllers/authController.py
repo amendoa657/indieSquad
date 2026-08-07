@@ -9,10 +9,11 @@ def registrar():
     return authService.registrar(dados)
 
 
-#
-#@authBp.route("/auth/login", methods=["POST"])
-#def login():
-    #return {"usuario x"}
+
+@authBp.route("/auth/login", methods=["POST"])
+def login():
+    dados = request.get_json()
+    return authService.login(dados)
 
 
 

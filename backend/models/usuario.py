@@ -66,6 +66,12 @@ def registrarUsuario(usuario, email, senha):
     db.session.add(usuarioTable)
     salvar()
 
+    return usuarioTable
+
+
+def buscarPorEmail(email):
+    return Usuario.query.filter_by(email=email).first()
+
 def deletarUsuario(Usuario):
     db.session.delete(Usuario)
     salvar()

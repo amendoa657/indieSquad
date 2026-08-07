@@ -430,6 +430,7 @@ footer{
 }
 
 .cardLogin h3 {
+    font-size: 14px;
     margin-top: 8px;
     margin-bottom: 30px;
 }
@@ -606,7 +607,13 @@ footer{
     display: flex;
 }
 
-
+.mensagemErro {
+    color: #e05252;
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 14px;
+}
 
 
 

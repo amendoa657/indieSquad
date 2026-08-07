@@ -7,6 +7,7 @@ const especialidadeInput = document.getElementById("especialidade");
 const formCadastro = document.getElementById("formCadastro");
 const campoSenha = document.getElementById("senha");
 const botaoOlho = document.getElementById("botaoOlho");
+const mensagemErro = document.getElementById("mensagemErro");
 
 let perfilSelecionado = null;
 
@@ -40,6 +41,7 @@ botaoOlho.addEventListener("click", () => {
 
 formCadastro.addEventListener("submit", async (evento) => {
     evento.preventDefault();
+    if (mensagemErro) mensagemErro.textContent = "";
 
     const dados = {
         nome: document.getElementById("nome").value,
@@ -53,22 +55,30 @@ formCadastro.addEventListener("submit", async (evento) => {
     }
 
     try {
-        // ajustar essa URL pro endereço real da API do back-end
-        const resposta = await fetch("http://localhost:5000/api/cadastro", {
+        const resposta = await fetch("http://localhost:5000/auth/registrar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados),
         });
 
+        const resultado = await resposta.json();
+
         if (!resposta.ok) {
-            throw new Error("Erro ao criar conta");
+            throw new Error(resultado.erro || "Erro ao criar conta");
         }
 
-        const resultado = await resposta.json();
-        console.log(resultado);
-        // redirecionar apos cadastro /login
+        localStorage.setItem("token", resultado.token);
+        window.location.href = "/login";
     } catch (erro) {
         console.error(erro);
-        // mostrar mensagem de erro pro usuario na tela
+        const texto = erro.message === "Failed to fetch"
+            ? "Não foi possível conectar ao servidor. Verifique se o back-end está rodando."
+            : erro.message;
+
+        if (mensagemErro) {
+            mensagemErro.textContent = texto;
+        } else {
+            alert(texto);
+        }
     }
 });
