@@ -32,3 +32,12 @@ insert into skills (nome) values ("Progamador");
 select * from skills;
 
 describe skillUsuario;
+
+
+select * from vagaProjeto;
+
+alter table vagaProjeto
+add column titulo varchar(45);
+
+alter table vagaProjeto
+add column dataCriacao datetime;

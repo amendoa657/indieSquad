@@ -31,6 +31,11 @@ class Projeto(db.Model):
         cascade="all, delete-orphan"
     )
 
+    vagas = db.relationship(
+        "VagaProjeto",
+        back_populates="projetoCriador"
+    )
+
 
 
 def to_dict(self):

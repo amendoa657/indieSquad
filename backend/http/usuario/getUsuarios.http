@@ -1,4 +1,1 @@
-### GET request to example server
 GET http://localhost:5000/usuarios
-
-###

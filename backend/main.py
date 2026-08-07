@@ -1,4 +1,5 @@
 from controllers.projetoController import projetoBp
+from controllers.vagaProjetoController import vagaBp
 from flask import Flask
 from database.database import db
 
@@ -11,6 +12,7 @@ from controllers.usuarioController import usuarioBp
 from controllers.authController import authBp
 from controllers.projetoController import projetoBp
 from controllers.skillController import skillBp
+from controllers.vagaProjetoController import vagaBp
 
 
 app = Flask(__name__)
@@ -18,6 +20,7 @@ app.register_blueprint(usuarioBp)
 app.register_blueprint(authBp)
 app.register_blueprint(projetoBp)
 app.register_blueprint(skillBp)
+app.register_blueprint(vagaBp)
 
 
 

@@ -12,6 +12,11 @@ class Skills(db.Model):
         cascade="all, delete-orphan"
     )
 
+    vagas = db.relationship(
+        "VagaProjeto",
+        back_populates="skill"
+    )
+
 def to_dict(self):
     return {
         "id": self.id,

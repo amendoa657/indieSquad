@@ -1,0 +1,10 @@
+POST http://localhost:5000/vagas
+Content-Type: application/json
+
+{
+  "titulo": "Progamador para GM2",
+  "descricao": "Quero fazer um jogo legal guilherme",
+  "status": "Ativa",
+  "idProjeto": "1",
+  "idSkill": "1"
+}
