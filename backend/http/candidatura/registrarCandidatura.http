@@ -1,0 +1,9 @@
+POST http://localhost:5000/candidaturas
+Content-Type: application/json
+
+{
+  "mensagem": "Sou um dev legal 2",
+  "status": "Pendente",
+  "idVagaProjeto": "1",
+  "idUsuario": "8"
+}

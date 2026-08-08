@@ -1,5 +1,5 @@
 import models.usuario as u
-import models.projeto as p
+import models.projetos as p
 import models.skills as s
 
 from models.skillUsuario import SkillUsuario

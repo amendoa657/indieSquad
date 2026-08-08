@@ -36,6 +36,12 @@ class VagaProjeto(db.Model):
     )
 
 
+    candidaturasUsuarios = db.relationship(
+        "CandidaturaUsuario",
+        back_populates="projetoVaga"
+    )
+
+
 
 def to_dict(self):
     return {

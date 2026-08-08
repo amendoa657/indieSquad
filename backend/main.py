@@ -6,7 +6,7 @@ from database.database import db
 
 
 from models.usuario import Usuario
-from models.projeto import Projeto
+from models.projetos import Projeto
 from models.skills import Skills
 from models.skillUsuario import SkillUsuario
 
@@ -15,6 +15,7 @@ from controllers.authController import authBp
 from controllers.projetoController import projetoBp
 from controllers.skillController import skillBp
 from controllers.vagaProjetoController import vagaBp
+from controllers.candidaturaController import candidaturaBp
 
 
 app = Flask(__name__)
@@ -25,10 +26,10 @@ app.register_blueprint(authBp)
 app.register_blueprint(projetoBp)
 app.register_blueprint(skillBp)
 app.register_blueprint(vagaBp)
+app.register_blueprint(candidaturaBp)
 
 
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost/indieSquad"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:271208@localhost/indieSquad"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)

@@ -1,0 +1,6 @@
+PUT http://localhost:5000/candidaturas/1
+Content-Type: application/json
+
+{
+  "mensagem": "nao sou legal nao"
+}

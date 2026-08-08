@@ -1,5 +1,5 @@
 import models.vagaProjeto as v
-import models.projeto as p
+import models.projetos as p
 import models.skills as s
 from models.vagaProjeto import VagaProjeto
 

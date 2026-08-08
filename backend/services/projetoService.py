@@ -1,4 +1,4 @@
-import models.projeto as p
+import models.projetos as p
 import models.usuario as u
 from models.membroProjeto import MembroProjeto
 

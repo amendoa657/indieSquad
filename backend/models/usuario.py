@@ -34,6 +34,13 @@ class Usuario(db.Model):
         cascade="all, delete-orphan"
     )
 
+
+    candidaturas = db.relationship(
+        "CandidaturaUsuario",
+        back_populates="candidato"
+    )
+
+
 def to_dict(self):
     return {
         "id": self.id,
