@@ -43,6 +43,8 @@ def registrarSkill(nome):
     db.session.add(skillsTable)
     salvar()
 
+    return skillsTable
+
 def deletarSkill(skill):
     db.session.delete(skill)
     salvar()

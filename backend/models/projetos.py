@@ -78,7 +78,7 @@ def registrarProjeto(nome, status, usuario_id, descricao, logoProjeto):
     db.session.add(ProjetoTable)
     salvar()
 
-    return f"Projeto {nome} registrado com sucesso"
+    return ProjetoTable
 
 def removerProjeto(projeto):
     db.session.delete(projeto)

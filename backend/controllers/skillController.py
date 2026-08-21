@@ -1,38 +1,38 @@
-from flask import Blueprint, request
-from flask import jsonify
-import services.skillService as skillService
+from flask import Blueprint, request, jsonify
+from services.listarSkillsService import ListarSkillsService
+from services.buscarSkillService import BuscarSkillService
+from services.registrarSkillService import RegistrarSkillService
+from services.atualizarSkillService import AtualizarSkillService
+from services.deletarSkillService import DeletarSkillService
+
+
+class SkillController:
+    def listar(self):
+        service = ListarSkillsService()
+        return jsonify(service.execute())
+
+    def buscar(self, id):
+        service = BuscarSkillService()
+        return jsonify(service.execute(id))
+
+    def registrar(self):
+        service = RegistrarSkillService()
+        return service.execute(request.json)
+
+    def atualizar(self, id):
+        service = AtualizarSkillService()
+        return service.execute(id, request.json)
+
+    def deletar(self, id):
+        service = DeletarSkillService()
+        return service.execute(id)
+
 
 skillBp = Blueprint("skills", __name__)
+_controller = SkillController()
 
-@skillBp.route("/skills", methods=["GET"])
-def getSkills():
-    return jsonify(skillService.getSkills())
-
-@skillBp.route("/skills/<id>", methods=["GET"])
-def getSkill(id):
-    return jsonify(skillService.getSkill(id))
-
-
-
-@skillBp.route("/skills", methods=["POST"])
-def registrarSkill():
-    return skillService.registrarSkill(request.json)
-
-@skillBp.route("/skills/<id>", methods=["PATCH"])
-def alterarSkill(id):
-    return skillService.alterarSkill(id,request.json)
-
-@skillBp.route("/skills/<id>", methods=["DELETE"])
-def deletarSkill(id):
-    return skillService.deletarSkill(id)
-
-
-
-@skillBp.route("/skills/<id>/usuarios", methods=["GET"])
-def getSkillUsuarios(idSkill):
-    return skillService.getSkillUsuarios(idSkill)
-
-@skillBp.route("/skills/<idSkill>/usuarios/<idUsuario>", methods=["GET"])
-def getSkillUsuario(idSkill, idUsuario):
-    return skillService.getSkillUsuario(idSkill, idUsuario)
-
+skillBp.add_url_rule("/skills", view_func=_controller.listar, methods=["GET"])
+skillBp.add_url_rule("/skills/<id>", view_func=_controller.buscar, methods=["GET"])
+skillBp.add_url_rule("/skills", view_func=_controller.registrar, methods=["POST"], endpoint="registrarSkill")
+skillBp.add_url_rule("/skills/<id>", view_func=_controller.atualizar, methods=["PATCH"], endpoint="atualizarSkill")
+skillBp.add_url_rule("/skills/<id>", view_func=_controller.deletar, methods=["DELETE"], endpoint="deletarSkill")

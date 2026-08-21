@@ -16,6 +16,8 @@ from controllers.projetoController import projetoBp
 from controllers.skillController import skillBp
 from controllers.vagaProjetoController import vagaBp
 from controllers.candidaturaController import candidaturaBp
+from controllers.dashboardController import dashboardBp
+from controllers.buscaController import buscaBp
 
 
 app = Flask(__name__)
@@ -27,6 +29,8 @@ app.register_blueprint(projetoBp)
 app.register_blueprint(skillBp)
 app.register_blueprint(vagaBp)
 app.register_blueprint(candidaturaBp)
+app.register_blueprint(dashboardBp)
+app.register_blueprint(buscaBp)
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost/indieSquad"

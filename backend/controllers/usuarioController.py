@@ -1,48 +1,56 @@
-from flask import Blueprint, request
-from flask import jsonify
-import services.usuarioService as usuarioService
+from flask import Blueprint, request, jsonify
+from services.listarUsuariosService import ListarUsuariosService
+from services.buscarUsuarioService import BuscarUsuarioService
+from services.listarProjetosUsuarioService import ListarProjetosUsuarioService
+from services.atualizarUsuarioService import AtualizarUsuarioService
+from services.deletarUsuarioService import DeletarUsuarioService
+from services.listarSkillsUsuarioService import ListarSkillsUsuarioService
+from services.adicionarSkillUsuarioService import AdicionarSkillUsuarioService
+from services.removerSkillUsuarioService import RemoverSkillUsuarioService
+
+
+class UsuarioController:
+    def listar(self):
+        service = ListarUsuariosService()
+        return jsonify(service.execute())
+
+    def buscar(self, id):
+        service = BuscarUsuarioService()
+        return jsonify(service.execute(id))
+
+    def listarProjetos(self, id):
+        service = ListarProjetosUsuarioService()
+        return jsonify(service.execute(id))
+
+    def atualizar(self, id):
+        service = AtualizarUsuarioService()
+        return service.execute(id, request.json)
+
+    def deletar(self, id):
+        service = DeletarUsuarioService()
+        return service.execute(id)
+
+    def listarSkills(self, id):
+        service = ListarSkillsUsuarioService()
+        return jsonify(service.execute(id))
+
+    def adicionarSkill(self, id):
+        service = AdicionarSkillUsuarioService()
+        return service.execute(id, request.json)
+
+    def removerSkill(self, idUsuario, idSkill):
+        service = RemoverSkillUsuarioService()
+        return service.execute(idUsuario, idSkill)
+
 
 usuarioBp = Blueprint("usuarios", __name__)
+_controller = UsuarioController()
 
-@usuarioBp.route("/usuarios", methods=["GET"])
-def getUsuarios():
-    return jsonify(usuarioService.mostrarUsuarios())
-
-@usuarioBp.route("/usuarios/projeto/<id>", methods=["GET"])
-def getPU(id):
-    return jsonify(usuarioService.mostrarProjeto(id))
-
-@usuarioBp.route("/usuarios/<id>", methods=["GET"])
-def getUsuario(id):
-    return jsonify(usuarioService.mostrarUsuario(id))
-
-
-@usuarioBp.route("/usuarios/atualizar/<id>", methods=["PUT"])
-def atualizarUsuario(id):
-    return usuarioService.alterarUsuario(id, request.json)
-
-@usuarioBp.route("/usuarios/deletar/<id>", methods=["DELETE"])
-def deletarUsuario(id):
-    return usuarioService.deletarUsuario(id)
-
-
-
-@usuarioBp.route("/usuarios/<id>/skills/", methods=["GET"])
-def getSkillsUsuario(id):
-    return usuarioService.getSkillsUsuario(id)
-
-
-@usuarioBp.route("/usuarios/<id>/skills/", methods=["POST"])
-def adicionarSkill(id):
-    return usuarioService.adicionarSkill(id, request.json)
-
-@usuarioBp.route("/usuarios/<idUsuario>/skills/<idSkill>", methods=["DELETE"])
-def removerSkill(idUsuario, idSkill):
-    return usuarioService.removerSkill(idUsuario, idSkill)
-
-
-
-
-
-
-
+usuarioBp.add_url_rule("/usuarios", view_func=_controller.listar, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/projeto/<id>", view_func=_controller.listarProjetos, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/<id>", view_func=_controller.buscar, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/atualizar/<id>", view_func=_controller.atualizar, methods=["PUT"])
+usuarioBp.add_url_rule("/usuarios/deletar/<id>", view_func=_controller.deletar, methods=["DELETE"])
+usuarioBp.add_url_rule("/usuarios/<id>/skills/", view_func=_controller.listarSkills, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/<id>/skills/", view_func=_controller.adicionarSkill, methods=["POST"], endpoint="adicionarSkill")
+usuarioBp.add_url_rule("/usuarios/<idUsuario>/skills/<idSkill>", view_func=_controller.removerSkill, methods=["DELETE"])

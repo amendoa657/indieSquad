@@ -1,19 +1,22 @@
 from flask import Blueprint, request
-from services import authService
+from services.cadastrarUsuarioService import CadastrarUsuarioService
+from services.loginService import LoginService
+
+
+class AuthController:
+    def registrar(self):
+        dados = request.get_json()
+        service = CadastrarUsuarioService()
+        return service.execute(dados)
+
+    def login(self):
+        dados = request.get_json()
+        service = LoginService()
+        return service.execute(dados)
+
 
 authBp = Blueprint("auth", __name__)
+_controller = AuthController()
 
-@authBp.route("/auth/registrar", methods=["POST"])
-def registrar():
-    dados = request.get_json()
-    return authService.registrar(dados)
-
-
-
-@authBp.route("/auth/login", methods=["POST"])
-def login():
-    dados = request.get_json()
-    return authService.login(dados)
-
-
-
+authBp.add_url_rule("/auth/registrar", view_func=_controller.registrar, methods=["POST"])
+authBp.add_url_rule("/auth/login", view_func=_controller.login, methods=["POST"])

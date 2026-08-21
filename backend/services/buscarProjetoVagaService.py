@@ -1,0 +1,12 @@
+import models.vagaProjeto as v
+import models.projetos as p
+
+
+class BuscarProjetoVagaService:
+    def execute(self, id):
+        vaga = v.buscarPorId(id)
+
+        if vaga is None:
+            return {"erro": "Vaga nao encontrada"}, 404
+
+        return p.to_dict(vaga.projetoCriador)

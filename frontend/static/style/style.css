@@ -615,6 +615,11 @@ footer{
     min-height: 14px;
 }
 
+.conteudoApp .mensagemErro {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
 
 
 
@@ -641,3 +646,712 @@ footer{
 
 
 
+
+
+/* ===== Layout interno (Dashboard / Busca) ===== */
+.appLayout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #182127;
+}
+
+.sidebarApp {
+    width: 220px;
+    min-width: 220px;
+    background-color: #14191e;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.logoSidebar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 32px;
+    padding: 0 8px;
+}
+
+.logoSidebar img {
+    height: 22px;
+}
+
+.logoSidebar h3 {
+    color: white;
+    font-size: 15px;
+}
+
+.logoSidebar span {
+    color: #2cbcc9;
+}
+
+.navSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.itemSidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #8c8c8c;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #373638;
+    font-size: 13px;
+}
+
+.itemSidebar:hover {
+    background-color: #1d242b;
+    color: white;
+}
+
+.itemSidebar.ativo {
+    background-color: #1d242b;
+    border-color: #2ebdcc;
+    color: #2ebdcc;
+}
+
+.iconeSidebar {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.botaoSairSidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    color: #8c8c8c;
+    font-family: "Orbitron", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 10px 12px;
+}
+
+.botaoSairSidebar:hover {
+    color: #e05252;
+}
+
+.conteudoApp {
+    flex: 1;
+    padding: 40px 48px;
+    color: white;
+}
+
+.saudacaoApp h1 {
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.saudacaoApp h1 span {
+    color: #2ebdcc;
+}
+
+.saudacaoApp h3 {
+    margin-bottom: 32px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.statCard {
+    background-color: #1d242b;
+    border: 2px solid #373638;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.statCard .iconeStat {
+    color: #2ebdcc;
+}
+
+.statCard .valorStat {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: "Inter", sans-serif;
+}
+
+.statCard .labelStat {
+    color: #8c8c8c;
+    font-size: 12px;
+}
+
+.listaProjetosDash {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.projetoDashCard {
+    background-color: #1d242b;
+    border: 2px solid #373638;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.projetoDashInfo {
+    flex: 1;
+}
+
+.projetoDashInfo h2 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.projetoDashInfo p {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.barraProgresso {
+    width: 100%;
+    height: 6px;
+    background-color: #12161b;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barraProgressoPreenchida {
+    height: 100%;
+    background: linear-gradient(90deg, #2ebdcc, #da6c20);
+}
+
+.chevronDash {
+    color: #8c8c8c;
+    font-size: 22px;
+}
+
+.mensagemVazia {
+    color: #8c8c8c;
+    font-size: 13px;
+}
+
+/* ===== Busca ===== */
+.buscaTopo {
+    margin-bottom: 20px;
+}
+
+.buscaTopo h1 {
+    font-size: 24px;
+}
+
+.linhaBusca {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.linhaBusca .inputBuscaWrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.tabsBusca {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tabBusca {
+    background-color: #1d242b;
+    border: 1px solid #373638;
+    color: #8c8c8c;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tabBusca svg {
+    width: 14px;
+    height: 14px;
+}
+
+.tabBusca.ativo {
+    color: white;
+    border-color: #2ebdcc;
+}
+
+.funcaoResultado {
+    color: #2ebdcc;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.metricasResultado {
+    display: flex;
+    gap: 18px;
+    margin: 10px 0;
+}
+
+.metricaResultado {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8c8c8c;
+    font-size: 12px;
+}
+
+.metricaResultado svg {
+    width: 13px;
+    height: 13px;
+    color: #2ebdcc;
+    flex-shrink: 0;
+}
+
+.inputBuscaWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #1d242b;
+    border: 1px solid #373638;
+    border-radius: 8px;
+    padding: 0 14px;
+    margin-bottom: 16px;
+    color: #8c8c8c;
+}
+
+.inputBuscaWrapper svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.inputBuscaWrapper input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    height: 44px;
+    font-size: 13px;
+}
+
+.inputBuscaWrapper input::placeholder {
+    color: #5a5a5a;
+}
+
+.filtrosSkills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.chipFiltro {
+    background-color: #1d242b;
+    border: 1px solid #373638;
+    color: #8c8c8c;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.chipFiltro.ativo {
+    border-color: #2ebdcc;
+    color: #2ebdcc;
+}
+
+.listaResultados {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cardResultado {
+    background-color: #1d242b;
+    border: 2px solid #373638;
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.cardResultadoTopo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.cardResultadoTopo h2 {
+    font-size: 15px;
+}
+
+.statusProjetoBusca {
+    color: #2ebdcc;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.cardResultadoStats {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.tagsResultado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tagSkill {
+    background-color: #12161b;
+    color: #8c8c8c;
+    border: 1px solid #373638;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+@media (max-width: 850px) {
+    .appLayout {
+        flex-direction: column;
+    }
+
+    .sidebarApp {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .navSidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .conteudoApp {
+        padding: 24px;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Publicar Projeto ===== */
+.conteudoEstreito {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.publicarTopo h1 {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.publicarTopo h3 {
+    margin-bottom: 20px;
+}
+
+.barraEtapas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.segmentoEtapa {
+    flex: 1;
+    height: 6px;
+    background-color: #373638;
+    border-radius: 4px;
+}
+
+.segmentoEtapa.preenchido {
+    background-color: #2ebdcc;
+}
+
+.etapaPublicar {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.etapaPublicar.etapaAtiva {
+    display: flex;
+}
+
+.conteudoApp .campoLogin textarea {
+    background-color: #12161b;
+    border: 1px solid #373638;
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 13px;
+    min-height: 90px;
+    resize: vertical;
+}
+
+.conteudoApp .campoLogin textarea::placeholder {
+    color: #5a5a5a;
+}
+
+.chipsPerfil {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chipPerfil {
+    background-color: #1d242b;
+    border: 1px solid #373638;
+    color: #8c8c8c;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.chipPerfil.ativo {
+    border-color: #2ebdcc;
+    color: #2ebdcc;
+}
+
+#listaMarcos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.campoMarco {
+    height: 45px;
+    background-color: #12161b;
+    border: 1px solid #373638;
+    border-radius: 8px;
+    padding: 0 14px;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 13px;
+}
+
+.campoMarco::placeholder {
+    color: #5a5a5a;
+}
+
+.botaoAdicionarMarco {
+    background: none;
+    border: none;
+    color: #2ebdcc;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+}
+
+.opcaoParceria {
+    background-color: #1d242b;
+    border: 1px solid #373638;
+    border-radius: 10px;
+    padding: 16px 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.opcaoParceria h2 {
+    color: white;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.opcaoParceria p {
+    color: #8c8c8c;
+    font-size: 12px;
+}
+
+.opcaoParceria.ativo {
+    border-color: #2ebdcc;
+}
+
+.botoesEtapa {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.botaoProximo {
+    flex: 1;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background-color: #2ebdcc;
+    color: black;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.botaoVoltarEtapa {
+    height: 48px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background: none;
+    border: 1px solid #373638;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== Meu Perfil ===== */
+.mensagemSucesso {
+    color: #2ebdcc;
+    font-size: 12px;
+    margin-bottom: 14px;
+}
+
+.blocoSkillsPerfil {
+    margin-top: 30px;
+}
+
+.blocoSkillsPerfil h3 {
+    color: white;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.linkCandidaturas {
+    display: inline-block;
+    color: #2ebdcc;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 24px;
+}
+
+/* ===== Detalhes do Projeto ===== */
+.botaoVoltarPagina {
+    display: inline-block;
+    color: #8c8c8c;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.botaoVoltarPagina:hover {
+    color: white;
+}
+
+.tituloProjetoDetalhe {
+    color: white;
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.statusProjetoDetalhe {
+    color: #2ebdcc;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.descricaoProjetoDetalhe {
+    color: #8c8c8c;
+    font-size: 14px;
+    margin-bottom: 10px;
+    max-width: 700px;
+}
+
+.criadorProjetoDetalhe {
+    color: #8c8c8c;
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.criadorProjetoDetalhe strong {
+    color: white;
+}
+
+.detalhesProjeto h3,
+#detalhesProjeto h3 {
+    color: white;
+    font-size: 15px;
+    margin: 20px 0 12px;
+}
+
+.tituloVagasDetalhe {
+    margin-top: 30px;
+}
+
+.botaoCandidatar {
+    margin-top: 10px;
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2ebdcc;
+    color: black;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.botaoCandidatar:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.statusCandidatura {
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.statusPendente {
+    color: #e0a552;
+    background-color: rgba(224, 165, 82, 0.1);
+}
+
+.statusAceita {
+    color: #2ebdcc;
+    background-color: rgba(46, 189, 204, 0.1);
+}
+
+.statusRecusada {
+    color: #e05252;
+    background-color: rgba(224, 82, 82, 0.1);
+}
+
+.cardClicavel {
+    cursor: pointer;
+}

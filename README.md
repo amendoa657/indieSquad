@@ -32,3 +32,17 @@ O principal objetivo do IndieSquad é reduzir as dificuldades encontradas por de
 
 ## Instruções basicas para usar o projeto:
 O sistema ainda se encontra em fase de desenvolvimento, as instruções detalhadas de instalação e execução serão disponibilizadas juntamente com a versão final do software.
+
+
+## Funcionalidades Implementadas
+
+1. Cadastrar usuário 
+2. Login de usuário 
+3. Ver dashboard do usuário logado 
+4. Buscar profissionais por skill 
+5. Buscar projetos por nome 
+6. Publicar projeto 
+7. Ver/editar perfil do usuário
+8. Ver detalhes de um projeto 
+9. Candidatar-se a uma vaga
+10. Ver minhas candidaturas
