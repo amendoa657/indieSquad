@@ -22,7 +22,7 @@ def registrarVaga():
 def alterarVaga(id):
     return vagaProjetoService.alterarVaga(id, request.json)
 
-@vagaBp.route("/vagas/<id>", methods=["DEL"])
+@vagaBp.route("/vagas/<id>", methods=["DELETE"])
 def deletarVaga(id):
     return vagaProjetoService.deletarVaga(id)
 

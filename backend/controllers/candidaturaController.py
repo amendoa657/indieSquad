@@ -22,7 +22,7 @@ def registrarCandidatura():
 def alterarCandidatura(id):
     return candidaturaService.alterarCandidatura(id, request.json)
 
-@candidaturaBp.route("/candidaturas/<id>", methods=["DEL"])
+@candidaturaBp.route("/candidaturas/<id>", methods=["DELETE"])
 def deletarCandidatura(id):
     return candidaturaService.deletarVaga(id)
 

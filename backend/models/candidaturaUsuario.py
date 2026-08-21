@@ -1,5 +1,3 @@
-from pip._internal.models import candidate
-
 from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func

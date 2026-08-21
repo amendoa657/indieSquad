@@ -1,6 +1,32 @@
-{% extends "base.html" %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>IndieSquad</title>
 
-{% block content %}
+        <link rel="stylesheet" href="static/style/style.css" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav>
+            <a class="botaoLogo" href="index.html">
+                <div class="logo">
+                    <img src="static/assets/Logo.svg" alt=""/>
+                    <h3>INDIE<span>SQUAD</span></h3>
+                </div>
+            </a>
+
+            <div class="botoesNav">
+                <a class="mediaSumir" href="index.html#comoFunciona"> Como funciona? </a>
+                <a class="mediaSumir" href="index.html#infraCompleta"> Estrutura </a>
+                <a class="mediaSumir" href="index.html#talentos"> Talentos</a>
+                <a href="index.html#pronto" class="botaoComecar"> Comecar Agora</a>
+            </div>
+        </nav>
+
         <main>
             <div id="principal" class="tituloPrincipal">
                 <h1>
@@ -20,12 +46,12 @@
                 </h3>
 
                 <div class="botoesTituloPrincipal">
-                    <a class="botaoPublicarProjeto" href="{{ url_for('login') }}"
+                    <a class="botaoPublicarProjeto" href="login.html"
                         >Publicar Projeto
-                        <img src="{{ url_for('static', filename='assets/setaDireita.svg') }}" alt=""
+                        <img src="static/assets/setaDireita.svg" alt=""
                     /></a>
-                    <a class="botaoEncontrarEquipe" href="{{ url_for('login') }}"
-                        >Encontrar Equipe <img src="{{ url_for('static', filename='assets/pessoa.svg') }}" alt="" />
+                    <a class="botaoEncontrarEquipe" href="login.html"
+                        >Encontrar Equipe <img src="static/assets/pessoa.svg" alt="" />
                     </a>
                 </div>
 
@@ -173,8 +199,18 @@
                 <h1 style="color: white">Pronto para criar algo <span style="color: #2ebdcc">incrivel</span>?</h1>
                 <h3>Junte-se a desenvolvedores e artistas transformando ideias<br> em jogos reais — com estrutura, dados e IA.</h3>
 
-                <a href="{{ url_for('login') }}">Criar Conta Grátis</a>
+                <a href="login.html">Criar Conta Grátis</a>
 
             </div>
         </main>
-{% endblock %}
+
+        <footer>
+            <a class="botaoLogo" href="index.html#principal">
+                <div class="logoF">
+                    <img src="static/assets/Logo.svg" alt=""/>
+                    <h3>INDIE<span>SQUAD</span></h3>
+                </div>
+            </a>
+        </footer>
+    </body>
+</html>

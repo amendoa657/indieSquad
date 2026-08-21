@@ -19,7 +19,7 @@ from controllers.candidaturaController import candidaturaBp
 
 
 app = Flask(__name__)
-CORS(app, origins=["http://127.0.0.1:5001", "http://localhost:5001"])
+CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
 
 app.register_blueprint(usuarioBp)
 app.register_blueprint(authBp)
@@ -29,7 +29,7 @@ app.register_blueprint(vagaBp)
 app.register_blueprint(candidaturaBp)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:271208@localhost/indieSquad"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost/indieSquad"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)

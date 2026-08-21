@@ -68,7 +68,7 @@ formCadastro.addEventListener("submit", async (evento) => {
         }
 
         localStorage.setItem("token", resultado.token);
-        window.location.href = "/login";
+        window.location.href = "login.html";
     } catch (erro) {
         console.error(erro);
         const texto = erro.message === "Failed to fetch"

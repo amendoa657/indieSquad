@@ -20,7 +20,7 @@ def registerProjeto():
 def alterarProjeto(id):
     return projetoService.alterarProjeto(id, request.json)
 
-@projetoBp.route("/projetos/<id>", methods=["DEL"])
+@projetoBp.route("/projetos/<id>", methods=["DELETE"])
 def removerProjeto(id):
     return projetoService.removerProjeto(id)
 
@@ -34,7 +34,7 @@ def getMembrosProjeto(id):
 def adicionarMembroProjeto(idProjeto, idUsuario):
     return projetoService.adicionarMembro(idProjeto, idUsuario)
 
-@projetoBp.route("/projetos/<idProjeto>/membros/<idUsuario>", methods=["DEL"])
+@projetoBp.route("/projetos/<idProjeto>/membros/<idUsuario>", methods=["DELETE"])
 def removerMembroProjeto(idProjeto, idUsuario):
     return projetoService.removerMembro(idProjeto, idUsuario)
 

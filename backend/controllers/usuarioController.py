@@ -36,7 +36,7 @@ def getSkillsUsuario(id):
 def adicionarSkill(id):
     return usuarioService.adicionarSkill(id, request.json)
 
-@usuarioBp.route("/usuarios/<idUsuario>/skills/<idSkill>", methods=["DEL"])
+@usuarioBp.route("/usuarios/<idUsuario>/skills/<idSkill>", methods=["DELETE"])
 def removerSkill(idUsuario, idSkill):
     return usuarioService.removerSkill(idUsuario, idSkill)
 

@@ -31,7 +31,7 @@ formLogin.addEventListener("submit", async (evento) => {
         }
 
         localStorage.setItem("token", resultado.token);
-        window.location.href = "/dashboard";
+        window.location.href = "dashboard.html";
     } catch (erro) {
         console.error(erro);
         const texto = erro.message === "Failed to fetch"

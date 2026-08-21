@@ -1,6 +1,7 @@
 import models.candidaturaUsuario as c
 import models.projetos as p
 import models.skills as s
+import models.usuario as u
 
 
 def getCandidatura(id):
@@ -81,4 +82,4 @@ def getUsuario(id):
     if(candidatura == None):
         return {"erro" : "Candidatura nao encontrada"}, 404
 
-    return s.to_dict(candidatura.candidato)
+    return u.to_dict(candidatura.candidato)

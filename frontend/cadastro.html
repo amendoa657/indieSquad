@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <title>Criar Conta - IndieSquad</title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+        <link rel="stylesheet" href="static/style/style.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,9 +12,9 @@
     </head>
     <body class="corpoLogin">
         <main class="paginaLogin">
-            <a class="botaoLogo" href="{{ url_for('index') }}">
+            <a class="botaoLogo" href="index.html">
                 <div class="logo">
-                    <img src="{{ url_for('static', filename='assets/Logo.svg') }}" alt=""/>
+                    <img src="static/assets/Logo.svg" alt=""/>
                     <h3>INDIE<span>SQUAD</span></h3>
                 </div>
             </a>
@@ -78,10 +78,10 @@
                     </form>
                 </div>
 
-                <a class="linkCadastro" href="{{ url_for('login') }}">Já tem conta? <span>Entrar</span></a>
+                <a class="linkCadastro" href="login.html">Já tem conta? <span>Entrar</span></a>
             </div>
         </main>
 
-        <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
+        <script src="static/js/cadastro.js"></script>
     </body>
 </html>

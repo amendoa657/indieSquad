@@ -22,7 +22,7 @@ def registrarSkill():
 def alterarSkill(id):
     return skillService.alterarSkill(id,request.json)
 
-@skillBp.route("/skills/<id>", methods=["DEL"])
+@skillBp.route("/skills/<id>", methods=["DELETE"])
 def deletarSkill(id):
     return skillService.deletarSkill(id)
 
