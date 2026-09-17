@@ -1,54 +1,17 @@
-const campoBusca = document.getElementById("campoBusca");
-const tabProjetos = document.getElementById("tabProjetos");
-const tabProfissionais = document.getElementById("tabProfissionais");
-const filtrosSkills = document.getElementById("filtrosSkills");
-const listaResultados = document.getElementById("listaResultados");
 
-let abaAtual = "profissionais";
-let skillSelecionada = "Todos";
+iniciarPagina();
 
-async function carregarFiltros() {
-    try {
-        const resposta = await fetch("http://localhost:5000/skills");
-        const skills = await resposta.json();
+let aba = "profissionais";   
+let skill = "Todos";      
+let skillsDoBanco = [];      
 
-        const todas = ["Todos", ...skills.map((skill) => skill.nome)];
 
-        filtrosSkills.innerHTML = "";
-        todas.forEach((nome) => {
-            const chip = document.createElement("button");
-            chip.type = "button";
-            chip.className = "chipFiltro" + (nome === skillSelecionada ? " ativo" : "");
-            chip.textContent = nome;
 
-            chip.addEventListener("click", () => {
-                skillSelecionada = nome;
-                document.querySelectorAll(".chipFiltro").forEach((c) => c.classList.remove("ativo"));
-                chip.classList.add("ativo");
-                buscar();
-            });
+function cardPessoa(pessoa) {
+    const funcao = pessoa.skills.length > 0 ? pessoa.skills[0] : "Sem função definida";
 
-            filtrosSkills.appendChild(chip);
-        });
-    } catch (erro) {
-        console.error(erro);
-    }
-}
-
-function renderizarProfissionais(lista) {
-    listaResultados.innerHTML = "";
-
-    if (lista.length === 0) {
-        listaResultados.innerHTML = '<p class="mensagemVazia">Nenhum profissional encontrado.</p>';
-        return;
-    }
-
-    lista.forEach((pessoa) => {
-        const funcao = pessoa.skills.length > 0 ? pessoa.skills[0] : "Sem função definida";
-
-        const card = document.createElement("div");
-        card.className = "cardResultado";
-        card.innerHTML = `
+    return `
+        <div class="cardResultado">
             <div class="cardResultadoTopo">
                 <div>
                     <h2>${pessoa.nome}</h2>
@@ -56,35 +19,19 @@ function renderizarProfissionais(lista) {
                 </div>
             </div>
             <div class="metricasResultado">
-                <span class="metricaResultado">
-                    <svg viewBox="0 0 24 24" width="13" height="13"><polyline points="3 17 9 11 13 15 21 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    ${pessoa.taxaConclusao}% Conclusão
-                </span>
-                <span class="metricaResultado">
-                    <svg viewBox="0 0 24 24" width="13" height="13"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    ${pessoa.projetosCriados} Projeto(s)
-                </span>
+                <span class="metricaResultado">${ICONES.grafico} ${pessoa.taxaConclusao}% Conclusão</span>
+                <span class="metricaResultado">${ICONES.pasta} ${pessoa.projetosCriados} Projeto(s)</span>
             </div>
             <div class="tagsResultado">
-                ${pessoa.skills.map((skill) => `<span class="tagSkill">${skill}</span>`).join("")}
+                ${pessoa.skills.map((nomeSkill) => `<span class="tagSkill">${nomeSkill}</span>`).join("")}
             </div>
-        `;
-        listaResultados.appendChild(card);
-    });
+        </div>
+    `;
 }
 
-function renderizarProjetos(lista) {
-    listaResultados.innerHTML = "";
-
-    if (lista.length === 0) {
-        listaResultados.innerHTML = '<p class="mensagemVazia">Nenhum projeto encontrado.</p>';
-        return;
-    }
-
-    lista.forEach((projeto) => {
-        const card = document.createElement("div");
-        card.className = "cardResultado cardClicavel";
-        card.innerHTML = `
+function cardProjeto(projeto) {
+    return `
+        <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
             <div class="cardResultadoTopo">
                 <h2>${projeto.nome}</h2>
                 <span class="statusProjetoBusca">${projeto.status}</span>
@@ -93,62 +40,72 @@ function renderizarProjetos(lista) {
             <div class="tagsResultado">
                 <span class="tagSkill">${projeto.vagasAbertas} vaga(s) aberta(s)</span>
             </div>
-        `;
-        card.addEventListener("click", () => {
-            window.location.href = `projeto.html?id=${projeto.id}`;
-        });
-        listaResultados.appendChild(card);
-    });
+        </div>
+    `;
 }
 
+
+
 async function buscar() {
-    const termo = campoBusca.value.trim();
+    const termo = pegar("campoBusca").value.trim();
 
-    try {
-        if (abaAtual === "profissionais") {
-            const params = new URLSearchParams();
-            if (skillSelecionada !== "Todos") params.set("skill", skillSelecionada);
+    if (aba === "profissionais") {
+        // Se um filtro de skill estiver aceso, manda ele junto no endereço.
+        const filtro = skill === "Todos" ? "" : `?skill=${skill}`;
+        const pessoas = await pedir(`/busca/profissionais${filtro}`);
+        if (!pessoas) return;
 
-            const resposta = await fetch(`http://localhost:5000/busca/profissionais?${params}`);
-            const dados = await resposta.json();
+        // O filtro por nome é feito aqui mesmo, no navegador.
+        const achados = pessoas.filter(function (pessoa) {
+            return pessoa.nome.toLowerCase().includes(termo.toLowerCase());
+        });
 
-            const filtrado = termo
-                ? dados.filter((pessoa) => pessoa.nome.toLowerCase().includes(termo.toLowerCase()))
-                : dados;
+        listar("listaResultados", achados, cardPessoa, "Nenhum profissional encontrado.");
+    } else {
+        const projetos = await pedir(`/busca/projetos?q=${termo}`);
+        if (!projetos) return;
 
-            renderizarProfissionais(filtrado);
-        } else {
-            const params = new URLSearchParams();
-            if (termo) params.set("q", termo);
-
-            const resposta = await fetch(`http://localhost:5000/busca/projetos?${params}`);
-            const dados = await resposta.json();
-
-            renderizarProjetos(dados);
-        }
-    } catch (erro) {
-        console.error(erro);
-        listaResultados.innerHTML = '<p class="mensagemVazia">Não foi possível conectar ao servidor.</p>';
+        listar("listaResultados", projetos, cardProjeto, "Nenhum projeto encontrado.");
     }
 }
 
-tabProjetos.addEventListener("click", () => {
-    abaAtual = "projetos";
-    tabProjetos.classList.add("ativo");
-    tabProfissionais.classList.remove("ativo");
-    filtrosSkills.style.display = "none";
+
+
+function abrirAba(novaAba) {
+    aba = novaAba;
+    pegar("tabProfissionais").classList.toggle("ativo", aba === "profissionais");
+    pegar("tabProjetos").classList.toggle("ativo", aba === "projetos");
+    // Os filtros de skill só fazem sentido pra profissionais.
+    pegar("filtrosSkills").style.display = aba === "profissionais" ? "flex" : "none";
     buscar();
-});
+}
 
-tabProfissionais.addEventListener("click", () => {
-    abaAtual = "profissionais";
-    tabProfissionais.classList.add("ativo");
-    tabProjetos.classList.remove("ativo");
-    filtrosSkills.style.display = "flex";
+function filtrarPor(nomeDaSkill) {
+    skill = nomeDaSkill;
+    desenharFiltros();
     buscar();
-});
+}
 
-campoBusca.addEventListener("input", () => buscar());
+function desenharFiltros() {
+    escrever("filtrosSkills", skillsDoBanco.map(function (nome) {
+        const aceso = nome === skill ? "ativo" : "";
+        return `<button type="button" class="chipFiltro ${aceso}" onclick="filtrarPor('${nome}')">${nome}</button>`;
+    }).join(""));
+}
 
-carregarFiltros();
+pegar("tabProfissionais").onclick = () => abrirAba("profissionais");
+pegar("tabProjetos").onclick = () => abrirAba("projetos");
+pegar("campoBusca").oninput = buscar;   // busca a cada letra digitada
+
+
+
+async function carregarSkills() {
+    const skills = await pedir("/skills");
+    if (!skills) return;
+
+    skillsDoBanco = ["Todos", ...skills.map((s) => s.nome)];
+    desenharFiltros();
+}
+
+carregarSkills();
 buscar();

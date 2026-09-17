@@ -1,49 +1,31 @@
-const token = localStorage.getItem("token");
-const idUsuario = token ? token.split("-")[1] : null;
 
-const mensagemErro = document.getElementById("mensagemErro");
-const listaCandidaturas = document.getElementById("listaCandidaturas");
+iniciarPagina("perfil.html");
 
-function corStatus(status) {
+
+function corDoStatus(status) {
     if (status === "aceita") return "statusAceita";
     if (status === "recusada") return "statusRecusada";
     return "statusPendente";
 }
 
 async function carregarCandidaturas() {
-    try {
-        const resposta = await fetch(`http://localhost:5000/candidaturas/usuario/${idUsuario}`);
-        const dados = await resposta.json();
+    const candidaturas = await pedir(`/candidaturas/usuario/${meuId()}`);
+    if (!candidaturas) return;
 
-        if (!resposta.ok) {
-            throw new Error(dados.erro || "Erro ao carregar candidaturas");
-        }
+    listar("listaCandidaturas", candidaturas, function (candidatura) {
+        const titulo = candidatura.vaga ? candidatura.vaga.titulo : "Vaga removida";
+        const projeto = candidatura.projeto ? candidatura.projeto.nome : "Projeto removido";
 
-        if (dados.length === 0) {
-            listaCandidaturas.innerHTML = '<p class="mensagemVazia">Você ainda não se candidatou a nenhuma vaga.</p>';
-            return;
-        }
-
-        listaCandidaturas.innerHTML = "";
-
-        dados.forEach((candidatura) => {
-            const card = document.createElement("div");
-            card.className = "cardResultado";
-            card.innerHTML = `
+        return `
+            <div class="cardResultado">
                 <div class="cardResultadoTopo">
-                    <h2>${candidatura.vaga ? candidatura.vaga.titulo : "Vaga removida"}</h2>
-                    <span class="statusCandidatura ${corStatus(candidatura.status)}">${candidatura.status}</span>
+                    <h2>${titulo}</h2>
+                    <span class="statusCandidatura ${corDoStatus(candidatura.status)}">${candidatura.status}</span>
                 </div>
-                <p class="cardResultadoStats">Projeto: ${candidatura.projeto ? candidatura.projeto.nome : "Projeto removido"}</p>
-            `;
-            listaCandidaturas.appendChild(card);
-        });
-    } catch (erro) {
-        console.error(erro);
-        mensagemErro.textContent = erro.message === "Failed to fetch"
-            ? "Não foi possível conectar ao servidor."
-            : erro.message;
-    }
+                <p class="cardResultadoStats">Projeto: ${projeto}</p>
+            </div>
+        `;
+    }, "Você ainda não se candidatou a nenhuma vaga.");
 }
 
 carregarCandidaturas();

@@ -1,71 +1,37 @@
-const token = localStorage.getItem("token");
-const idUsuario = token ? token.split("-")[1] : null;
 
-const mensagemErro = document.getElementById("mensagemErro");
-const mensagemSucesso = document.getElementById("mensagemSucesso");
-const formPerfil = document.getElementById("formPerfil");
-const skillsPerfil = document.getElementById("skillsPerfil");
+iniciarPagina();
 
 async function carregarPerfil() {
-    try {
-        const resposta = await fetch(`http://localhost:5000/usuarios/${idUsuario}`);
-        const dados = await resposta.json();
+    const dados = await pedir(`/usuarios/${meuId()}`);
+    if (!dados) return;
 
-        if (!resposta.ok) {
-            throw new Error(dados.erro || "Erro ao carregar perfil");
-        }
+    pegar("nomePerfil").value = dados.usuario || "";
+    pegar("emailPerfil").value = dados.email || "";
+    pegar("bioPerfil").value = dados.bio || "";
 
-        document.getElementById("nomePerfil").value = dados.usuario || "";
-        document.getElementById("emailPerfil").value = dados.email || "";
-        document.getElementById("bioPerfil").value = dados.bio || "";
-    } catch (erro) {
-        console.error(erro);
-        mensagemErro.textContent = "Não foi possível carregar seu perfil.";
-    }
+    const skills = await pedir(`/usuarios/${meuId()}/skills/`);
+    if (!skills) return;
 
-    try {
-        const respostaSkills = await fetch(`http://localhost:5000/usuarios/${idUsuario}/skills/`);
-        const skills = await respostaSkills.json();
-
-        skillsPerfil.innerHTML = skills.length > 0
-            ? skills.map((skill) => `<span class="tagSkill">${skill.nome}</span>`).join("")
-            : '<p class="mensagemVazia">Nenhuma skill cadastrada ainda.</p>';
-    } catch (erro) {
-        console.error(erro);
-    }
+    listar("skillsPerfil", skills, function (skill) {
+        return `<span class="tagSkill">${skill.nome}</span>`;
+    }, "Nenhuma skill cadastrada ainda.");
 }
 
-formPerfil.addEventListener("submit", async (evento) => {
+
+pegar("formPerfil").onsubmit = async function (evento) {
     evento.preventDefault();
-    mensagemErro.textContent = "";
-    mensagemSucesso.textContent = "";
+    avisar("");
+    avisarSucesso("");
 
-    const dados = {
-        usuario: document.getElementById("nomePerfil").value.trim(),
-        email: document.getElementById("emailPerfil").value.trim(),
-        bio: document.getElementById("bioPerfil").value.trim(),
-    };
+    const resposta = await pedir(`/usuarios/atualizar/${meuId()}`, "PUT", {
+        usuario: valor("nomePerfil"),
+        email: valor("emailPerfil"),
+        bio: valor("bioPerfil"),
+    });
 
-    try {
-        const resposta = await fetch(`http://localhost:5000/usuarios/atualizar/${idUsuario}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dados),
-        });
+    if (!resposta) return;
 
-        if (!resposta.ok) {
-            const erroDados = await resposta.json().catch(() => ({}));
-            throw new Error(erroDados.erro || "Erro ao salvar perfil");
-        }
-
-        mensagemSucesso.textContent = "Perfil atualizado com sucesso!";
-    } catch (erro) {
-        console.error(erro);
-        const texto = erro.message === "Failed to fetch"
-            ? "Não foi possível conectar ao servidor. Verifique se o back-end está rodando."
-            : erro.message;
-        mensagemErro.textContent = texto;
-    }
-});
+    avisarSucesso("Perfil atualizado com sucesso!");
+};
 
 carregarPerfil();
