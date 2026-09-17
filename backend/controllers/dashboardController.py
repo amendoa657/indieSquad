@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify
-from services.obterDashboardService import ObterDashboardService
+from flask import Blueprint
+from services.dashboardService.obterDashboardService import ObterDashboardService
 
 
 class DashboardController:

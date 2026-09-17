@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify
-from services.listarVagasService import ListarVagasService
-from services.buscarVagaService import BuscarVagaService
-from services.registrarVagaService import RegistrarVagaService
-from services.atualizarVagaService import AtualizarVagaService
-from services.deletarVagaService import DeletarVagaService
-from services.buscarProjetoVagaService import BuscarProjetoVagaService
-from services.buscarSkillVagaService import BuscarSkillVagaService
+from services.vagaService.listarVagasService import ListarVagasService
+from services.vagaService.buscarVagaService import BuscarVagaService
+from services.vagaService.registrarVagaService import RegistrarVagaService
+from services.vagaService.atualizarVagaService import AtualizarVagaService
+from services.vagaService.deletarVagaService import DeletarVagaService
+from services.vagaService.buscarProjetoVagaService import BuscarProjetoVagaService
+from services.vagaService.buscarSkillVagaService import BuscarSkillVagaService
 
 
 class VagaProjetoController:

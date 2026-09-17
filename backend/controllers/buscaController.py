@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify
-from services.buscarProfissionaisService import BuscarProfissionaisService
-from services.buscarProjetosPublicoService import BuscarProjetosPublicoService
+from flask import Blueprint, request
+from services.buscaService.buscarProfissionaisService import BuscarProfissionaisService
+from services.projetoService.buscarProjetosPublicoService import BuscarProjetosPublicoService
 
 
 class BuscaController:

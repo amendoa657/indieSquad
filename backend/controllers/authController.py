@@ -1,6 +1,6 @@
 from flask import Blueprint, request
-from services.cadastrarUsuarioService import CadastrarUsuarioService
-from services.loginService import LoginService
+from services.usuarioService.cadastrarUsuarioService import CadastrarUsuarioService
+from services.authService.loginService import LoginService
 
 
 class AuthController:

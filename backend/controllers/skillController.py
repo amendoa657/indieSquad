@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
-from services.listarSkillsService import ListarSkillsService
-from services.buscarSkillService import BuscarSkillService
-from services.registrarSkillService import RegistrarSkillService
-from services.atualizarSkillService import AtualizarSkillService
-from services.deletarSkillService import DeletarSkillService
+from services.skillService.listarSkillsService import ListarSkillsService
+from services.skillService.buscarSkillService import BuscarSkillService
+from services.skillService.registrarSkillService import RegistrarSkillService
+from services.skillService.atualizarSkillService import AtualizarSkillService
+from services.skillService.deletarSkillService import DeletarSkillService
 
 
 class SkillController:
