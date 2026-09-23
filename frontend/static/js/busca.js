@@ -1,8 +1,8 @@
 
-iniciarPagina();
+protegerPagina();
 
-let aba = "profissionais";   
-let skill = "Todos";      
+let abaAtiva = "profissionais";   
+let skillEscolhida = "Todos";      
 let skillsDoBanco = [];      
 
 
@@ -12,7 +12,7 @@ function cardPessoa(pessoa) {
 
     return `
         <div class="cardResultado">
-            <div class="cardResultadoTopo">
+            <div class="topoCardResultado">
                 <div>
                     <h2>${pessoa.nome}</h2>
                     <p class="funcaoResultado">${funcao}</p>
@@ -32,11 +32,11 @@ function cardPessoa(pessoa) {
 function cardProjeto(projeto) {
     return `
         <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
-            <div class="cardResultadoTopo">
+            <div class="topoCardResultado">
                 <h2>${projeto.nome}</h2>
-                <span class="statusProjetoBusca">${projeto.status}</span>
+                <span class="statusResultado">${projeto.status}</span>
             </div>
-            <p class="cardResultadoStats">${projeto.descricao || "Sem descrição"}</p>
+            <p class="descricaoResultado">${projeto.descricao || "Sem descrição"}</p>
             <div class="tagsResultado">
                 <span class="tagSkill">${projeto.vagasAbertas} vaga(s) aberta(s)</span>
             </div>
@@ -49,9 +49,10 @@ function cardProjeto(projeto) {
 async function buscar() {
     const termo = pegar("campoBusca").value.trim();
 
-    if (aba === "profissionais") {
-        // Se um filtro de skill estiver aceso, manda ele junto no endereço.
-        const filtro = skill === "Todos" ? "" : `?skill=${skill}`;
+    if (abaAtiva === "profissionais") {
+        // Se tiver uma skill escolhida, manda ela junto no endereço.
+        // O nome "skill" aqui é o que o backend espera, não pode mudar.
+        const filtro = skillEscolhida === "Todos" ? "" : `?skill=${skillEscolhida}`;
         const pessoas = await pedir(`/busca/profissionais${filtro}`);
         if (!pessoas) return;
 
@@ -72,29 +73,29 @@ async function buscar() {
 
 
 function abrirAba(novaAba) {
-    aba = novaAba;
-    pegar("tabProfissionais").classList.toggle("ativo", aba === "profissionais");
-    pegar("tabProjetos").classList.toggle("ativo", aba === "projetos");
+    abaAtiva = novaAba;
+    pegar("abaProfissionais").classList.toggle("ativo", abaAtiva === "profissionais");
+    pegar("abaProjetos").classList.toggle("ativo", abaAtiva === "projetos");
     // Os filtros de skill só fazem sentido pra profissionais.
-    pegar("filtrosSkills").style.display = aba === "profissionais" ? "flex" : "none";
+    pegar("filtrosSkills").style.display = abaAtiva === "profissionais" ? "flex" : "none";
     buscar();
 }
 
 function filtrarPor(nomeDaSkill) {
-    skill = nomeDaSkill;
+    skillEscolhida = nomeDaSkill;
     desenharFiltros();
     buscar();
 }
 
 function desenharFiltros() {
     escrever("filtrosSkills", skillsDoBanco.map(function (nome) {
-        const aceso = nome === skill ? "ativo" : "";
-        return `<button type="button" class="chipFiltro ${aceso}" onclick="filtrarPor('${nome}')">${nome}</button>`;
+        const classeAtiva = nome === skillEscolhida ? "ativo" : "";
+        return `<button type="button" class="botaoFiltro ${classeAtiva}" onclick="filtrarPor('${nome}')">${nome}</button>`;
     }).join(""));
 }
 
-pegar("tabProfissionais").onclick = () => abrirAba("profissionais");
-pegar("tabProjetos").onclick = () => abrirAba("projetos");
+pegar("abaProfissionais").onclick = () => abrirAba("profissionais");
+pegar("abaProjetos").onclick = () => abrirAba("projetos");
 pegar("campoBusca").oninput = buscar;   // busca a cada letra digitada
 
 

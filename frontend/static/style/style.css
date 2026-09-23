@@ -441,20 +441,20 @@ footer{
     width: 100%;
 }
 
-.campoLogin {
+.campoFormulario {
     display: flex;
     flex-direction: column;
     text-align: left;
     margin-bottom: 18px;
 }
 
-.campoLogin label {
+.campoFormulario label {
     color: #8c8c8c;
     font-size: 13px;
     margin-bottom: 8px;
 }
 
-.campoLogin input {
+.campoFormulario input {
     height: 45px;
     background-color: #12161b;
     border: 1px solid #373638;
@@ -465,17 +465,17 @@ footer{
     font-size: 13px;
 }
 
-.campoLogin input::placeholder {
+.campoFormulario input::placeholder {
     color: #5a5a5a;
 }
 
-.wrapperSenha {
+.caixaSenha {
     display: flex;
     align-items: center;
     position: relative;
 }
 
-.wrapperSenha input {
+.caixaSenha input {
     width: 100%;
 }
 
@@ -495,7 +495,7 @@ footer{
     fill: #8c8c8c;
 }
 
-.botaoEntrarLogin {
+.botaoEnviar {
     height: 48px;
     border: none;
     border-radius: 10px;
@@ -615,7 +615,7 @@ footer{
     min-height: 14px;
 }
 
-.conteudoApp .mensagemErro {
+.conteudoPagina .mensagemErro {
     text-align: left;
     margin-top: 0;
     margin-bottom: 14px;
@@ -649,13 +649,13 @@ footer{
 
 
 /* ===== Layout interno (Dashboard / Busca) ===== */
-.appLayout {
+.layoutPagina {
     display: flex;
     min-height: 100vh;
     background-color: #182127;
 }
 
-.sidebarApp {
+.menuLateral {
     width: 220px;
     min-width: 220px;
     background-color: #14191e;
@@ -668,7 +668,7 @@ footer{
     height: 100vh;
 }
 
-.logoSidebar {
+.logoMenuLateral {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -676,26 +676,26 @@ footer{
     padding: 0 8px;
 }
 
-.logoSidebar img {
+.logoMenuLateral img {
     height: 22px;
 }
 
-.logoSidebar h3 {
+.logoMenuLateral h3 {
     color: white;
     font-size: 15px;
 }
 
-.logoSidebar span {
+.logoMenuLateral span {
     color: #2cbcc9;
 }
 
-.navSidebar {
+.navegacaoMenuLateral {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.itemSidebar {
+.itemMenuLateral {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -707,23 +707,23 @@ footer{
     font-size: 13px;
 }
 
-.itemSidebar:hover {
+.itemMenuLateral:hover {
     background-color: #1d242b;
     color: white;
 }
 
-.itemSidebar.ativo {
+.itemMenuLateral.ativo {
     background-color: #1d242b;
     border-color: #2ebdcc;
     color: #2ebdcc;
 }
 
-.iconeSidebar {
+.iconeMenuLateral {
     display: flex;
     flex-shrink: 0;
 }
 
-.botaoSairSidebar {
+.botaoSair {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -736,37 +736,41 @@ footer{
     padding: 10px 12px;
 }
 
-.botaoSairSidebar:hover {
+.botaoSair:hover {
     color: #e05252;
 }
 
-.conteudoApp {
+.conteudoPagina {
     flex: 1;
     padding: 40px 48px;
     color: white;
+    /* A regra "main" foi escrita pra landing page e centraliza tudo.
+       Nas paginas internas o conteudo fica alinhado a esquerda. */
+    align-items: stretch;
+    text-align: left;
 }
 
-.saudacaoApp h1 {
+.saudacaoDashboard h1 {
     font-size: 26px;
     margin-bottom: 4px;
 }
 
-.saudacaoApp h1 span {
+.saudacaoDashboard h1 span {
     color: #2ebdcc;
 }
 
-.saudacaoApp h3 {
+.saudacaoDashboard h3 {
     margin-bottom: 32px;
 }
 
-.statsGrid {
+.cardsEstatisticaQuatro {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 40px;
 }
 
-.statCard {
+.cardEstatistica {
     background-color: #1d242b;
     border: 2px solid #373638;
     border-radius: 10px;
@@ -776,28 +780,34 @@ footer{
     gap: 8px;
 }
 
-.statCard .iconeStat {
+.cardEstatistica .iconeEstatistica {
     color: #2ebdcc;
 }
 
-.statCard .valorStat {
+.cardEstatistica .valorEstatistica {
     font-size: 26px;
     font-weight: 800;
     font-family: "Inter", sans-serif;
 }
 
-.statCard .labelStat {
+.cardEstatistica .legendaEstatistica {
     color: #8c8c8c;
     font-size: 12px;
 }
 
-.listaProjetosDash {
+.tituloSecao {
+    color: white;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.listaProjetosDashboard {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
-.projetoDashCard {
+.cardProjetoDashboard {
     background-color: #1d242b;
     border: 2px solid #373638;
     border-radius: 10px;
@@ -808,16 +818,16 @@ footer{
     gap: 16px;
 }
 
-.projetoDashInfo {
+.infoProjetoDashboard {
     flex: 1;
 }
 
-.projetoDashInfo h2 {
+.infoProjetoDashboard h2 {
     font-size: 16px;
     margin-bottom: 4px;
 }
 
-.projetoDashInfo p {
+.infoProjetoDashboard p {
     color: #8c8c8c;
     font-size: 12px;
     margin-bottom: 8px;
@@ -836,7 +846,7 @@ footer{
     background: linear-gradient(90deg, #2ebdcc, #da6c20);
 }
 
-.chevronDash {
+.setaCardProjeto {
     color: #8c8c8c;
     font-size: 22px;
 }
@@ -847,11 +857,11 @@ footer{
 }
 
 /* ===== Busca ===== */
-.buscaTopo {
+.topoBusca {
     margin-bottom: 20px;
 }
 
-.buscaTopo h1 {
+.topoBusca h1 {
     font-size: 24px;
 }
 
@@ -862,18 +872,18 @@ footer{
     margin-bottom: 16px;
 }
 
-.linhaBusca .inputBuscaWrapper {
+.linhaBusca .caixaBusca {
     flex: 1;
     margin-bottom: 0;
 }
 
-.tabsBusca {
+.abasBusca {
     display: flex;
     gap: 8px;
     flex-shrink: 0;
 }
 
-.tabBusca {
+.abaBusca {
     background-color: #1d242b;
     border: 1px solid #373638;
     color: #8c8c8c;
@@ -887,12 +897,12 @@ footer{
     gap: 6px;
 }
 
-.tabBusca svg {
+.abaBusca svg {
     width: 14px;
     height: 14px;
 }
 
-.tabBusca.ativo {
+.abaBusca.ativo {
     color: white;
     border-color: #2ebdcc;
 }
@@ -924,7 +934,7 @@ footer{
     flex-shrink: 0;
 }
 
-.inputBuscaWrapper {
+.caixaBusca {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -936,13 +946,13 @@ footer{
     color: #8c8c8c;
 }
 
-.inputBuscaWrapper svg {
+.caixaBusca svg {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
 }
 
-.inputBuscaWrapper input {
+.caixaBusca input {
     flex: 1;
     background: none;
     border: none;
@@ -952,7 +962,7 @@ footer{
     font-size: 13px;
 }
 
-.inputBuscaWrapper input::placeholder {
+.caixaBusca input::placeholder {
     color: #5a5a5a;
 }
 
@@ -963,7 +973,7 @@ footer{
     margin-bottom: 24px;
 }
 
-.chipFiltro {
+.botaoFiltro {
     background-color: #1d242b;
     border: 1px solid #373638;
     color: #8c8c8c;
@@ -974,7 +984,7 @@ footer{
     cursor: pointer;
 }
 
-.chipFiltro.ativo {
+.botaoFiltro.ativo {
     border-color: #2ebdcc;
     color: #2ebdcc;
 }
@@ -985,6 +995,14 @@ footer{
     gap: 14px;
 }
 
+/* Na busca os cards ficam lado a lado, pra aproveitar a largura.
+   O 1fr nas linhas deixa todos os cards com a mesma altura. */
+#listaResultados {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+}
+
 .cardResultado {
     background-color: #1d242b;
     border: 2px solid #373638;
@@ -992,24 +1010,27 @@ footer{
     padding: 18px 20px;
 }
 
-.cardResultadoTopo {
+.topoCardResultado {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 6px;
 }
 
-.cardResultadoTopo h2 {
+.topoCardResultado h2 {
     font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.statusProjetoBusca {
+.statusResultado {
     color: #2ebdcc;
     font-size: 11px;
     text-transform: uppercase;
 }
 
-.cardResultadoStats {
+.descricaoResultado {
     color: #8c8c8c;
     font-size: 12px;
     margin-bottom: 10px;
@@ -1031,26 +1052,30 @@ footer{
 }
 
 @media (max-width: 850px) {
-    .appLayout {
+    .layoutPagina {
         flex-direction: column;
     }
 
-    .sidebarApp {
+    .menuLateral {
         width: 100%;
         height: auto;
         position: relative;
     }
 
-    .navSidebar {
+    .navegacaoMenuLateral {
         flex-direction: row;
         flex-wrap: wrap;
     }
 
-    .conteudoApp {
+    .conteudoPagina {
         padding: 24px;
     }
 
-    .statsGrid {
+    .cardsEstatisticaQuatro {
+        grid-template-columns: 1fr;
+    }
+
+    #listaResultados {
         grid-template-columns: 1fr;
     }
 }
@@ -1061,13 +1086,13 @@ footer{
     margin: 0 auto;
 }
 
-.publicarTopo h1 {
+.topoPagina h1 {
     font-size: 24px;
     color: white;
     margin-bottom: 4px;
 }
 
-.publicarTopo h3 {
+.topoPagina h3 {
     margin-bottom: 20px;
 }
 
@@ -1098,7 +1123,7 @@ footer{
     display: flex;
 }
 
-.conteudoApp .campoLogin textarea {
+.conteudoPagina .campoFormulario textarea {
     background-color: #12161b;
     border: 1px solid #373638;
     border-radius: 8px;
@@ -1110,17 +1135,17 @@ footer{
     resize: vertical;
 }
 
-.conteudoApp .campoLogin textarea::placeholder {
+.conteudoPagina .campoFormulario textarea::placeholder {
     color: #5a5a5a;
 }
 
-.chipsPerfil {
+.botoesPerfil {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.chipPerfil {
+.botaoPerfil {
     background-color: #1d242b;
     border: 1px solid #373638;
     color: #8c8c8c;
@@ -1131,7 +1156,7 @@ footer{
     cursor: pointer;
 }
 
-.chipPerfil.ativo {
+.botaoPerfil.ativo {
     border-color: #2ebdcc;
     color: #2ebdcc;
 }
@@ -1240,11 +1265,85 @@ footer{
     margin-bottom: 14px;
 }
 
-.blocoSkillsPerfil {
+/* ===== Perfil ===== */
+.escondido {
+    display: none;
+}
+
+.cabecalhoPerfil {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.avatarPerfil {
+    width: 64px;
+    min-width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #1d242b;
+    border: 2px solid #2ebdcc;
+    color: #2ebdcc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.infoPerfil {
+    flex: 1;
+}
+
+.infoPerfil h1 {
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.funcaoPerfil {
+    color: #2ebdcc;
+    font-size: 13px;
+}
+
+.membroDesde {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.botaoEditarPerfil {
+    height: 36px;
+    padding: 0 16px;
+    border: 1px solid #373638;
+    border-radius: 8px;
+    background: none;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.botaoEditarPerfil:hover {
+    border-color: #2ebdcc;
+    color: #2ebdcc;
+}
+
+.bioPerfil {
+    color: #8c8c8c;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+.cardsEstatistica {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.blocoSecao {
     margin-top: 30px;
 }
 
-.blocoSkillsPerfil h3 {
+.blocoSecao h3 {
     color: white;
     font-size: 15px;
     margin-bottom: 12px;
@@ -1271,45 +1370,105 @@ footer{
     color: white;
 }
 
-.tituloProjetoDetalhe {
-    color: white;
+.cabecalhoProjeto {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 20px 0 28px 0;
+}
+
+/* Quadrado laranja pro projeto; o circulo ciano e das pessoas. */
+.avatarProjeto {
+    width: 64px;
+    min-width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background-color: #1d242b;
+    border: 2px solid #da6c20;
+    color: #da6c20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 26px;
-    margin-bottom: 6px;
 }
 
-.statusProjetoDetalhe {
-    color: #2ebdcc;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-bottom: 14px;
+.infoProjeto {
+    flex: 1;
 }
 
-.descricaoProjetoDetalhe {
+.infoProjeto h1 {
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.criadorProjeto {
     color: #8c8c8c;
-    font-size: 14px;
-    margin-bottom: 10px;
-    max-width: 700px;
+    font-size: 12px;
 }
 
-.criadorProjetoDetalhe {
+.criadorProjeto strong {
+    color: white;
+    font-weight: 500;
+}
+
+.descricaoProjeto {
     color: #8c8c8c;
     font-size: 13px;
-    margin-bottom: 24px;
+    line-height: 1.6;
+    margin-top: 8px;
 }
 
-.criadorProjetoDetalhe strong {
-    color: white;
+.seloStatus {
+    color: #2ebdcc;
+    background-color: rgba(46, 189, 204, 0.1);
+    border: 1px solid #2ebdcc;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
 }
 
-.detalhesProjeto h3,
-#detalhesProjeto h3 {
-    color: white;
-    font-size: 15px;
-    margin: 20px 0 12px;
+.listaMembros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.tituloVagasDetalhe {
-    margin-top: 30px;
+.itemMembro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #12161b;
+    border: 1px solid #373638;
+    border-radius: 20px;
+    padding: 5px 14px 5px 5px;
+    font-size: 12px;
+}
+
+.avatarMembro {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    background-color: #2ebdcc;
+    color: #12161b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+
+.dataCandidatura {
+    color: #5a5a5a;
+    font-size: 11px;
+}
+
+.linkMensagemVazia {
+    display: block;
+    color: #2ebdcc;
+    text-decoration: none;
+    margin-top: 10px;
 }
 
 .botaoCandidatar {
@@ -1328,6 +1487,12 @@ footer{
 .botaoCandidatar:disabled {
     opacity: 0.6;
     cursor: default;
+}
+
+.botaoRecusar {
+    margin-left: 8px;
+    background-color: #e05252;
+    color: white;
 }
 
 .statusCandidatura {

@@ -1,21 +1,4 @@
-iniciarPagina();
-
-const PERFIS = [
-    "Artista 2D",
-    "Artista 3D",
-    "Animador",
-    "Compositor",
-    "Sound Designer",
-    "Dublador",
-    "Roteirista",
-    "Programador",
-    "Game Designer",
-    "QA Tester",
-];
-
-escrever("chipsPerfil", PERFIS.map(function (perfil) {
-    return `<button type="button" class="chipPerfil" onclick="this.classList.toggle('ativo')">${perfil}</button>`;
-}).join(""));
+protegerPagina();
 
 document.querySelectorAll(".opcaoParceria").forEach(function (card) {
     card.onclick = function () {
@@ -42,7 +25,7 @@ pegar("formPublicarProjeto").onsubmit = async function (evento) {
 
     const nome = valor("nomeProjeto");
 
-    const perfisEscolhidos = Array.from(document.querySelectorAll(".chipPerfil.ativo"))
+    const perfisEscolhidos = Array.from(document.querySelectorAll(".botaoPerfil.ativo"))
         .map((chip) => chip.textContent.trim());
 
 

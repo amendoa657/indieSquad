@@ -1,6 +1,6 @@
 
 
-iniciarPagina();
+protegerPagina();
 
 async function carregarDashboard() {
     // Pede pro back-end o resumo de quem está logado.
@@ -8,22 +8,22 @@ async function carregarDashboard() {
     if (!dados) return;
 
     escrever("nomeUsuario", dados.nome);
-    escrever("statProjetosAtivos", dados.projetosAtivos);
-    escrever("statColaboracoes", dados.colaboracoes);
-    escrever("statTaxaConclusao", `${dados.taxaConclusao}%`);
-    escrever("statTotalProjetos", dados.totalProjetos);
+    escrever("totalProjetosAtivos", dados.projetosAtivos);
+    escrever("totalColaboracoes", dados.colaboracoes);
+    escrever("taxaConclusao", `${dados.taxaConclusao}%`);
+    escrever("totalProjetosCriados", dados.totalProjetos);
 
-    listar("listaProjetosDash", dados.projetos, function (projeto) {
+    listar("listaProjetosDashboard", dados.projetos, function (projeto) {
         return `
-            <div class="projetoDashCard" style="cursor: pointer" onclick="irPara('projeto.html?id=${projeto.id}')">
-                <div class="projetoDashInfo">
+            <div class="cardProjetoDashboard" style="cursor: pointer" onclick="irPara('projeto.html?id=${projeto.id}')">
+                <div class="infoProjetoDashboard">
                     <h2>${projeto.nome}</h2>
-                    <p>${projeto.membros} membro(s)</p>
+                    <p>${projeto.membros} membro(s) · ${projeto.progresso}% das vagas preenchidas</p>
                     <div class="barraProgresso">
                         <div class="barraProgressoPreenchida" style="width: ${projeto.progresso}%"></div>
                     </div>
                 </div>
-                <span class="chevronDash">›</span>
+                <span class="setaCardProjeto">›</span>
             </div>
         `;
     }, "Você ainda não tem projetos ativos.");
