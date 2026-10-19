@@ -1,4 +1,5 @@
-### GET request to example server
-DEL http://localhost:5000/projetos/1/membros/9
+### Tira alguem da equipe (so o criador consegue)
+DELETE {{baseUrl}}/projetos/{{idProjeto}}/membros/3
+Authorization: Bearer {{token}}
 
 ###

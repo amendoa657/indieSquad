@@ -1,0 +1,5 @@
+### Quem se candidatou
+GET {{baseUrl}}/candidaturas/1/usuario
+Authorization: Bearer {{token}}
+
+###

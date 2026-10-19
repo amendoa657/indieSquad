@@ -1,0 +1,6 @@
+### Candidaturas do projeto, com os dados e a reputacao de cada candidato
+### So o criador do projeto chega aqui
+GET {{baseUrl}}/projetos/1/candidaturas
+Authorization: Bearer {{token}}
+
+###

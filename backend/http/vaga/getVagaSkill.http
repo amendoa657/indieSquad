@@ -1,0 +1,4 @@
+### A funcao que essa vaga pede
+GET {{baseUrl}}/vagas/1/skill
+
+###

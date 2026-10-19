@@ -1,1 +1,5 @@
-DEL http://localhost:5000/vagas/2
+### Apaga a vaga (so o criador do projeto consegue)
+DELETE {{baseUrl}}/vagas/{{idVaga}}
+Authorization: Bearer {{token}}
+
+###

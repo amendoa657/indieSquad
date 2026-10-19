@@ -1,7 +1,14 @@
-PATCH http://localhost:5000/projetos/1
+### Edita o projeto (so o criador consegue)
+PATCH {{baseUrl}}/projetos/{{idProjeto}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "nome": "IndieSquad",
-  "status": "ativo"
+  "nome": "ZeGotinha: O Retorno",
+  "descricao": "Agora com dois jogadores",
+  "status": "pausado",
+  "genero": "Puzzle",
+  "engine": "Godot"
 }
+
+###

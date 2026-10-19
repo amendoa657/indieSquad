@@ -1,6 +1,13 @@
-PUT http://localhost:5000/vagas/1
+### Edita a vaga (so o criador do projeto consegue)
+PUT {{baseUrl}}/vagas/{{idVaga}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "titulo": "Artista para unity"
+  "titulo": "Artista 2D senior",
+  "descricao": "Agora com mais cenario",
+  "status": "aberta",
+  "nivelMinimo": 3
 }
+
+###

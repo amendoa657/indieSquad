@@ -1,1 +1,4 @@
-GET http://localhost:5000/vagas/1
+### Uma vaga
+GET {{baseUrl}}/vagas/1
+
+###

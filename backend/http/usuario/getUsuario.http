@@ -1,4 +1,5 @@
-### GET request to example server
-GET http://localhost:5000/usuarios/8
+### Perfil de um usuario. Sem login vem sem o e-mail; com o seu token vem completo
+GET {{baseUrl}}/usuarios/{{idUsuario}}
+Authorization: Bearer {{token}}
 
 ###

@@ -1,9 +1,14 @@
-POST http://localhost:5000/candidaturas
+### Se candidata a uma vaga. Quem se candidata e sempre quem esta logado, e o
+### status nasce sempre "pendente" (mandar status no corpo nao muda nada)
+POST {{baseUrl}}/candidaturas
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "mensagem": "Sou um dev legal 2",
-  "status": "Pendente",
   "idVagaProjeto": "1",
-  "idUsuario": "8"
+  "mensagem": "Sou um dev legal 2"
 }
+
+> {% client.global.set("idCandidatura", response.body.id); %}
+
+###

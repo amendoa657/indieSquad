@@ -1,7 +1,12 @@
-POST http://localhost:5000/usuarios/6/skills/
+### Adiciona uma funcao ao proprio perfil. nivel: 1 Iniciante ... 4 Especialista
+### Se a funcao ja existir no perfil, isso so atualiza o nivel
+POST {{baseUrl}}/usuarios/{{idUsuario}}/skills/
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "idSkill": "6",
-  "nivel": "6"
+  "idSkill": 1,
+  "nivel": 3
 }
+
+###

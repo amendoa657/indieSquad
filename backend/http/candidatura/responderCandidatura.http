@@ -1,0 +1,12 @@
+### O dono do projeto aceita ou recusa.
+### Aceitar faz tudo junto: a pessoa entra na equipe, a vaga fecha e as outras
+### candidaturas daquela vaga sao recusadas
+PUT {{baseUrl}}/candidaturas/{{idCandidatura}}/responder
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "aceita"
+}
+
+###

@@ -1,8 +1,16 @@
-PUT http://localhost:5000/usuarios/atualizar/5
+### Atualiza o proprio perfil (so da pra atualizar o seu)
+PUT {{baseUrl}}/usuarios/atualizar/{{idUsuario}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "usuario": "usuario2",
-  "bio": "Apenas um usuario qualquer por ai",
-  "senha": "125235"
+  "usuario": "Thales Alves",
+  "bio": "Programador de gameplay.",
+  "objetivo": "montarEquipe",
+  "disponibilidadeHoras": 20,
+  "aceitaPortfolio": true,
+  "aceitaRevenueShare": true,
+  "aceitaRemunerado": false
 }
+
+###

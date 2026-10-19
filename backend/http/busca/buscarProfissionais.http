@@ -1,0 +1,9 @@
+### Busca de pessoas. Todos os filtros sao opcionais e acontecem no servidor
+GET {{baseUrl}}/busca/profissionais?skill=Pixel Artist&q=laura&tipoColaboracao=portfolio&horasMinimas=5
+
+###
+
+### Sem filtro nenhum, ordenado por reputacao
+GET {{baseUrl}}/busca/profissionais
+
+###

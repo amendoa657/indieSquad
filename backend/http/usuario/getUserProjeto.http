@@ -1,3 +1,4 @@
-### GET request to example server
-GET http://localhost:5000/usuarios/projeto/5
+### Projetos do usuario: os que ele criou e os que ele participa como membro
+GET {{baseUrl}}/usuarios/projeto/{{idUsuario}}
+
 ###

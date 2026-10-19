@@ -1,9 +1,19 @@
-POST http://localhost:5000/projetos
+### Publica um projeto. O criador e sempre quem esta logado, nao vem no corpo
+POST {{baseUrl}}/projetos
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "nome": "ZeGotinha",
+  "descricao": "Ze gota eh top demais",
   "status": "ativo",
-  "usuario_id": "6",
-  "descricao": "Ze gota eh top demais"
+  "genero": "Puzzle Plataforma",
+  "engine": "Unity",
+  "tipoParceria": "portfolio",
+  "duracaoEstimada": "4 meses",
+  "marcos": ["Prototipo jogavel", "10 fases prontas"]
 }
+
+> {% client.global.set("idProjeto", response.body.id); %}
+
+###

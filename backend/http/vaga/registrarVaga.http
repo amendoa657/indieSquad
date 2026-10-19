@@ -1,10 +1,16 @@
-POST http://localhost:5000/vagas
+### Abre uma vaga no projeto (so o criador do projeto consegue)
+POST {{baseUrl}}/vagas
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "titulo": "Artista para godot",
-  "descricao": "Quero fazer um jogo legal de macho",
-  "status": "Ativa",
-  "idProjeto": "4",
-  "idSkill": "4"
+  "titulo": "Artista 2D",
+  "descricao": "Arte de fabrica, canos e esteiras",
+  "idProjeto": "{{idProjeto}}",
+  "idSkill": 5,
+  "nivelMinimo": 2
 }
+
+> {% client.global.set("idVaga", response.body.id); %}
+
+###

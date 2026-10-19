@@ -1,0 +1,11 @@
+### Troca a senha. Exige a senha atual, pra um token roubado nao tomar a conta
+PUT {{baseUrl}}/usuarios/senha
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "senhaAtual": "indiesquad123",
+  "senhaNova": "outrasenhaforte123"
+}
+
+###

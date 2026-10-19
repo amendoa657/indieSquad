@@ -1,0 +1,9 @@
+### Busca de projetos, com filtro por genero, engine, tipo de parceria e status
+GET {{baseUrl}}/busca/projetos?q=hollow&genero=Metroidvania&engine=Godot&tipoParceria=revenueShare&status=ativo
+
+###
+
+### Sem filtro nenhum
+GET {{baseUrl}}/busca/projetos
+
+###

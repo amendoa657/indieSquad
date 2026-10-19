@@ -1,6 +1,11 @@
-POST http://localhost:5000/skills
+### Cria uma funcao no catalogo (manutencao do sistema, nao e o usuario que usa)
+POST {{baseUrl}}/skills
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "nome": "Game designer"
+  "nome": "Porter",
+  "categoria": "Programacao"
 }
+
+###

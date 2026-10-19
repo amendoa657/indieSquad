@@ -1,0 +1,5 @@
+### Vagas desse projeto so. Com login, cada vaga diz se voce ja se candidatou
+GET {{baseUrl}}/projetos/1/vagas
+Authorization: Bearer {{token}}
+
+###

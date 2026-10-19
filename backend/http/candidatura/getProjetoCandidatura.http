@@ -1,1 +1,5 @@
-GET http://localhost:5000/candidaturas/1/projeto
+### O projeto dessa candidatura (candidatura -> vaga -> projeto)
+GET {{baseUrl}}/candidaturas/1/projeto
+Authorization: Bearer {{token}}
+
+###

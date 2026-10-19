@@ -1,1 +1,5 @@
-DEL http://localhost:5000/candidaturas/4
+### O candidato cancela a propria candidatura
+DELETE {{baseUrl}}/candidaturas/{{idCandidatura}}
+Authorization: Bearer {{token}}
+
+###

@@ -1,0 +1,18 @@
+### Cria uma conta e ja guarda o token pros outros arquivos
+POST {{baseUrl}}/auth/registrar
+Content-Type: application/json
+
+{
+  "nome": "Usuario Legal Top",
+  "handle": "usuario_legal",
+  "email": "usuarioLegalTop@gmail.com",
+  "senha": "senhaforte123",
+  "objetivo": "ambos"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+    client.global.set("idUsuario", response.body.usuario.id);
+%}
+
+###

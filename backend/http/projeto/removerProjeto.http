@@ -1,1 +1,5 @@
-DEL http://localhost:5000/projetos/3
+### Apaga o projeto (so o criador consegue)
+DELETE {{baseUrl}}/projetos/{{idProjeto}}
+Authorization: Bearer {{token}}
+
+###

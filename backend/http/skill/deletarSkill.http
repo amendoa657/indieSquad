@@ -1,1 +1,5 @@
-DEL http://localhost:5000/skills/3
+### Apaga uma funcao do catalogo. Nao deixa apagar funcao que esta em uso
+DELETE {{baseUrl}}/skills/22
+Authorization: Bearer {{token}}
+
+###

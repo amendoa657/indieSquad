@@ -1,0 +1,5 @@
+### Conclui o projeto: fecha as vagas abertas e libera a avaliacao entre a equipe
+PATCH {{baseUrl}}/projetos/{{idProjeto}}/concluir
+Authorization: Bearer {{token}}
+
+###

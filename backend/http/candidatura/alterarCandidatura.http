@@ -1,6 +1,10 @@
-PUT http://localhost:5000/candidaturas/1
+### O candidato edita a mensagem dele enquanto esta pendente
+PUT {{baseUrl}}/candidaturas/{{idCandidatura}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "mensagem": "nao sou legal nao"
+  "mensagem": "Melhorei meu portfolio, da uma olhada de novo"
 }
+
+###

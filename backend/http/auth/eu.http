@@ -1,0 +1,5 @@
+### Quem esta logado nesse token
+GET {{baseUrl}}/auth/eu
+Authorization: Bearer {{token}}
+
+###

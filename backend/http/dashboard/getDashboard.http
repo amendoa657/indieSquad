@@ -1,0 +1,6 @@
+### Dashboard de quem esta logado. Nao tem id na URL de proposito: antes dava
+### pra abrir /dashboard/9 e ver os numeros de outra pessoa
+GET {{baseUrl}}/dashboard
+Authorization: Bearer {{token}}
+
+###

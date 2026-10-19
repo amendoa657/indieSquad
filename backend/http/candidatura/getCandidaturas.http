@@ -1,1 +1,5 @@
-GET http://localhost:5000/candidaturas
+### Minhas candidaturas. Antes essa rota devolvia as candidaturas de TODO MUNDO
+GET {{baseUrl}}/candidaturas
+Authorization: Bearer {{token}}
+
+###

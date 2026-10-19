@@ -1,0 +1,4 @@
+### Numeros publicos do perfil: projetos, colaboracoes, taxa de conclusao e reputacao
+GET {{baseUrl}}/usuarios/{{idUsuario}}/estatisticas
+
+###

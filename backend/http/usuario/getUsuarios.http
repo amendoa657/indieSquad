@@ -1,1 +1,5 @@
-GET http://localhost:5000/usuarios
+### Lista os usuarios (precisa de login)
+GET {{baseUrl}}/usuarios
+Authorization: Bearer {{token}}
+
+###

@@ -1,1 +1,5 @@
-GET http://localhost:5000/candidaturas/1
+### Uma candidatura. So o candidato e o dono do projeto conseguem ver
+GET {{baseUrl}}/candidaturas/1
+Authorization: Bearer {{token}}
+
+###

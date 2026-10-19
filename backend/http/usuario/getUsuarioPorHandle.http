@@ -1,0 +1,4 @@
+### Perfil publico pelo apelido, e o que a URL /perfil.html?handle=thales usa
+GET {{baseUrl}}/usuarios/handle/thales
+
+###

@@ -1,6 +1,10 @@
-PATCH http://localhost:5000/skills/2
+### Renomeia uma funcao do catalogo
+PATCH {{baseUrl}}/skills/22
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "nome": "Artista"
+  "nome": "Tradutor e Localizador"
 }
+
+###

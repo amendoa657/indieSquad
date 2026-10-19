@@ -1,0 +1,6 @@
+### As candidaturas de uma pessoa, com vaga e projeto de cada uma.
+### So da pra ver as suas proprias
+GET {{baseUrl}}/candidaturas/usuario/{{idUsuario}}
+Authorization: Bearer {{token}}
+
+###

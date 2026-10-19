@@ -1,1 +1,4 @@
-GET http://localhost:5000/vagas
+### Lista todas as vagas do sistema
+GET {{baseUrl}}/vagas
+
+###
