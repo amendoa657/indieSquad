@@ -1,0 +1,205 @@
+/* ===================================================================
+   IndieSquad — Tokens
+   ===================================================================
+
+   Tudo que é decisão de design vive aqui: cor, espaço, tipografia,
+   arredondamento, sombra e tempo de animação. Nenhum outro arquivo
+   escreve um valor na mão.
+
+   Por que isso importa: antes o #2ebdcc estava copiado 31 vezes no
+   CSS. Pra mudar um tom da marca era caçar ocorrência. E o tema claro
+   seria impossível sem duplicar o arquivo inteiro.
+
+   Todas as cores de texto foram conferidas no contraste WCAG AA
+   (4.5:1 pra texto, 3:1 pra controle e anel de foco) nos dois temas.
+   =================================================================== */
+
+:root {
+    /* ---------- Tipografia ---------- */
+
+    /* Orbitron só na marca: é uma fonte de display, bonita no logo e
+       cansativa em texto corrido. Space Grotesk nos títulos (geométrica,
+       cara técnica) e Inter em tudo que é pra ler. */
+    --fonte-marca: "Orbitron", sans-serif;
+    --fonte-titulo: "Space Grotesk", "Inter", sans-serif;
+    --fonte-corpo: "Inter", system-ui, sans-serif;
+
+    /* A escala combina tamanho, altura de linha e espaçamento de letra.
+       Texto grande pede letra mais junta e linha mais apertada; texto
+       pequeno pede o contrário. Um letter-spacing único pra tudo está
+       sempre errado em algum tamanho. */
+    --texto-xs: 0.75rem;
+    --texto-sm: 0.8125rem;
+    --texto-base: 0.9375rem;
+    --texto-md: 1.0625rem;
+    --texto-lg: 1.375rem;
+    --texto-xl: 1.75rem;
+    --texto-2xl: 2.25rem;
+    --texto-3xl: clamp(2.25rem, 5.5vw, 3.75rem);
+
+    --linha-apertada: 1.1;
+    --linha-titulo: 1.25;
+    --linha-corpo: 1.6;
+
+    --letra-display: -0.03em;
+    --letra-titulo: -0.015em;
+    --letra-corpo: 0;
+    --letra-miuda: 0.01em;
+    --letra-etiqueta: 0.08em;
+
+    --peso-normal: 400;
+    --peso-medio: 500;
+    --peso-forte: 600;
+    --peso-pesado: 700;
+
+    /* ---------- Espaço (base 4px) ---------- */
+    --espaco-1: 0.25rem;
+    --espaco-2: 0.5rem;
+    --espaco-3: 0.75rem;
+    --espaco-4: 1rem;
+    --espaco-5: 1.25rem;
+    --espaco-6: 1.5rem;
+    --espaco-8: 2rem;
+    --espaco-10: 2.5rem;
+    --espaco-12: 3rem;
+    --espaco-16: 4rem;
+    --espaco-20: 5rem;
+    --espaco-24: 6rem;
+
+    /* ---------- Arredondamento ---------- */
+    --raio-sm: 8px;
+    --raio-md: 12px;
+    --raio-lg: 16px;
+    --raio-xl: 22px;
+    --raio-total: 999px;
+
+    /* ---------- Medidas de layout ---------- */
+    --largura-menu: 248px;
+    --largura-conteudo: 1100px;
+    --largura-media: 880px;
+    --largura-estreita: 680px;
+    --largura-leitura: 62ch;
+
+    /* ---------- Movimento ---------- */
+
+    /* A curva padrão do CSS é fraca demais, não tem peso. Essa dá o
+       "puxão" que faz a animação parecer intencional. */
+    --curva-saida: cubic-bezier(0.23, 1, 0.32, 1);
+
+    /* Nada de interface passa de 300ms: acima disso a tela parece lenta. */
+    --tempo-toque: 120ms;
+    --tempo-rapido: 180ms;
+    --tempo-medio: 240ms;
+}
+
+
+/* ===================================================================
+   Tema escuro — o padrão do IndieSquad
+   =================================================================== */
+
+:root,
+[data-tema="escuro"] {
+    color-scheme: dark;
+
+    /* Camadas: fundo da página, card, campo e hover. Cada degrau sobe um
+       pouco a luz, que é o que cria profundidade sem precisar de sombra. */
+    --cor-fundo: #0b0f14;
+    --cor-superficie: #12171e;
+    --cor-superficie-2: #1a212a;
+    --cor-superficie-3: #232c37;
+
+    /* Borda fina pra estrutura; a forte é pra contorno de campo. */
+    --cor-borda: #222b35;
+    --cor-borda-forte: #2d3945;
+
+    --cor-texto: #eef3f8;
+    --cor-texto-2: #9aa9b8;
+    --cor-texto-3: #7b8a9a;
+
+    /* Ciano da marca. O "contraste" é a cor do texto que vai EM CIMA do
+       ciano, quando ele é fundo de botão. */
+    --cor-marca: #2ebdcc;
+    --cor-marca-forte: #45d3e2;
+    --cor-marca-contraste: #06222a;
+    --cor-marca-fraca: rgba(46, 189, 204, 0.12);
+    --cor-marca-borda: rgba(46, 189, 204, 0.32);
+
+    --cor-acento: #e07b2e;
+    --cor-acento-fraca: rgba(224, 123, 46, 0.14);
+
+    --cor-sucesso: #37c98a;
+    --cor-sucesso-fraca: rgba(55, 201, 138, 0.14);
+    --cor-aviso: #e0a552;
+    --cor-aviso-fraca: rgba(224, 165, 82, 0.14);
+    --cor-erro: #e05252;
+    --cor-erro-fraca: rgba(224, 82, 82, 0.14);
+
+    /* No escuro a sombra sozinha quase não aparece: o que separa as
+       camadas é um fio de luz na borda de cima, como material real
+       pegando luz de cima. */
+    --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --sombra-2: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --sombra-3: 0 18px 48px rgba(0, 0, 0, 0.55);
+    --luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    --cor-vidro: rgba(18, 23, 30, 0.72);
+}
+
+
+/* ===================================================================
+   Tema claro
+   ===================================================================
+
+   Não é o escuro invertido: o ciano #2ebdcc tem só 2.27:1 contra o
+   branco, ou seja, é ilegível como texto. No claro a marca vira um teal
+   mais fundo (5.72:1) e o ciano original fica só em fundo e detalhe.
+   =================================================================== */
+
+[data-tema="claro"] {
+    color-scheme: light;
+
+    --cor-fundo: #f4f7f9;
+    --cor-superficie: #ffffff;
+    --cor-superficie-2: #eff3f6;
+    --cor-superficie-3: #e3eaef;
+
+    --cor-borda: #e2e8ee;
+    --cor-borda-forte: #cfd9e1;
+
+    --cor-texto: #0d141b;
+    --cor-texto-2: #52616f;
+    --cor-texto-3: #64727e;
+
+    --cor-marca: #0a717d;
+    --cor-marca-forte: #085d66;
+    --cor-marca-contraste: #ffffff;
+    --cor-marca-fraca: rgba(10, 113, 125, 0.09);
+    --cor-marca-borda: rgba(10, 113, 125, 0.26);
+
+    --cor-acento: #b05413;
+    --cor-acento-fraca: rgba(176, 84, 19, 0.09);
+
+    --cor-sucesso: #0c7a53;
+    --cor-sucesso-fraca: rgba(12, 122, 83, 0.1);
+    --cor-aviso: #8a6008;
+    --cor-aviso-fraca: rgba(138, 96, 8, 0.1);
+    --cor-erro: #c23b3b;
+    --cor-erro-fraca: rgba(194, 59, 59, 0.1);
+
+    /* No claro a sombra faz o trabalho que a luz de borda faz no escuro. */
+    --sombra-1: 0 1px 2px rgba(13, 20, 27, 0.06);
+    --sombra-2: 0 4px 14px rgba(13, 20, 27, 0.08);
+    --sombra-3: 0 18px 44px rgba(13, 20, 27, 0.12);
+    --luz-topo: none;
+
+    --cor-vidro: rgba(255, 255, 255, 0.78);
+}
+
+
+/* Quem liga "reduzir transparência" no sistema recebe superfície sólida:
+   vidro embaçado atrapalha a leitura pra parte das pessoas. */
+@media (prefers-reduced-transparency: reduce) {
+    :root {
+        --cor-vidro: var(--cor-superficie);
+    }
+}

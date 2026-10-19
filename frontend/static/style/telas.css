@@ -1,0 +1,1048 @@
+/* ===================================================================
+   IndieSquad — Telas
+   ===================================================================
+
+   Layout geral e o que é específico de cada tela. Tudo construído em
+   cima dos tokens e dos componentes.
+   =================================================================== */
+
+
+/* ===================================================================
+   Layout do app
+   =================================================================== */
+
+.layoutPagina {
+    display: flex;
+    align-items: flex-start;
+    min-height: 100dvh;
+}
+
+.conteudoPagina {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: var(--largura-conteudo);
+    padding: var(--espaco-10) var(--espaco-8) var(--espaco-16);
+    margin: 0 auto;
+
+    /* Entrada única, no carregamento da página. Não fica nas listas de
+       dentro de propósito: o JS redesenha elas a cada letra digitada na
+       busca, e a animação ficaria repetindo sem parar. */
+    animation: entrarConteudo var(--tempo-medio) var(--curva-saida) both;
+}
+
+@keyframes entrarConteudo {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+.conteudoMedio {
+    max-width: var(--largura-media);
+}
+
+.conteudoEstreito {
+    max-width: var(--largura-estreita);
+}
+
+.topoPagina,
+.topoBusca,
+.saudacaoDashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-8);
+}
+
+.topoPagina h3,
+.topoBusca h3,
+.saudacaoDashboard h3 {
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-md);
+    font-weight: var(--peso-normal);
+    letter-spacing: var(--letra-corpo);
+}
+
+.saudacaoDashboard h1 span {
+    color: var(--cor-marca);
+}
+
+.cardsEstatisticaQuatro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--espaco-3);
+}
+
+/* Todo título de seção ganha ar do que veio antes dele. */
+.tituloSecao {
+    margin-top: var(--espaco-10);
+    margin-bottom: var(--espaco-4);
+}
+
+/* Menos o primeiro, que já está logo abaixo do cabeçalho da tela. */
+.cardsEstatistica + .tituloSecao,
+.cardsEstatisticaQuatro + .tituloSecao {
+    margin-top: var(--espaco-10);
+}
+
+.iconeEstatistica {
+    width: 16px;
+    height: 16px;
+    color: var(--cor-texto-3);
+}
+
+
+/* ===================================================================
+   Login e cadastro
+   =================================================================== */
+
+.corpoLogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--espaco-6) var(--espaco-4);
+
+    /* Um brilho muito sutil da marca atrás do card, pra tela de entrada
+       não ser um retângulo no vazio. */
+    background-image: radial-gradient(
+        ellipse 70% 55% at 50% 0%,
+        var(--cor-marca-fraca),
+        transparent 70%
+    );
+}
+
+.paginaLogin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-6);
+    width: 100%;
+    max-width: 420px;
+}
+
+.cardLogin {
+    width: 100%;
+    padding: var(--espaco-8);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-xl);
+    background-color: var(--cor-superficie);
+    box-shadow: var(--sombra-3), var(--luz-topo);
+    animation: entrarCard var(--tempo-medio) var(--curva-saida) both;
+}
+
+@keyframes entrarCard {
+    from {
+        opacity: 0;
+
+        /* Nunca de scale(0): nada no mundo real aparece do nada. */
+        transform: scale(0.97) translateY(10px);
+    }
+}
+
+.cardLogin h2 {
+    font-size: var(--texto-xl);
+}
+
+.cardLogin > h3 {
+    margin-bottom: var(--espaco-6);
+    color: var(--cor-texto-3);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-normal);
+    letter-spacing: var(--letra-corpo);
+}
+
+.formLogin {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.linkCadastro {
+    display: block;
+    margin-top: var(--espaco-6);
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+    text-align: center;
+}
+
+.linkCadastro span {
+    color: var(--cor-marca);
+    font-weight: var(--peso-forte);
+}
+
+.linkCandidaturas {
+    display: inline-block;
+    margin-top: var(--espaco-8);
+    color: var(--cor-marca);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-medio);
+}
+
+
+/* Etapas do cadastro. */
+.perguntaPerfil {
+    margin-bottom: var(--espaco-4);
+    color: var(--cor-texto-2);
+    font-size: var(--texto-base);
+}
+
+.etapaPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.etapaPerfil.etapaEscondida {
+    display: none;
+}
+
+.etapaFormulario {
+    display: none;
+}
+
+.etapaFormulario.etapaVisivel {
+    display: block;
+    animation: entrarEtapa var(--tempo-rapido) var(--curva-saida) both;
+}
+
+@keyframes entrarEtapa {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+}
+
+.opcaoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-md);
+    background-color: var(--cor-superficie-2);
+    text-align: left;
+    cursor: pointer;
+    transition: transform var(--tempo-toque) var(--curva-saida),
+                border-color var(--tempo-rapido) ease,
+                background-color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .opcaoPerfil:hover {
+        border-color: var(--cor-marca);
+        background-color: var(--cor-marca-fraca);
+    }
+}
+
+.opcaoPerfil:active {
+    transform: scale(0.985);
+}
+
+.opcaoPerfilTopo {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.iconePerfil {
+    font-size: var(--texto-lg);
+}
+
+.tituloPerfil {
+    font-family: var(--fonte-titulo);
+    font-size: var(--texto-md);
+    font-weight: var(--peso-forte);
+    color: var(--cor-texto);
+}
+
+.opcaoPerfil p {
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+
+/* ===================================================================
+   Busca
+   =================================================================== */
+
+.linhaBusca {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.caixaBusca {
+    position: relative;
+    flex: 1 1 260px;
+    display: flex;
+    align-items: center;
+}
+
+.caixaBusca svg {
+    position: absolute;
+    left: 0.85rem;
+    width: 17px;
+    height: 17px;
+    color: var(--cor-texto-3);
+    pointer-events: none;
+}
+
+.caixaBusca input {
+    padding-left: 2.5rem;
+}
+
+/* As abas usam uma pílula que desliza por baixo do rótulo. O que anima é
+   só o fundo, com transform — não a cor de cada aba, que ficaria piscando. */
+.abasBusca {
+    display: flex;
+    gap: var(--espaco-1);
+    padding: 4px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-sm);
+    background-color: var(--cor-superficie-2);
+}
+
+.abaBusca {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-medio);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--tempo-rapido) ease,
+                color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .abaBusca:hover {
+        color: var(--cor-texto);
+    }
+}
+
+.abaBusca.ativo {
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+    box-shadow: var(--sombra-1);
+}
+
+.abaBusca svg {
+    width: 15px;
+    height: 15px;
+}
+
+.filtrosSkills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-4);
+
+    /* No celular os filtros viram uma faixa que rola de lado, em vez de
+       uma parede de chips ocupando metade da tela. */
+    padding-bottom: var(--espaco-1);
+}
+
+/* A margem de baixo fica no bloco, não em cada linha: assim o espaço até os
+   resultados é o mesmo com ou sem a segunda linha na tela. */
+.blocoFiltros {
+    margin-bottom: var(--espaco-8);
+}
+
+/* A segunda linha fica recuada e um degrau mais apagada, pra ler como
+   "dentro da categoria acima" e não como outro filtro solto. */
+.filtrosSecundarios {
+    padding-left: var(--espaco-4);
+    border-left: 2px solid var(--cor-borda);
+}
+
+.filtrosSkills:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+    .filtrosSkills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+
+        /* pan-y: o navegador continua cuidando do rolar vertical da
+           página, e a faixa cuida do horizontal. Sem isso a página
+           tremia pra cima enquanto a faixa andava pro lado. */
+        touch-action: pan-y;
+        overscroll-behavior-x: contain;
+    }
+
+    .filtrosSkills::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* ===================================================================
+   Perfil
+   =================================================================== */
+
+.cabecalhoPerfil,
+.cabecalhoProjeto {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--espaco-5);
+    padding-bottom: var(--espaco-8);
+    margin-bottom: var(--espaco-8);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.infoPerfil,
+.infoProjeto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    min-width: 0;
+}
+
+.infoPerfil h1,
+.infoProjeto h1 {
+    font-size: var(--texto-xl);
+    overflow-wrap: anywhere;
+}
+
+.handlePerfil {
+    color: var(--cor-marca);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-medio);
+}
+
+.funcaoPerfil {
+    color: var(--cor-texto-2);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-medio);
+}
+
+.membroDesde,
+.criadorProjeto,
+.dataCandidatura {
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+.criadorProjeto strong {
+    color: var(--cor-texto-2);
+}
+
+.bioPerfil,
+.descricaoProjeto {
+    color: var(--cor-texto-2);
+    font-size: var(--texto-base);
+    line-height: var(--linha-corpo);
+}
+
+.infoPerfil .tagsResultado {
+    margin-top: var(--espaco-2);
+}
+
+
+/* ===================================================================
+   Projeto
+   =================================================================== */
+
+.cabecalhoProjeto .seloStatus {
+    align-self: flex-start;
+}
+
+
+/* ===================================================================
+   Publicar projeto
+   =================================================================== */
+
+.etapaPublicar {
+    display: none;
+}
+
+.etapaPublicar.etapaAtiva {
+    display: block;
+}
+
+.botoesPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+/* 22 funções em linha viravam cinco fileiras de botão antes do próximo
+   campo. Agrupadas por categoria, dá pra achar a sua de relance. */
+.grupoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+}
+
+.tituloGrupoPerfil {
+    color: var(--cor-texto-3);
+    font-size: var(--texto-xs);
+    font-weight: var(--peso-forte);
+    letter-spacing: var(--letra-etiqueta);
+    text-transform: uppercase;
+}
+
+.chipsGrupoPerfil {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}
+
+.campoMarco {
+    font-family: var(--fonte-corpo);
+}
+
+.opcaoParceria {
+    padding: var(--espaco-4);
+    margin-bottom: var(--espaco-2);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-md);
+    background-color: var(--cor-superficie-2);
+    cursor: pointer;
+    transition: transform var(--tempo-toque) var(--curva-saida),
+                border-color var(--tempo-rapido) ease,
+                background-color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .opcaoParceria:hover {
+        border-color: var(--cor-marca-borda);
+    }
+}
+
+.opcaoParceria:active {
+    transform: scale(0.99);
+}
+
+.opcaoParceria.ativo {
+    border-color: var(--cor-marca);
+    background-color: var(--cor-marca-fraca);
+}
+
+.opcaoParceria h2 {
+    font-size: var(--texto-base);
+}
+
+.opcaoParceria p {
+    margin-top: var(--espaco-1);
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+.botoesEtapa {
+    display: flex;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-6);
+}
+
+
+/* ===================================================================
+   Landing
+   =================================================================== */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    padding: var(--espaco-3) var(--espaco-6);
+
+    /* Barra de vidro: o conteúdo passa por baixo em vez de a barra comer
+       uma faixa opaca da tela. */
+    background-color: var(--cor-vidro);
+    backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.botoesNav {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-5);
+}
+
+.botoesNav a {
+    color: var(--cor-texto-2);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-medio);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .botoesNav a:hover {
+        color: var(--cor-texto);
+    }
+}
+
+.botoesNav .botaoComecar {
+    padding: 0.5rem 0.95rem;
+    color: var(--cor-marca-contraste);
+    font-size: var(--texto-sm);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .botoesNav .botaoComecar:hover {
+        color: var(--cor-marca-contraste);
+    }
+}
+
+main > .tituloPrincipal,
+.comoFunciona,
+.infraCompleta,
+.talentos,
+.pronto {
+    width: 100%;
+    max-width: var(--largura-conteudo);
+    padding: 0 var(--espaco-6);
+    margin: 0 auto;
+}
+
+.tituloPrincipal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* svh e não dvh: o hero não muda de altura quando a barra de endereço
+       recolhe no meio da rolagem. */
+    justify-content: center;
+    min-height: 100svh;
+    padding-top: var(--espaco-16);
+    padding-bottom: var(--espaco-12);
+    text-align: center;
+}
+
+.tituloPrincipal h1 {
+    font-size: var(--texto-3xl);
+    line-height: var(--linha-apertada);
+    letter-spacing: var(--letra-display);
+}
+
+.subtituloPrincipal {
+    max-width: 58ch;
+    margin-top: var(--espaco-5);
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-md);
+    font-weight: var(--peso-normal);
+    line-height: var(--linha-corpo);
+    letter-spacing: var(--letra-corpo);
+}
+
+.botoesTituloPrincipal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-8);
+}
+
+.estatisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--espaco-4);
+    width: 100%;
+    max-width: 640px;
+    padding: var(--espaco-6) 0;
+    margin-top: var(--espaco-12);
+    border-top: 1px solid var(--cor-borda);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.estatisticas h1 {
+    font-size: var(--texto-2xl);
+    font-variant-numeric: tabular-nums;
+    color: var(--cor-marca);
+}
+
+.estatisticas h3 {
+    margin-top: var(--espaco-1);
+    color: var(--cor-texto-3);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-xs);
+    font-weight: var(--peso-medio);
+    letter-spacing: var(--letra-etiqueta);
+    text-transform: uppercase;
+}
+
+#botaoSetaBaixo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-top: var(--espaco-12);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-total);
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto-2);
+    transition: transform var(--tempo-rapido) var(--curva-saida),
+                border-color var(--tempo-rapido) ease;
+}
+
+#botaoSetaBaixo svg path {
+    fill: currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #botaoSetaBaixo:hover {
+        transform: translateY(3px);
+        border-color: var(--cor-marca-borda);
+        color: var(--cor-marca);
+    }
+}
+
+/* Espaçador invisível que serve de alvo pra âncora do menu, pra o título
+   da seção não ficar colado na barra de vidro. */
+.gapSlide {
+    height: var(--espaco-20);
+}
+
+.comoFunciona,
+.infraCompleta,
+.talentos,
+.pronto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: var(--espaco-16);
+    text-align: center;
+}
+
+.comoFunciona h1,
+.infraCompleta h1,
+.talentos h1,
+.pronto h1 {
+    font-size: var(--texto-2xl);
+}
+
+.comoFunciona > h3,
+.infraCompleta > h3,
+.talentos > h3,
+.pronto > h3 {
+    max-width: 56ch;
+    margin-top: var(--espaco-3);
+    margin-bottom: var(--espaco-10);
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-normal);
+    line-height: var(--linha-corpo);
+    letter-spacing: var(--letra-corpo);
+}
+
+.cards123 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--espaco-4);
+    width: 100%;
+    text-align: left;
+}
+
+.cards123 .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-6);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-lg);
+    background-color: var(--cor-superficie);
+    box-shadow: var(--luz-topo);
+    transition: transform var(--tempo-rapido) var(--curva-saida),
+                border-color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cards123 .card:hover {
+        transform: translateY(-3px);
+        border-color: var(--cor-marca-borda);
+    }
+}
+
+.cards123 .card h1 {
+    font-size: var(--texto-xl);
+    color: var(--cor-marca);
+    font-variant-numeric: tabular-nums;
+}
+
+.cards123 .card h2 {
+    font-size: var(--texto-md);
+}
+
+.cards123 .card h3 {
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-normal);
+    line-height: var(--linha-corpo);
+    letter-spacing: var(--letra-corpo);
+}
+
+.cardsTalento {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--espaco-3);
+    width: 100%;
+}
+
+.cardTalento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-3);
+    padding: var(--espaco-6) var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-lg);
+    background-color: var(--cor-superficie);
+    box-shadow: var(--luz-topo);
+    transition: transform var(--tempo-rapido) var(--curva-saida),
+                border-color var(--tempo-rapido) ease;
+}
+
+.cardTalento svg {
+    width: 26px;
+    height: 26px;
+    fill: var(--cor-marca);
+}
+
+.cardTalento h3 {
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-medio);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cardTalento:hover {
+        transform: translateY(-3px);
+        border-color: var(--cor-marca-borda);
+    }
+
+    .cardTalento:hover svg {
+        fill: var(--cor-marca-forte);
+    }
+}
+
+.pronto {
+    padding-top: var(--espaco-12);
+    padding-bottom: var(--espaco-24);
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--espaco-8) var(--espaco-6);
+    border-top: 1px solid var(--cor-borda);
+    background-color: var(--cor-superficie);
+}
+
+
+/* ===================================================================
+   Responsivo
+   =================================================================== */
+
+@media (max-width: 1000px) {
+    .conteudoPagina {
+        padding: var(--espaco-8) var(--espaco-5) var(--espaco-12);
+    }
+}
+
+@media (max-width: 860px) {
+    /* O menu lateral vira uma barra no topo, com os itens rolando de lado.
+       É o padrão que o celular espera, e não come largura do conteúdo. */
+    .layoutPagina {
+        flex-direction: column;
+    }
+
+    .menuLateral {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--espaco-4);
+        width: 100%;
+        height: auto;
+        padding: var(--espaco-3) var(--espaco-4);
+
+        /* O padding de baixo respeita o recorte da tela do celular. */
+        padding-top: calc(var(--espaco-3) + env(safe-area-inset-top, 0px));
+        border-right: none;
+        border-bottom: 1px solid var(--cor-borda);
+        background-color: var(--cor-vidro);
+        backdrop-filter: blur(16px) saturate(180%);
+    }
+
+    .menuLateral > div:first-child {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: var(--espaco-4);
+        min-width: 0;
+    }
+
+    .logoMenuLateral {
+        padding: 0;
+    }
+
+    .logoMenuLateral h3 {
+        display: none;
+    }
+
+    .navegacaoMenuLateral {
+        flex-direction: row;
+        flex: 1;
+        gap: var(--espaco-1);
+        overflow-x: auto;
+        scrollbar-width: none;
+        touch-action: pan-y;
+    }
+
+    .navegacaoMenuLateral::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Sem isso o último item do menu aparece cortado ao meio e parece bug.
+       Com o degradê, ele some suave e dá a dica de que a barra rola. */
+    .navegacaoMenuLateral,
+    .filtrosSkills {
+        mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    }
+
+    .itemMenuLateral {
+        padding: 0.5rem 0.7rem;
+        font-size: var(--texto-sm);
+        white-space: nowrap;
+    }
+
+    .pePainel {
+        flex-direction: row;
+    }
+
+    .botaoSair {
+        width: auto;
+        padding: 0.5rem 0.7rem;
+    }
+
+    .botaoSair span {
+        display: none;
+    }
+
+    .cabecalhoPerfil,
+    .cabecalhoProjeto {
+        flex-wrap: wrap;
+        gap: var(--espaco-4);
+    }
+
+    .avatarPerfil,
+    .avatarProjeto {
+        width: 56px;
+        height: 56px;
+        font-size: var(--texto-lg);
+    }
+
+    .botaoEditarPerfil {
+        width: 100%;
+    }
+}
+
+@media (max-width: 680px) {
+    .conteudoPagina {
+        padding: var(--espaco-6) var(--espaco-4) var(--espaco-12);
+    }
+
+    nav {
+        padding: var(--espaco-3) var(--espaco-4);
+    }
+
+    .mediaSumir {
+        display: none;
+    }
+
+    .tituloPrincipal,
+    .comoFunciona,
+    .infraCompleta,
+    .talentos,
+    .pronto {
+        padding-left: var(--espaco-4);
+        padding-right: var(--espaco-4);
+    }
+
+    .tituloPrincipal {
+        padding-top: var(--espaco-16);
+    }
+
+    .botoesTituloPrincipal a {
+        width: 100%;
+    }
+
+    .listaResultados {
+        grid-template-columns: 1fr;
+    }
+
+    .cardLogin {
+        padding: var(--espaco-6);
+    }
+
+    .mediaQuebrar {
+        display: block;
+    }
+
+    .gapSlide {
+        height: var(--espaco-12);
+    }
+
+    .itemMembro {
+        min-width: 100%;
+    }
+}
+
+
+/* ===================================================================
+   Destaques de texto
+   ===================================================================
+
+   Substituem as cores que estavam no atributo style da landing. Cor fixa
+   no HTML não sabe que existe tema claro.
+   =================================================================== */
+
+.destaqueMarca {
+    color: var(--cor-marca);
+}
+
+.destaqueAcento {
+    color: var(--cor-acento);
+}
+
+.topoLogin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    width: 100%;
+}
+
+/* ===================================================================
+   Utilitários
+   ===================================================================
+
+   Ficam no fim do último arquivo de propósito: regras com a mesma força
+   são decididas pela ordem, e esconder algo precisa ganhar de qualquer
+   display definido acima.
+   =================================================================== */
+
+.escondido {
+    display: none;
+}
