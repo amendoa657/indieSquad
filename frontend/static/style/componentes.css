@@ -124,6 +124,7 @@
 }
 
 .botaoCandidatar {
+    align-self: flex-start;
     width: auto;
     padding: 0.5rem 0.95rem;
     margin-top: var(--espaco-3);
@@ -1096,4 +1097,123 @@
     letter-spacing: var(--letra-miuda);
     text-transform: none;
     vertical-align: middle;
+}
+
+
+/* ===================================================================
+   Avaliação
+   =================================================================== */
+
+.explicacaoDuploCego {
+    max-width: var(--largura-leitura);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-left: 2px solid var(--cor-marca);
+    border-radius: 0 var(--raio-sm) var(--raio-sm) 0;
+    background-color: var(--cor-marca-fraca);
+    color: var(--cor-texto-2);
+    font-size: var(--texto-sm);
+}
+
+.listaAvaliacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+    gap: var(--espaco-4);
+}
+
+.campoNota {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+}
+
+.rotuloNota {
+    color: var(--cor-texto-2);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-medio);
+}
+
+/* As estrelas saem no HTML de 5 pra 1 e o row-reverse devolve a ordem certa
+   na tela. É isso que permite "~" alcançar as estrelas anteriores e acender
+   da primeira até a escolhida, sem nenhum JS. */
+.estrelas {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.estrelas input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.estrelas label {
+    padding: 0 2px;
+    color: var(--cor-borda-forte);
+    font-size: var(--texto-lg);
+    line-height: 1;
+    cursor: pointer;
+    transition: color var(--tempo-toque) ease, transform var(--tempo-toque) var(--curva-saida);
+}
+
+.estrelas input:checked ~ label {
+    color: var(--cor-aviso);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .estrelas:hover label {
+        color: var(--cor-borda-forte);
+    }
+
+    .estrelas label:hover,
+    .estrelas label:hover ~ label {
+        color: var(--cor-aviso);
+    }
+}
+
+.estrelas label:active {
+    transform: scale(1.18);
+}
+
+/* O anel de foco acompanha a estrela, senão quem navega por teclado não vê
+   onde está. */
+.estrelas input:focus-visible + label {
+    outline: 2px solid var(--cor-marca);
+    outline-offset: 2px;
+    border-radius: var(--raio-sm);
+}
+
+.avisoEspera {
+    padding: var(--espaco-3) var(--espaco-4);
+    border: 1px dashed var(--cor-borda-forte);
+    border-radius: var(--raio-sm);
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+.notasRecebidas {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-4);
+}
+
+.notaGrande {
+    font-family: var(--fonte-titulo);
+    font-size: var(--texto-2xl);
+    font-weight: var(--peso-pesado);
+    line-height: 1;
+    color: var(--cor-aviso);
+    font-variant-numeric: tabular-nums;
+}
+
+.detalheNotas {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--cor-texto-3);
+    font-size: var(--texto-xs);
+    font-variant-numeric: tabular-nums;
 }

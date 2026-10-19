@@ -1,0 +1,6 @@
+### A tela de avaliação de um projeto, do ponto de vista de quem está logado:
+### quem falta avaliar, o que já foi enviado e o que já liberou.
+GET {{baseUrl}}/projetos/3/avaliacoes
+Authorization: Bearer {{token}}
+
+###

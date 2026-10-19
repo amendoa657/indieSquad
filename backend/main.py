@@ -29,6 +29,7 @@ from controllers.candidaturaController import candidaturaBp
 from controllers.dashboardController import dashboardBp
 from controllers.buscaController import buscaBp
 from controllers.estatisticaController import estatisticaBp
+from controllers.avaliacaoController import avaliacaoBp
 
 
 app = Flask(__name__)
@@ -45,6 +46,7 @@ app.register_blueprint(candidaturaBp)
 app.register_blueprint(dashboardBp)
 app.register_blueprint(buscaBp)
 app.register_blueprint(estatisticaBp)
+app.register_blueprint(avaliacaoBp)
 
 db.init_app(app)
 

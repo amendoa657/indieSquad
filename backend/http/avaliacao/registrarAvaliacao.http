@@ -1,0 +1,17 @@
+### Avalia alguém que esteve no mesmo projeto que você.
+### Só funciona com o projeto concluído, e uma vez por pessoa por projeto.
+### A avaliação fica escondida até a outra pessoa enviar a dela.
+POST {{baseUrl}}/avaliacoes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "idProjeto": 3,
+  "idAvaliado": 4,
+  "notaComunicacao": 5,
+  "notaPrazo": 4,
+  "notaQualidade": 5,
+  "comentario": "Entregou antes do prazo e comunicou bem o tempo todo."
+}
+
+###

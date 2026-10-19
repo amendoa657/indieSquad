@@ -1,6 +1,18 @@
+import re
+
 from database.database import db
+from datetime import datetime, timedelta, timezone
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
+
+# Quantos dias depois de enviada a avaliacao e liberada mesmo que a outra
+# pessoa nunca responda. Sem esse prazo, quem nao avalia ninguem conseguiria
+# esconder pra sempre a avaliacao que recebeu.
+PRAZO_LIBERACAO_DIAS = 14
+
+NOTA_MINIMA = 1
+NOTA_MAXIMA = 5
+
 
 class Avaliacao(db.Model):
     __tablename__ = "avaliacao"
@@ -81,6 +93,14 @@ def buscarPorId(id):
 def salvar():
     db.session.commit()
 
+def notaValida(nota):
+    try:
+        numero = int(nota)
+    except (TypeError, ValueError):
+        return False
+
+    return NOTA_MINIMA <= numero <= NOTA_MAXIMA
+
 
 
 def mostrarAvaliacoes():
@@ -88,6 +108,9 @@ def mostrarAvaliacoes():
 
 def listarRecebidas(idAvaliado):
     return Avaliacao.query.filter_by(avaliado_id=idAvaliado).order_by(Avaliacao.dataCriacao.desc()).all()
+
+def listarPorProjeto(idProjeto):
+    return Avaliacao.query.filter_by(projeto_id=idProjeto).all()
 
 def buscarDoAvaliador(idAvaliador, idAvaliado, idProjeto):
     return Avaliacao.query.filter_by(
@@ -125,10 +148,44 @@ def removerAvaliacao(avaliacao):
 
 
 
-# Devolve a reputacao de um usuario: media geral, media de cada critario e
-# quantas avaliacoes ele recebeu.
+# ---------------------------------------------------------------------
+# Duplo-cego
+# ---------------------------------------------------------------------
+#
+# Uma avaliacao fica escondida ate as duas pessoas enviarem a delas, ou ate
+# passar o prazo.
+#
+# O problema que isso resolve: sem duplo-cego, quem avalia primeiro fica
+# exposto. A outra pessoa le a nota que recebeu e responde na mesma moeda, e
+# ai todo mundo aprende a dar nota alta pra nao levar nota baixa de volta. A
+# reputacao inteira perde o sentido. Escondendo as duas ate as duas chegarem,
+# ninguem avalia sabendo o que vai receber.
+
+def liberada(avaliacao):
+    # A reciproca existe: as duas pessoas ja se avaliaram nesse projeto.
+    if buscarDoAvaliador(avaliacao.avaliado_id, avaliacao.avaliador_id, avaliacao.projeto_id):
+        return True
+
+    # Ou o prazo acabou e a outra pessoa nunca respondeu.
+    if avaliacao.dataCriacao is None:
+        return False
+
+    limite = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=PRAZO_LIBERACAO_DIAS)
+
+    return avaliacao.dataCriacao <= limite
+
+
+def listarRecebidasLiberadas(idAvaliado):
+    return [avaliacao for avaliacao in listarRecebidas(idAvaliado) if liberada(avaliacao)]
+
+
+
+# A reputacao conta so o que ja foi liberado.
+#
+# Se avaliacao escondida entrasse na media, daria pra descobrir a nota pelo
+# tanto que a media mexeu, e o duplo-cego nao serviria pra nada.
 def reputacao(idAvaliado):
-    avaliacoes = listarRecebidas(idAvaliado)
+    avaliacoes = listarRecebidasLiberadas(idAvaliado)
     total = len(avaliacoes)
 
     if total == 0:

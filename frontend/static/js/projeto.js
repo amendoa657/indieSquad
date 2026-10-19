@@ -47,6 +47,151 @@ async function concluir() {
 }
 
 
+// ---------------------------------------------------------------------
+// Avaliação da equipe
+// ---------------------------------------------------------------------
+
+// Cinco estrelas por critério.
+//
+// O HTML sai na ordem de 5 pra 1 e o CSS inverte visualmente. É esse truque
+// que deixa "marcar a 3ª estrela acende as três primeiras" funcionar só com
+// CSS, sem um único evento de JS.
+function estrelas(criterio, idColega) {
+    const nome = `${criterio}-${idColega}`;
+
+    let html = `<div class="estrelas">`;
+
+    for (let valor = 5; valor >= 1; valor--) {
+        html += `
+            <input type="radio" name="${nome}" id="${nome}-${valor}" value="${valor}" ${valor === 5 ? "" : ""} />
+            <label for="${nome}-${valor}" title="${valor} de 5" aria-label="${valor} de 5">★</label>
+        `;
+    }
+
+    return html + `</div>`;
+}
+
+
+function campoNota(rotulo, criterio, idColega) {
+    return `
+        <div class="campoNota">
+            <span class="rotuloNota">${rotulo}</span>
+            ${estrelas(criterio, idColega)}
+        </div>
+    `;
+}
+
+
+function notaEscolhida(criterio, idColega) {
+    const marcado = document.querySelector(`input[name="${criterio}-${idColega}"]:checked`);
+
+    return marcado ? Number(marcado.value) : null;
+}
+
+
+async function avaliar(idColega) {
+    avisar("");
+
+    const comunicacao = notaEscolhida("comunicacao", idColega);
+    const prazo = notaEscolhida("prazo", idColega);
+    const qualidade = notaEscolhida("qualidade", idColega);
+
+    if (!comunicacao || !prazo || !qualidade) {
+        avisar("Dê uma nota pros três critérios antes de enviar.");
+        return;
+    }
+
+    const resposta = await pedir("/avaliacoes", "POST", {
+        idProjeto: Number(idProjeto),
+        idAvaliado: idColega,
+        notaComunicacao: comunicacao,
+        notaPrazo: prazo,
+        notaQualidade: qualidade,
+        comentario: pegar(`comentario-${idColega}`).value.trim(),
+    });
+
+    if (!resposta) return;
+
+    avisarSucesso(resposta.mensagem);
+    carregarAvaliacoes();
+}
+
+
+function cardColega(colega) {
+    const pessoa = colega.usuario;
+    const cabecalho = `
+        <div class="topoCardResultado">
+            <h2>
+                <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
+                ${escapar(pessoa.usuario)}
+            </h2>
+        </div>
+    `;
+
+    // Já recebi a avaliação dela: as duas enviaram, então as duas aparecem.
+    if (colega.recebida) {
+        const recebida = colega.recebida;
+
+        return `
+            <div class="cardResultado">
+                ${cabecalho}
+                <div class="notasRecebidas">
+                    <span class="notaGrande">${numero(recebida.nota, 0)}</span>
+                    <div class="detalheNotas">
+                        <span>Comunicação ${recebida.notaComunicacao}</span>
+                        <span>Prazo ${recebida.notaPrazo}</span>
+                        <span>Qualidade ${recebida.notaQualidade}</span>
+                    </div>
+                </div>
+                ${recebida.comentario ? `<p class="descricaoResultado">“${escapar(recebida.comentario)}”</p>` : ""}
+            </div>
+        `;
+    }
+
+    // Eu já avaliei, mas a outra pessoa ainda não. As duas ficam escondidas.
+    if (colega.esperandoResposta) {
+        return `
+            <div class="cardResultado">
+                ${cabecalho}
+                <p class="avisoEspera">
+                    Você já avaliou. A sua nota e a dela só aparecem quando ${escapar(pessoa.usuario)} também avaliar.
+                </p>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="cardResultado">
+            ${cabecalho}
+            ${campoNota("Comunicação", "comunicacao", pessoa.id)}
+            ${campoNota("Cumpriu prazos", "prazo", pessoa.id)}
+            ${campoNota("Qualidade da entrega", "qualidade", pessoa.id)}
+
+            <div class="campoFormulario">
+                <label for="comentario-${pessoa.id}">Comentário</label>
+                <textarea id="comentario-${pessoa.id}" placeholder="O que foi bom, o que daria pra melhorar..."></textarea>
+            </div>
+
+            <button type="button" class="botaoEnviar" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
+        </div>
+    `;
+}
+
+
+async function carregarAvaliacoes() {
+    const dados = await pedir(`/projetos/${idProjeto}/avaliacoes`);
+    if (!dados) return;
+
+    pegar("blocoAvaliacoes").classList.remove("escondido");
+
+    escrever("explicacaoDuploCego",
+        `A sua avaliação fica escondida até a outra pessoa enviar a dela, ou até passar ${dados.prazoLiberacaoDias} dias. ` +
+        `Assim ninguém avalia já sabendo que nota vai receber de volta.`);
+
+    listar("listaAvaliacoes", dados.colegas, cardColega, "Você foi o único participante desse projeto.");
+}
+
+
 async function carregarProjeto() {
     if (!idProjeto) {
         avisar("Nenhum projeto informado no endereço.");
@@ -134,6 +279,11 @@ async function carregarProjeto() {
             </div>
         `;
     }, "Nenhuma vaga cadastrada pra esse projeto.");
+
+    // A avaliação abre quando o projeto termina, e só pra quem esteve nele.
+    if (projeto.status === "concluido" && projeto.ehDaEquipe) {
+        carregarAvaliacoes();
+    }
 
     // Só o dono do projeto vê e responde as candidaturas.
     if (projeto.ehCriador) {

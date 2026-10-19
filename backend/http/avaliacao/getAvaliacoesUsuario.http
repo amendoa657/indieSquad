@@ -1,0 +1,5 @@
+### As avaliações que uma pessoa recebeu, com a reputação calculada.
+### Só aparecem as já liberadas pelo duplo-cego.
+GET {{baseUrl}}/usuarios/1/avaliacoes
+
+###
