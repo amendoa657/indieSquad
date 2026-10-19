@@ -4,14 +4,24 @@ from sqlalchemy.sql import func
 
 from models.membroProjeto import MembroProjeto
 
+# Os status que um projeto pode ter. "concluido" e o que libera a avaliacao
+# entre os membros.
+STATUS = ["ativo", "pausado", "concluido", "cancelado"]
+
+
 class Projeto(db.Model):
     __tablename__ = "projeto"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     nome = db.Column(db.String(90),  nullable=False)
     descricao = db.Column(MEDIUMTEXT, nullable=True)
-    status = db.Column(db.String(90), nullable=False)
+    status = db.Column(db.String(45), nullable=False)
+    genero = db.Column(db.String(45), nullable=True)
+    engine = db.Column(db.String(45), nullable=True)
+    tipoParceria = db.Column(db.String(45), nullable=True)
+    duracaoEstimada = db.Column(db.String(45), nullable=True)
     dataCriacao = db.Column(db.DateTime, default=func.now())
+    dataConclusao = db.Column(db.DateTime, nullable=True)
     logoProjeto = db.Column(db.String(255), nullable=True)
 
     criador_id = db.Column(
@@ -33,7 +43,21 @@ class Projeto(db.Model):
 
     vagas = db.relationship(
         "VagaProjeto",
-        back_populates="projetoCriador"
+        back_populates="projetoCriador",
+        cascade="all, delete-orphan"
+    )
+
+    marcos = db.relationship(
+        "MarcoProjeto",
+        back_populates="projeto",
+        cascade="all, delete-orphan",
+        order_by="MarcoProjeto.ordem"
+    )
+
+    avaliacoes = db.relationship(
+        "Avaliacao",
+        back_populates="projeto",
+        cascade="all, delete-orphan"
     )
 
 
@@ -45,7 +69,12 @@ def to_dict(self):
         "nome": self.nome,
         "status": self.status,
         "descricao": self.descricao,
+        "genero": self.genero,
+        "engine": self.engine,
+        "tipoParceria": self.tipoParceria,
+        "duracaoEstimada": self.duracaoEstimada,
         "dataCriacao": self.dataCriacao,
+        "dataConclusao": self.dataConclusao,
         "logoProjeto": self.logoProjeto,
         "criador_id": self.criador_id
     }
@@ -59,10 +88,13 @@ def salvar():
 
 
 def mostrarProjeto(id):
-    return Projeto.query.get(id)
+    return db.session.get(Projeto, id)
 
 def mostrarProjetos():
-    return Projeto.query.all()
+    return Projeto.query.order_by(Projeto.dataCriacao.desc()).all()
+
+def statusValido(status):
+    return status in STATUS
 
 
 
@@ -86,10 +118,39 @@ def removerProjeto(projeto):
 
     return f"Projeto {projeto.nome} removido com sucesso!"
 
+# Concluir o projeto fecha as vagas que ficaram abertas e marca a data, que e o
+# que libera a avaliacao entre quem trabalhou junto.
+def concluirProjeto(projeto):
+    projeto.status = "concluido"
+    projeto.dataConclusao = func.now()
+
+    for vaga in projeto.vagas:
+        if vaga.status == "aberta":
+            vaga.status = "fechada"
+
+    salvar()
+
+    return projeto
+
 
 
 def getMembrosProjeto(projeto):
     return projeto.membros
+
+# Devolve o vinculo de membro de um usuario, ou None se ele nao e da equipe.
+def buscarMembro(projeto, idUsuario):
+    for membro in projeto.membros:
+        if membro.usuario_id == int(idUsuario):
+            return membro
+
+    return None
+
+# O criador conta como parte da equipe, mesmo sem linha em membroProjeto.
+def ehDaEquipe(projeto, idUsuario):
+    if projeto.criador_id == int(idUsuario):
+        return True
+
+    return buscarMembro(projeto, idUsuario) is not None
 
 
 def adicionarMembro(projeto, membro):
@@ -102,3 +163,7 @@ def removerMembro(projeto, membro):
     salvar()
     return f"O membro {membro.usuario.usuario} foi removido com sucesso!"
 
+
+
+def getMarcosProjeto(projeto):
+    return projeto.marcos

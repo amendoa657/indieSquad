@@ -14,3 +14,18 @@ class MembroProjeto(db.Model):
 
     projeto = db.relationship("Projeto", back_populates="membros")
     usuario = db.relationship("Usuario", back_populates="participacoes")
+
+
+def to_dict(self):
+    return {
+        "usuario_id": self.usuario_id,
+        "projeto_id": self.projeto_id,
+        "cargo": self.cargo,
+        "dataEntrada": self.dataEntrada
+    }
+
+def buscarVinculo(idProjeto, idUsuario):
+    return MembroProjeto.query.filter_by(
+        projeto_id=idProjeto,
+        usuario_id=idUsuario
+    ).first()

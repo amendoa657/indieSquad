@@ -2,6 +2,11 @@ from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
 
+# "aberta" aceita candidatura, "preenchida" ja tem alguem, "fechada" foi
+# encerrada junto com o projeto.
+STATUS = ["aberta", "preenchida", "fechada"]
+
+
 class VagaProjeto(db.Model):
     __tablename__ = "vagaProjeto"
 
@@ -9,6 +14,7 @@ class VagaProjeto(db.Model):
     titulo = db.Column(db.String(45),  nullable=False)
     descricao = db.Column(MEDIUMTEXT, nullable=True)
     status = db.Column(db.String(45),  nullable=False)
+    nivelMinimo = db.Column(db.Integer, nullable=True)
     dataCriacao = db.Column(db.DateTime, default=func.now())
 
     projeto_id = db.Column(
@@ -38,7 +44,8 @@ class VagaProjeto(db.Model):
 
     candidaturasUsuarios = db.relationship(
         "CandidaturaUsuario",
-        back_populates="projetoVaga"
+        back_populates="projetoVaga",
+        cascade="all, delete-orphan"
     )
 
 
@@ -49,9 +56,11 @@ def to_dict(self):
         "titulo": self.titulo,
         "descricao": self.descricao,
         "status": self.status,
+        "nivelMinimo": self.nivelMinimo,
         "dataCriacao": self.dataCriacao,
         "projeto_id": self.projeto_id,
-        "skills_id": self.skills_id
+        "skills_id": self.skills_id,
+        "skillNome": self.skill.nome if self.skill else None
     }
 
 def buscarPorId(id):
@@ -60,21 +69,28 @@ def buscarPorId(id):
 def salvar():
     db.session.commit()
 
+def statusValido(status):
+    return status in STATUS
+
 
 
 def mostrarVagaProjeto(id):
-    return VagaProjeto.query.get(id)
+    return db.session.get(VagaProjeto, id)
 
 def mostrarVagaProjetos():
     return VagaProjeto.query.all()
 
+def listarPorProjeto(idProjeto):
+    return VagaProjeto.query.filter_by(projeto_id=idProjeto).order_by(VagaProjeto.dataCriacao).all()
 
 
-def registrarVagaProjeto(titulo, descricao, status, idProjeto, idSkill):
+
+def registrarVagaProjeto(titulo, descricao, status, idProjeto, idSkill, nivelMinimo=None):
     VagaProjetoTable = VagaProjeto(
         titulo=titulo,
         descricao=descricao,
         status=status,
+        nivelMinimo=nivelMinimo,
         projeto_id=idProjeto,
         skills_id=idSkill
     )
@@ -82,7 +98,7 @@ def registrarVagaProjeto(titulo, descricao, status, idProjeto, idSkill):
     db.session.add(VagaProjetoTable)
     salvar()
 
-    return f"Vaga de projeto registrada com sucesso"
+    return VagaProjetoTable
 
 def removerVagaProjeto(vagaProjeto):
     db.session.delete(vagaProjeto)
@@ -92,7 +108,7 @@ def removerVagaProjeto(vagaProjeto):
 
 
 
+# O relacionamento da vaga com o projeto se chama projetoCriador. Antes essa
+# funcao devolvia vagaProjeto.projeto, que nao existe, e quebrava.
 def getProjeto(vagaProjeto):
-    return vagaProjeto.projeto
-
-
+    return vagaProjeto.projetoCriador

@@ -4,7 +4,8 @@ class Skills(db.Model):
     __tablename__ = "skills"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nome = db.Column(db.String(90),  nullable=False)
+    nome = db.Column(db.String(90),  nullable=False, unique=True)
+    categoria = db.Column(db.String(45), nullable=False, default="Outro")
 
     usuarios = db.relationship(
         "SkillUsuario",
@@ -20,7 +21,8 @@ class Skills(db.Model):
 def to_dict(self):
     return {
         "id": self.id,
-        "nome": self.nome
+        "nome": self.nome,
+        "categoria": self.categoria
     }
 
 def buscarPorId(id):
@@ -30,14 +32,18 @@ def salvar():
     db.session.commit()
 
 def getSkill(id):
-    return Skills.query.get(id)
+    return db.session.get(Skills, id)
 
 def getSkills():
-    return Skills.query.all()
+    return Skills.query.order_by(Skills.categoria, Skills.nome).all()
 
-def registrarSkill(nome):
+def buscarPorNome(nome):
+    return Skills.query.filter_by(nome=nome).first()
+
+def registrarSkill(nome, categoria="Outro"):
     skillsTable = Skills(
-        nome=nome
+        nome=nome,
+        categoria=categoria
     )
 
     db.session.add(skillsTable)
@@ -53,4 +59,3 @@ def deletarSkill(skill):
 
 def getSkillUsuarios(skill):
     return skill.usuarios
-

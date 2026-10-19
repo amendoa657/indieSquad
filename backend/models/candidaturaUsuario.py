@@ -2,6 +2,9 @@ from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
 
+STATUS = ["pendente", "aceita", "recusada"]
+
+
 class CandidaturaUsuario(db.Model):
     __tablename__ = "candidaturaUsuario"
 
@@ -60,26 +63,41 @@ def buscarPorId(id):
 def salvar():
     db.session.commit()
 
+def statusValido(status):
+    return status in STATUS
+
 
 
 def mostrarCandidatura(id):
-    return CandidaturaUsuario.query.get(id)
+    return db.session.get(CandidaturaUsuario, id)
 
 def mostrarCandidaturas():
     return CandidaturaUsuario.query.all()
 
+def listarPorUsuario(idUsuario):
+    return CandidaturaUsuario.query.filter_by(usuario_id=idUsuario).order_by(CandidaturaUsuario.dataCriacao.desc()).all()
+
+def listarPorVaga(idVaga):
+    return CandidaturaUsuario.query.filter_by(vagaProjeto_id=idVaga).all()
+
+def buscarDoUsuarioNaVaga(idUsuario, idVaga):
+    return CandidaturaUsuario.query.filter_by(usuario_id=idUsuario, vagaProjeto_id=idVaga).first()
 
 
-def registrarCandidatura(mensagem, status, idVagaProjeto, idUsuario):
+
+# O status nunca vem do front: toda candidatura nasce pendente.
+def registrarCandidatura(mensagem, idVagaProjeto, idUsuario):
     CandidaturaTable = CandidaturaUsuario(
         mensagem=mensagem,
-        status=status,
+        status="pendente",
         vagaProjeto_id=idVagaProjeto,
         usuario_id=idUsuario
     )
 
     db.session.add(CandidaturaTable)
     salvar()
+
+    return CandidaturaTable
 
 def removerCandidatura(candidatura):
     db.session.delete(candidatura)
@@ -88,5 +106,4 @@ def removerCandidatura(candidatura):
 
 
 def getProjeto(candidatura):
-    return candidatura.projetoVaga
-
+    return candidatura.projetoVaga.projetoCriador
