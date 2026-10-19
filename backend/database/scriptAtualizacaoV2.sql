@@ -5,6 +5,14 @@
 --
 -- Rode os blocos de cima pra baixo, na ordem.
 
+-- Declara a codificacao do arquivo antes de qualquer coisa.
+--
+-- Sem essa linha, o cliente do MySQL usa a codificacao padrao dele (que em
+-- muita maquina e latin1) e grava os acentos errados: o banco fica com
+-- "ProduÃ§Ã£o" no lugar de "Produção". O terminal ainda mostra certo, porque
+-- le de volta com a mesma codificacao errada, mas a API mostra o lixo.
+SET NAMES utf8mb4;
+
 use indieSquad;
 
 

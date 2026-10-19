@@ -15,7 +15,7 @@ class Config:
     # console que roda codigo no servidor pra quem acessar a pagina de erro.
     DEBUG = os.getenv("DEBUG", "1") == "1"
 
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "mysql+pymysql://root@localhost/indieSquad")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "mysql+pymysql://root@localhost/indieSquad?charset=utf8mb4")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Enderecos do front que tem permissao pra chamar essa API.
