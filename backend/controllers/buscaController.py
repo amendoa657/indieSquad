@@ -5,14 +5,24 @@ from services.projetoService.buscarProjetosPublicoService import BuscarProjetosP
 
 class BuscaController:
     def profissionais(self):
-        skillNome = request.args.get("skill")
         service = BuscarProfissionaisService()
-        return service.execute(skillNome)
+        return service.execute(
+            request.args.get("skill"),
+            request.args.get("q"),
+            request.args.get("objetivo"),
+            request.args.get("tipoColaboracao"),
+            request.args.get("horasMinimas")
+        )
 
     def projetos(self):
-        termo = request.args.get("q")
         service = BuscarProjetosPublicoService()
-        return service.execute(termo)
+        return service.execute(
+            request.args.get("q"),
+            request.args.get("genero"),
+            request.args.get("engine"),
+            request.args.get("tipoParceria"),
+            request.args.get("status")
+        )
 
 
 buscaBp = Blueprint("busca", __name__)

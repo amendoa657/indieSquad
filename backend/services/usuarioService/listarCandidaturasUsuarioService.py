@@ -1,9 +1,14 @@
 import models.candidaturaUsuario as c
+from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
 
 
 class ListarCandidaturasUsuarioService:
     def execute(self, idUsuario):
-        candidaturas = c.CandidaturaUsuario.query.filter_by(usuario_id=idUsuario).all()
+        # As candidaturas de uma pessoa sao dado privado dela.
+        if not ehOProprio(idUsuario):
+            return ERRO_NAO_E_VOCE
+
+        candidaturas = c.listarPorUsuario(idUsuario)
 
         resultado = []
         for candidatura in candidaturas:
@@ -17,11 +22,13 @@ class ListarCandidaturasUsuarioService:
                 "dataCriacao": candidatura.dataCriacao,
                 "vaga": {
                     "id": vaga.id,
-                    "titulo": vaga.titulo
+                    "titulo": vaga.titulo,
+                    "status": vaga.status
                 } if vaga else None,
                 "projeto": {
                     "id": projeto.id,
-                    "nome": projeto.nome
+                    "nome": projeto.nome,
+                    "status": projeto.status
                 } if projeto else None
             })
 

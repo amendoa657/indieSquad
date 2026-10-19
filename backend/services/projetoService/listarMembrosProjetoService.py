@@ -9,4 +9,10 @@ class ListarMembrosProjetoService:
         if projeto is None:
             return {"erro": "Projeto nao encontrado"}, 404
 
-        return [u.to_dict(membro.usuario) for membro in p.getMembrosProjeto(projeto)]
+        # O criador aparece primeiro, com o cargo dele, e depois a equipe.
+        equipe = [dict(u.to_dict(projeto.criador), cargo="Criador")]
+
+        for membro in p.getMembrosProjeto(projeto):
+            equipe.append(dict(u.to_dict(membro.usuario), cargo=membro.cargo or "Membro"))
+
+        return equipe, 200

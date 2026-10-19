@@ -9,4 +9,4 @@ class BuscarSkillVagaService:
         if vaga is None:
             return {"erro": "Vaga nao encontrada"}, 404
 
-        return s.to_dict(vaga.skill)
+        return s.to_dict(vaga.skill), 200

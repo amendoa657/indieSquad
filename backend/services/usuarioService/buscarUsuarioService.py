@@ -1,4 +1,5 @@
 import models.usuario as u
+from middlewares.autenticacao import ehOProprio
 
 
 class BuscarUsuarioService:
@@ -8,4 +9,8 @@ class BuscarUsuarioService:
         if usuario is None:
             return {"erro": "Usuario nao encontrado"}, 404
 
-        return u.to_dict(usuario)
+        # O e-mail so sai quando a pessoa pede os proprios dados.
+        if ehOProprio(id):
+            return u.to_dictCompleto(usuario), 200
+
+        return u.to_dict(usuario), 200

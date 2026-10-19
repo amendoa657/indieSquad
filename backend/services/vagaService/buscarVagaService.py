@@ -8,4 +8,4 @@ class BuscarVagaService:
         if vaga is None:
             return {"erro": "Vaga nao encontrada"}, 404
 
-        return v.to_dict(vaga)
+        return v.to_dict(vaga), 200

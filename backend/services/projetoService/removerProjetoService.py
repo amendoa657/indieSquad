@@ -1,4 +1,5 @@
 import models.projetos as p
+from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
 
 
 class RemoverProjetoService:
@@ -8,4 +9,10 @@ class RemoverProjetoService:
         if projeto is None:
             return {"erro": "Projeto nao encontrado"}, 404
 
-        return p.removerProjeto(projeto)
+        if not ehDonoDoProjeto(projeto):
+            return ERRO_NAO_E_DONO
+
+        nome = projeto.nome
+        p.removerProjeto(projeto)
+
+        return {"mensagem": f"Projeto {nome} removido com sucesso!"}, 200

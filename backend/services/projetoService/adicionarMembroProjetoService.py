@@ -1,6 +1,7 @@
 import models.projetos as p
 import models.usuario as u
 from models.membroProjeto import MembroProjeto
+from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
 
 
 class AdicionarMembroProjetoService:
@@ -17,14 +18,22 @@ class AdicionarMembroProjetoService:
         if usuario is None:
             return {"erro": "Usuario nao encontrado"}, 404
 
+        if not ehDonoDoProjeto(projeto):
+            return ERRO_NAO_E_DONO
+
+        if projeto.criador_id == usuario.id:
+            return {"erro": "O criador ja faz parte da equipe"}, 409
+
         for membro in projeto.membros:
             if membro.usuario.id == usuario.id:
-                return {"erro": "Esse Usuario ja é membro do projeto"}, 409
+                return {"erro": "Esse Usuario ja e membro do projeto"}, 409
 
         membro = MembroProjeto(
             projeto=projeto,
             usuario=usuario,
-            cargo="MEMBRO"
+            cargo="Membro"
         )
 
-        return p.adicionarMembro(projeto, membro)
+        p.adicionarMembro(projeto, membro)
+
+        return {"mensagem": f"O membro {usuario.usuario} foi adicionado com sucesso!"}, 201

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from services.vagaService.listarVagasService import ListarVagasService
 from services.vagaService.buscarVagaService import BuscarVagaService
 from services.vagaService.registrarVagaService import RegistrarVagaService
@@ -6,45 +6,49 @@ from services.vagaService.atualizarVagaService import AtualizarVagaService
 from services.vagaService.deletarVagaService import DeletarVagaService
 from services.vagaService.buscarProjetoVagaService import BuscarProjetoVagaService
 from services.vagaService.buscarSkillVagaService import BuscarSkillVagaService
+from middlewares.autenticacao import exigirLogin
 
 
 class VagaProjetoController:
     def listar(self):
         service = ListarVagasService()
-        return jsonify(service.execute())
+        return service.execute()
 
     def buscar(self, id):
         service = BuscarVagaService()
-        return jsonify(service.execute(id))
+        return service.execute(id)
 
+    @exigirLogin
     def registrar(self):
         service = RegistrarVagaService()
-        return service.execute(request.json)
+        return service.execute(request.get_json(silent=True))
 
+    @exigirLogin
     def atualizar(self, id):
         service = AtualizarVagaService()
-        return service.execute(id, request.json)
+        return service.execute(id, request.get_json(silent=True))
 
+    @exigirLogin
     def deletar(self, id):
         service = DeletarVagaService()
         return service.execute(id)
 
     def buscarProjeto(self, id):
         service = BuscarProjetoVagaService()
-        return jsonify(service.execute(id))
+        return service.execute(id)
 
     def buscarSkill(self, id):
         service = BuscarSkillVagaService()
-        return jsonify(service.execute(id))
+        return service.execute(id)
 
 
 vagaBp = Blueprint("vagaProjeto", __name__)
 _controller = VagaProjetoController()
 
 vagaBp.add_url_rule("/vagas", view_func=_controller.listar, methods=["GET"])
-vagaBp.add_url_rule("/vagas/<id>", view_func=_controller.buscar, methods=["GET"])
+vagaBp.add_url_rule("/vagas/<int:id>", view_func=_controller.buscar, methods=["GET"])
 vagaBp.add_url_rule("/vagas", view_func=_controller.registrar, methods=["POST"], endpoint="registrarVaga")
-vagaBp.add_url_rule("/vagas/<id>", view_func=_controller.atualizar, methods=["PUT"], endpoint="atualizarVaga")
-vagaBp.add_url_rule("/vagas/<id>", view_func=_controller.deletar, methods=["DELETE"], endpoint="deletarVaga")
-vagaBp.add_url_rule("/vagas/<id>/projeto", view_func=_controller.buscarProjeto, methods=["GET"])
-vagaBp.add_url_rule("/vagas/<id>/skill", view_func=_controller.buscarSkill, methods=["GET"])
+vagaBp.add_url_rule("/vagas/<int:id>", view_func=_controller.atualizar, methods=["PUT"], endpoint="atualizarVaga")
+vagaBp.add_url_rule("/vagas/<int:id>", view_func=_controller.deletar, methods=["DELETE"], endpoint="deletarVaga")
+vagaBp.add_url_rule("/vagas/<int:id>/projeto", view_func=_controller.buscarProjeto, methods=["GET"])
+vagaBp.add_url_rule("/vagas/<int:id>/skill", view_func=_controller.buscarSkill, methods=["GET"])

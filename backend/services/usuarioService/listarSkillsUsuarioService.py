@@ -1,5 +1,5 @@
 import models.usuario as u
-import models.skills as s
+import models.skillUsuario as su
 
 
 class ListarSkillsUsuarioService:
@@ -9,4 +9,4 @@ class ListarSkillsUsuarioService:
         if usuario is None:
             return {"erro": "Usuario nao encontrado"}, 404
 
-        return [s.to_dict(skillU.skills) for skillU in u.getSkillsUsuario(usuario)]
+        return [su.to_dict(skillU) for skillU in u.getSkillsUsuario(usuario)], 200
