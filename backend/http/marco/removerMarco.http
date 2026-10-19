@@ -1,0 +1,5 @@
+### Apaga um marco do projeto.
+DELETE {{baseUrl}}/marcos/{{idMarco}}
+Authorization: Bearer {{token}}
+
+###

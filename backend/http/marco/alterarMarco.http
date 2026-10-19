@@ -1,0 +1,10 @@
+### Marca o marco como concluido, ou renomeia.
+PATCH {{baseUrl}}/marcos/{{idMarco}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "concluido": true
+}
+
+###

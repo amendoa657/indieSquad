@@ -3,6 +3,7 @@ protegerPagina();
 
 
 const idProjeto = parametro("id");
+let skillsDoBanco = [];
 
 
 async function candidatar(idVaga) {
@@ -185,6 +186,140 @@ async function carregarAvaliacoes() {
 }
 
 
+// gerenciar projeto
+
+function abrirEdicao() {
+    pegar("blocoEdicaoProjeto").classList.toggle("escondido");
+}
+
+
+async function apagarProjeto() {
+    if (!confirm("Apagar o projeto? Isso remove as vagas, as candidaturas e a equipe junto.")) {
+        return;
+    }
+
+    const resposta = await pedir(`/projetos/${idProjeto}`, "DELETE");
+    if (!resposta) return;
+
+    irPara("dashboard.html");
+}
+
+
+async function carregarSkills() {
+    if (skillsDoBanco.length > 0) return;
+
+    skillsDoBanco = (await pedir("/skills")) || [];
+
+    pegar("campoVagaSkill").innerHTML =
+        `<option value="">Escolhe uma função...</option>` +
+        skillsDoBanco.map((skill) => `<option value="${skill.id}">${escapar(skill.nome)}</option>`).join("");
+}
+
+
+async function criarVaga() {
+    avisar("");
+
+    const idSkill = Number(pegar("campoVagaSkill").value);
+
+    if (!idSkill) {
+        avisar("Escolhe a função que a vaga pede.");
+        return;
+    }
+
+    const skill = skillsDoBanco.find((item) => item.id === idSkill);
+    const nivel = pegar("campoVagaNivel").value;
+
+    const resposta = await pedir("/vagas", "POST", {
+        titulo: skill.nome,
+        descricao: valor("campoVagaDescricao"),
+        idProjeto: Number(idProjeto),
+        idSkill: idSkill,
+        nivelMinimo: nivel ? Number(nivel) : null,
+    });
+
+    if (!resposta) return;
+
+    pegar("campoVagaDescricao").value = "";
+    pegar("campoVagaSkill").value = "";
+    avisarSucesso("Vaga aberta.");
+    carregarProjeto();
+}
+
+
+async function fecharVaga(idVaga) {
+    const resposta = await pedir(`/vagas/${idVaga}`, "PUT", { status: "fechada" });
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
+async function reabrirVaga(idVaga) {
+    const resposta = await pedir(`/vagas/${idVaga}`, "PUT", { status: "aberta" });
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
+async function apagarVaga(idVaga) {
+    if (!confirm("Apagar essa vaga? As candidaturas dela somem junto.")) {
+        return;
+    }
+
+    const resposta = await pedir(`/vagas/${idVaga}`, "DELETE");
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
+async function tirarMembro(idUsuario, nome) {
+    if (!confirm(`Tirar ${nome} da equipe?`)) {
+        return;
+    }
+
+    const resposta = await pedir(`/projetos/${idProjeto}/membros/${idUsuario}`, "DELETE");
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
+async function criarMarco() {
+    avisar("");
+
+    const titulo = valor("campoNovoMarco");
+
+    if (!titulo) {
+        avisar("Escreve o nome do marco.");
+        return;
+    }
+
+    const resposta = await pedir(`/projetos/${idProjeto}/marcos`, "POST", { titulo: titulo });
+    if (!resposta) return;
+
+    pegar("campoNovoMarco").value = "";
+    carregarProjeto();
+}
+
+
+async function alternarMarco(idMarco, concluido) {
+    const resposta = await pedir(`/marcos/${idMarco}`, "PATCH", { concluido: !concluido });
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
+async function apagarMarco(idMarco) {
+    const resposta = await pedir(`/marcos/${idMarco}`, "DELETE");
+    if (!resposta) return;
+
+    carregarProjeto();
+}
+
+
 async function carregarProjeto() {
     if (!idProjeto) {
         avisar("Nenhum projeto informado no endereço.");
@@ -223,21 +358,38 @@ async function carregarProjeto() {
 
     if (pegar("marcosProjeto")) {
         listar("marcosProjeto", projeto.marcos, function (marco) {
+            // o dono marca e desmarca o marco clicando na caixa
+            const caixa = projeto.ehCriador
+                ? `<span class="caixaMarco caixaMarcoClicavel" onclick="alternarMarco(${marco.id}, ${marco.concluido})" title="Marcar como concluído">${marco.concluido ? "✓" : ""}</span>`
+                : `<span class="caixaMarco">${marco.concluido ? "✓" : ""}</span>`;
+
+            const acoes = projeto.ehCriador
+                ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="apagarMarco(${marco.id})">Apagar</button></div>`
+                : "";
+
             return `
                 <div class="itemMarco ${marco.concluido ? "marcoConcluido" : ""}">
-                    <span class="caixaMarco">${marco.concluido ? "✓" : ""}</span>
+                    ${caixa}
                     ${escapar(marco.titulo)}
+                    ${acoes}
                 </div>
             `;
         }, "Nenhum marco definido.");
     }
 
     listar("listaMembros", membros, function (membro) {
+        const ehCriadorDoProjeto = membro.id === projeto.criador.id;
+
+        const acoes = projeto.ehCriador && !ehCriadorDoProjeto
+            ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="event.stopPropagation(); tirarMembro(${membro.id}, '${escapar(membro.usuario).replace(/'/g, "")}')">Tirar</button></div>`
+            : "";
+
         return `
             <div class="itemMembro cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(membro.handle)}')">
                 <span class="avatarMembro">${escapar(membro.usuario.charAt(0).toUpperCase())}</span>
                 ${escapar(membro.usuario)}
                 <span class="cargoMembro">${escapar(membro.cargo)}</span>
+                ${acoes}
             </div>
         `;
     }, "Ninguém na equipe ainda.");
@@ -254,6 +406,15 @@ async function carregarProjeto() {
             acao = `<button type="button" class="botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
         }
 
+        const acoesDono = projeto.ehCriador
+            ? `<div class="acoesItem">
+                   ${vaga.status === "aberta"
+                       ? `<button type="button" class="botaoMiudo" onclick="fecharVaga(${vaga.id})">Fechar</button>`
+                       : `<button type="button" class="botaoMiudo" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
+                   <button type="button" class="botaoMiudo botaoPerigo" onclick="apagarVaga(${vaga.id})">Apagar</button>
+               </div>`
+            : "";
+
         return `
             <div class="cardResultado">
                 <div class="topoCardResultado">
@@ -266,6 +427,7 @@ async function carregarProjeto() {
                     ${nivel}
                 </div>
                 ${acao}
+                ${acoesDono}
             </div>
         `;
     }, "Nenhuma vaga cadastrada pra esse projeto.");
@@ -280,10 +442,27 @@ async function carregarProjeto() {
         pegar("blocoCandidaturas").classList.remove("escondido");
         mostrarCandidaturas();
 
-        if (pegar("blocoDono")) {
-            pegar("blocoDono").classList.remove("escondido");
-            pegar("botaoConcluir").disabled = projeto.status === "concluido";
+        pegar("blocoDono").classList.remove("escondido");
+        pegar("botaoConcluir").disabled = projeto.status === "concluido";
+        pegar("blocoNovaVaga").classList.remove("escondido");
+        pegar("blocoNovoMarco").classList.remove("escondido");
+
+        pegar("campoNomeProjeto").value = projeto.nome || "";
+        pegar("campoDescricaoProjeto").value = projeto.descricao || "";
+        pegar("campoGeneroProjeto").value = projeto.genero || "";
+        pegar("campoEngineProjeto").value = projeto.engine || "";
+        pegar("campoDuracaoProjeto").value = projeto.duracaoEstimada || "";
+
+        if (projeto.tipoParceria) {
+            pegar("campoParceriaProjeto").value = projeto.tipoParceria;
         }
+
+        // projeto concluido nao volta pra ativo por aqui
+        if (projeto.status !== "concluido") {
+            pegar("campoStatusProjeto").value = projeto.status;
+        }
+
+        carregarSkills();
     }
 }
 
@@ -329,5 +508,28 @@ async function mostrarCandidaturas() {
         `;
     }, "Ninguém se candidatou ainda.");
 }
+
+pegar("formProjeto").onsubmit = async function (evento) {
+    evento.preventDefault();
+    avisar("");
+    avisarSucesso("");
+
+    const resposta = await pedir(`/projetos/${idProjeto}`, "PATCH", {
+        nome: valor("campoNomeProjeto"),
+        descricao: valor("campoDescricaoProjeto"),
+        status: pegar("campoStatusProjeto").value,
+        genero: valor("campoGeneroProjeto"),
+        engine: valor("campoEngineProjeto"),
+        tipoParceria: pegar("campoParceriaProjeto").value,
+        duracaoEstimada: valor("campoDuracaoProjeto"),
+    });
+
+    if (!resposta) return;
+
+    avisarSucesso("Projeto atualizado.");
+    pegar("blocoEdicaoProjeto").classList.add("escondido");
+    carregarProjeto();
+};
+
 
 carregarProjeto();

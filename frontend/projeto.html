@@ -109,8 +109,98 @@
 
                 <div class="blocoSecao escondido" id="blocoDono">
                     <h3>Gerenciar projeto</h3>
-                    <button type="button" class="botaoEditarPerfil" id="botaoConcluir" onclick="concluir()">Concluir projeto</button>
+
+                    <div class="linhaAcoesDono">
+                        <button type="button" class="botaoEditarPerfil" onclick="abrirEdicao()">Editar projeto</button>
+                        <button type="button" class="botaoEditarPerfil" id="botaoConcluir" onclick="concluir()">Concluir projeto</button>
+                        <button type="button" class="botaoEditarPerfil botaoPerigo" onclick="apagarProjeto()">Apagar projeto</button>
+                    </div>
                     <small class="dicaCampo">Concluir fecha as vagas abertas e libera a avaliação entre a equipe</small>
+
+                    <div class="escondido" id="blocoEdicaoProjeto">
+                        <form id="formProjeto">
+                            <div class="campoFormulario">
+                                <label for="campoNomeProjeto">Nome</label>
+                                <input type="text" id="campoNomeProjeto" required />
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoDescricaoProjeto">Descrição</label>
+                                <textarea id="campoDescricaoProjeto"></textarea>
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoStatusProjeto">Status</label>
+                                <select id="campoStatusProjeto">
+                                    <option value="ativo">Ativo</option>
+                                    <option value="pausado">Pausado</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoGeneroProjeto">Gênero</label>
+                                <input type="text" id="campoGeneroProjeto" />
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoEngineProjeto">Engine</label>
+                                <input type="text" id="campoEngineProjeto" />
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoParceriaProjeto">Tipo de parceria</label>
+                                <select id="campoParceriaProjeto">
+                                    <option value="portfolio">Portfólio</option>
+                                    <option value="revenueShare">Divisão de lucro</option>
+                                    <option value="remunerado">Remunerado</option>
+                                </select>
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="campoDuracaoProjeto">Duração estimada</label>
+                                <input type="text" id="campoDuracaoProjeto" />
+                            </div>
+
+                            <button type="submit" class="botaoEnviar">Salvar projeto</button>
+                        </form>
+                    </div>
+
+                    <div class="escondido" id="blocoNovaVaga">
+                        <h3>Abrir vaga</h3>
+
+                        <div class="campoFormulario">
+                            <label for="campoVagaSkill">Função</label>
+                            <select id="campoVagaSkill"></select>
+                        </div>
+
+                        <div class="campoFormulario">
+                            <label for="campoVagaNivel">Nível mínimo</label>
+                            <select id="campoVagaNivel">
+                                <option value="">Qualquer nível</option>
+                                <option value="1">Iniciante</option>
+                                <option value="2">Intermediário</option>
+                                <option value="3">Avançado</option>
+                                <option value="4">Especialista</option>
+                            </select>
+                        </div>
+
+                        <div class="campoFormulario">
+                            <label for="campoVagaDescricao">O que a pessoa vai fazer</label>
+                            <textarea id="campoVagaDescricao" placeholder="Descreva a vaga em poucas linhas..."></textarea>
+                        </div>
+
+                        <button type="button" class="botaoEnviar" onclick="criarVaga()">Abrir vaga</button>
+                    </div>
+
+                    <div class="escondido" id="blocoNovoMarco">
+                        <h3>Add marco</h3>
+
+                        <div class="linhaLink">
+                            <input type="text" id="campoNovoMarco" placeholder="Ex: Demo na Steam" />
+                            <button type="button" class="botaoEnviar" onclick="criarMarco()">Add</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="blocoSecao">

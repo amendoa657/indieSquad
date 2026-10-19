@@ -1166,3 +1166,71 @@
         color: var(--cor-marca-forte);
     }
 }
+
+
+/* acoes de dono, lado a lado */
+.linhaAcoesDono {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}
+
+.botaoPerigo {
+    border-color: var(--cor-erro-fraca);
+    color: var(--cor-erro);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .botaoPerigo:hover {
+        border-color: var(--cor-erro);
+        background-color: var(--cor-erro-fraca);
+        color: var(--cor-erro);
+    }
+}
+
+/* botoes pequenos no canto de um item que o dono gerencia */
+.acoesItem {
+    display: flex;
+    gap: var(--espaco-2);
+    margin-top: var(--espaco-2);
+}
+
+.botaoMiudo {
+    padding: 0.28rem 0.6rem;
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-sm);
+    background-color: var(--cor-superficie-2);
+    color: var(--cor-texto-2);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-xs);
+    font-weight: var(--peso-medio);
+    cursor: pointer;
+    transition: transform var(--tempo-toque) var(--curva-saida),
+                border-color var(--tempo-rapido) ease,
+                color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .botaoMiudo:hover {
+        border-color: var(--cor-marca-borda);
+        color: var(--cor-texto);
+    }
+
+    .botaoMiudo.botaoPerigo:hover {
+        border-color: var(--cor-erro);
+        color: var(--cor-erro);
+    }
+}
+
+.botaoMiudo:active {
+    transform: scale(0.96);
+}
+
+/* o marco vira botao quando o dono pode marcar como concluido */
+.caixaMarcoClicavel {
+    cursor: pointer;
+}
+
+.itemMarco .acoesItem {
+    margin: 0 0 0 auto;
+}

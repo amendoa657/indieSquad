@@ -1,0 +1,12 @@
+### Add um marco ao projeto. So o criador consegue.
+POST {{baseUrl}}/projetos/{{idProjeto}}/marcos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "titulo": "Demo na Steam"
+}
+
+> {% client.global.set("idMarco", response.body.id); %}
+
+###

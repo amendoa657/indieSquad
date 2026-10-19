@@ -11,6 +11,9 @@ from services.projetoService.removerMembroProjetoService import RemoverMembroPro
 from services.projetoService.buscarCriadorProjetoService import BuscarCriadorProjetoService
 from services.projetoService.listarVagasProjetoService import ListarVagasProjetoService
 from services.projetoService.listarCandidaturasProjetoService import ListarCandidaturasProjetoService
+from services.projetoService.adicionarMarcoProjetoService import AdicionarMarcoProjetoService
+from services.projetoService.atualizarMarcoProjetoService import AtualizarMarcoProjetoService
+from services.projetoService.removerMarcoProjetoService import RemoverMarcoProjetoService
 from middlewares.autenticacao import exigirLogin
 
 
@@ -70,6 +73,21 @@ class ProjetoController:
         service = ListarCandidaturasProjetoService()
         return service.execute(id)
 
+    @exigirLogin
+    def adicionarMarco(self, id):
+        service = AdicionarMarcoProjetoService()
+        return service.execute(id, request.get_json(silent=True))
+
+    @exigirLogin
+    def atualizarMarco(self, idMarco):
+        service = AtualizarMarcoProjetoService()
+        return service.execute(idMarco, request.get_json(silent=True))
+
+    @exigirLogin
+    def removerMarco(self, idMarco):
+        service = RemoverMarcoProjetoService()
+        return service.execute(idMarco)
+
 
 projetoBp = Blueprint("projetos", __name__)
 _controller = ProjetoController()
@@ -86,3 +104,6 @@ projetoBp.add_url_rule("/projetos/<int:idProjeto>/membros/<int:idUsuario>", view
 projetoBp.add_url_rule("/projetos/<int:id>/criador", view_func=_controller.buscarCriador, methods=["GET"])
 projetoBp.add_url_rule("/projetos/<int:id>/vagas", view_func=_controller.listarVagas, methods=["GET"])
 projetoBp.add_url_rule("/projetos/<int:id>/candidaturas", view_func=_controller.listarCandidaturas, methods=["GET"])
+projetoBp.add_url_rule("/projetos/<int:id>/marcos", view_func=_controller.adicionarMarco, methods=["POST"])
+projetoBp.add_url_rule("/marcos/<int:idMarco>", view_func=_controller.atualizarMarco, methods=["PATCH"])
+projetoBp.add_url_rule("/marcos/<int:idMarco>", view_func=_controller.removerMarco, methods=["DELETE"], endpoint="removerMarco")
