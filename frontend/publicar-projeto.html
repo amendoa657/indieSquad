@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <title>Publicar Projeto - IndieSquad</title>
@@ -31,6 +31,10 @@
                         <a href="publicar-projeto.html" class="itemMenuLateral ativo">
                             <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"/></svg>
                             Publicar Projeto
+                        </a>
+                        <a href="minhas-candidaturas.html" class="itemMenuLateral">
+                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8 12 11 15 16 9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                            Candidaturas
                         </a>
                         <a href="perfil.html" class="itemMenuLateral">
                             <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/></svg>
@@ -77,22 +81,12 @@
 
                         <div class="campoFormulario">
                             <label>Perfis necessários</label>
-                            <div class="botoesPerfil">
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Artista 2D</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Artista 3D</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Animador</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Compositor</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Sound Designer</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Dublador</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Roteirista</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Programador</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">Game Designer</button>
-                                <button type="button" class="botaoPerfil" onclick="this.classList.toggle('ativo')">QA Tester</button>
-                            </div>
+                            <div class="botoesPerfil" id="botoesPerfil"></div>
                         </div>
 
                         <div class="campoFormulario">
                             <label for="marcoProjeto">Marcos do projeto</label>
+                            <small class="dicaCampo">Separe por vírgula</small>
                             <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Ex: Protótipo jogável, Demo na Steam..." />
                         </div>
 
@@ -104,14 +98,14 @@
                                 <p>Colaboração para experiência e portfólio</p>
                             </div>
 
-                            <div class="opcaoParceria" data-parceria="revenue">
+                            <div class="opcaoParceria" data-parceria="revenueShare">
                                 <h2>Revenue Share</h2>
                                 <p>Divisão futura de receita</p>
                             </div>
 
-                            <div class="opcaoParceria" data-parceria="tarefa">
-                                <h2>Por Tarefa</h2>
-                                <p>Participação em tarefas específicas</p>
+                            <div class="opcaoParceria" data-parceria="remunerado">
+                                <h2>Remunerado</h2>
+                                <p>Pagamento por tarefa ou por hora</p>
                             </div>
                         </div>
 

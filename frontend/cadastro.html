@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <title>Criar Conta - IndieSquad</title>
@@ -26,20 +26,28 @@
                 <div class="etapaPerfil" id="etapaPerfil">
                     <p class="perguntaPerfil">Qual é o seu perfil?</p>
 
-                    <button type="button" class="opcaoPerfil" data-perfil="desenvolvedor">
+                    <button type="button" class="opcaoPerfil" data-objetivo="montarEquipe">
                         <div class="opcaoPerfilTopo">
                             <span class="iconePerfil">🎮</span>
-                            <span class="tituloPerfil">Desenvolvedor</span>
+                            <span class="tituloPerfil">Montar equipe</span>
                         </div>
-                        <p>Tenho um projeto e preciso de equipe</p>
+                        <p>Tenho um projeto e preciso de gente</p>
                     </button>
 
-                    <button type="button" class="opcaoPerfil" data-perfil="profissional">
+                    <button type="button" class="opcaoPerfil" data-objetivo="entrarProjeto">
                         <div class="opcaoPerfilTopo">
                             <span class="iconePerfil">🎨</span>
-                            <span class="tituloPerfil">Profissional</span>
+                            <span class="tituloPerfil">Entrar num projeto</span>
                         </div>
                         <p>Quero colaborar e fortalecer meu portfólio</p>
+                    </button>
+
+                    <button type="button" class="opcaoPerfil" data-objetivo="ambos">
+                        <div class="opcaoPerfilTopo">
+                            <span class="iconePerfil">🔁</span>
+                            <span class="tituloPerfil">Os dois</span>
+                        </div>
+                        <p>Tenho projeto e também quero colaborar</p>
                     </button>
                 </div>
 
@@ -48,8 +56,17 @@
 
                     <form class="formLogin" id="formCadastro">
                         <div class="campoFormulario">
-                            <label for="nome">Nome completo</label>
+                            <label for="nome">Nome</label>
                             <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+                        </div>
+
+                        <div class="campoFormulario">
+                            <label for="handle">Apelido</label>
+                            <div class="caixaApelido">
+                                <span class="prefixoApelido">@</span>
+                                <input type="text" id="handle" name="handle" placeholder="seu_apelido" pattern="[a-z0-9_]{3,30}" required />
+                            </div>
+                            <small class="dicaCampo">É o seu endereço no IndieSquad. Letra minúscula, número e _</small>
                         </div>
 
                         <div class="campoFormulario">
@@ -60,16 +77,11 @@
                         <div class="campoFormulario">
                             <label for="senha">Senha</label>
                             <div class="caixaSenha">
-                                <input type="password" id="senha" name="senha" placeholder="••••••••" required />
+                                <input type="password" id="senha" name="senha" placeholder="••••••••" minlength="8" required />
                                 <button type="button" class="botaoOlho" id="botaoOlho">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 128C147.3 128 21.6 245.7 3.5 262.4C-1.2 266.8-1.2 274.2 3.5 278.6C21.6 295.3 147.3 413 320 413C492.7 413 618.4 295.3 636.5 278.6C641.2 274.2 641.2 266.8 636.5 262.4C618.4 245.7 492.7 128 320 128zM320 349C275.3 349 239 312.7 239 268C239 223.3 275.3 187 320 187C364.7 187 401 223.3 401 268C401 312.7 364.7 349 320 349z"/></svg>
                                 </button>
                             </div>
-                        </div>
-
-                        <div class="campoFormulario" id="campoEspecialidade">
-                            <label for="especialidade">Especialidade</label>
-                            <input type="text" id="especialidade" name="especialidade" placeholder="Ex: Artista 2D, Compositor, Dublador..." />
                         </div>
 
                         <button type="submit" class="botaoEnviar">Criar Conta</button>
