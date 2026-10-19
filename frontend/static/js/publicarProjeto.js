@@ -26,8 +26,21 @@ async function carregarPerfis() {
 
     skillsDoBanco = skills;
 
-    escrever("botoesPerfil", skills.map(function (skill) {
-        return `<button type="button" class="botaoPerfil" data-id="${skill.id}">${escapar(skill.nome)}</button>`;
+    // Agrupadas por categoria, pra pessoa achar a função que precisa de
+    // relance em vez de varrer 22 botões em sequência.
+    const categorias = [...new Set(skills.map((skill) => skill.categoria))];
+
+    escrever("botoesPerfil", categorias.map(function (categoria) {
+        const daCategoria = skills.filter((skill) => skill.categoria === categoria);
+
+        return `
+            <div class="grupoPerfil">
+                <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
+                <div class="chipsGrupoPerfil">
+                    ${daCategoria.map((skill) => `<button type="button" class="botaoPerfil" data-id="${skill.id}">${escapar(skill.nome)}</button>`).join("")}
+                </div>
+            </div>
+        `;
     }).join(""));
 
     document.querySelectorAll(".botaoPerfil").forEach(function (botao) {

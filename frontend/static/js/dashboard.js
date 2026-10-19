@@ -15,17 +15,17 @@ async function carregarDashboard() {
 
     listar("listaProjetosDashboard", dados.projetos, function (projeto) {
         const pendentes = projeto.candidaturasPendentes > 0
-            ? `<span class="aviso">${projeto.candidaturasPendentes} candidatura(s) esperando você</span>`
+            ? `<span class="aviso">${plural(projeto.candidaturasPendentes, "candidatura esperando", "candidaturas esperando")} você</span>`
             : "";
 
         return `
             <div class="cardProjetoDashboard" style="cursor: pointer" onclick="irPara('projeto.html?id=${projeto.id}')">
                 <div class="infoProjetoDashboard">
                     <h2>${escapar(projeto.nome)}</h2>
-                    <p>${projeto.membros} membro(s) · ${projeto.progresso}% das vagas preenchidas</p>
+                    <p>${plural(projeto.membros, "membro", "membros")} · ${projeto.progresso}% das vagas preenchidas</p>
                     ${pendentes}
-                    <div class="barraProgresso">
-                        <div class="barraProgressoPreenchida" style="width: ${projeto.progresso}%"></div>
+                    <div class="barraProgresso" role="progressbar" aria-valuenow="${projeto.progresso}" aria-valuemin="0" aria-valuemax="100" aria-label="Vagas preenchidas">
+                        <div class="barraProgressoPreenchida" style="transform: scaleX(${projeto.progresso / 100})"></div>
                     </div>
                 </div>
                 <span class="setaCardProjeto">›</span>

@@ -11,7 +11,8 @@ class BuscaController:
             request.args.get("q"),
             request.args.get("objetivo"),
             request.args.get("tipoColaboracao"),
-            request.args.get("horasMinimas")
+            request.args.get("horasMinimas"),
+            request.args.get("categoria")
         )
 
     def projetos(self):

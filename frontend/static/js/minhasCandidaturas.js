@@ -41,7 +41,7 @@ async function carregarCandidaturas() {
             ${inicioDoCard}
                 <div class="topoCardResultado">
                     <h2>${escapar(titulo)}</h2>
-                    <span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(candidatura.status)}</span>
+                    <span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>
                 </div>
                 <p class="descricaoResultado">${escapar(projeto)}</p>
                 <p class="dataCandidatura">Enviada em ${dataBonita(candidatura.dataCriacao)}</p>

@@ -2,6 +2,7 @@
 protegerPagina();
 
 let abaAtiva = "profissionais";
+let categoriaEscolhida = "Todos";
 let skillEscolhida = "Todos";
 let skillsDoBanco = [];
 
@@ -9,12 +10,31 @@ let skillsDoBanco = [];
 
 function cardPessoa(pessoa) {
     const funcao = pessoa.skills.length > 0 ? pessoa.skills[0].nome : "Sem função definida";
-    const nota = pessoa.reputacao.total > 0
-        ? `<span class="metricaResultado">${ICONES.estrela} ${pessoa.reputacao.media} (${pessoa.reputacao.total})</span>`
-        : "";
-    const horas = pessoa.disponibilidadeHoras
-        ? `<span class="metricaResultado">${ICONES.relogio} ${pessoa.disponibilidadeHoras}h/semana</span>`
-        : "";
+
+    // Métrica sem dado atrás não aparece. Mostrar "0% Conclusão" pra quem
+    // nunca teve projeto faz a pessoa parecer ruim, quando ela só é nova.
+    const metricas = [];
+
+    if (pessoa.reputacao.total > 0) {
+        metricas.push(`${ICONES.estrela} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}`);
+    }
+
+    if (pessoa.projetosCriados > 0) {
+        metricas.push(`${ICONES.pasta} ${plural(pessoa.projetosCriados, "projeto", "projetos")}`);
+        metricas.push(`${ICONES.grafico} ${pessoa.taxaConclusao}% concluídos`);
+    }
+
+    if (pessoa.colaboracoes > 0) {
+        metricas.push(`${ICONES.pessoas} ${plural(pessoa.colaboracoes, "colaboração", "colaborações")}`);
+    }
+
+    if (pessoa.disponibilidadeHoras) {
+        metricas.push(`${ICONES.relogio} ${pessoa.disponibilidadeHoras}h por semana`);
+    }
+
+    const corpoMetricas = metricas.length > 0
+        ? `<div class="metricasResultado">${metricas.map((m) => `<span class="metricaResultado">${m}</span>`).join("")}</div>`
+        : `<p class="semMetrica">Perfil novo por aqui</p>`;
 
     return `
         <div class="cardResultado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
@@ -24,12 +44,7 @@ function cardPessoa(pessoa) {
                     <p class="funcaoResultado">${escapar(funcao)}</p>
                 </div>
             </div>
-            <div class="metricasResultado">
-                ${nota}
-                <span class="metricaResultado">${ICONES.grafico} ${pessoa.taxaConclusao}% Conclusão</span>
-                <span class="metricaResultado">${ICONES.pasta} ${pessoa.projetosCriados} Projeto(s)</span>
-                ${horas}
-            </div>
+            ${corpoMetricas}
             <div class="tagsResultado">
                 ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
             </div>
@@ -49,12 +64,12 @@ function cardProjeto(projeto) {
         <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
             <div class="topoCardResultado">
                 <h2>${escapar(projeto.nome)}</h2>
-                <span class="statusResultado">${escapar(projeto.status)}</span>
+                <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
             </div>
             <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
             <div class="metricasResultado">
-                <span class="metricaResultado">${ICONES.pessoas} ${projeto.totalMembros} na equipe</span>
-                <span class="metricaResultado">${ICONES.pasta} ${projeto.vagasAbertas} vaga(s) aberta(s)</span>
+                <span class="metricaResultado">${ICONES.pessoas} ${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
+                <span class="metricaResultado">${ICONES.pasta} ${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
             </div>
             <div class="tagsResultado">${detalhes}</div>
         </div>
@@ -66,10 +81,14 @@ function cardProjeto(projeto) {
 async function buscar() {
     const termo = pegar("campoBusca").value.trim();
 
-    // Os dois filtros agora acontecem no servidor. Antes o front baixava todo
-    // mundo e filtrava no navegador.
+    // Os filtros acontecem no servidor. Antes o front baixava todo mundo e
+    // filtrava no navegador.
     if (abaAtiva === "profissionais") {
-        const pessoas = await pedir(`/busca/profissionais${filtros({ skill: skillEscolhida, q: termo })}`);
+        const pessoas = await pedir(`/busca/profissionais${filtros({
+            skill: skillEscolhida,
+            categoria: categoriaEscolhida,
+            q: termo,
+        })}`);
         if (!pessoas) return;
 
         listar("listaResultados", pessoas, cardPessoa, "Nenhum profissional encontrado.");
@@ -87,29 +106,63 @@ function abrirAba(novaAba) {
     abaAtiva = novaAba;
     pegar("abaProfissionais").classList.toggle("ativo", abaAtiva === "profissionais");
     pegar("abaProjetos").classList.toggle("ativo", abaAtiva === "projetos");
-    // Os filtros de skill só fazem sentido pra profissionais.
-    pegar("filtrosSkills").style.display = abaAtiva === "profissionais" ? "flex" : "none";
+
+    // Os filtros de função só fazem sentido pra profissionais.
+    const mostrar = abaAtiva === "profissionais";
+    pegar("filtrosCategorias").classList.toggle("escondido", !mostrar);
+    pegar("filtrosSkills").classList.toggle("escondido", !mostrar || categoriaEscolhida === "Todos");
+
     buscar();
 }
 
-function filtrarPor(nomeDaSkill) {
+
+// O filtro tem dois níveis: categoria primeiro, função depois.
+//
+// Com 22 funções no catálogo, mostrar todas de uma vez virava uma parede de
+// três linhas de botão antes de qualquer resultado aparecer. Escolhendo a
+// categoria, a segunda linha nunca passa de meia dúzia de opções.
+function filtrarPorCategoria(categoria) {
+    categoriaEscolhida = categoria;
+    skillEscolhida = "Todos";
+    desenharFiltros();
+    buscar();
+}
+
+function filtrarPorSkill(nomeDaSkill) {
     skillEscolhida = nomeDaSkill;
     desenharFiltros();
     buscar();
 }
 
-function desenharFiltros() {
-    escrever("filtrosSkills", skillsDoBanco.map(function (nome) {
-        const classeAtiva = nome === skillEscolhida ? "ativo" : "";
 
-        // O nome vai no atributo data, não dentro do onclick: assim uma skill
-        // com apóstrofo no nome não quebra o botão.
-        return `<button type="button" class="botaoFiltro ${classeAtiva}" data-skill="${escapar(nome)}">${escapar(nome)}</button>`;
+function chip(texto, ativo, acao) {
+    return `<button type="button" class="botaoFiltro ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${escapar(texto)}</button>`;
+}
+
+function desenharFiltros() {
+    const categorias = ["Todos", ...new Set(skillsDoBanco.map((skill) => skill.categoria))];
+
+    escrever("filtrosCategorias", categorias.map(function (categoria) {
+        return chip(categoria, categoria === categoriaEscolhida, "categoria");
     }).join(""));
 
+    const daCategoria = skillsDoBanco.filter((skill) => skill.categoria === categoriaEscolhida);
+
+    pegar("filtrosSkills").classList.toggle("escondido", daCategoria.length === 0);
+
+    escrever("filtrosSkills", ["Todos", ...daCategoria.map((skill) => skill.nome)].map(function (nome) {
+        return chip(nome, nome === skillEscolhida, "skill");
+    }).join(""));
+
+    // O valor vai no atributo, não dentro do onclick: assim uma função com
+    // apóstrofo no nome não quebra o botão.
     document.querySelectorAll(".botaoFiltro").forEach(function (botao) {
         botao.onclick = function () {
-            filtrarPor(botao.dataset.skill);
+            if (botao.dataset.acao === "categoria") {
+                filtrarPorCategoria(botao.dataset.valor);
+            } else {
+                filtrarPorSkill(botao.dataset.valor);
+            }
         };
     });
 }
@@ -124,7 +177,7 @@ async function carregarSkills() {
     const skills = await pedir("/skills");
     if (!skills) return;
 
-    skillsDoBanco = ["Todos", ...skills.map((skill) => skill.nome)];
+    skillsDoBanco = skills;
     desenharFiltros();
 }
 

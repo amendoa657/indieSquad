@@ -4,14 +4,20 @@ import models.avaliacao as a
 
 
 class BuscarProfissionaisService:
-    def execute(self, skillNome=None, termo=None, objetivo=None, tipoColaboracao=None, horasMinimas=None):
+    def execute(self, skillNome=None, termo=None, objetivo=None, tipoColaboracao=None, horasMinimas=None, categoria=None):
         usuarios = u.mostrarUsuarios()
 
         resultado = []
         for usuario in usuarios:
             skillsUsuario = [vinculo.skills.nome for vinculo in usuario.skills]
+            categoriasUsuario = [vinculo.skills.categoria for vinculo in usuario.skills]
 
             if skillNome and skillNome != "Todos" and skillNome not in skillsUsuario:
+                continue
+
+            # A busca filtra por categoria quando a pessoa escolheu so a
+            # categoria, sem escolher uma funcao especifica dentro dela.
+            if categoria and categoria != "Todos" and categoria not in categoriasUsuario:
                 continue
 
             # O filtro por nome agora acontece aqui, no servidor. Antes o front

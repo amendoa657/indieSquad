@@ -132,6 +132,14 @@ function corDoStatus(status) {
     return "statusPendente";
 }
 
+// Escreve "1 membro" e "2 membros", em vez de "1 membro(s)".
+//
+// O "(s)" é a marca registrada de sistema feito com pressa, e aparecia em
+// seis lugares diferentes da tela.
+function plural(quantidade, singular, muitos) {
+    return `${quantidade} ${quantidade === 1 ? singular : muitos}`;
+}
+
 // Mostra a data do jeito que a gente lê.
 function dataBonita(data) {
     if (!data) {
@@ -225,6 +233,34 @@ const OBJETIVOS = {
     entrarProjeto: "Procurando projeto",
     ambos: "Aberto aos dois",
 };
+
+// O banco guarda os status sem acento ("concluido"), seguindo o padrão do
+// back-end. Quem põe o acento é a tela: acento é assunto de interface, não
+// de valor gravado.
+const ROTULOS = {
+    ativo: "Ativo",
+    pausado: "Pausado",
+    concluido: "Concluído",
+    cancelado: "Cancelado",
+    aberta: "Aberta",
+    preenchida: "Preenchida",
+    fechada: "Fechada",
+    pendente: "Pendente",
+    aceita: "Aceita",
+    recusada: "Recusada",
+};
+
+function rotulo(valor) {
+    return ROTULOS[valor] || valor || "";
+}
+
+// Número do jeito que se escreve em português: 4,5 e não 4.5.
+function numero(valor, casas = 1) {
+    return Number(valor).toLocaleString("pt-BR", {
+        minimumFractionDigits: casas,
+        maximumFractionDigits: casas,
+    });
+}
 
 
 const ICONES = {

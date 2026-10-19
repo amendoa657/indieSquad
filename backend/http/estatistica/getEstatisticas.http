@@ -1,0 +1,5 @@
+### Números públicos da landing: profissionais, projetos e taxa de conclusão.
+### Antes esses números eram escritos na mão no HTML e não vinham de lugar nenhum.
+GET {{baseUrl}}/estatisticas
+
+###

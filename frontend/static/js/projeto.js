@@ -63,7 +63,7 @@ async function carregarProjeto() {
 
     escrever("avatarProjeto", escapar(projeto.nome.charAt(0).toUpperCase()));
     escrever("nomeProjeto", escapar(projeto.nome));
-    escrever("statusProjeto", escapar(projeto.status));
+    escrever("statusProjeto", escapar(rotulo(projeto.status)));
     escrever("criadorProjeto", escapar(projeto.criador.usuario));
     escrever("descricaoProjeto", escapar(projeto.descricao) || "Sem descrição.");
 
@@ -114,7 +114,7 @@ async function carregarProjeto() {
         let acao = "";
 
         if (vaga.minhaCandidatura) {
-            acao = `<span class="statusCandidatura ${corDoStatus(vaga.minhaCandidatura.status)}">Candidatura ${escapar(vaga.minhaCandidatura.status)}</span>`;
+            acao = `<span class="statusCandidatura ${corDoStatus(vaga.minhaCandidatura.status)}">Candidatura ${escapar(rotulo(vaga.minhaCandidatura.status))}</span>`;
         } else if (vaga.status === "aberta" && !projeto.ehCriador) {
             acao = `<button type="button" class="botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
         }
@@ -123,7 +123,7 @@ async function carregarProjeto() {
             <div class="cardResultado">
                 <div class="topoCardResultado">
                     <h2>${escapar(vaga.titulo)}</h2>
-                    <span class="statusResultado">${escapar(vaga.status)}</span>
+                    <span class="statusResultado">${escapar(rotulo(vaga.status))}</span>
                 </div>
                 <p class="descricaoResultado">${escapar(vaga.descricao)}</p>
                 <div class="tagsResultado">
@@ -157,14 +157,14 @@ async function mostrarCandidaturas() {
     listar("listaCandidaturas", candidaturas, function (candidatura) {
         const pessoa = candidatura.candidato;
         const nota = pessoa.reputacao.total > 0
-            ? `<span class="metricaResultado">${ICONES.estrela} ${pessoa.reputacao.media} (${pessoa.reputacao.total})</span>`
+            ? `<span class="metricaResultado">${ICONES.estrela} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
             : `<span class="metricaResultado">Sem avaliação ainda</span>`;
 
         // Pendente mostra os botões; já respondida mostra só o resultado.
         const acoes = candidatura.status === "pendente"
             ? `<button type="button" class="botaoCandidatar" onclick="responder(${candidatura.id}, 'aceita')">Aceitar</button>
                <button type="button" class="botaoCandidatar botaoRecusar" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`
-            : `<span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(candidatura.status)}</span>`;
+            : `<span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>`;
 
         const mensagem = candidatura.mensagem
             ? `<p class="descricaoResultado">“${escapar(candidatura.mensagem)}”</p>`

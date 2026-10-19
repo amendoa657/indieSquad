@@ -90,8 +90,8 @@ async function carregarPerfil() {
         const reputacao = numeros.reputacao || { total: 0, media: 0 };
 
         escrever("notaPerfil", reputacao.total > 0
-            ? `${reputacao.media} <span class="detalheNota">de ${reputacao.total} avaliação(ões)</span>`
-            : "Sem avaliação ainda");
+            ? `${numero(reputacao.media)} <span class="detalheNota">de ${plural(reputacao.total, "avaliação", "avaliações")}</span>`
+            : `<span class="detalheNota">Sem avaliação ainda</span>`);
     }
 
     if (pegar("objetivoPerfil")) {
@@ -126,7 +126,7 @@ async function carregarPerfil() {
             <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
                 <div class="topoCardResultado">
                     <h2>${escapar(projeto.nome)}</h2>
-                    <span class="statusResultado">${escapar(projeto.status)}</span>
+                    <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
                 </div>
                 <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
                 <div class="tagsResultado"><span class="tagSkill">${papel}</span></div>
