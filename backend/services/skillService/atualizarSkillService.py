@@ -7,7 +7,7 @@ class AtualizarSkillService:
         skill = s.buscarPorId(id)
 
         if skill is None:
-            return {"erro": "Skill nao encontrado"}, 404
+            return {"erro": "Função não encontrada"}, 404
 
         if dados is None:
             return {"erro": "Nenhum dado foi enviado"}, 400
@@ -16,13 +16,13 @@ class AtualizarSkillService:
             faltando = campoFaltando(dados, ["nome"])
 
             if faltando:
-                return {"erro": "O nome nao pode ficar vazio"}, 400
+                return {"erro": "O nome não pode ficar vazio"}, 400
 
             nome = texto(dados["nome"], 90)
             emUso = s.buscarPorNome(nome)
 
             if emUso and emUso.id != skill.id:
-                return {"erro": "Essa skill ja existe"}, 409
+                return {"erro": "Essa função já existe"}, 409
 
             skill.nome = nome
 

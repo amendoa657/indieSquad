@@ -10,13 +10,13 @@ class RemoverSkillUsuarioService:
         skill = s.buscarPorId(idSkill)
 
         if skill is None and usuario is None:
-            return {"erro": "Skill e usuarios nao encontrados"}, 404
+            return {"erro": "Função e pessoa não encontradas"}, 404
 
         if skill is None:
-            return {"erro": "Skill nao encontrado"}, 404
+            return {"erro": "Função não encontrada"}, 404
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         if not ehOProprio(idUsuario):
             return ERRO_NAO_E_VOCE
@@ -26,11 +26,10 @@ class RemoverSkillUsuarioService:
             usuario_id=usuario.id
         ).first()
 
-        # Antes isso ia direto pro remover e derrubava a rota quando o vinculo
-        # nao existia.
+        # sem essa checagem o remover recebia None e derrubava a rota
         if skillU is None:
-            return {"erro": "O usuario nao tem essa skill"}, 404
+            return {"erro": "Você não tem essa função"}, 404
 
         u.removerSkill(usuario, skillU)
 
-        return {"mensagem": f"A skill {skill.nome} foi removida com sucesso!"}, 200
+        return {"mensagem": f"A função {skill.nome} foi removida"}, 200

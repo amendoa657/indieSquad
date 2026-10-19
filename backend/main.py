@@ -5,8 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from config import Config
 from database.database import db
 
-# Todos os models precisam ser importados aqui pro SQLAlchemy conseguir montar
-# os relacionamentos entre eles.
+# os models precisam ser importados aqui pro SQLAlchemy montar os relacionamentos
 from models.usuario import Usuario
 from models.projetos import Projeto
 from models.skills import Skills
@@ -30,6 +29,7 @@ from controllers.dashboardController import dashboardBp
 from controllers.buscaController import buscaBp
 from controllers.estatisticaController import estatisticaBp
 from controllers.avaliacaoController import avaliacaoBp
+from controllers.ferramentaController import ferramentaBp
 
 
 app = Flask(__name__)
@@ -47,35 +47,33 @@ app.register_blueprint(dashboardBp)
 app.register_blueprint(buscaBp)
 app.register_blueprint(estatisticaBp)
 app.register_blueprint(avaliacaoBp)
+app.register_blueprint(ferramentaBp)
 
 db.init_app(app)
 
 
-# Sem esses tratadores, uma rota errada devolvia uma pagina HTML de erro e o
-# front quebrava tentando ler aquilo como JSON.
+# sem isso uma rota errada devolve HTML e o front quebra ao ler como JSON
 @app.errorhandler(404)
 def naoEncontrado(erro):
-    return jsonify({"erro": "Rota nao encontrada"}), 404
+    return jsonify({"erro": "Rota não encontrada"}), 404
 
 
 @app.errorhandler(405)
 def metodoErrado(erro):
-    return jsonify({"erro": "Metodo nao permitido nessa rota"}), 405
+    return jsonify({"erro": "Método não permitido nessa rota"}), 405
 
 
 @app.errorhandler(IntegrityError)
 def dadoRepetido(erro):
     db.session.rollback()
-    return jsonify({"erro": "Esse dado ja existe"}), 409
+    return jsonify({"erro": "Esse dado já existe"}), 409
 
 
 @app.errorhandler(Exception)
 def erroInesperado(erro):
     db.session.rollback()
 
-    # O erro vai pro log do servidor; o usuario recebe so a mensagem generica.
-    # Devolver o texto do erro pra tela entrega detalhe do banco pra quem
-    # estiver olhando.
+    # o erro vai pro log do servidor; o usuario recebe so a mensagem generica
     app.logger.exception(erro)
 
     return jsonify({"erro": "Erro interno no servidor"}), 500

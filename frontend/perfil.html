@@ -66,6 +66,17 @@
                 <p class="mensagemErro" id="mensagemErro"></p>
                 <p class="mensagemSucesso" id="mensagemSucesso"></p>
 
+                <div class="barraPerfilCompleto escondido" id="barraPerfilCompleto">
+                    <div class="topoPerfilCompleto">
+                        <strong>Complete seu perfil</strong>
+                        <span id="percentualPerfil">0%</span>
+                    </div>
+                    <div class="barraProgresso">
+                        <div class="barraProgressoPreenchida" id="progressoPerfil"></div>
+                    </div>
+                    <p class="faltandoPerfil" id="faltandoPerfil"></p>
+                </div>
+
                 <div class="cabecalhoPerfil">
                     <div class="avatarPerfil" id="avatarPerfil"></div>
 
@@ -76,6 +87,7 @@
                         <p class="membroDesde" id="membroDesde"></p>
                         <p class="bioPerfil" id="bioPerfil"></p>
                         <div class="tagsResultado" id="objetivoPerfil"></div>
+                        <div class="tagsResultado" id="linksPerfil"></div>
                     </div>
 
                     <button type="button" class="botaoEditarPerfil" id="botaoEditar">Editar</button>
@@ -119,6 +131,42 @@
 
                         <button type="button" class="botaoEnviar" onclick="adicionarSkill()">Adicionar</button>
                     </div>
+                </div>
+
+                <div class="blocoSecao">
+                    <h3>Ferramentas</h3>
+                    <div class="tagsResultado" id="ferramentasPerfil"></div>
+
+                    <div class="escondido" id="blocoFerramentas">
+                        <div class="botoesPerfil" id="botoesFerramenta"></div>
+                    </div>
+                </div>
+
+                <div class="blocoSecao escondido" id="blocoLinks">
+                    <h3>Links de portfólio</h3>
+
+                    <div class="linhaLink">
+                        <select id="campoTipoLink">
+                            <option value="itchio">itch.io</option>
+                            <option value="github">GitHub</option>
+                            <option value="artstation">ArtStation</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="site">Site</option>
+                            <option value="outro">Outro</option>
+                        </select>
+
+                        <input type="url" id="campoUrlLink" placeholder="https://..." />
+
+                        <button type="button" class="botaoEnviar" onclick="adicionarLink()">Add</button>
+                    </div>
+
+                    <div class="tagsResultado" id="meusLinks"></div>
+                </div>
+
+                <div class="blocoSecao escondido" id="blocoAvaliacoesPerfil">
+                    <h3>Avaliações recebidas</h3>
+                    <div class="listaAvaliacoes" id="listaAvaliacoesPerfil"></div>
                 </div>
 
                 <div class="blocoSecao">

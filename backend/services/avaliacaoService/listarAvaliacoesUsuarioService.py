@@ -2,13 +2,13 @@ import models.avaliacao as a
 import models.usuario as u
 
 
-# As avaliacoes que uma pessoa recebeu, pro perfil dela. So as liberadas.
+# as avaliacoes que uma pessoa recebeu, pro perfil dela
 class ListarAvaliacoesUsuarioService:
     def execute(self, idUsuario):
         usuario = u.buscarPorId(idUsuario)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         resultado = []
         for avaliacao in a.listarRecebidasLiberadas(usuario.id):

@@ -85,7 +85,7 @@ def buscarDoUsuarioNaVaga(idUsuario, idVaga):
 
 
 
-# O status nunca vem do front: toda candidatura nasce pendente.
+# o status nunca vem do front: toda candidatura nasce pendente
 def registrarCandidatura(mensagem, idVagaProjeto, idUsuario):
     CandidaturaTable = CandidaturaUsuario(
         mensagem=mensagem,

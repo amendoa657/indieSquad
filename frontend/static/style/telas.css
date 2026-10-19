@@ -1,15 +1,7 @@
-/* ===================================================================
-   IndieSquad — Telas
-   ===================================================================
-
-   Layout geral e o que é específico de cada tela. Tudo construído em
-   cima dos tokens e dos componentes.
-   =================================================================== */
+/* IndieSquad - telas: layout geral e o que e especifico de cada tela */
 
 
-/* ===================================================================
-   Layout do app
-   =================================================================== */
+/* layout do app */
 
 .layoutPagina {
     display: flex;
@@ -25,9 +17,7 @@
     padding: var(--espaco-10) var(--espaco-8) var(--espaco-16);
     margin: 0 auto;
 
-    /* Entrada única, no carregamento da página. Não fica nas listas de
-       dentro de propósito: o JS redesenha elas a cada letra digitada na
-       busca, e a animação ficaria repetindo sem parar. */
+    /* entrada unica, no carregamento da pagina */
     animation: entrarConteudo var(--tempo-medio) var(--curva-saida) both;
 }
 
@@ -75,13 +65,13 @@
     gap: var(--espaco-3);
 }
 
-/* Todo título de seção ganha ar do que veio antes dele. */
+/* todo titulo de secao ganha ar do que veio antes dele */
 .tituloSecao {
     margin-top: var(--espaco-10);
     margin-bottom: var(--espaco-4);
 }
 
-/* Menos o primeiro, que já está logo abaixo do cabeçalho da tela. */
+/* menos o primeiro, que ja esta logo abaixo do cabecalho da tela */
 .cardsEstatistica + .tituloSecao,
 .cardsEstatisticaQuatro + .tituloSecao {
     margin-top: var(--espaco-10);
@@ -94,9 +84,7 @@
 }
 
 
-/* ===================================================================
-   Login e cadastro
-   =================================================================== */
+/* login e cadastro */
 
 .corpoLogin {
     display: flex;
@@ -105,8 +93,7 @@
     min-height: 100dvh;
     padding: var(--espaco-6) var(--espaco-4);
 
-    /* Um brilho muito sutil da marca atrás do card, pra tela de entrada
-       não ser um retângulo no vazio. */
+    /* um brilho sutil da marca atras do card, pra tela de entrada nao ser um retangulo no vazio */
     background-image: radial-gradient(
         ellipse 70% 55% at 50% 0%,
         var(--cor-marca-fraca),
@@ -137,7 +124,7 @@
     from {
         opacity: 0;
 
-        /* Nunca de scale(0): nada no mundo real aparece do nada. */
+        /* nunca de scale(0): nada no mundo real aparece do nada */
         transform: scale(0.97) translateY(10px);
     }
 }
@@ -183,7 +170,7 @@
 }
 
 
-/* Etapas do cadastro. */
+/* etapas do cadastro */
 .perguntaPerfil {
     margin-bottom: var(--espaco-4);
     color: var(--cor-texto-2);
@@ -265,9 +252,7 @@
 }
 
 
-/* ===================================================================
-   Busca
-   =================================================================== */
+/* busca */
 
 .linhaBusca {
     display: flex;
@@ -296,8 +281,7 @@
     padding-left: 2.5rem;
 }
 
-/* As abas usam uma pílula que desliza por baixo do rótulo. O que anima é
-   só o fundo, com transform — não a cor de cada aba, que ficaria piscando. */
+/* o que anima e so o fundo da aba ativa, com transform */
 .abasBusca {
     display: flex;
     gap: var(--espaco-1);
@@ -345,19 +329,16 @@
     gap: var(--espaco-2);
     margin-bottom: var(--espaco-4);
 
-    /* No celular os filtros viram uma faixa que rola de lado, em vez de
-       uma parede de chips ocupando metade da tela. */
+    /* no celular os filtros viram faixa que rola de lado */
     padding-bottom: var(--espaco-1);
 }
 
-/* A margem de baixo fica no bloco, não em cada linha: assim o espaço até os
-   resultados é o mesmo com ou sem a segunda linha na tela. */
+/* a margem fica no bloco pro espaco ser o mesmo com ou sem a segunda linha */
 .blocoFiltros {
     margin-bottom: var(--espaco-8);
 }
 
-/* A segunda linha fica recuada e um degrau mais apagada, pra ler como
-   "dentro da categoria acima" e não como outro filtro solto. */
+/* a segunda linha fica recuada pra ler como dentro da categoria acima */
 .filtrosSecundarios {
     padding-left: var(--espaco-4);
     border-left: 2px solid var(--cor-borda);
@@ -373,9 +354,7 @@
         overflow-x: auto;
         scrollbar-width: none;
 
-        /* pan-y: o navegador continua cuidando do rolar vertical da
-           página, e a faixa cuida do horizontal. Sem isso a página
-           tremia pra cima enquanto a faixa andava pro lado. */
+        /* pan-y: o navegador cuida do vertical e a faixa cuida do horizontal */
         touch-action: pan-y;
         overscroll-behavior-x: contain;
     }
@@ -386,9 +365,7 @@
 }
 
 
-/* ===================================================================
-   Perfil
-   =================================================================== */
+/* perfil */
 
 .cabecalhoPerfil,
 .cabecalhoProjeto {
@@ -450,18 +427,14 @@
 }
 
 
-/* ===================================================================
-   Projeto
-   =================================================================== */
+/* projeto */
 
 .cabecalhoProjeto .seloStatus {
     align-self: flex-start;
 }
 
 
-/* ===================================================================
-   Publicar projeto
-   =================================================================== */
+/* publicar projeto */
 
 .etapaPublicar {
     display: none;
@@ -477,8 +450,7 @@
     gap: var(--espaco-4);
 }
 
-/* 22 funções em linha viravam cinco fileiras de botão antes do próximo
-   campo. Agrupadas por categoria, dá pra achar a sua de relance. */
+/* 22 funcoes em linha viravam cinco fileiras de botao antes do proximo campo */
 .grupoPerfil {
     display: flex;
     flex-direction: column;
@@ -547,9 +519,7 @@
 }
 
 
-/* ===================================================================
-   Landing
-   =================================================================== */
+/* landing */
 
 nav {
     position: sticky;
@@ -561,8 +531,7 @@ nav {
     gap: var(--espaco-4);
     padding: var(--espaco-3) var(--espaco-6);
 
-    /* Barra de vidro: o conteúdo passa por baixo em vez de a barra comer
-       uma faixa opaca da tela. */
+    /* barra de vidro: o conteudo passa por baixo dela */
     background-color: var(--cor-vidro);
     backdrop-filter: blur(16px) saturate(180%);
     border-bottom: 1px solid var(--cor-borda);
@@ -614,8 +583,7 @@ main > .tituloPrincipal,
     flex-direction: column;
     align-items: center;
 
-    /* svh e não dvh: o hero não muda de altura quando a barra de endereço
-       recolhe no meio da rolagem. */
+    /* svh e nao dvh: o topo nao muda de altura quando a barra de endereco recolhe */
     justify-content: center;
     min-height: 100svh;
     padding-top: var(--espaco-16);
@@ -703,8 +671,7 @@ main > .tituloPrincipal,
     }
 }
 
-/* Espaçador invisível que serve de alvo pra âncora do menu, pra o título
-   da seção não ficar colado na barra de vidro. */
+/* espacador que serve de alvo pra ancora, pro titulo nao colar na barra de vidro */
 .gapSlide {
     height: var(--espaco-20);
 }
@@ -849,9 +816,158 @@ footer {
 }
 
 
-/* ===================================================================
-   Responsivo
-   =================================================================== */
+/* onboarding */
+
+.paginaOnboarding {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-5);
+    width: 100%;
+    max-width: 560px;
+}
+
+.cardOnboarding {
+    padding: var(--espaco-6);
+}
+
+/* os tres passos no topo */
+.passosOnboarding {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-6);
+}
+
+.marcadorPasso {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 5px;
+    border-radius: var(--raio-total);
+    background-color: var(--cor-superficie-3);
+    color: transparent;
+    font-size: 0;
+    transition: background-color var(--tempo-medio) var(--curva-saida);
+}
+
+.marcadorPasso.passoFeito,
+.marcadorPasso.passoAtivo {
+    background-color: var(--cor-marca);
+}
+
+.passoOnboarding {
+    display: none;
+}
+
+.passoOnboarding.passoAtivo {
+    display: block;
+    animation: entrarEtapa var(--tempo-rapido) var(--curva-saida) both;
+}
+
+.passoOnboarding h2 {
+    font-size: var(--texto-lg);
+}
+
+.passoOnboarding > h3 {
+    margin-bottom: var(--espaco-5);
+    color: var(--cor-texto-3);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-base);
+    font-weight: var(--peso-normal);
+    letter-spacing: var(--letra-corpo);
+}
+
+.botoesOnboarding {
+    display: flex;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-6);
+}
+
+.botoesOnboarding .botaoEnviar {
+    margin-top: 0;
+}
+
+.botoesOnboarding .botaoEditarPerfil {
+    flex-shrink: 0;
+}
+
+.linhaLink {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-3);
+}
+
+.linhaLink select {
+    flex: 0 0 130px;
+}
+
+.linhaLink input {
+    flex: 1 1 180px;
+}
+
+.linhaLink .botaoEnviar {
+    flex: 0 0 auto;
+    width: auto;
+    margin-top: 0;
+}
+
+.linkPular {
+    color: var(--cor-texto-3);
+    font-family: var(--fonte-corpo);
+    font-size: var(--texto-sm);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .linkPular:hover {
+        color: var(--cor-texto-2);
+    }
+}
+
+
+/* barra de perfil completo, no topo do proprio perfil */
+.barraPerfilCompleto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-4) var(--espaco-5);
+    margin-bottom: var(--espaco-6);
+    border: 1px solid var(--cor-marca-borda);
+    border-radius: var(--raio-lg);
+    background-color: var(--cor-marca-fraca);
+}
+
+.topoPerfilCompleto {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+}
+
+.topoPerfilCompleto strong {
+    font-family: var(--fonte-titulo);
+    font-size: var(--texto-base);
+}
+
+.topoPerfilCompleto span {
+    color: var(--cor-marca);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-forte);
+    font-variant-numeric: tabular-nums;
+}
+
+.faltandoPerfil {
+    color: var(--cor-texto-2);
+    font-size: var(--texto-sm);
+}
+
+/* responsivo */
 
 @media (max-width: 1000px) {
     .conteudoPagina {
@@ -860,8 +976,7 @@ footer {
 }
 
 @media (max-width: 860px) {
-    /* O menu lateral vira uma barra no topo, com os itens rolando de lado.
-       É o padrão que o celular espera, e não come largura do conteúdo. */
+    /* o menu lateral vira barra no topo, com os itens rolando de lado */
     .layoutPagina {
         flex-direction: column;
     }
@@ -877,7 +992,7 @@ footer {
         height: auto;
         padding: var(--espaco-3) var(--espaco-4);
 
-        /* O padding de baixo respeita o recorte da tela do celular. */
+        /* o padding respeita o recorte da tela do celular */
         padding-top: calc(var(--espaco-3) + env(safe-area-inset-top, 0px));
         border-right: none;
         border-bottom: 1px solid var(--cor-borda);
@@ -914,8 +1029,7 @@ footer {
         display: none;
     }
 
-    /* Sem isso o último item do menu aparece cortado ao meio e parece bug.
-       Com o degradê, ele some suave e dá a dica de que a barra rola. */
+    /* o degrade mostra que a barra rola, em vez de cortar o item ao meio */
     .navegacaoMenuLateral,
     .filtrosSkills {
         mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
@@ -1010,13 +1124,7 @@ footer {
 }
 
 
-/* ===================================================================
-   Destaques de texto
-   ===================================================================
-
-   Substituem as cores que estavam no atributo style da landing. Cor fixa
-   no HTML não sabe que existe tema claro.
-   =================================================================== */
+/* destaques de texto Substituem as cores que estavam no atributo style da landing */
 
 .destaqueMarca {
     color: var(--cor-marca);
@@ -1034,14 +1142,7 @@ footer {
     width: 100%;
 }
 
-/* ===================================================================
-   Utilitários
-   ===================================================================
-
-   Ficam no fim do último arquivo de propósito: regras com a mesma força
-   são decididas pela ordem, e esconder algo precisa ganhar de qualquer
-   display definido acima.
-   =================================================================== */
+/* utilitarios ficam no fim do arquivo: com a mesma forca, quem vem depois ganha */
 
 .escondido {
     display: none;

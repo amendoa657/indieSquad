@@ -1,0 +1,4 @@
+### As ferramentas que a pessoa usa.
+GET {{baseUrl}}/usuarios/{{idUsuario}}/ferramentas
+
+###

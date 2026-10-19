@@ -6,13 +6,7 @@ from flask import request, current_app, g
 import models.usuario as u
 
 
-# Monta o token que o front guarda depois do login.
-#
-# O token leva o id de quem entrou e a hora em que ele expira, e sai assinado
-# com a SECRET_KEY do servidor. Qualquer pessoa consegue LER o conteudo, mas
-# ninguem consegue trocar o id sem invalidar a assinatura. Era exatamente isso
-# que faltava antes: o token era o texto "usuario-6", e bastava digitar
-# "usuario-9" no navegador pra virar outra pessoa.
+# monta o token que o front guarda depois do login
 def gerarToken(usuario):
     carga = {
         "idUsuario": usuario.id,
@@ -23,7 +17,7 @@ def gerarToken(usuario):
     return jwt.encode(carga, current_app.config["SECRET_KEY"], algorithm="HS256")
 
 
-# Confere a assinatura e a validade. Token mexido ou vencido devolve None.
+# confere a assinatura e a validade
 def lerToken(token):
     try:
         return jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])
@@ -31,7 +25,7 @@ def lerToken(token):
         return None
 
 
-# O token chega no cabecalho no formato "Authorization: Bearer <token>".
+# o token chega no cabecalho no formato "Authorization: Bearer <token>"
 def tokenDoPedido():
     cabecalho = request.headers.get("Authorization", "")
 
@@ -41,11 +35,7 @@ def tokenDoPedido():
     return cabecalho[7:].strip()
 
 
-# Devolve o usuario logado, ou None quando nao tem token valido.
-#
-# O resultado fica guardado no "g", que e uma memoria que vive so durante esse
-# pedido. Assim o mesmo pedido nao consulta o banco varias vezes pela mesma
-# pessoa.
+# devolve o usuario logado, ou None quando nao tem token valido
 def usuarioLogado():
     if "usuarioLogado" in g:
         return g.usuarioLogado
@@ -73,16 +63,14 @@ def idUsuarioLogado():
     return usuario.id if usuario else None
 
 
-# Confere se quem esta logado e a propria pessoa do id que veio na URL.
+# confere se quem esta logado e a propria pessoa do id que veio na URL
 def ehOProprio(id):
     usuario = usuarioLogado()
 
     return usuario is not None and usuario.id == int(id)
 
 
-# Decorator que barra o pedido antes de entrar no controller.
-#
-# Basta escrever @exigirLogin em cima do metodo pra ele virar privado.
+# decorator que barra o pedido antes de entrar no controller
 def exigirLogin(funcao):
     @wraps(funcao)
     def dentro(*args, **kwargs):
@@ -94,14 +82,10 @@ def exigirLogin(funcao):
     return dentro
 
 
-# Confere se quem esta logado e o criador do projeto.
-#
-# Essa checagem fica no service, junto com o resto das regras de negocio: antes
-# dela existir, a tela so ESCONDIA os botoes de dono, e quem chamasse a API na
-# mao conseguia aceitar candidatura e apagar projeto de qualquer pessoa.
+# confere se quem esta logado e o criador do projeto
 def ehDonoDoProjeto(projeto):
     return projeto is not None and projeto.criador_id == idUsuarioLogado()
 
 
-ERRO_NAO_E_DONO = ({"erro": "So o criador do projeto pode fazer isso"}, 403)
-ERRO_NAO_E_VOCE = ({"erro": "Voce so pode mexer na sua propria conta"}, 403)
+ERRO_NAO_E_DONO = ({"erro": "Só o criador do projeto pode fazer isso"}, 403)
+ERRO_NAO_E_VOCE = ({"erro": "Você só pode mexer na sua própria conta"}, 403)

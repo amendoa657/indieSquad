@@ -15,7 +15,6 @@ pegar("formLogin").onsubmit = async function (evento) {
 
     guardarLogin(resposta);
 
-    // Quem veio procurar projeto cai direto na busca; quem veio montar equipe
-    // cai no dashboard dos projetos dele.
+    // o objetivo da pessoa decide a tela inicial
     irPara(resposta.usuario.objetivo === "entrarProjeto" ? "busca.html" : "dashboard.html");
 };

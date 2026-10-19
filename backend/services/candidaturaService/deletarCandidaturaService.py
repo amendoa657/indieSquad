@@ -7,10 +7,10 @@ class DeletarCandidaturaService:
         candidatura = c.buscarPorId(id)
 
         if candidatura is None:
-            return {"erro": "Candidatura nao encontrada"}, 404
+            return {"erro": "Candidatura não encontrada"}, 404
 
         if candidatura.usuario_id != idUsuarioLogado():
-            return {"erro": "Essa candidatura nao e sua"}, 403
+            return {"erro": "Essa candidatura não é sua"}, 403
 
         if candidatura.status == "aceita":
             return {"erro": "Essa candidatura foi aceita, fale com o dono do projeto"}, 409

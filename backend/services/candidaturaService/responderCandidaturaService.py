@@ -5,19 +5,13 @@ from middlewares.validacao import campoFaltando
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
 
 
-# O dono do projeto aceita ou recusa uma candidatura.
-#
-# Aceitar faz tres coisas que precisam acontecer juntas: a pessoa entra na
-# equipe, a vaga fecha e as outras candidaturas daquela mesma vaga sao
-# recusadas. Antes o front fazia isso em tres pedidos separados, entao dava pra
-# parar no meio e deixar o projeto num estado quebrado (vaga fechada sem
-# membro, ou candidatos presos em "pendente" pra sempre).
+# o dono do projeto aceita ou recusa uma candidatura
 class ResponderCandidaturaService:
     def execute(self, id, dados):
         faltando = campoFaltando(dados, ["status"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         status = dados["status"]
 
@@ -27,10 +21,10 @@ class ResponderCandidaturaService:
         candidatura = c.buscarPorId(id)
 
         if candidatura is None:
-            return {"erro": "Candidatura nao encontrada"}, 404
+            return {"erro": "Candidatura não encontrada"}, 404
 
         if candidatura.status != "pendente":
-            return {"erro": "Essa candidatura ja foi respondida"}, 409
+            return {"erro": "Essa candidatura já foi respondida"}, 409
 
         vaga = candidatura.projetoVaga
         projeto = p.buscarPorId(vaga.projeto_id)

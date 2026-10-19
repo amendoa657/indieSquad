@@ -1,0 +1,4 @@
+### Catálogo de engines e programas, agrupado por categoria.
+GET {{baseUrl}}/ferramentas
+
+###

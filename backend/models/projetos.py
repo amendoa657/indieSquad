@@ -4,8 +4,7 @@ from sqlalchemy.sql import func
 
 from models.membroProjeto import MembroProjeto
 
-# Os status que um projeto pode ter. "concluido" e o que libera a avaliacao
-# entre os membros.
+# os status que um projeto pode ter
 STATUS = ["ativo", "pausado", "concluido", "cancelado"]
 
 
@@ -118,8 +117,7 @@ def removerProjeto(projeto):
 
     return f"Projeto {projeto.nome} removido com sucesso!"
 
-# Concluir o projeto fecha as vagas que ficaram abertas e marca a data, que e o
-# que libera a avaliacao entre quem trabalhou junto.
+# fecha as vagas abertas e marca a data que libera a avaliacao
 def concluirProjeto(projeto):
     projeto.status = "concluido"
     projeto.dataConclusao = func.now()
@@ -137,7 +135,7 @@ def concluirProjeto(projeto):
 def getMembrosProjeto(projeto):
     return projeto.membros
 
-# Devolve o vinculo de membro de um usuario, ou None se ele nao e da equipe.
+# devolve o vinculo de membro de um usuario, ou None se ele nao e da equipe
 def buscarMembro(projeto, idUsuario):
     for membro in projeto.membros:
         if membro.usuario_id == int(idUsuario):
@@ -145,7 +143,7 @@ def buscarMembro(projeto, idUsuario):
 
     return None
 
-# O criador conta como parte da equipe, mesmo sem linha em membroProjeto.
+# o criador conta como parte da equipe, mesmo sem linha em membroProjeto
 def ehDaEquipe(projeto, idUsuario):
     if projeto.criador_id == int(idUsuario):
         return True

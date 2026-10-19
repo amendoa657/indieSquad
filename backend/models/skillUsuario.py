@@ -1,7 +1,6 @@
 from database.database import db
 
-# O nivel vai de 1 a 4. O nome de cada um fica aqui pra tela nao precisar
-# adivinhar o que o numero significa.
+# o nivel vai de 1 a 4
 NIVEIS = {
     1: "Iniciante",
     2: "Intermediario",

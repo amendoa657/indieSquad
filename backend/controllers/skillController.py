@@ -16,9 +16,7 @@ class SkillController:
         service = BuscarSkillService()
         return service.execute(id)
 
-    # O catalogo de funcoes e manutencao do sistema, nao e o usuario que monta.
-    # Num sistema com papeis isso aqui seria so pra administrador; como o
-    # IndieSquad ainda nao tem papel de admin, exigimos pelo menos login.
+    # o catalogo de funcoes e manutencao do sistema, nao e o usuario que monta
     @exigirLogin
     def registrar(self):
         service = RegistrarSkillService()

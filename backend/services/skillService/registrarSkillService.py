@@ -2,20 +2,18 @@ import models.skills as s
 from middlewares.validacao import campoFaltando, texto
 
 
-# O catalogo de funcoes vem pronto no seed do banco. Essa rota existe pra
-# manutencao do catalogo, nao pro usuario criar funcao digitando: era assim que
-# o banco acabava com "Programador", "programador" e "Progamador" juntos.
+# o catalogo de funcoes vem pronto no seed do banco
 class RegistrarSkillService:
     def execute(self, dados):
         faltando = campoFaltando(dados, ["nome"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         nome = texto(dados["nome"], 90)
 
         if s.buscarPorNome(nome):
-            return {"erro": "Essa skill ja existe"}, 409
+            return {"erro": "Essa função já existe"}, 409
 
         skill = s.registrarSkill(nome, texto(dados.get("categoria"), 45) or "Outro")
 

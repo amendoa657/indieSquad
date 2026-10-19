@@ -11,8 +11,7 @@ let skillsDoBanco = [];
 function cardPessoa(pessoa) {
     const funcao = pessoa.skills.length > 0 ? pessoa.skills[0].nome : "Sem função definida";
 
-    // Métrica sem dado atrás não aparece. Mostrar "0% Conclusão" pra quem
-    // nunca teve projeto faz a pessoa parecer ruim, quando ela só é nova.
+    // metrica sem dado atras nao aparece
     const metricas = [];
 
     if (pessoa.reputacao.total > 0) {
@@ -81,8 +80,7 @@ function cardProjeto(projeto) {
 async function buscar() {
     const termo = pegar("campoBusca").value.trim();
 
-    // Os filtros acontecem no servidor. Antes o front baixava todo mundo e
-    // filtrava no navegador.
+    // os filtros acontecem no servidor
     if (abaAtiva === "profissionais") {
         const pessoas = await pedir(`/busca/profissionais${filtros({
             skill: skillEscolhida,
@@ -107,7 +105,7 @@ function abrirAba(novaAba) {
     pegar("abaProfissionais").classList.toggle("ativo", abaAtiva === "profissionais");
     pegar("abaProjetos").classList.toggle("ativo", abaAtiva === "projetos");
 
-    // Os filtros de função só fazem sentido pra profissionais.
+    // os filtros de funcao so fazem sentido pra profissionais
     const mostrar = abaAtiva === "profissionais";
     pegar("filtrosCategorias").classList.toggle("escondido", !mostrar);
     pegar("filtrosSkills").classList.toggle("escondido", !mostrar || categoriaEscolhida === "Todos");
@@ -116,11 +114,7 @@ function abrirAba(novaAba) {
 }
 
 
-// O filtro tem dois níveis: categoria primeiro, função depois.
-//
-// Com 22 funções no catálogo, mostrar todas de uma vez virava uma parede de
-// três linhas de botão antes de qualquer resultado aparecer. Escolhendo a
-// categoria, a segunda linha nunca passa de meia dúzia de opções.
+// o filtro tem dois niveis: categoria primeiro, funcao depois
 function filtrarPorCategoria(categoria) {
     categoriaEscolhida = categoria;
     skillEscolhida = "Todos";
@@ -154,8 +148,7 @@ function desenharFiltros() {
         return chip(nome, nome === skillEscolhida, "skill");
     }).join(""));
 
-    // O valor vai no atributo, não dentro do onclick: assim uma função com
-    // apóstrofo no nome não quebra o botão.
+    // o valor vai no atributo: nome com apostrofo quebraria o onclick
     document.querySelectorAll(".botaoFiltro").forEach(function (botao) {
         botao.onclick = function () {
             if (botao.dataset.acao === "categoria") {

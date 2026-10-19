@@ -7,10 +7,9 @@ class ListarProjetosUsuarioService:
         usuario = u.buscarPorId(id)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
-        # Os projetos que a pessoa criou, mais os que ela participa como membro.
-        # Antes so apareciam os criados, e quem era so membro ficava invisivel.
+        # os projetos que a pessoa criou, mais os que ela participa como membro
         projetos = list(usuario.projetosCriados)
 
         for participacao in usuario.participacoes:

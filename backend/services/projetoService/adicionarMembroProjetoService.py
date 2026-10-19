@@ -10,23 +10,23 @@ class AdicionarMembroProjetoService:
         projeto = p.buscarPorId(idProjeto)
 
         if projeto is None and usuario is None:
-            return {"erro": "Projeto e usuarios nao encontrados"}, 404
+            return {"erro": "Projeto e pessoa não encontrados"}, 404
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         if not ehDonoDoProjeto(projeto):
             return ERRO_NAO_E_DONO
 
         if projeto.criador_id == usuario.id:
-            return {"erro": "O criador ja faz parte da equipe"}, 409
+            return {"erro": "O criador já faz parte da equipe"}, 409
 
         for membro in projeto.membros:
             if membro.usuario.id == usuario.id:
-                return {"erro": "Esse Usuario ja e membro do projeto"}, 409
+                return {"erro": "Essa pessoa já é membro do projeto"}, 409
 
         membro = MembroProjeto(
             projeto=projeto,
@@ -36,4 +36,4 @@ class AdicionarMembroProjetoService:
 
         p.adicionarMembro(projeto, membro)
 
-        return {"mensagem": f"O membro {usuario.usuario} foi adicionado com sucesso!"}, 201
+        return {"mensagem": f"{usuario.usuario} entrou na equipe"}, 201

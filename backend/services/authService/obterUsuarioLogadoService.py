@@ -2,7 +2,7 @@ import models.usuario as u
 from middlewares.autenticacao import usuarioLogado
 
 
-# Serve pro front descobrir quem esta logado sem precisar decifrar o token.
+# serve pro front descobrir quem esta logado sem precisar decifrar o token
 class ObterUsuarioLogadoService:
     def execute(self):
         usuario = usuarioLogado()

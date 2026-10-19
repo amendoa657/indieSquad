@@ -5,8 +5,7 @@ ligarOlhinho();
 
 document.querySelectorAll(".opcaoPerfil").forEach(function (botao) {
     botao.onclick = function () {
-        // "montarEquipe" ou "entrarProjeto". Isso não é só um rótulo: decide
-        // em qual tela a pessoa cai depois do login e entra como filtro na busca.
+        // "montarEquipe" ou "entrarProjeto"
         objetivoEscolhido = botao.dataset.objetivo;
 
         pegar("etapaPerfil").classList.add("etapaEscondida");
@@ -22,7 +21,7 @@ pegar("botaoVoltar").onclick = function (evento) {
 };
 
 
-// Sugere um apelido a partir do nome, pra pessoa não ter que pensar nisso.
+// sugere um apelido a partir do nome, pra pessoa nao ter que pensar nisso
 pegar("nome").oninput = function () {
     const campoHandle = pegar("handle");
 
@@ -58,8 +57,7 @@ pegar("formCadastro").onsubmit = async function (evento) {
 
     if (!resposta) return;
 
-    // O cadastro já devolve o token, então a pessoa entra direto em vez de
-    // ter que digitar e-mail e senha de novo na tela de login.
+    // o cadastro ja devolve o token, entao a pessoa entra direto
     guardarLogin(resposta);
-    irPara("perfil.html?completar=1");
+    irPara("onboarding.html");
 };

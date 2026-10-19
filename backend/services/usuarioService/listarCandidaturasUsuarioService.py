@@ -4,7 +4,7 @@ from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
 
 class ListarCandidaturasUsuarioService:
     def execute(self, idUsuario):
-        # As candidaturas de uma pessoa sao dado privado dela.
+        # as candidaturas de uma pessoa sao dado privado dela
         if not ehOProprio(idUsuario):
             return ERRO_NAO_E_VOCE
 

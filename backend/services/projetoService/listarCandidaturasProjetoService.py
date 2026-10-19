@@ -5,14 +5,13 @@ import models.avaliacao as a
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
 
 
-# As candidaturas de um projeto, com os dados de cada candidato ja montados.
-# So o criador do projeto chega aqui.
+# as candidaturas de um projeto, com os dados de cada candidato ja montados
 class ListarCandidaturasProjetoService:
     def execute(self, idProjeto):
         projeto = p.buscarPorId(idProjeto)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         if not ehDonoDoProjeto(projeto):
             return ERRO_NAO_E_DONO

@@ -7,7 +7,7 @@ class RemoverProjetoService:
         projeto = p.buscarPorId(id)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         if not ehDonoDoProjeto(projeto):
             return ERRO_NAO_E_DONO
@@ -15,4 +15,4 @@ class RemoverProjetoService:
         nome = projeto.nome
         p.removerProjeto(projeto)
 
-        return {"mensagem": f"Projeto {nome} removido com sucesso!"}, 200
+        return {"mensagem": f"Projeto {nome} removido"}, 200

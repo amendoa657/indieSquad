@@ -7,7 +7,7 @@ class DeletarUsuarioService:
         usuario = u.buscarPorId(id)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         if not ehOProprio(id):
             return ERRO_NAO_E_VOCE
@@ -17,4 +17,4 @@ class DeletarUsuarioService:
 
         u.deletarUsuario(usuario)
 
-        return {"mensagem": "Usuario deletado com sucesso"}, 200
+        return {"mensagem": "Conta apagada com sucesso"}, 200

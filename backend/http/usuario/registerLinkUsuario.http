@@ -1,0 +1,14 @@
+### Adiciona um link de portfólio. Precisa do endereço completo, com https://,
+### senão vira link relativo e não leva a lugar nenhum.
+POST {{baseUrl}}/usuarios/{{idUsuario}}/links
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "tipo": "itchio",
+  "url": "https://thales.itch.io"
+}
+
+> {% client.global.set("idLink", response.body.id); %}
+
+###

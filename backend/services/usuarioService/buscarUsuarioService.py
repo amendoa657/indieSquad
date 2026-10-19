@@ -7,9 +7,9 @@ class BuscarUsuarioService:
         usuario = u.mostrarUsuario(id)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
-        # O e-mail so sai quando a pessoa pede os proprios dados.
+        # o e-mail so sai quando a pessoa pede os proprios dados
         if ehOProprio(id):
             return u.to_dictCompleto(usuario), 200
 

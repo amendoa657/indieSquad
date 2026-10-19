@@ -15,13 +15,11 @@ class BuscarProfissionaisService:
             if skillNome and skillNome != "Todos" and skillNome not in skillsUsuario:
                 continue
 
-            # A busca filtra por categoria quando a pessoa escolheu so a
-            # categoria, sem escolher uma funcao especifica dentro dela.
+            # filtra por categoria quando nenhuma funcao especifica foi escolhida
             if categoria and categoria != "Todos" and categoria not in categoriasUsuario:
                 continue
 
-            # O filtro por nome agora acontece aqui, no servidor. Antes o front
-            # baixava todo mundo e filtrava no navegador.
+            # o filtro por nome agora acontece aqui, no servidor
             if termo:
                 alvo = f"{usuario.usuario} {usuario.handle}".lower()
 
@@ -67,8 +65,7 @@ class BuscarProfissionaisService:
                 "reputacao": a.reputacao(usuario.id)
             })
 
-        # Quem tem melhor reputacao aparece primeiro, e so depois quem tem mais
-        # projeto. Perfil vazio cai pro fim da lista naturalmente.
+        # quem tem melhor reputacao aparece primeiro, e so depois quem tem mais projeto
         resultado.sort(
             key=lambda pessoa: (pessoa["reputacao"]["media"], pessoa["reputacao"]["total"], pessoa["projetosCriados"]),
             reverse=True

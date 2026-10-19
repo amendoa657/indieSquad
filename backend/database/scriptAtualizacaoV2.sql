@@ -1,31 +1,18 @@
--- Atualizacao do banco da versao 1 pra versao 2.
---
--- Use esse script se voce JA tem o banco indieSquad criado e com dados.
--- Quem esta comecando do zero deve rodar o scriptCreateIndieSquadV2.sql.
---
--- Rode os blocos de cima pra baixo, na ordem.
+-- atualizacao do banco da versao 1 pra versao 2
 
--- Declara a codificacao do arquivo antes de qualquer coisa.
---
--- Sem essa linha, o cliente do MySQL usa a codificacao padrao dele (que em
--- muita maquina e latin1) e grava os acentos errados: o banco fica com
--- "ProduÃ§Ã£o" no lugar de "Produção". O terminal ainda mostra certo, porque
--- le de volta com a mesma codificacao errada, mas a API mostra o lixo.
+-- declara a codificacao do arquivo antes de qualquer coisa
 SET NAMES utf8mb4;
 
 use indieSquad;
 
 
--- -----------------------------------------------------
 -- usuario
--- -----------------------------------------------------
 
--- O hash da senha passa de 160 caracteres, nao cabe mais em VARCHAR(90).
+-- o hash da senha passa de 160 caracteres, nao cabe mais em varchar(90)
 alter table usuario
 modify senha varchar(255) not null;
 
--- Apelido unico usado na URL do perfil. Comeca nulo pra nao quebrar as linhas
--- que ja existem; o UPDATE logo abaixo gera um apelido provisorio pra elas.
+-- apelido unico usado na URL do perfil
 alter table usuario
 add column handle varchar(30) null after id;
 
@@ -39,7 +26,7 @@ modify handle varchar(30) not null;
 alter table usuario
 add unique index handle_UNIQUE (handle);
 
--- "montarEquipe", "entrarProjeto" ou "ambos". Decide a tela inicial do app.
+-- montarEquipe, entrarProjeto ou ambos: decide a tela inicial do app
 alter table usuario
 add column objetivo varchar(45) not null default 'ambos';
 
@@ -55,19 +42,15 @@ add column aceitaRevenueShare tinyint(1) not null default 0;
 alter table usuario
 add column aceitaRemunerado tinyint(1) not null default 0;
 
--- ATENCAO: as senhas que estao no banco estao em texto puro e nao viram hash
--- sozinhas. Depois de rodar esse script, apague os usuarios de teste antigos ou
--- cadastre todo mundo de novo pelo app, pra senha nascer com hash.
+-- atencao: as senhas antigas estao em texto puro e nao viram hash sozinhas
 
 
--- -----------------------------------------------------
 -- skills
--- -----------------------------------------------------
 
 alter table skills
 add column categoria varchar(45) not null default 'Outro';
 
--- Corrige o erro de digitacao que ficou gravado na versao 1.
+-- corrige o erro de digitacao que ficou gravado na versao 1
 update skills
 set nome = 'Programador'
 where nome = 'Progamador';
@@ -76,12 +59,9 @@ alter table skills
 add unique index nome_UNIQUE (nome);
 
 
--- -----------------------------------------------------
 -- skillUsuario
--- -----------------------------------------------------
 
--- O nivel agora e de 1 a 4 (1 Iniciante, 4 Especialista). Os valores antigos
--- estavam numa escala solta (5, 10), entao viram 4 quando passam do limite.
+-- o nivel agora e de 1 a 4; os valores antigos estavam numa escala solta
 update skillUsuario
 set nivel = 4
 where nivel > 4;
@@ -94,9 +74,7 @@ alter table skillUsuario
 modify nivel int not null default 1;
 
 
--- -----------------------------------------------------
 -- projeto
--- -----------------------------------------------------
 
 alter table projeto
 add column genero varchar(45) null;
@@ -114,9 +92,7 @@ alter table projeto
 add column dataConclusao datetime null;
 
 
--- -----------------------------------------------------
 -- vagaProjeto
--- -----------------------------------------------------
 
 update vagaProjeto
 set titulo = 'Vaga'
@@ -129,13 +105,9 @@ alter table vagaProjeto
 add column nivelMinimo int null;
 
 
--- -----------------------------------------------------
 -- candidaturaUsuario
--- -----------------------------------------------------
 
--- Na versao 1 a chave primaria era (id, usuario_id, vagaProjeto_id), o que
--- deixava a mesma pessoa se candidatar varias vezes na mesma vaga.
--- Agora a chave e so o id e um indice unico impede a duplicata.
+-- na versao 1 a chave nao impedia a mesma pessoa de se candidatar varias vezes na mesma vaga
 alter table candidaturaUsuario
 drop primary key,
 add primary key (id);
@@ -147,9 +119,7 @@ alter table candidaturaUsuario
 add unique index uq_candidatura_usuario_vaga (usuario_id, vagaProjeto_id);
 
 
--- -----------------------------------------------------
 -- avaliacao
--- -----------------------------------------------------
 
 alter table avaliacao
 add column notaComunicacao int not null default 0;
@@ -172,9 +142,7 @@ alter table avaliacao
 add unique index uq_avaliacao_avaliador_avaliado_projeto (avaliador_id, avaliado_id, projeto_id);
 
 
--- -----------------------------------------------------
--- Tabelas novas
--- -----------------------------------------------------
+-- tabelas novas
 
 create table if not exists linkUsuario (
   id int not null auto_increment,

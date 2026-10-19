@@ -1,28 +1,13 @@
--- Dados iniciais do IndieSquad.
---
--- A primeira parte (catalogo de funcoes e ferramentas) e obrigatoria: o app
--- espera que essas listas existam.
--- A segunda parte sao dados de exemplo pra demonstracao, da pra nao rodar.
---
--- Rode esse script depois do scriptCreateIndieSquadV2.sql.
+-- dados iniciais do IndieSquad
 
--- Declara a codificacao do arquivo antes de qualquer coisa.
---
--- Sem essa linha, o cliente do MySQL usa a codificacao padrao dele (que em
--- muita maquina e latin1) e grava os acentos errados: o banco fica com
--- "ProduÃ§Ã£o" no lugar de "Produção". O terminal ainda mostra certo, porque
--- le de volta com a mesma codificacao errada, mas a API mostra o lixo.
+-- declara a codificacao do arquivo antes de qualquer coisa
 SET NAMES utf8mb4;
 
 use indieSquad;
 
 
--- -----------------------------------------------------
--- Catalogo de funcoes (obrigatorio)
---
--- O usuario escolhe de uma lista, nao digita livre. E isso que impede o banco
--- de encher de duplicata ("Programador", "programador", "Progamador", "Dev").
--- -----------------------------------------------------
+-- catalogo de funcoes (obrigatorio)
+-- a pessoa escolhe de uma lista, nao digita livre, pra nao encher o banco de duplicata
 
 insert into skills (nome, categoria) values
   ('Programador', 'Programação'),
@@ -50,9 +35,7 @@ insert into skills (nome, categoria) values
 on duplicate key update categoria = values(categoria);
 
 
--- -----------------------------------------------------
--- Catalogo de ferramentas (obrigatorio)
--- -----------------------------------------------------
+-- catalogo de ferramentas (obrigatorio)
 
 insert into ferramenta (nome, categoria) values
   ('Unity', 'Engine'),
@@ -79,12 +62,8 @@ insert into ferramenta (nome, categoria) values
 on duplicate key update categoria = values(categoria);
 
 
--- -----------------------------------------------------
--- Dados de exemplo (opcional, so pra demonstracao)
---
--- A senha de todos os usuarios de exemplo e: indiesquad123
--- O que esta gravado na coluna e o hash dela, nunca a senha em texto.
--- -----------------------------------------------------
+-- dados de exemplo (opcional, so pra demonstracao)
+-- a senha de todos os usuarios de exemplo e indiesquad123
 
 insert into usuario
   (handle, usuario, email, senha, bio, objetivo, disponibilidadeHoras, aceitaPortfolio, aceitaRevenueShare, aceitaRemunerado, dataCriacao)
@@ -114,7 +93,7 @@ values
    'Produtor. Sou a pessoa que lembra o grupo que tem prazo.', 'ambos', 12, 1, 1, 0, '2026-03-15 16:00:00');
 
 
--- Funcoes de cada pessoa (nivel: 1 Iniciante, 2 Intermediario, 3 Avancado, 4 Especialista)
+-- funcoes de cada pessoa (nivel: 1 Iniciante, 2 Intermediario, 3 Avancado, 4 Especialista)
 insert into skillUsuario (skills_id, usuario_id, nivel)
 select s.id, u.id, v.nivel
 from (
@@ -134,7 +113,7 @@ join usuario u on u.handle = v.handle
 join skills s on s.nome = v.skill;
 
 
--- Ferramentas de cada pessoa
+-- ferramentas de cada pessoa
 insert into ferramentaUsuario (ferramenta_id, usuario_id)
 select f.id, u.id
 from (
@@ -154,7 +133,7 @@ join usuario u on u.handle = v.handle
 join ferramenta f on f.nome = v.ferramenta;
 
 
--- Links de portfolio
+-- links de portfolio
 insert into linkUsuario (tipo, url, usuario_id)
 select v.tipo, v.url, u.id
 from (
@@ -168,7 +147,7 @@ from (
 join usuario u on u.handle = v.handle;
 
 
--- Projetos
+-- projetos
 insert into projeto
   (nome, descricao, status, genero, engine, tipoParceria, duracaoEstimada, dataCriacao, dataConclusao, criador_id)
 select
@@ -193,7 +172,7 @@ from (
 join usuario u on u.handle = v.handle;
 
 
--- Marcos dos projetos
+-- marcos dos projetos
 insert into marcoProjeto (titulo, concluido, ordem, projeto_id)
 select v.titulo, v.concluido, v.ordem, p.id
 from (
@@ -209,7 +188,7 @@ from (
 join projeto p on p.nome = v.projeto;
 
 
--- Equipe de cada projeto
+-- equipe de cada projeto
 insert into membroProjeto (usuario_id, projeto_id, cargo, dataEntrada)
 select u.id, p.id, v.cargo, v.dataEntrada
 from (
@@ -221,7 +200,7 @@ join usuario u on u.handle = v.handle
 join projeto p on p.nome = v.projeto;
 
 
--- Vagas abertas
+-- vagas abertas
 insert into vagaProjeto (titulo, descricao, status, nivelMinimo, dataCriacao, skills_id, projeto_id)
 select v.titulo, v.descricao, v.status, v.nivelMinimo, v.dataCriacao, s.id, p.id
 from (
@@ -249,7 +228,7 @@ join projeto p on p.nome = v.projeto
 join skills s on s.nome = v.skill;
 
 
--- Candidaturas
+-- candidaturas
 insert into candidaturaUsuario (mensagem, status, dataCriacao, usuario_id, vagaProjeto_id)
 select v.mensagem, v.status, v.dataCriacao, u.id, vg.id
 from (
@@ -274,7 +253,7 @@ join projeto p on p.nome = v.projeto
 join vagaProjeto vg on vg.titulo = v.vaga and vg.projeto_id = p.id;
 
 
--- Avaliacoes do projeto que ja foi concluido
+-- avaliacoes do projeto que ja foi concluido
 insert into avaliacao
   (nota, notaComunicacao, notaPrazo, notaQualidade, comentario, dataCriacao, avaliador_id, avaliado_id, projeto_id)
 select v.nota, v.notaComunicacao, v.notaPrazo, v.notaQualidade, v.comentario, v.dataCriacao, av.id, ad.id, p.id

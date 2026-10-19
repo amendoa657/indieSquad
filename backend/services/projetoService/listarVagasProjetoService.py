@@ -4,14 +4,13 @@ import models.candidaturaUsuario as c
 from middlewares.autenticacao import idUsuarioLogado
 
 
-# As vagas de um projeto so. Substitui o GET /vagas que o front usava pra
-# baixar todas as vagas do sistema e filtrar no navegador.
+# as vagas de um projeto so
 class ListarVagasProjetoService:
     def execute(self, idProjeto):
         projeto = p.buscarPorId(idProjeto)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         idLogado = idUsuarioLogado()
 
@@ -20,8 +19,7 @@ class ListarVagasProjetoService:
             dados = v.to_dict(vaga)
             dados["totalCandidaturas"] = len(vaga.candidaturasUsuarios)
 
-            # Marca se quem esta olhando ja se candidatou, pra tela mostrar
-            # "Candidatura enviada" em vez de oferecer o botao de novo.
+            # marca se quem esta olhando ja se candidatou nessa vaga
             if idLogado is None:
                 dados["minhaCandidatura"] = None
             else:

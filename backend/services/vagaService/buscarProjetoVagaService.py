@@ -7,6 +7,6 @@ class BuscarProjetoVagaService:
         vaga = v.buscarPorId(id)
 
         if vaga is None:
-            return {"erro": "Vaga nao encontrada"}, 404
+            return {"erro": "Vaga não encontrada"}, 404
 
         return p.to_dict(v.getProjeto(vaga)), 200

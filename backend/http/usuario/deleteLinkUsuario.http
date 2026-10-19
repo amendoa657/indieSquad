@@ -1,0 +1,5 @@
+### Remove um link do próprio perfil.
+DELETE {{baseUrl}}/links/{{idLink}}
+Authorization: Bearer {{token}}
+
+###

@@ -1,0 +1,4 @@
+### Os links de portfólio da pessoa.
+GET {{baseUrl}}/usuarios/{{idUsuario}}/links
+
+###

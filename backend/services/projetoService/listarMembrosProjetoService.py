@@ -7,9 +7,9 @@ class ListarMembrosProjetoService:
         projeto = p.buscarPorId(idProjeto)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
-        # O criador aparece primeiro, com o cargo dele, e depois a equipe.
+        # o criador aparece primeiro, com o cargo dele, e depois a equipe
         equipe = [dict(u.to_dict(projeto.criador), cargo="Criador")]
 
         for membro in p.getMembrosProjeto(projeto):

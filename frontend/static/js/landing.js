@@ -1,8 +1,4 @@
-// Os números do topo da landing vêm do banco.
-//
-// Antes eram "93%", "2.4k+" e "380+" escritos na mão no HTML, sem vir de
-// lugar nenhum. Começar pequeno e verdadeiro é melhor do que parecer grande
-// e não conseguir explicar de onde saiu o número.
+// os numeros do topo da landing vem do banco
 
 async function carregarEstatisticas() {
     const dados = await pedir("/estatisticas");

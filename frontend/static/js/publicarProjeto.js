@@ -14,20 +14,14 @@ document.querySelectorAll(".opcaoParceria").forEach(function (card) {
 });
 
 
-// Os perfis vêm do catálogo do banco, com o id de cada função.
-//
-// Antes os botões eram texto fixo no HTML e o front criava uma skill nova a
-// cada publicação. Era assim que o banco acabava com "Programador",
-// "programador" e "Progamador" convivendo, e a busca por função parava de
-// funcionar.
+// os perfis vem do catalogo do banco, com o id de cada funcao
 async function carregarPerfis() {
     const skills = await pedir("/skills");
     if (!skills) return;
 
     skillsDoBanco = skills;
 
-    // Agrupadas por categoria, pra pessoa achar a função que precisa de
-    // relance em vez de varrer 22 botões em sequência.
+    // agrupadas por categoria pra achar a funcao de relance
     const categorias = [...new Set(skills.map((skill) => skill.categoria))];
 
     escrever("botoesPerfil", categorias.map(function (categoria) {
@@ -59,7 +53,7 @@ async function carregarPerfis() {
 }
 
 
-// Os marcos são escritos separados por vírgula e viram uma lista.
+// os marcos sao escritos separados por virgula e viram uma lista
 function marcosDigitados() {
     return valor("marcoProjeto")
         .split(",")
@@ -84,8 +78,7 @@ pegar("formPublicarProjeto").onsubmit = async function (evento) {
 
     const nome = valor("nomeProjeto");
 
-    // Agora tudo que o formulário pede é realmente salvo: gênero, engine,
-    // tipo de parceria, duração e os marcos.
+    // tudo que o formulario pede e salvo, inclusive os marcos
     const projeto = await pedir("/projetos", "POST", {
         nome: nome,
         descricao: valor("descricaoProjeto"),

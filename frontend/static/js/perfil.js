@@ -2,11 +2,24 @@
 protegerPagina();
 
 
-// Sem handle no endereço, é o meu próprio perfil.
+// sem handle no endereco, e o meu proprio perfil
 const handleDoPerfil = parametro("handle");
 let idDoPerfil = null;
 let souEu = false;
 let skillsDoBanco = [];
+let ferramentasDoBanco = [];
+const minhasFerramentas = new Set();
+
+// o rotulo de cada item que falta pro perfil ficar completo
+const FALTANDO = {
+    bio: "escrever uma bio",
+    skills: "adicionar uma função",
+    disponibilidade: "dizer sua disponibilidade",
+    colaboracao: "marcar que tipo de colaboração aceita",
+    ferramentas: "adicionar suas ferramentas",
+    links: "colar um link de portfólio",
+};
+
 
 
 pegar("botaoEditar").onclick = function () {
@@ -56,8 +69,177 @@ async function carregarSkillsDoBanco() {
 }
 
 
+// ---------- Ferramentas ----------
+
+async function carregarFerramentas() {
+    const minhas = (await pedir(`/usuarios/${idDoPerfil}/ferramentas`)) || [];
+
+    minhasFerramentas.clear();
+    minhas.forEach((ferramenta) => minhasFerramentas.add(ferramenta.id));
+
+    listar("ferramentasPerfil", minhas, function (ferramenta) {
+        return `<span class="tagSkill">${escapar(ferramenta.nome)}</span>`;
+    }, "Nenhuma ferramenta cadastrada ainda.");
+
+    if (!souEu) return;
+
+    if (ferramentasDoBanco.length === 0) {
+        ferramentasDoBanco = (await pedir("/ferramentas")) || [];
+    }
+
+    const categorias = [...new Set(ferramentasDoBanco.map((f) => f.categoria))];
+
+    escrever("botoesFerramenta", categorias.map(function (categoria) {
+        const daCategoria = ferramentasDoBanco.filter((f) => f.categoria === categoria);
+
+        return `
+            <div class="grupoPerfil">
+                <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
+                <div class="chipsGrupoPerfil">
+                    ${daCategoria.map((f) => `
+                        <button type="button" class="botaoPerfil ${minhasFerramentas.has(f.id) ? "ativo" : ""}" data-id="${f.id}">
+                            ${escapar(f.nome)}
+                        </button>
+                    `).join("")}
+                </div>
+            </div>
+        `;
+    }).join(""));
+
+    document.querySelectorAll("#botoesFerramenta .botaoPerfil").forEach(function (botao) {
+        botao.onclick = () => alternarFerramenta(Number(botao.dataset.id), botao);
+    });
+}
+
+
+async function alternarFerramenta(idFerramenta, botao) {
+    if (minhasFerramentas.has(idFerramenta)) {
+        const resposta = await pedir(`/usuarios/${idDoPerfil}/ferramentas/${idFerramenta}`, "DELETE");
+        if (!resposta) return;
+
+        minhasFerramentas.delete(idFerramenta);
+        botao.classList.remove("ativo");
+    } else {
+        const resposta = await pedir(`/usuarios/${idDoPerfil}/ferramentas`, "POST", { idFerramenta: idFerramenta });
+        if (!resposta) return;
+
+        minhasFerramentas.add(idFerramenta);
+        botao.classList.add("ativo");
+    }
+
+    carregarFerramentas();
+}
+
+
+// ---------- Links de portfolio ----------
+
+async function carregarLinks() {
+    const links = (await pedir(`/usuarios/${idDoPerfil}/links`)) || [];
+
+    // no cabecalho os links sao clicaveis; so o dono ve a lista de gerenciar
+    listar("linksPerfil", links, function (link) {
+        return `<a class="tagSkill tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">
+            ${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗
+        </a>`;
+    }, "");
+
+    if (!souEu) return;
+
+    listar("meusLinks", links, function (link) {
+        return `<span class="tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
+            <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})">×</button></span>`;
+    }, "Nenhum link ainda.");
+}
+
+
+async function adicionarLink() {
+    avisar("");
+
+    const url = valor("campoUrlLink");
+
+    if (!url) {
+        avisar("Cola o endereço do seu portfólio.");
+        return;
+    }
+
+    const resposta = await pedir(`/usuarios/${idDoPerfil}/links`, "POST", {
+        tipo: pegar("campoTipoLink").value,
+        url: url,
+    });
+
+    if (!resposta) return;
+
+    pegar("campoUrlLink").value = "";
+    carregarPerfil();
+}
+
+
+async function removerLink(idLink) {
+    const resposta = await pedir(`/links/${idLink}`, "DELETE");
+    if (!resposta) return;
+
+    carregarPerfil();
+}
+
+
+// ---------- Avaliacoes recebidas ----------
+
+async function carregarAvaliacoesRecebidas() {
+    const dados = await pedir(`/usuarios/${idDoPerfil}/avaliacoes`);
+    if (!dados || dados.avaliacoes.length === 0) return;
+
+    pegar("blocoAvaliacoesPerfil").classList.remove("escondido");
+
+    listar("listaAvaliacoesPerfil", dados.avaliacoes, function (avaliacao) {
+        return `
+            <div class="cardResultado">
+                <div class="topoCardResultado">
+                    <h2>
+                        <span class="avatarMembro">${escapar(avaliacao.avaliador.usuario.charAt(0).toUpperCase())}</span>
+                        ${escapar(avaliacao.avaliador.usuario)}
+                    </h2>
+                    <span class="statusResultado">${escapar(avaliacao.projeto.nome)}</span>
+                </div>
+                <div class="notasRecebidas">
+                    <span class="notaGrande">${numero(avaliacao.nota, 0)}</span>
+                    <div class="detalheNotas">
+                        <span>Comunicação ${avaliacao.notaComunicacao}</span>
+                        <span>Prazo ${avaliacao.notaPrazo}</span>
+                        <span>Qualidade ${avaliacao.notaQualidade}</span>
+                    </div>
+                </div>
+                ${avaliacao.comentario ? `<p class="descricaoResultado">“${escapar(avaliacao.comentario)}”</p>` : ""}
+            </div>
+        `;
+    }, "");
+}
+
+
+// ---------- Perfil completo ----------
+
+function mostrarPerfilCompleto(dados) {
+    if (!souEu || !dados.faltando) {
+        pegar("barraPerfilCompleto").classList.add("escondido");
+        return;
+    }
+
+    // perfil cheio nao precisa de barra lembrando que esta cheio
+    if (dados.faltando.length === 0) {
+        pegar("barraPerfilCompleto").classList.add("escondido");
+        return;
+    }
+
+    pegar("barraPerfilCompleto").classList.remove("escondido");
+    escrever("percentualPerfil", `${dados.perfilCompleto}%`);
+    pegar("progressoPerfil").style.transform = `scaleX(${dados.perfilCompleto / 100})`;
+
+    const itens = dados.faltando.map((chave) => FALTANDO[chave] || chave);
+    escrever("faltandoPerfil", `Falta ${escapar(itens.join(", "))}.`);
+}
+
+
 async function carregarPerfil() {
-    // Perfil de outra pessoa vem pelo apelido; o meu vem pelo id.
+    // perfil de outra pessoa vem pelo apelido; o meu vem pelo id
     const dados = handleDoPerfil
         ? await pedir(`/usuarios/handle/${encodeURIComponent(handleDoPerfil)}`)
         : await pedir(`/usuarios/${meuId()}`);
@@ -71,7 +253,7 @@ async function carregarPerfil() {
     const numeros = (await pedir(`/usuarios/${idDoPerfil}/estatisticas`)) || {};
     const projetos = (await pedir(`/usuarios/projeto/${idDoPerfil}`)) || [];
 
-    // Cabeçalho. O avatar é a primeira letra do nome.
+    // cabecalho
     escrever("avatarPerfil", escapar(dados.usuario.charAt(0).toUpperCase()));
     escrever("nomePerfil", escapar(dados.usuario));
     escrever("handlePerfil", `@${escapar(dados.handle)}`);
@@ -110,7 +292,7 @@ async function carregarPerfil() {
         }, "Perfil ainda não preenchido.");
     }
 
-    // Só eu mexo nas minhas funções; no perfil de outra pessoa é só leitura.
+    // so eu mexo nas minhas funcoes; no perfil de outra pessoa e so leitura
     listar("skillsPerfil", skills, function (skill) {
         const remover = souEu
             ? `<button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})">×</button>`
@@ -134,7 +316,12 @@ async function carregarPerfil() {
         `;
     }, "Nenhum projeto ainda.");
 
-    // Os blocos de edição só aparecem no meu próprio perfil.
+    mostrarPerfilCompleto(dados);
+    carregarFerramentas();
+    carregarLinks();
+    carregarAvaliacoesRecebidas();
+
+    // os blocos de edicao so aparecem no meu proprio perfil
     if (souEu) {
         pegar("botaoEditar").classList.remove("escondido");
 
@@ -148,16 +335,16 @@ async function carregarPerfil() {
         pegar("campoRevenueShare").checked = dados.aceitaRevenueShare;
         pegar("campoRemunerado").checked = dados.aceitaRemunerado;
 
-        if (pegar("blocoSkills")) {
-            pegar("blocoSkills").classList.remove("escondido");
-        }
+        pegar("blocoSkills").classList.remove("escondido");
+        pegar("blocoFerramentas").classList.remove("escondido");
+        pegar("blocoLinks").classList.remove("escondido");
     } else {
         pegar("botaoEditar").classList.add("escondido");
         pegar("blocoEdicao").classList.add("escondido");
 
-        if (pegar("blocoSkills")) {
-            pegar("blocoSkills").classList.add("escondido");
-        }
+        pegar("blocoSkills").classList.add("escondido");
+        pegar("blocoFerramentas").classList.add("escondido");
+        pegar("blocoLinks").classList.add("escondido");
     }
 }
 
@@ -181,7 +368,7 @@ pegar("formPerfil").onsubmit = async function (evento) {
 
     if (!resposta) return;
 
-    // O localStorage guarda o nome e o apelido pra tela não ficar desatualizada.
+    // o localStorage guarda o nome e o apelido pra tela nao ficar desatualizada
     guardarLogin({ token: localStorage.getItem("token"), usuario: resposta });
 
     avisarSucesso("Perfil atualizado com sucesso!");

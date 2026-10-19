@@ -1,0 +1,5 @@
+### Remove uma ferramenta do próprio perfil.
+DELETE {{baseUrl}}/usuarios/{{idUsuario}}/ferramentas/2
+Authorization: Bearer {{token}}
+
+###

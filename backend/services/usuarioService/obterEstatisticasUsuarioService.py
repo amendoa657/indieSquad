@@ -2,14 +2,13 @@ import models.usuario as u
 import models.avaliacao as a
 
 
-# Os numeros publicos de um perfil: projetos, colaboracoes, taxa de conclusao e
-# reputacao. Antes o perfil puxava isso do /dashboard, que e dado privado.
+# numeros publicos do perfil: projetos, colaboracoes, conclusao e reputacao
 class ObterEstatisticasUsuarioService:
     def execute(self, id):
         usuario = u.buscarPorId(id)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         projetosCriados = usuario.projetosCriados
         totalProjetos = len(projetosCriados)

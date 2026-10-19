@@ -10,6 +10,12 @@ from services.usuarioService.listarSkillsUsuarioService import ListarSkillsUsuar
 from services.usuarioService.adicionarSkillUsuarioService import AdicionarSkillUsuarioService
 from services.usuarioService.removerSkillUsuarioService import RemoverSkillUsuarioService
 from services.usuarioService.obterEstatisticasUsuarioService import ObterEstatisticasUsuarioService
+from services.usuarioService.listarFerramentasUsuarioService import ListarFerramentasUsuarioService
+from services.usuarioService.adicionarFerramentaUsuarioService import AdicionarFerramentaUsuarioService
+from services.usuarioService.removerFerramentaUsuarioService import RemoverFerramentaUsuarioService
+from services.usuarioService.listarLinksUsuarioService import ListarLinksUsuarioService
+from services.usuarioService.adicionarLinkUsuarioService import AdicionarLinkUsuarioService
+from services.usuarioService.removerLinkUsuarioService import RemoverLinkUsuarioService
 from middlewares.autenticacao import exigirLogin
 
 
@@ -64,6 +70,34 @@ class UsuarioController:
         service = RemoverSkillUsuarioService()
         return service.execute(idUsuario, idSkill)
 
+    def listarFerramentas(self, id):
+        service = ListarFerramentasUsuarioService()
+        return service.execute(id)
+
+    @exigirLogin
+    def adicionarFerramenta(self, id):
+        service = AdicionarFerramentaUsuarioService()
+        return service.execute(id, request.get_json(silent=True))
+
+    @exigirLogin
+    def removerFerramenta(self, idUsuario, idFerramenta):
+        service = RemoverFerramentaUsuarioService()
+        return service.execute(idUsuario, idFerramenta)
+
+    def listarLinks(self, id):
+        service = ListarLinksUsuarioService()
+        return service.execute(id)
+
+    @exigirLogin
+    def adicionarLink(self, id):
+        service = AdicionarLinkUsuarioService()
+        return service.execute(id, request.get_json(silent=True))
+
+    @exigirLogin
+    def removerLink(self, idLink):
+        service = RemoverLinkUsuarioService()
+        return service.execute(idLink)
+
 
 usuarioBp = Blueprint("usuarios", __name__)
 _controller = UsuarioController()
@@ -79,3 +113,9 @@ usuarioBp.add_url_rule("/usuarios/deletar/<int:id>", view_func=_controller.delet
 usuarioBp.add_url_rule("/usuarios/<int:id>/skills/", view_func=_controller.listarSkills, methods=["GET"])
 usuarioBp.add_url_rule("/usuarios/<int:id>/skills/", view_func=_controller.adicionarSkill, methods=["POST"], endpoint="adicionarSkill")
 usuarioBp.add_url_rule("/usuarios/<int:idUsuario>/skills/<int:idSkill>", view_func=_controller.removerSkill, methods=["DELETE"])
+usuarioBp.add_url_rule("/usuarios/<int:id>/ferramentas", view_func=_controller.listarFerramentas, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/<int:id>/ferramentas", view_func=_controller.adicionarFerramenta, methods=["POST"], endpoint="adicionarFerramenta")
+usuarioBp.add_url_rule("/usuarios/<int:idUsuario>/ferramentas/<int:idFerramenta>", view_func=_controller.removerFerramenta, methods=["DELETE"])
+usuarioBp.add_url_rule("/usuarios/<int:id>/links", view_func=_controller.listarLinks, methods=["GET"])
+usuarioBp.add_url_rule("/usuarios/<int:id>/links", view_func=_controller.adicionarLink, methods=["POST"], endpoint="adicionarLink")
+usuarioBp.add_url_rule("/links/<int:idLink>", view_func=_controller.removerLink, methods=["DELETE"])

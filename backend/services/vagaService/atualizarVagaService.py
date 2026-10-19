@@ -9,7 +9,7 @@ class AtualizarVagaService:
         vaga = v.buscarPorId(id)
 
         if vaga is None:
-            return {"erro": "Vaga nao encontrada"}, 404
+            return {"erro": "Vaga não encontrada"}, 404
 
         if not ehDonoDoProjeto(v.getProjeto(vaga)):
             return ERRO_NAO_E_DONO
@@ -21,7 +21,7 @@ class AtualizarVagaService:
             titulo = texto(dados["titulo"], 45)
 
             if not titulo:
-                return {"erro": "O titulo nao pode ficar vazio"}, 400
+                return {"erro": "O título não pode ficar vazio"}, 400
 
             vaga.titulo = titulo
 
@@ -30,7 +30,7 @@ class AtualizarVagaService:
 
         if "status" in dados:
             if not v.statusValido(dados["status"]):
-                return {"erro": "Status invalido"}, 400
+                return {"erro": "Status inválido"}, 400
 
             vaga.status = dados["status"]
 
@@ -41,7 +41,7 @@ class AtualizarVagaService:
                 nivel = inteiroNoIntervalo(dados["nivelMinimo"], 1, 4)
 
                 if nivel is None:
-                    return {"erro": "O nivel minimo deve ser de 1 a 4"}, 400
+                    return {"erro": "O nível mínimo deve ser de 1 a 4"}, 400
 
                 vaga.nivelMinimo = nivel
 
@@ -49,12 +49,11 @@ class AtualizarVagaService:
             skill = s.buscarPorId(dados["idSkill"])
 
             if skill is None:
-                return {"erro": "Skill nao encontrado"}, 404
+                return {"erro": "Função não encontrada"}, 404
 
             vaga.skills_id = skill.id
 
-        # O projeto da vaga nao muda mais: mover uma vaga pra outro projeto
-        # deixava ela com dono diferente do projeto e furava a autorizacao.
+        # mover a vaga pra outro projeto trocaria o dono e furaria a autorizacao
 
         v.salvar()
 

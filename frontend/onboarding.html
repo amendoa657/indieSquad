@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="escuro">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+        <meta name="color-scheme" content="dark light" />
+        <meta name="theme-color" content="#0b0f14" />
+        <title>Completar perfil - IndieSquad</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Space+Grotesk:wght@400..700&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="static/style/tokens.css" />
+        <link rel="stylesheet" href="static/style/base.css" />
+        <link rel="stylesheet" href="static/style/componentes.css" />
+        <link rel="stylesheet" href="static/style/telas.css" />
+
+        <script src="static/js/tema.js"></script>
+    </head>
+
+    <body class="corpoLogin">
+        <main class="paginaOnboarding">
+            <div class="topoLogin">
+                <a class="botaoLogo" href="dashboard.html">
+                    <div class="logo">
+                        <img src="static/assets/Logo.svg" alt="" />
+                        <h3>INDIE<span>SQUAD</span></h3>
+                    </div>
+                </a>
+
+                <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                    <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
+                    <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+                </button>
+            </div>
+
+            <div class="cardLogin cardOnboarding">
+                <div class="passosOnboarding" id="passosOnboarding"></div>
+
+                <!-- passo 1: funcoes -->
+                <section class="passoOnboarding passoAtivo" id="passo1">
+                    <h2>O que você faz?</h2>
+                    <h3>É assim que as pessoas vão te encontrar quando precisarem da sua função.</h3>
+
+                    <div class="tagsResultado" id="minhasSkills"></div>
+
+                    <div class="adicionarSkill">
+                        <select id="campoSkill"></select>
+
+                        <select id="campoNivel">
+                            <option value="1">Iniciante</option>
+                            <option value="2" selected>Intermediário</option>
+                            <option value="3">Avançado</option>
+                            <option value="4">Especialista</option>
+                        </select>
+
+                        <button type="button" class="botaoEnviar" onclick="adicionarSkill()">Adicionar</button>
+                    </div>
+
+                    <div class="botoesOnboarding">
+                        <button type="button" class="botaoEditarPerfil" onclick="pular()">Pular</button>
+                        <button type="button" class="botaoEnviar" onclick="irParaPasso(2)">Continuar</button>
+                    </div>
+                </section>
+
+                <!-- passo 2: compromisso -->
+                <section class="passoOnboarding" id="passo2">
+                    <h2>Quanto você consegue se comprometer?</h2>
+                    <h3>Esse é o dado que mais evita frustração dos dois lados.</h3>
+
+                    <div class="campoFormulario">
+                        <label for="campoBio">Bio</label>
+                        <textarea id="campoBio" placeholder="Em duas linhas: o que você faz e o que gosta de fazer."></textarea>
+                    </div>
+
+                    <div class="campoFormulario">
+                        <label for="campoHoras">Horas por semana</label>
+                        <input type="number" id="campoHoras" min="1" max="80" placeholder="Ex: 10" />
+                        <small class="dicaCampo">Seja honesto. Prometer 30 e entregar 5 é o que mais quebra equipe indie.</small>
+                    </div>
+
+                    <div class="campoFormulario">
+                        <label>Que tipo de colaboração você aceita</label>
+
+                        <label class="opcaoMarcavel">
+                            <input type="checkbox" id="campoPortfolio" /> Portfólio, sem pagamento
+                        </label>
+
+                        <label class="opcaoMarcavel">
+                            <input type="checkbox" id="campoRevenueShare" /> Divisão de lucro
+                        </label>
+
+                        <label class="opcaoMarcavel">
+                            <input type="checkbox" id="campoRemunerado" /> Remunerado
+                        </label>
+                    </div>
+
+                    <div class="botoesOnboarding">
+                        <button type="button" class="botaoEditarPerfil" onclick="irParaPasso(1)">Voltar</button>
+                        <button type="button" class="botaoEnviar" onclick="salvarCompromisso()">Continuar</button>
+                    </div>
+                </section>
+
+                <!-- passo 3: ferramentas e portfolio -->
+                <section class="passoOnboarding" id="passo3">
+                    <h2>Ferramentas e portfólio</h2>
+                    <h3>Ferramenta em comum é o que faz a equipe começar a trabalhar no primeiro dia.</h3>
+
+                    <div class="campoFormulario">
+                        <label>Ferramentas que você usa</label>
+                        <div class="botoesPerfil" id="botoesFerramenta"></div>
+                    </div>
+
+                    <div class="campoFormulario">
+                        <label for="campoTipoLink">Links de portfólio</label>
+
+                        <div class="linhaLink">
+                            <select id="campoTipoLink">
+                                <option value="itchio">itch.io</option>
+                                <option value="github">GitHub</option>
+                                <option value="artstation">ArtStation</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="site">Site</option>
+                                <option value="outro">Outro</option>
+                            </select>
+
+                            <input type="url" id="campoUrlLink" placeholder="https://..." />
+
+                            <button type="button" class="botaoEnviar" onclick="adicionarLink()">Add</button>
+                        </div>
+
+                        <div class="tagsResultado" id="meusLinks"></div>
+                    </div>
+
+                    <div class="botoesOnboarding">
+                        <button type="button" class="botaoEditarPerfil" onclick="irParaPasso(2)">Voltar</button>
+                        <button type="button" class="botaoEnviar" onclick="terminar()">Terminar</button>
+                    </div>
+                </section>
+
+                <p class="mensagemErro" id="mensagemErro"></p>
+            </div>
+
+            <button type="button" class="linkPular" onclick="pular()">Deixar pra depois</button>
+        </main>
+
+        <script src="static/js/app.js"></script>
+        <script src="static/js/onboarding.js"></script>
+    </body>
+</html>

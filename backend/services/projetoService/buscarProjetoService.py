@@ -9,13 +9,11 @@ class BuscarProjetoService:
         projeto = p.buscarPorId(id)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         idLogado = idUsuarioLogado()
 
-        # Monta a tela de projeto inteira num pedido so. Antes o front fazia
-        # cinco pedidos e baixava todas as vagas e candidaturas do sistema pra
-        # filtrar no navegador.
+        # monta a tela de projeto inteira num pedido so
         dados = p.to_dict(projeto)
         dados["criador"] = u.to_dict(projeto.criador)
         dados["marcos"] = [m.to_dict(marco) for marco in projeto.marcos]

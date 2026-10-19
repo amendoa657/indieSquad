@@ -4,9 +4,7 @@ from middlewares.autenticacao import exigirLogin, idUsuarioLogado
 
 
 class DashboardController:
-    # O dashboard e sempre o de quem esta logado, por isso nao tem id na URL.
-    # Antes qualquer um podia abrir /dashboard/9 e ver os numeros de outra
-    # pessoa.
+    # o dashboard e sempre o de quem esta logado, por isso nao tem id na URL
     @exigirLogin
     def obter(self):
         service = ObterDashboardService()

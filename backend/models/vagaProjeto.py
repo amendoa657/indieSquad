@@ -2,8 +2,7 @@ from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
 
-# "aberta" aceita candidatura, "preenchida" ja tem alguem, "fechada" foi
-# encerrada junto com o projeto.
+# aberta aceita candidatura, preenchida ja tem alguem, fechada encerrou com o projeto
 STATUS = ["aberta", "preenchida", "fechada"]
 
 
@@ -108,7 +107,6 @@ def removerVagaProjeto(vagaProjeto):
 
 
 
-# O relacionamento da vaga com o projeto se chama projetoCriador. Antes essa
-# funcao devolvia vagaProjeto.projeto, que nao existe, e quebrava.
+# o relacionamento da vaga com o projeto se chama projetoCriador
 def getProjeto(vagaProjeto):
     return vagaProjeto.projetoCriador

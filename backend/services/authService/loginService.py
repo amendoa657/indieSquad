@@ -8,17 +8,16 @@ class LoginService:
         faltando = campoFaltando(dados, ["email", "senha"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         email = texto(dados["email"], 90).lower()
         senha = dados["senha"]
 
         usuario = u.buscarPorEmail(email)
 
-        # A mensagem e a mesma pro e-mail que nao existe e pra senha errada.
-        # Se fosse diferente, daria pra descobrir quais e-mails tem conta aqui.
+        # a mensagem e a mesma pro e-mail que nao existe e pra senha errada
         if usuario is None or not u.senhaCorreta(usuario, senha):
-            return {"erro": "Credenciais invalidas"}, 401
+            return {"erro": "Credenciais inválidas"}, 401
 
         return {
             "token": gerarToken(usuario),

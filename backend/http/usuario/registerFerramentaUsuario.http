@@ -1,0 +1,10 @@
+### Adiciona uma ferramenta ao próprio perfil.
+POST {{baseUrl}}/usuarios/{{idUsuario}}/ferramentas
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "idFerramenta": 2
+}
+
+###

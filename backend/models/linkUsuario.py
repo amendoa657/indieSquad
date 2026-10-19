@@ -1,6 +1,6 @@
 from database.database import db
 
-# Os tipos de link que a tela conhece. Qualquer outro valor cai em "outro".
+# os tipos de link que a tela conhece
 TIPOS = ["github", "itchio", "artstation", "linkedin", "youtube", "twitter", "site", "outro"]
 
 

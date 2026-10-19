@@ -7,11 +7,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from models.membroProjeto import MembroProjeto
 
-# O que a pessoa veio fazer aqui. Decide a tela inicial depois do login.
+# o que a pessoa veio fazer aqui
 OBJETIVOS = ["montarEquipe", "entrarProjeto", "ambos"]
 
-# O handle e o apelido que aparece na URL do perfil. So letra minuscula,
-# numero e underline, de 3 a 30 caracteres.
+# o handle e o apelido que aparece na URL do perfil
 FORMATO_HANDLE = re.compile(r"^[a-z0-9_]{3,30}$")
 
 TAMANHO_MINIMO_SENHA = 8
@@ -83,8 +82,7 @@ class Usuario(db.Model):
     )
 
 
-# O to_dict publico nunca devolve email nem senha: ele e usado na busca, na
-# equipe do projeto e no perfil de outras pessoas.
+# o to_dict publico nunca devolve email nem senha
 def to_dict(self):
     return {
         "id": self.id,
@@ -100,10 +98,12 @@ def to_dict(self):
         "fotoDePerfil": self.fotoDePerfil
     }
 
-# Esse so e usado quando a pessoa pede os proprios dados.
+# esse so e usado quando a pessoa pede os proprios dados
 def to_dictCompleto(self):
     dados = to_dict(self)
     dados["email"] = self.email
+    dados["perfilCompleto"] = percentualCompleto(self)
+    dados["faltando"] = itensFaltando(self)
 
     return dados
 
@@ -119,8 +119,7 @@ def mostrarUsuario(id):
 def mostrarUsuarios():
     return Usuario.query.all()
 
-# A senha chega em texto e sai daqui como hash. Fazer isso dentro do model
-# garante que nao existe caminho no sistema que grave senha em texto puro.
+# a senha chega em texto e sai daqui como hash
 def registrarUsuario(handle, usuario, email, senha):
     usuarioTable = Usuario(
         handle=handle,
@@ -180,6 +179,48 @@ def removerFerramenta(usuario, ferramenta):
 
 def getLinksUsuario(usuario):
     return usuario.links
+
+
+# o que conta como perfil completo
+ITENS_PERFIL = [
+    ("bio", "Escrever uma bio"),
+    ("skills", "Adicionar pelo menos uma funcao"),
+    ("disponibilidade", "Dizer sua disponibilidade"),
+    ("colaboracao", "Marcar o tipo de colaboracao que aceita"),
+    ("ferramentas", "Adicionar as ferramentas que voce usa"),
+    ("links", "Add um link de portfolio"),
+]
+
+
+def itensFaltando(usuario):
+    faltando = []
+
+    if not (usuario.bio or "").strip():
+        faltando.append("bio")
+
+    if not usuario.skills:
+        faltando.append("skills")
+
+    if not usuario.disponibilidadeHoras:
+        faltando.append("disponibilidade")
+
+    if not (usuario.aceitaPortfolio or usuario.aceitaRevenueShare or usuario.aceitaRemunerado):
+        faltando.append("colaboracao")
+
+    if not usuario.ferramentas:
+        faltando.append("ferramentas")
+
+    if not usuario.links:
+        faltando.append("links")
+
+    return faltando
+
+
+def percentualCompleto(usuario):
+    faltando = len(itensFaltando(usuario))
+    total = len(ITENS_PERFIL)
+
+    return round(((total - faltando) / total) * 100)
 
 
 def objetivoValido(objetivo):

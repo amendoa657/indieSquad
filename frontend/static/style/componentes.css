@@ -1,26 +1,7 @@
-/* ===================================================================
-   IndieSquad — Componentes
-   ===================================================================
-
-   As peças reutilizáveis. Nenhuma cor, espaço ou tempo escrito na mão:
-   tudo vem de tokens.css.
-
-   Sobre movimento, a regra que eu segui em todo o arquivo:
-   - só transform e opacity animam (as duas não forçam o navegador a
-     recalcular layout, então rodam na placa de vídeo)
-   - nada de "transition: all", sempre a propriedade com nome
-   - nada passa de 300ms
-   - :hover fica atrás de @media (hover: hover), porque no celular o
-     toque dispara hover e ele fica grudado no elemento
-   - lista que o JS redesenha a cada letra digitada NÃO tem animação de
-     entrada: animação que repete dezenas de vezes por minuto faz a tela
-     parecer lenta, não viva
-   =================================================================== */
+/* IndieSquad - componentes: as pecas reutilizaveis da interface */
 
 
-/* ===================================================================
-   Marca
-   =================================================================== */
+/* marca */
 
 .botaoLogo {
     text-decoration: none;
@@ -58,14 +39,7 @@
 }
 
 
-/* ===================================================================
-   Botões
-   ===================================================================
-
-   O :active com scale(0.97) é o detalhe que mais muda a sensação de
-   resposta: o botão reage no instante em que o dedo encosta, não quando
-   solta. 120ms porque feedback de toque tem que ser quase instantâneo.
-   =================================================================== */
+/* o :active com scale(0.97) faz o botao reagir no instante do toque */
 
 .botaoEnviar,
 .botaoCandidatar,
@@ -131,7 +105,7 @@
     font-size: var(--texto-sm);
 }
 
-/* Secundário: fundo neutro, contorno visível. */
+/* secundario: fundo neutro, contorno visivel */
 .botaoEncontrarEquipe,
 .botaoEditarPerfil,
 .botaoVoltarPagina {
@@ -174,7 +148,7 @@
     height: 16px;
 }
 
-/* Destrutivo: recusar, cancelar, remover. */
+/* destrutivo: recusar, cancelar, remover */
 .botaoRecusar {
     border-color: var(--cor-erro-fraca);
     background-color: var(--cor-erro-fraca);
@@ -188,7 +162,7 @@
     }
 }
 
-/* Sair, no pé do menu. */
+/* sair, no pe do menu */
 .botaoSair {
     display: flex;
     align-items: center;
@@ -211,7 +185,7 @@
     }
 }
 
-/* Troca de tema. */
+/* troca de tema */
 .botaoTema {
     display: flex;
     align-items: center;
@@ -239,7 +213,7 @@
     transform: scale(0.94);
 }
 
-/* O sol aparece no tema escuro (pra ir pro claro) e a lua no claro. */
+/* o sol aparece no tema escuro e a lua no claro */
 .botaoTema .iconeSol {
     display: none;
 }
@@ -252,7 +226,7 @@
     display: none;
 }
 
-/* Olho da senha. */
+/* olho da senha */
 .botaoOlho {
     position: absolute;
     top: 50%;
@@ -281,7 +255,7 @@
     }
 }
 
-/* Voltar, na etapa do cadastro. */
+/* voltar, na etapa do cadastro */
 .botaoVoltar {
     display: inline-block;
     margin-bottom: var(--espaco-4);
@@ -289,7 +263,7 @@
     font-size: var(--texto-sm);
 }
 
-/* × que remove uma tag. */
+/* × que remove uma tag */
 .botaoRemoverTag {
     display: inline-flex;
     align-items: center;
@@ -314,9 +288,7 @@
 }
 
 
-/* ===================================================================
-   Chips — filtro de skill e perfis da vaga
-   =================================================================== */
+/* chips — filtro de skill e perfis da vaga */
 
 .botaoFiltro,
 .botaoPerfil {
@@ -356,9 +328,7 @@
 }
 
 
-/* ===================================================================
-   Cards
-   =================================================================== */
+/* cards */
 
 .cardResultado {
     display: flex;
@@ -415,8 +385,7 @@
     color: var(--cor-texto-2);
     font-size: var(--texto-base);
 
-    /* Corta a descrição em 3 linhas pra um card não ficar gigante do lado
-       de um card curto e quebrar o ritmo da lista. */
+    /* corta a descricao em 3 linhas pra nao quebrar o ritmo da lista */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -424,7 +393,7 @@
 }
 
 
-/* Card de estatística. */
+/* card de estatistica */
 .cardsEstatistica {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -450,8 +419,7 @@
     letter-spacing: var(--letra-titulo);
     color: var(--cor-texto);
 
-    /* Número com largura fixa: sem isso o valor "dança" de um lado pro
-       outro quando troca de 9 pra 10. */
+    /* numero com largura fixa: sem isso o valor danca ao trocar de 9 pra 10 */
     font-variant-numeric: tabular-nums;
 }
 
@@ -473,7 +441,7 @@
 }
 
 
-/* Card de projeto no dashboard. */
+/* card de projeto no dashboard */
 .cardProjetoDashboard {
     display: flex;
     align-items: center;
@@ -528,13 +496,7 @@
 }
 
 
-/* ===================================================================
-   Barra de progresso
-   ===================================================================
-
-   O preenchimento anima com scaleX, não com width: largura obriga o
-   navegador a recalcular o layout a cada quadro, transform não.
-   =================================================================== */
+/* a barra anima com scaleX, nao com width: largura obriga a recalcular layout */
 
 .barraProgresso {
     width: 100%;
@@ -554,9 +516,7 @@
 }
 
 
-/* ===================================================================
-   Tags, selos e status
-   =================================================================== */
+/* tags, selos e status */
 
 .tagsResultado {
     display: flex;
@@ -629,7 +589,7 @@
     white-space: nowrap;
 }
 
-/* Aviso de "tem candidatura esperando você". */
+/* aviso de "tem candidatura esperando voce" */
 .aviso {
     display: inline-flex;
     align-self: flex-start;
@@ -644,9 +604,7 @@
 }
 
 
-/* ===================================================================
-   Métricas dentro do card
-   =================================================================== */
+/* metricas dentro do card */
 
 .metricasResultado {
     display: flex;
@@ -669,14 +627,7 @@
 }
 
 
-/* ===================================================================
-   Avatares
-   ===================================================================
-
-   O avatar é a inicial do nome num quadrado com a cor da marca. Não é
-   placeholder: é identidade visual consistente enquanto não existe
-   upload de imagem.
-   =================================================================== */
+/* avatares: a inicial do nome num quadrado com a cor da marca */
 
 .avatarPerfil,
 .avatarProjeto {
@@ -711,9 +662,7 @@
 }
 
 
-/* ===================================================================
-   Listas e blocos
-   =================================================================== */
+/* listas e blocos */
 
 .listaResultados {
     display: grid;
@@ -780,7 +729,7 @@
 }
 
 
-/* Ficha técnica do projeto. */
+/* ficha tecnica do projeto */
 .fichaProjeto {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -811,7 +760,7 @@
 }
 
 
-/* Marcos do projeto. */
+/* marcos do projeto */
 .listaMarcos {
     display: flex;
     flex-direction: column;
@@ -854,9 +803,7 @@
 }
 
 
-/* ===================================================================
-   Formulário
-   =================================================================== */
+/* formulario */
 
 .campoFormulario {
     display: flex;
@@ -946,9 +893,7 @@
 }
 
 
-/* ===================================================================
-   Mensagens
-   =================================================================== */
+/* mensagens */
 
 .mensagemErro,
 .mensagemSucesso {
@@ -956,8 +901,7 @@
     font-weight: var(--peso-medio);
 }
 
-/* O :not(:empty) evita o espaço em branco reservado quando não tem
-   mensagem nenhuma, que era o que empurrava o formulário pra baixo. */
+/* o :not(:empty) evita o espaco reservado quando nao tem mensagem */
 .mensagemErro:not(:empty) {
     padding: var(--espaco-3) var(--espaco-4);
     border: 1px solid var(--cor-erro-fraca);
@@ -993,9 +937,7 @@
 }
 
 
-/* ===================================================================
-   Menu lateral
-   =================================================================== */
+/* menu lateral */
 
 .menuLateral {
     display: flex;
@@ -1006,8 +948,7 @@
     flex-shrink: 0;
     padding: var(--espaco-6) var(--espaco-4);
 
-    /* dvh e não vh: no celular o vh considera a barra de endereço
-       recolhida, e o menu passava da tela. */
+    /* dvh e nao vh: no celular o vh ignora a barra de endereco e o menu passava da tela */
     height: 100dvh;
     position: sticky;
     top: 0;
@@ -1073,8 +1014,7 @@
 }
 
 
-/* Card de pessoa sem nenhum número ainda. Melhor dizer que o perfil é novo
-   do que estampar "0% de conclusão" em quem nunca teve projeto. */
+/* card de pessoa sem nenhum numero ainda */
 .semMetrica {
     color: var(--cor-texto-3);
     font-size: var(--texto-xs);
@@ -1082,8 +1022,7 @@
 }
 
 
-/* "em breve": marca o que está planejado e ainda não existe.
-   Promessa sem selo na landing é dívida que aparece na primeira demonstração. */
+/* em breve marca o que esta planejado e ainda nao existe */
 .seloEmBreve {
     display: inline-block;
     padding: 0.15rem 0.5rem;
@@ -1100,9 +1039,7 @@
 }
 
 
-/* ===================================================================
-   Avaliação
-   =================================================================== */
+/* avaliacao */
 
 .explicacaoDuploCego {
     max-width: var(--largura-leitura);
@@ -1134,9 +1071,7 @@
     font-weight: var(--peso-medio);
 }
 
-/* As estrelas saem no HTML de 5 pra 1 e o row-reverse devolve a ordem certa
-   na tela. É isso que permite "~" alcançar as estrelas anteriores e acender
-   da primeira até a escolhida, sem nenhum JS. */
+/* as estrelas saem de 5 pra 1 e o row-reverse devolve a ordem na tela */
 .estrelas {
     display: flex;
     flex-direction: row-reverse;
@@ -1178,8 +1113,7 @@
     transform: scale(1.18);
 }
 
-/* O anel de foco acompanha a estrela, senão quem navega por teclado não vê
-   onde está. */
+/* o anel de foco acompanha a estrela, pra quem navega por teclado ver onde esta */
 .estrelas input:focus-visible + label {
     outline: 2px solid var(--cor-marca);
     outline-offset: 2px;
@@ -1216,4 +1150,19 @@
     color: var(--cor-texto-3);
     font-size: var(--texto-xs);
     font-variant-numeric: tabular-nums;
+}
+
+
+/* link de portfolio no cabecalho do perfil: e uma tag, mas clicavel */
+.tagLink {
+    color: var(--cor-marca);
+    text-decoration: none;
+    transition: border-color var(--tempo-rapido) ease, color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .tagLink:hover {
+        border-color: var(--cor-marca);
+        color: var(--cor-marca-forte);
+    }
 }

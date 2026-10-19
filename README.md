@@ -102,43 +102,86 @@ Rodar `backend/http/auth/login.http` primeiro: ele guarda o token automaticament
 ## Funcionalidades Implementadas
 
 ### Conta e perfil
-1. Cadastrar usuário (apelido único, objetivo e senha com hash)
+1. Cadastrar usuário, com apelido único e senha guardada como hash
 2. Login com token assinado (JWT)
-3. Ver e editar o próprio perfil
-4. Trocar a senha (exigindo a senha atual)
-5. Perfil público de qualquer pessoa pelo apelido (`perfil.html?handle=thales`)
-6. Gerenciar as próprias funções, com nível de Iniciante a Especialista
-7. Disponibilidade em horas por semana e tipos de colaboração aceitos
-8. Apagar a própria conta
+3. Onboarding em três passos depois do cadastro, com opção de pular
+4. Ver o próprio perfil
+5. Editar o perfil (nome, apelido, e-mail e bio)
+6. Definir o objetivo: montar equipe, entrar num projeto ou os dois
+7. Definir a disponibilidade em horas por semana
+8. Definir que tipos de colaboração aceita (portfólio, divisão de lucro, remunerado)
+9. Adicionar e remover funções do perfil, com nível de Iniciante a Especialista
+10. Adicionar e remover ferramentas do perfil
+11. Adicionar e remover links de portfólio
+12. Ver quanto falta pro perfil ficar completo, item por item
+13. Trocar a senha, exigindo a senha atual
+14. Apagar a própria conta
+15. Ver o perfil público de qualquer pessoa pelo apelido
+16. Ver as estatísticas públicas de um perfil: projetos, colaborações, taxa de conclusão e reputação
 
 ### Projetos
-9. Publicar projeto com gênero, engine, tipo de parceria, duração e marcos
-10. Ver os detalhes, a ficha técnica, os marcos e a equipe de um projeto
-11. Editar e apagar o próprio projeto
-12. Concluir projeto (fecha as vagas abertas e libera a avaliação da equipe)
-13. Abrir, editar e fechar vagas no próprio projeto
-14. Adicionar e remover membros da equipe
+17. Publicar projeto com nome, descrição, gênero, engine, tipo de parceria e duração
+18. Definir os marcos do projeto na publicação
+19. Abrir uma vaga para cada função escolhida na publicação
+20. Ver a página do projeto com ficha técnica, marcos, equipe e vagas
+21. Editar o próprio projeto
+22. Apagar o próprio projeto
+23. Concluir o projeto, fechando as vagas abertas e liberando a avaliação
+24. Ver a equipe do projeto, com o cargo de cada pessoa
+25. Adicionar membro à equipe
+26. Remover membro da equipe
+27. Abrir vaga no projeto, com função e nível mínimo
+28. Editar vaga
+29. Apagar vaga
+30. Ver todas as vagas de um projeto
 
 ### Candidaturas
-15. Candidatar-se a uma vaga, com mensagem pro criador
-16. Ver minhas candidaturas, com o status de cada uma
-17. Cancelar uma candidatura pendente
-18. Aceitar ou recusar candidatura (o aceite coloca a pessoa na equipe, fecha a vaga e recusa as outras daquela vaga)
+31. Candidatar-se a uma vaga, com mensagem pro criador
+32. Ver minhas candidaturas, com o status de cada uma
+33. Editar a mensagem de uma candidatura pendente
+34. Cancelar uma candidatura pendente
+35. Ver as candidaturas recebidas, com reputação e funções de cada candidato
+36. Aceitar candidatura: a pessoa entra na equipe, a vaga fecha e as outras são recusadas
+37. Recusar candidatura
 
-### Busca e dashboard
-19. Buscar profissionais por função, nome, disponibilidade e tipo de colaboração
-20. Buscar projetos por nome, gênero, engine, tipo de parceria e status
-21. Dashboard com projetos ativos, colaborações, taxa de conclusão e candidaturas esperando resposta
-22. Reputação do usuário calculada a partir das avaliações recebidas
+### Avaliações e reputação
+38. Avaliar quem trabalhou no mesmo projeto, depois dele concluído
+39. Avaliar por três critérios: comunicação, cumprimento de prazo e qualidade da entrega
+40. Deixar um comentário na avaliação
+41. Avaliação duplo-cega: cada lado só vê a do outro depois que os dois enviarem
+42. Liberação automática da avaliação depois de 14 dias, se a outra pessoa não responder
+43. Reputação calculada só com avaliação já liberada
+44. Ver as avaliações recebidas no perfil
+
+### Busca
+45. Buscar profissionais por função
+46. Buscar profissionais por categoria de função
+47. Buscar profissionais por nome ou apelido
+48. Filtrar profissionais por disponibilidade e tipo de colaboração
+49. Buscar projetos por nome
+50. Filtrar projetos por gênero, engine, tipo de parceria e status
+51. Catálogo fixo de funções, agrupado por categoria
+52. Catálogo fixo de ferramentas, agrupado por categoria
+
+### Dashboard
+53. Ver projetos ativos, colaborações, taxa de conclusão e total de projetos
+54. Ver os projetos ativos com o progresso das vagas preenchidas
+55. Ver os projetos em que participo como membro
+56. Ser avisado quando tem candidatura esperando resposta
+
+### Sistema
+57. Tema escuro e tema claro, com a escolha guardada
+58. Layout adaptado pra celular
+59. Números da página inicial vindos do banco
+60. Autorização: só o criador mexe no projeto, só a própria pessoa mexe na conta
+61. Rotas protegidas por login
 
 
 ## Próximos passos
 
 Funcionalidades planejadas que ainda não foram implementadas:
 
-- Tela de avaliação entre os membros depois do projeto concluído
-- Onboarding em etapas e links de portfólio no perfil
-- Cálculo de compatibilidade entre pessoa e vaga
+- Match inteligente entre vaga e perfil, com explicação gerada por IA
 - Notificações
 - Mensagens entre usuários
 - Upload de imagem para foto de perfil e logo do projeto

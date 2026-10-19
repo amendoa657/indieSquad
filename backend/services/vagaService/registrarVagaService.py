@@ -10,12 +10,12 @@ class RegistrarVagaService:
         faltando = campoFaltando(dados, ["titulo", "idProjeto", "idSkill"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         projeto = p.buscarPorId(dados["idProjeto"])
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         if not ehDonoDoProjeto(projeto):
             return ERRO_NAO_E_DONO
@@ -23,7 +23,7 @@ class RegistrarVagaService:
         skill = s.buscarPorId(dados["idSkill"])
 
         if skill is None:
-            return {"erro": "Skill nao encontrado"}, 404
+            return {"erro": "Função não encontrada"}, 404
 
         nivelMinimo = dados.get("nivelMinimo")
 
@@ -31,7 +31,7 @@ class RegistrarVagaService:
             nivelMinimo = inteiroNoIntervalo(nivelMinimo, 1, 4)
 
             if nivelMinimo is None:
-                return {"erro": "O nivel minimo deve ser de 1 a 4"}, 400
+                return {"erro": "O nível mínimo deve ser de 1 a 4"}, 400
 
         vaga = v.registrarVagaProjeto(
             texto(dados["titulo"], 45),

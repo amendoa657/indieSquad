@@ -3,7 +3,7 @@
 protegerPagina();
 
 async function carregarDashboard() {
-    // O dashboard é sempre o de quem está logado, por isso não tem id na URL.
+    // o dashboard e sempre o de quem esta logado, por isso nao tem id na URL
     const dados = await pedir("/dashboard");
     if (!dados) return;
 
@@ -33,8 +33,7 @@ async function carregarDashboard() {
         `;
     }, "Você ainda não tem projetos ativos.");
 
-    // Os projetos em que a pessoa entrou como membro. Antes eles não apareciam
-    // em lugar nenhum, só contavam no número de colaborações.
+    // os projetos em que a pessoa entrou como membro
     if (pegar("listaColaboracoes")) {
         listar("listaColaboracoes", dados.participacoes, function (projeto) {
             return `

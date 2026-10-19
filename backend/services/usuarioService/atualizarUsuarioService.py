@@ -8,7 +8,7 @@ class AtualizarUsuarioService:
         usuario = u.buscarPorId(id)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         if not ehOProprio(id):
             return ERRO_NAO_E_VOCE
@@ -20,7 +20,7 @@ class AtualizarUsuarioService:
             nome = texto(dados["usuario"], 60)
 
             if not nome:
-                return {"erro": "O nome nao pode ficar vazio"}, 400
+                return {"erro": "O nome não pode ficar vazio"}, 400
 
             usuario.usuario = nome
 
@@ -28,12 +28,12 @@ class AtualizarUsuarioService:
             handle = texto(dados["handle"], 30).lower()
 
             if not u.handleValido(handle):
-                return {"erro": "O apelido aceita so letra minuscula, numero e underline, de 3 a 30 caracteres"}, 400
+                return {"erro": "O apelido aceita só letra minúscula, número e underline, de 3 a 30 caracteres"}, 400
 
             emUso = u.buscarPorHandle(handle)
 
             if emUso and emUso.id != usuario.id:
-                return {"erro": "Esse apelido ja esta em uso"}, 409
+                return {"erro": "Esse apelido já está em uso"}, 409
 
             usuario.handle = handle
 
@@ -41,12 +41,12 @@ class AtualizarUsuarioService:
             email = texto(dados["email"], 90).lower()
 
             if "@" not in email or "." not in email:
-                return {"erro": "E-mail invalido"}, 400
+                return {"erro": "E-mail inválido"}, 400
 
             emUso = u.buscarPorEmail(email)
 
             if emUso and emUso.id != usuario.id:
-                return {"erro": "E-mail ja cadastrado"}, 409
+                return {"erro": "E-mail já cadastrado"}, 409
 
             usuario.email = email
 
@@ -55,7 +55,7 @@ class AtualizarUsuarioService:
 
         if "objetivo" in dados:
             if not u.objetivoValido(dados["objetivo"]):
-                return {"erro": "Objetivo invalido"}, 400
+                return {"erro": "Objetivo inválido"}, 400
 
             usuario.objetivo = dados["objetivo"]
 
@@ -82,8 +82,7 @@ class AtualizarUsuarioService:
         if "fotoDePerfil" in dados:
             usuario.fotoDePerfil = texto(dados["fotoDePerfil"], 255)
 
-        # A senha nao passa por aqui de proposito: ela tem rota propria, que
-        # exige a senha atual antes de trocar.
+        # a senha tem rota propria, que exige a senha atual antes de trocar
 
         u.salvar()
 

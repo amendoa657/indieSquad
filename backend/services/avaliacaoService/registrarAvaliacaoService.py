@@ -9,34 +9,32 @@ class RegistrarAvaliacaoService:
         faltando = campoFaltando(dados, ["idProjeto", "idAvaliado", "notaComunicacao", "notaPrazo", "notaQualidade"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         projeto = p.buscarPorId(dados["idProjeto"])
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
-        # A avaliacao so abre quando o projeto termina. Enquanto o trabalho
-        # esta rolando, nota vira pressao, nao informacao.
+        # a avaliacao so abre quando o projeto termina
         if projeto.status != "concluido":
-            return {"erro": "Esse projeto ainda nao foi concluido"}, 409
+            return {"erro": "Esse projeto ainda não foi concluído"}, 409
 
         idAvaliador = idUsuarioLogado()
         idAvaliado = int(dados["idAvaliado"])
 
         if idAvaliador == idAvaliado:
-            return {"erro": "Voce nao pode avaliar a si mesmo"}, 409
+            return {"erro": "Você não pode avaliar a si mesmo"}, 409
 
-        # Essa e a regra que faz a reputacao valer alguma coisa: so avalia
-        # quem esteve no mesmo projeto que a pessoa.
+        # so avalia quem esteve no mesmo projeto, e isso que faz a reputacao valer
         if not p.ehDaEquipe(projeto, idAvaliador):
-            return {"erro": "Voce nao participou desse projeto"}, 403
+            return {"erro": "Você não participou desse projeto"}, 403
 
         if not p.ehDaEquipe(projeto, idAvaliado):
-            return {"erro": "Essa pessoa nao participou desse projeto"}, 409
+            return {"erro": "Essa pessoa não participou desse projeto"}, 409
 
         if a.buscarDoAvaliador(idAvaliador, idAvaliado, projeto.id):
-            return {"erro": "Voce ja avaliou essa pessoa nesse projeto"}, 409
+            return {"erro": "Você já avaliou essa pessoa nesse projeto"}, 409
 
         notas = {}
         for campo in ["notaComunicacao", "notaPrazo", "notaQualidade"]:
@@ -58,5 +56,5 @@ class RegistrarAvaliacaoService:
         return {
             "avaliacao": a.to_dict(avaliacao),
             "liberada": a.liberada(avaliacao),
-            "mensagem": "Avaliacao enviada. Ela fica escondida ate a outra pessoa enviar a dela."
+            "mensagem": "Avaliação enviada. Ela fica escondida até a outra pessoa enviar a dela."
         }, 201

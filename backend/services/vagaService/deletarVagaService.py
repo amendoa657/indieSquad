@@ -7,7 +7,7 @@ class DeletarVagaService:
         vaga = v.buscarPorId(id)
 
         if vaga is None:
-            return {"erro": "Vaga nao encontrada"}, 404
+            return {"erro": "Vaga não encontrada"}, 404
 
         if not ehDonoDoProjeto(v.getProjeto(vaga)):
             return ERRO_NAO_E_DONO
@@ -15,4 +15,4 @@ class DeletarVagaService:
         titulo = vaga.titulo
         v.removerVagaProjeto(vaga)
 
-        return {"mensagem": f"Vaga {titulo} removida com sucesso!"}, 200
+        return {"mensagem": f"Vaga {titulo} removida"}, 200

@@ -8,7 +8,7 @@ class AtualizarProjetoService:
         projeto = p.buscarPorId(id)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         if not ehDonoDoProjeto(projeto):
             return ERRO_NAO_E_DONO
@@ -20,7 +20,7 @@ class AtualizarProjetoService:
             nome = texto(dados["nome"], 90)
 
             if not nome:
-                return {"erro": "O nome nao pode ficar vazio"}, 400
+                return {"erro": "O nome não pode ficar vazio"}, 400
 
             projeto.nome = nome
 
@@ -29,12 +29,11 @@ class AtualizarProjetoService:
 
         if "status" in dados:
             if not p.statusValido(dados["status"]):
-                return {"erro": "Status invalido"}, 400
+                return {"erro": "Status inválido"}, 400
 
-            # Concluir tem rota propria, porque fecha as vagas e libera a
-            # avaliacao entre a equipe.
+            # concluir tem rota propria porque fecha as vagas e libera a avaliacao
             if dados["status"] == "concluido":
-                return {"erro": "Use a rota de concluir projeto pra marcar como concluido"}, 400
+                return {"erro": "Use a rota de concluir projeto pra marcar como concluído"}, 400
 
             projeto.status = dados["status"]
 

@@ -1,17 +1,14 @@
-// Endereço do back-end
+// endereco do back-end
 const API = "http://localhost:5000";
 
 
-// Pega um pedaço do HTML pelo id.
 function pegar(id) {
     return document.getElementById(id);
 }
-// Pega o que o usuário digitou no campo.
 function valor(id) {
     return pegar(id).value.trim();
 }
 
-// Escreve algo dentro de um pedaço do HTML.
 function escrever(id, conteudo) {
     const alvo = pegar(id);
 
@@ -20,11 +17,7 @@ function escrever(id, conteudo) {
     }
 }
 
-// Deixa um texto digitado por outra pessoa seguro pra entrar no HTML.
-//
-// Sem isso, alguém com o nome "<img onerror=...>" conseguia rodar código na
-// tela de quem visse o perfil dela. Toda vez que o texto vem do banco e entra
-// num template, ele passa por aqui primeiro.
+// deixa um texto digitado por outra pessoa seguro pra entrar no HTML
 function escapar(texto) {
     if (texto === null || texto === undefined) {
         return "";
@@ -38,7 +31,6 @@ function escapar(texto) {
         .replaceAll("'", "&#39;");
 }
 
-// Troca de página
 function irPara(pagina) {
     window.location.href = pagina;
 }
@@ -57,7 +49,6 @@ function avisarSucesso(texto) {
     }
 }
 
-// Liga o botão do olhinho
 function ligarOlhinho() {
     const botao = pegar("botaoOlho");
 
@@ -73,9 +64,7 @@ function ligarOlhinho() {
 
 async function pedir(caminho, metodo = "GET", dados = null) {
     try {
-        // O token vai em todo pedido. O back-end confere a assinatura dele pra
-        // saber quem está falando; antes ele confiava no id que o próprio
-        // front mandava, o que deixava qualquer um se passar por outra pessoa.
+        // o token vai em todo pedido
         const cabecalhos = { "Content-Type": "application/json" };
         const token = localStorage.getItem("token");
 
@@ -89,11 +78,10 @@ async function pedir(caminho, metodo = "GET", dados = null) {
             body: dados ? JSON.stringify(dados) : null,
         });
 
-        // Traduz a resposta do servidor (texto) pra algo que o JS entende.
+        // traduz a resposta do servidor (texto) pra algo que o JS entende
         const resultado = await resposta.json().catch(() => ({}));
 
-        // Token vencido ou inválido: manda pro login em vez de deixar a tela
-        // quebrada com "undefined" em todo canto.
+        // token vencido manda pro login em vez de deixar a tela quebrada
         if (resposta.status === 401 && token) {
             esquecerLogin();
             irPara("login.html");
@@ -119,28 +107,22 @@ function listar(id, itens, molde, textoSeVazio) {
         return;
     }
 
-    // .map() aplica o molde em cada item,
+    // aplica o molde em cada item e junta tudo numa string so
     escrever(id, itens.map(molde).join(""));
 }
 
 
 
-// Devolve a cor certa pro status de uma candidatura.
 function corDoStatus(status) {
     if (status === "aceita") return "statusAceita";
     if (status === "recusada") return "statusRecusada";
     return "statusPendente";
 }
 
-// Escreve "1 membro" e "2 membros", em vez de "1 membro(s)".
-//
-// O "(s)" é a marca registrada de sistema feito com pressa, e aparecia em
-// seis lugares diferentes da tela.
 function plural(quantidade, singular, muitos) {
     return `${quantidade} ${quantidade === 1 ? singular : muitos}`;
 }
 
-// Mostra a data do jeito que a gente lê.
 function dataBonita(data) {
     if (!data) {
         return "";
@@ -150,8 +132,6 @@ function dataBonita(data) {
 }
 
 
-// Guarda quem entrou. O id vem do próprio back-end no login, não é mais
-// adivinhado quebrando o texto do token.
 function guardarLogin(resposta) {
     localStorage.setItem("token", resposta.token);
     localStorage.setItem("usuario", JSON.stringify(resposta.usuario));
@@ -162,7 +142,6 @@ function esquecerLogin() {
     localStorage.removeItem("usuario");
 }
 
-// Devolve os dados de quem está logado, ou null.
 function euSou() {
     try {
         return JSON.parse(localStorage.getItem("usuario"));
@@ -171,30 +150,23 @@ function euSou() {
     }
 }
 
-// Devolve o id de quem está logado.
 function meuId() {
     const eu = euSou();
 
     return eu ? eu.id : null;
 }
 
-// Não está logado? Chuta pra tela de login.
 function protegerPagina() {
     if (!localStorage.getItem("token")) {
         irPara("login.html");
     }
 }
 
-// Botão Sair: esquece o login e volta pro login.
 function fazerLogout() {
     esquecerLogin();
     irPara("login.html");
 }
 
-// Monta a parte de filtros de um endereço, já escapando o que o usuário digitou.
-//
-// Antes o termo entrava cru na URL, então um "&" ou um "#" na busca quebrava
-// o pedido inteiro.
 function filtros(valores) {
     const partes = [];
 
@@ -209,7 +181,6 @@ function filtros(valores) {
     return partes.length > 0 ? `?${partes.join("&")}` : "";
 }
 
-// Lê um parâmetro do endereço da página (ex: projeto.html?id=3).
 function parametro(nome) {
     return new URLSearchParams(window.location.search).get(nome);
 }
@@ -220,6 +191,16 @@ const NIVEIS = {
     2: "Intermediário",
     3: "Avançado",
     4: "Especialista",
+};
+
+const NOMES_LINK = {
+    itchio: "itch.io",
+    github: "GitHub",
+    artstation: "ArtStation",
+    linkedin: "LinkedIn",
+    youtube: "YouTube",
+    site: "Site",
+    outro: "Link",
 };
 
 const TIPOS_PARCERIA = {
@@ -234,9 +215,7 @@ const OBJETIVOS = {
     ambos: "Aberto aos dois",
 };
 
-// O banco guarda os status sem acento ("concluido"), seguindo o padrão do
-// back-end. Quem põe o acento é a tela: acento é assunto de interface, não
-// de valor gravado.
+// o banco guarda status sem acento, quem poe o acento e a tela
 const ROTULOS = {
     ativo: "Ativo",
     pausado: "Pausado",
@@ -254,7 +233,7 @@ function rotulo(valor) {
     return ROTULOS[valor] || valor || "";
 }
 
-// Número do jeito que se escreve em português: 4,5 e não 4.5.
+// numero do jeito que se escreve em portugues: 4,5 e nao 4.5
 function numero(valor, casas = 1) {
     return Number(valor).toLocaleString("pt-BR", {
         minimumFractionDigits: casas,

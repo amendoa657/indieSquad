@@ -27,12 +27,12 @@ async function carregarCandidaturas() {
         const titulo = candidatura.vaga ? candidatura.vaga.titulo : "Vaga removida";
         const projeto = candidatura.projeto ? candidatura.projeto.nome : "Projeto removido";
 
-        // Só vira card clicável se o projeto ainda existir.
+        // so vira card clicavel se o projeto ainda existir
         const inicioDoCard = candidatura.projeto
             ? `<div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${candidatura.projeto.id}')">`
             : `<div class="cardResultado">`;
 
-        // Pendente pode ser cancelada; aceita e recusada não.
+        // pendente pode ser cancelada; aceita e recusada nao
         const acao = candidatura.status === "pendente"
             ? `<button type="button" class="botaoCandidatar botaoRecusar" onclick="event.stopPropagation(); cancelar(${candidatura.id})">Cancelar candidatura</button>`
             : "";

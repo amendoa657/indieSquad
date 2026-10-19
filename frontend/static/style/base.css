@@ -1,10 +1,4 @@
-/* ===================================================================
-   IndieSquad — Base
-   ===================================================================
-
-   Reset, tipografia padrão, formulários, foco visível e os ajustes que
-   fazem o app parecer app no celular em vez de site aberto no navegador.
-   =================================================================== */
+/* IndieSquad - base: reset, tipografia, formulario, foco e ajustes de celular */
 
 *,
 *::before,
@@ -17,15 +11,13 @@
 }
 
 html {
-    /* Tira o flash cinza que o iOS e o Android pintam em cima de tudo que
-       é clicável. É o barulho que mais denuncia "isso é um site". */
+    /* tira o flash cinza que o iOS e o Android pintam no toque */
     -webkit-tap-highlight-color: transparent;
 
-    /* Impede o navegador de inflar a fonte quando o celular vira. */
+    /* impede o navegador de inflar a fonte quando o celular vira */
     -webkit-text-size-adjust: 100%;
 
-    /* Sem isso, arrastar pra cima no fim da página aciona o
-       "puxar pra recarregar" do Android no meio do uso do app. */
+    /* sem isso o arrastar pra cima aciona o puxar pra recarregar do Android */
     overscroll-behavior: none;
 
     scroll-behavior: smooth;
@@ -43,8 +35,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* Quem pede menos movimento recebe menos movimento, não zero: as trocas de
-   cor e opacidade ajudam a entender o que mudou e continuam valendo. */
+/* quem pede menos movimento recebe menos, nao zero: a troca de cor continua */
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -61,7 +52,7 @@ body {
 }
 
 
-/* ---------- Tipografia ---------- */
+/* tipografia */
 
 h1,
 h2,
@@ -120,11 +111,9 @@ img {
 }
 
 
-/* ---------- Foco ---------- */
+/* foco */
 
-/* Foco só aparece pra quem navega por teclado. O anel usa a cor da marca,
-   que passa 3:1 nos dois temas, e fica fora do elemento pra não comer o
-   conteúdo. */
+/* foco so aparece pra quem navega por teclado */
 :focus-visible {
     outline: 2px solid var(--cor-marca);
     outline-offset: 2px;
@@ -136,14 +125,13 @@ img {
 }
 
 
-/* ---------- Controles ---------- */
+/* controles */
 
 button,
 a,
 [role="button"],
 label {
-    /* Mata a espera de 300ms que o navegador faz pra ver se vem um segundo
-       toque, e impede o texto do botão de ser selecionado no toque longo. */
+    /* mata a espera de 300ms do duplo toque e impede o texto do botao de ser selecionado */
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
@@ -174,15 +162,13 @@ select {
     color: var(--cor-texto);
     font-family: var(--fonte-corpo);
 
-    /* 16px é o mínimo: abaixo disso o Safari do iPhone dá zoom na página
-       quando o campo recebe foco, e não desfaz o zoom depois. */
+    /* 16px e o minimo: abaixo disso o Safari do iPhone da zoom ao focar o campo */
     font-size: 16px;
     line-height: 1.4;
     transition: border-color var(--tempo-rapido) ease, background-color var(--tempo-rapido) ease;
 }
 
-/* No computador o campo pode usar o tamanho da escala; o mínimo de 16px
-   só é obrigatório onde existe o zoom por foco. */
+/* no computador o campo usa o tamanho da escala, sem o minimo de 16px */
 @media (pointer: fine) {
     input,
     textarea,
@@ -252,7 +238,7 @@ input[type="number"] {
 }
 
 
-/* ---------- Barra de rolagem ---------- */
+/* barra de rolagem */
 
 * {
     scrollbar-width: thin;
@@ -276,9 +262,9 @@ input[type="number"] {
 }
 
 
-/* ---------- Acessibilidade ---------- */
+/* acessibilidade */
 
-/* Esconde visualmente mas mantém pro leitor de tela. */
+/* esconde visualmente mas mantem pro leitor de tela */
 .soLeitorDeTela {
     position: absolute;
     width: 1px;

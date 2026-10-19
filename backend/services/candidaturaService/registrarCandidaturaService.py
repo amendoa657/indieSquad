@@ -9,25 +9,24 @@ class RegistrarCandidaturaService:
         faltando = campoFaltando(dados, ["idVagaProjeto"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         vaga = v.buscarPorId(dados["idVagaProjeto"])
 
         if vaga is None:
-            return {"erro": "Vaga nao encontrada"}, 404
+            return {"erro": "Vaga não encontrada"}, 404
 
-        # Quem se candidata e sempre quem esta logado. Antes o id vinha no
-        # corpo do pedido, e dava pra candidatar outra pessoa sem ela saber.
+        # quem se candidata e sempre quem esta logado
         idUsuario = idUsuarioLogado()
 
         if vaga.status != "aberta":
-            return {"erro": "Essa vaga nao esta mais aberta"}, 409
+            return {"erro": "Essa vaga não está mais aberta"}, 409
 
         if v.getProjeto(vaga).criador_id == idUsuario:
-            return {"erro": "Voce nao pode se candidatar ao seu proprio projeto"}, 409
+            return {"erro": "Você não pode se candidatar ao seu próprio projeto"}, 409
 
         if c.buscarDoUsuarioNaVaga(idUsuario, vaga.id):
-            return {"erro": "Voce ja se candidatou a essa vaga"}, 409
+            return {"erro": "Você já se candidatou a essa vaga"}, 409
 
         candidatura = c.registrarCandidatura(
             texto(dados.get("mensagem"), 2000),

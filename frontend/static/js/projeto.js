@@ -25,8 +25,7 @@ async function candidatar(idVaga) {
 async function responder(idCandidatura, status) {
     avisar("");
 
-    // Um pedido só. Aceitar já coloca a pessoa na equipe, fecha a vaga e
-    // recusa as outras candidaturas daquela vaga, tudo junto no servidor.
+    // um pedido so: aceitar ja poe na equipe, fecha a vaga e recusa as outras
     const resposta = await pedir(`/candidaturas/${idCandidatura}/responder`, "PUT", { status: status });
     if (!resposta) return;
 
@@ -47,15 +46,9 @@ async function concluir() {
 }
 
 
-// ---------------------------------------------------------------------
-// Avaliação da equipe
-// ---------------------------------------------------------------------
+// avaliacao da equipe
 
-// Cinco estrelas por critério.
-//
-// O HTML sai na ordem de 5 pra 1 e o CSS inverte visualmente. É esse truque
-// que deixa "marcar a 3ª estrela acende as três primeiras" funcionar só com
-// CSS, sem um único evento de JS.
+// cinco estrelas por criterio
 function estrelas(criterio, idColega) {
     const nome = `${criterio}-${idColega}`;
 
@@ -128,7 +121,7 @@ function cardColega(colega) {
         </div>
     `;
 
-    // Já recebi a avaliação dela: as duas enviaram, então as duas aparecem.
+    // ja recebi a avaliacao dela: as duas enviaram, entao as duas aparecem
     if (colega.recebida) {
         const recebida = colega.recebida;
 
@@ -148,7 +141,7 @@ function cardColega(colega) {
         `;
     }
 
-    // Eu já avaliei, mas a outra pessoa ainda não. As duas ficam escondidas.
+    // eu ja avaliei, mas a outra pessoa ainda nao
     if (colega.esperandoResposta) {
         return `
             <div class="cardResultado">
@@ -198,8 +191,7 @@ async function carregarProjeto() {
         return;
     }
 
-    // A tela inteira vem em três pedidos, não em cinco. E nenhum deles baixa
-    // dado de projeto alheio, como acontecia com o /vagas e o /candidaturas.
+    // a tela inteira vem em tres pedidos, nao em cinco
     const projeto = await pedir(`/projetos/${idProjeto}`);
     if (!projeto) return;
 
@@ -215,8 +207,7 @@ async function carregarProjeto() {
     escrever("totalMembros", membros.length);
     escrever("totalVagasAbertas", vagas.filter((vaga) => vaga.status === "aberta").length);
 
-    // Ficha técnica do projeto: campos que o formulário de publicar já pedia e
-    // que antes eram jogados fora.
+    // ficha tecnica: campos que o formulario ja pedia e eram descartados
     if (pegar("fichaProjeto")) {
         const ficha = [
             ["Gênero", projeto.genero],
@@ -254,8 +245,7 @@ async function carregarProjeto() {
     listar("listaVagas", vagas, function (vaga) {
         const nivel = vaga.nivelMinimo ? `<span class="tagSkill">${escapar(NIVEIS[vaga.nivelMinimo])} ou mais</span>` : "";
 
-        // O servidor já diz se eu me candidatei, então a tela não precisa
-        // adivinhar nem baixar todas as candidaturas pra descobrir.
+        // o servidor ja diz se eu me candidatei nessa vaga
         let acao = "";
 
         if (vaga.minhaCandidatura) {
@@ -280,12 +270,12 @@ async function carregarProjeto() {
         `;
     }, "Nenhuma vaga cadastrada pra esse projeto.");
 
-    // A avaliação abre quando o projeto termina, e só pra quem esteve nele.
+    // a avaliacao abre quando o projeto termina, e so pra quem esteve nele
     if (projeto.status === "concluido" && projeto.ehDaEquipe) {
         carregarAvaliacoes();
     }
 
-    // Só o dono do projeto vê e responde as candidaturas.
+    // so o dono do projeto ve e responde as candidaturas
     if (projeto.ehCriador) {
         pegar("blocoCandidaturas").classList.remove("escondido");
         mostrarCandidaturas();
@@ -310,7 +300,7 @@ async function mostrarCandidaturas() {
             ? `<span class="metricaResultado">${ICONES.estrela} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
             : `<span class="metricaResultado">Sem avaliação ainda</span>`;
 
-        // Pendente mostra os botões; já respondida mostra só o resultado.
+        // pendente mostra os botoes; ja respondida mostra so o resultado
         const acoes = candidatura.status === "pendente"
             ? `<button type="button" class="botaoCandidatar" onclick="responder(${candidatura.id}, 'aceita')">Aceitar</button>
                <button type="button" class="botaoCandidatar botaoRecusar" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`

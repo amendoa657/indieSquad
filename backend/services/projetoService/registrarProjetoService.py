@@ -11,15 +11,14 @@ class RegistrarProjetoService:
         faltando = campoFaltando(dados, ["nome"])
 
         if faltando:
-            return {"erro": f"O campo {faltando} e obrigatorio"}, 400
+            return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
         status = dados.get("status", "ativo")
 
         if not p.statusValido(status):
-            return {"erro": "Status invalido"}, 400
+            return {"erro": "Status inválido"}, 400
 
-        # O criador e sempre quem esta logado. Antes vinha no corpo do pedido,
-        # e dava pra publicar projeto no nome de outra pessoa.
+        # o criador e sempre quem esta logado
         projeto = p.registrarProjeto(
             texto(dados["nome"], 90),
             status,

@@ -7,6 +7,6 @@ class BuscarCriadorProjetoService:
         projeto = p.buscarPorId(id)
 
         if projeto is None:
-            return {"erro": "Projeto nao encontrado"}, 404
+            return {"erro": "Projeto não encontrado"}, 404
 
         return u.to_dict(projeto.criador), 200

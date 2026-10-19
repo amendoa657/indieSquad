@@ -8,7 +8,7 @@ class ObterDashboardService:
         usuario = u.buscarPorId(idUsuario)
 
         if usuario is None:
-            return {"erro": "Usuario nao encontrado"}, 404
+            return {"erro": "Pessoa não encontrada"}, 404
 
         if not ehOProprio(idUsuario):
             return ERRO_NAO_E_VOCE
@@ -22,8 +22,7 @@ class ObterDashboardService:
 
         candidaturasPendentes = len([c for c in usuario.candidaturas if c.status == "pendente"])
 
-        # Candidaturas esperando resposta DELE, nos projetos que ele criou.
-        # E o numero que faz o dono voltar pro app.
+        # candidaturas esperando resposta DELE, nos projetos que ele criou
         aguardandoResposta = 0
         for projeto in projetosCriados:
             for vaga in projeto.vagas:
@@ -54,7 +53,7 @@ class ObterDashboardService:
                 "marcosConcluidos": marcosConcluidos
             })
 
-        # Os projetos que a pessoa participa mas nao criou.
+        # os projetos que a pessoa participa mas nao criou
         colaboracoes = []
         for participacao in usuario.participacoes:
             projeto = participacao.projeto
