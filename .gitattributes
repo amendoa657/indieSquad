@@ -1,0 +1,18 @@
+# Trava a quebra de linha em LF dentro do repositorio.
+# Sem isso, editor no Windows salva em CRLF e o git marca o arquivo inteiro
+# como alterado, mesmo sem ninguem ter mexido numa linha.
+* text=auto eol=lf
+
+# Esses so funcionam com a quebra do Windows.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binarios: o git nao deve tentar converter nada aqui.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

@@ -36,14 +36,21 @@ O frontend e o backend são separados, então são dois servidores rodando ao me
 
 ### 1. Banco de dados
 
-Abrir o MySQL e rodar, nessa ordem:
+Precisa do MySQL instalado (no Windows, o **MySQL Installer** já traz o Server e o Workbench juntos).
 
-```sql
-source backend/database/scriptCreateIndieSquadV2.sql;
-source backend/database/seedIndieSquad.sql;
+Pelo **Workbench**: abrir `File > Open SQL Script`, escolher o arquivo e clicar no raio pra executar. Nessa ordem:
+
+1. `backend/database/scriptCreateIndieSquadV2.sql` — cria o banco `indieSquad` inteiro
+2. `backend/database/seedIndieSquad.sql` — preenche o catálogo de funções e ferramentas (o sistema precisa dele pra funcionar) e cria usuários e projetos de exemplo
+
+Pelo **terminal**, de dentro da pasta do projeto:
+
+```powershell
+mysql -u root -p < backend\database\scriptCreateIndieSquadV2.sql
+mysql -u root -p < backend\database\seedIndieSquad.sql
 ```
 
-O primeiro cria o banco `indieSquad` inteiro. O segundo preenche o catálogo de funções e ferramentas (que o sistema precisa pra funcionar) e cria alguns usuários e projetos de exemplo.
+> Se o `mysql` não for reconhecido no terminal, ele não está no PATH. Ou usa o Workbench, ou roda pelo caminho completo (normalmente `"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"`).
 
 > Quem já tem o banco da versão antiga roda `backend/database/scriptAtualizacaoV2.sql` em vez do primeiro: ele atualiza o banco preservando os dados que já estão lá.
 
@@ -51,25 +58,52 @@ A senha de todos os usuários de exemplo é `indiesquad123`.
 
 ### 2. Backend
 
-```bash
+Precisa do Python 3.12 ou mais novo. No Windows, instalar pelo [python.org](https://www.python.org/downloads/) marcando **"Add python.exe to PATH"** na primeira tela do instalador.
+
+```powershell
 cd backend
-python -m venv venv
-venv\Scripts\activate          # no Windows
-source venv/bin/activate       # no Linux e no Mac
+py -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Copiar o `.env.example` pra `.env` e preencher:
+> Se o PowerShell reclamar que *"execução de scripts foi desabilitada neste sistema"*, é a política de execução padrão do Windows barrando o `activate`. Resolve com:
+>
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
+>
+> Ou, sem mexer em política nenhuma, usar o Prompt de Comando em vez do PowerShell e rodar `venv\Scripts\activate.bat`.
+
+Deu certo quando aparece `(venv)` no começo da linha do terminal.
+
+<details>
+<summary>No Linux ou no Mac</summary>
 
 ```bash
-cp .env.example .env
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
+
+</details>
+
+Copiar o `.env.example` pra `.env`:
+
+```powershell
+copy .env.example .env
+```
+
+No Linux e no Mac, `cp .env.example .env`.
+
+O `.env` **não vai pro GitHub** (está no `.gitignore`), então ele não aparece sozinho quando você clona o projeto: em cada computador é preciso criar o seu. O próprio `.env.example` explica variável por variável o que preencher, e tem no fim o passo a passo pra isso.
 
 O que precisa ser mudado no `.env`:
 
 | Variável | Pra que serve |
 | --- | --- |
-| `SECRET_KEY` | Assina o token do login. Gere a sua com `python -c "import secrets; print(secrets.token_hex(32))"` |
+| `SECRET_KEY` | Assina o token do login. Gere a sua com `py -c "import secrets; print(secrets.token_hex(32))"` |
 | `DATABASE_URL` | Conexão com o banco, no formato `mysql+pymysql://usuario:senha@host/indieSquad` |
 | `HORAS_EXPIRACAO_TOKEN` | Quantas horas o login continua valendo |
 | `ORIGENS_PERMITIDAS` | Endereços do front que podem chamar a API |
@@ -81,15 +115,15 @@ A `IA_CHAVE` é a única opcional: sem ela o match continua calculando e explica
 
 Rodar:
 
-```bash
-python main.py
+```powershell
+py main.py
 ```
 
 A API sobe em `http://localhost:5000`.
 
 ### 3. Frontend
 
-A pasta `frontend` é HTML, CSS e JS puro, sem instalação. Abrir com o **Live Server** do VS Code (botão "Go Live"), que serve em `http://127.0.0.1:5500`.
+A pasta `frontend` é HTML, CSS e JS puro, sem instalação. Abrir com o **Live Server** do VS Code (botão "Go Live" no canto de baixo), que serve em `http://127.0.0.1:5500`.
 
 > Abrir o arquivo direto no navegador (`file://`) não funciona: o navegador bloqueia a conversa com a API. Tem que ser por um servidor.
 
