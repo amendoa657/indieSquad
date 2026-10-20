@@ -379,17 +379,17 @@ class Nivel extends HTMLElement {
 }
 
 
-// ---------- a marca: um S de cinco blocos ----------
+// ---------- a marca: a cruz de um controle, em cinco blocos ----------
 //
-// Cinco blocos, um por classe (arte, audio, design, producao, programacao),
-// montando um S de squad, no formato de uma peca de tetris de cinco.
+// O direcional do controle, com um bloco por classe (arte, audio, design,
+// producao, programacao): a equipe inteira forma o controle.
 
 const MARCA = [
     [1, 0, "arte"],
-    [2, 0, "audio"],
+    [0, 1, "producao"],
     [1, 1, "design"],
-    [0, 2, "programacao"],
-    [1, 2, "producao"],
+    [2, 1, "audio"],
+    [1, 2, "programacao"],
 ];
 
 class Marca extends HTMLElement {
