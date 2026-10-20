@@ -16,7 +16,7 @@
         document.documentElement.dataset.tema = tema;
 
         // a barra de status do celular acompanha o tema
-        const cor = tema === "claro" ? "#f4f7f9" : "#0b0f14";
+        const cor = tema === "claro" ? "#f3f5f3" : "#0e100f";
         document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
             meta.setAttribute("content", cor);
         });

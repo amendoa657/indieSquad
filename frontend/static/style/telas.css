@@ -49,7 +49,7 @@
 .topoBusca h3,
 .saudacaoDashboard h3 {
     color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-md);
     font-weight: var(--peso-normal);
     letter-spacing: var(--letra-corpo);
@@ -136,7 +136,7 @@
 .cardLogin > h3 {
     margin-bottom: var(--espaco-6);
     color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-base);
     font-weight: var(--peso-normal);
     letter-spacing: var(--letra-corpo);
@@ -240,7 +240,7 @@
 }
 
 .tituloPerfil {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-md);
     font-weight: var(--peso-forte);
     color: var(--cor-texto);
@@ -472,7 +472,7 @@
 }
 
 .campoMarco {
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
 }
 
 .opcaoParceria {
@@ -567,244 +567,354 @@ nav {
     }
 }
 
-main > .tituloPrincipal,
-.comoFunciona,
-.infraCompleta,
-.talentos,
-.pronto {
-    width: 100%;
-    max-width: var(--largura-conteudo);
-    padding: 0 var(--espaco-6);
-    margin: 0 auto;
-}
+/* landing */
 
-.tituloPrincipal {
+.landing {
     display: flex;
     flex-direction: column;
-    align-items: center;
-
-    /* svh e nao dvh: o topo nao muda de altura quando a barra de endereco recolhe */
-    justify-content: center;
-    min-height: 100svh;
-    padding-top: var(--espaco-16);
-    padding-bottom: var(--espaco-12);
-    text-align: center;
+    width: 100%;
 }
 
-.tituloPrincipal h1 {
+.landing > section {
+    width: 100%;
+    max-width: var(--largura-conteudo);
+    margin: 0 auto;
+    padding-inline: var(--espaco-8);
+}
+
+
+/* abertura: a esquerda o que o produto faz, a direita quem ja esta aqui */
+
+.abertura {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--espaco-16);
+    padding-top: var(--espaco-24);
+    padding-bottom: var(--espaco-24);
+}
+
+.aberturaTexto h1 {
+    max-width: 11ch;
+    color: var(--cor-texto);
     font-size: var(--texto-3xl);
-    line-height: var(--linha-apertada);
+    font-weight: var(--peso-pesado);
+    line-height: var(--linha-display);
     letter-spacing: var(--letra-display);
 }
 
-.subtituloPrincipal {
-    max-width: 58ch;
-    margin-top: var(--espaco-5);
+.aberturaApoio {
+    max-width: var(--largura-leitura);
+    margin-top: var(--espaco-6);
     color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
     font-size: var(--texto-md);
-    font-weight: var(--peso-normal);
     line-height: var(--linha-corpo);
-    letter-spacing: var(--letra-corpo);
 }
 
-.botoesTituloPrincipal {
+.aberturaAcoes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--espaco-3);
     margin-top: var(--espaco-8);
 }
 
-.estatisticas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--espaco-4);
-    width: 100%;
-    max-width: 640px;
-    padding: var(--espaco-6) 0;
-    margin-top: var(--espaco-12);
-    border-top: 1px solid var(--cor-borda);
+
+/* o elenco e a peca central: funcao a esquerda, nome a direita, como em credito de jogo */
+
+.elenco {
+    padding: var(--espaco-6);
+    border: 1px solid var(--cor-borda-forte);
+    background-color: var(--cor-superficie);
+}
+
+.elencoTopo {
+    padding-bottom: var(--espaco-4);
+    border-bottom: 1px solid var(--cor-borda-forte);
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+.elencoLista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.elencoItem {
+    display: flex;
+    align-items: baseline;
+    gap: var(--espaco-3);
+    padding: var(--espaco-3) 0;
     border-bottom: 1px solid var(--cor-borda);
 }
 
-.estatisticas h1 {
-    font-size: var(--texto-2xl);
-    font-variant-numeric: tabular-nums;
-    color: var(--cor-marca);
+.elencoItem:last-child {
+    border-bottom: 0;
 }
 
-.estatisticas h3 {
-    margin-top: var(--espaco-1);
+.elencoFuncao {
+    flex-shrink: 0;
     color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    letter-spacing: var(--letra-etiqueta);
-    text-transform: uppercase;
+    font-size: var(--texto-sm);
 }
 
-#botaoSetaBaixo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    margin-top: var(--espaco-12);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-total);
-    background-color: var(--cor-superficie);
-    color: var(--cor-texto-2);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
+/* o pontilhado que liga funcao e nome e o que faz a lista ler como credito */
+.elencoItem::after {
+    content: "";
+    flex: 1;
+    order: 1;
+    height: 0;
+    border-bottom: 1px dotted var(--cor-borda-forte);
+    transform: translateY(-0.2em);
 }
 
-#botaoSetaBaixo svg path {
-    fill: currentColor;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    #botaoSetaBaixo:hover {
-        transform: translateY(3px);
-        border-color: var(--cor-marca-borda);
-        color: var(--cor-marca);
-    }
-}
-
-/* espacador que serve de alvo pra ancora, pro titulo nao colar na barra de vidro */
-.gapSlide {
-    height: var(--espaco-20);
-}
-
-.comoFunciona,
-.infraCompleta,
-.talentos,
-.pronto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: var(--espaco-16);
-    text-align: center;
-}
-
-.comoFunciona h1,
-.infraCompleta h1,
-.talentos h1,
-.pronto h1 {
-    font-size: var(--texto-2xl);
-}
-
-.comoFunciona > h3,
-.infraCompleta > h3,
-.talentos > h3,
-.pronto > h3 {
-    max-width: 56ch;
-    margin-top: var(--espaco-3);
-    margin-bottom: var(--espaco-10);
-    color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
+.elencoNome {
+    order: 2;
+    flex-shrink: 0;
+    color: var(--cor-texto);
     font-size: var(--texto-base);
-    font-weight: var(--peso-normal);
+    font-weight: var(--peso-medio);
+}
+
+.elencoRodape {
+    padding-top: var(--espaco-4);
+    border-top: 1px solid var(--cor-borda-forte);
+    color: var(--cor-texto-3);
+    font-size: var(--texto-sm);
+}
+
+.elenco .mensagemVazia {
+    padding: var(--espaco-4) 0;
+}
+
+
+/* secoes internas */
+
+.secao {
+    padding-top: var(--espaco-20);
+    padding-bottom: var(--espaco-4);
+}
+
+.secaoTopo {
+    max-width: var(--largura-leitura);
+    margin-bottom: var(--espaco-10);
+}
+
+.secaoTopo h2 {
+    color: var(--cor-texto);
+    font-size: var(--texto-2xl);
+    font-weight: var(--peso-pesado);
+    line-height: var(--linha-apertada);
+    letter-spacing: var(--letra-display);
+}
+
+.secaoTopo p {
+    margin-top: var(--espaco-3);
+    color: var(--cor-texto-2);
+    font-size: var(--texto-md);
     line-height: var(--linha-corpo);
-    letter-spacing: var(--letra-corpo);
 }
 
-.cards123 {
+
+/* passos: e uma sequencia de verdade, entao o numero carrega informacao */
+
+.passos {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* mesmo ritmo de duas colunas da ficha, pra pagina ter um so compasso */
+.passos li {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--espaco-4);
-    width: 100%;
-    text-align: left;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--espaco-8);
+    align-items: start;
+    padding: var(--espaco-5) 0;
+    border-top: 1px solid var(--cor-borda);
 }
 
-.cards123 .card {
+.passos li:last-child {
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.passoTitulo {
     display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-    padding: var(--espaco-6);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-superficie);
-    box-shadow: var(--luz-topo);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
+    align-items: baseline;
+    gap: var(--espaco-4);
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .cards123 .card:hover {
-        transform: translateY(-3px);
-        border-color: var(--cor-marca-borda);
-    }
-}
-
-.cards123 .card h1 {
-    font-size: var(--texto-xl);
+.passoNumero {
     color: var(--cor-marca);
+    font-size: var(--texto-xl);
+    font-weight: var(--peso-pesado);
+    line-height: 1;
+    letter-spacing: var(--letra-display);
     font-variant-numeric: tabular-nums;
 }
 
-.cards123 .card h2 {
+.passos h3 {
+    color: var(--cor-texto);
     font-size: var(--texto-md);
+    font-weight: var(--peso-forte);
 }
 
-.cards123 .card h3 {
+.passos p {
+    max-width: var(--largura-leitura);
+    margin-top: var(--espaco-2);
     color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
     font-size: var(--texto-base);
-    font-weight: var(--peso-normal);
     line-height: var(--linha-corpo);
-    letter-spacing: var(--letra-corpo);
 }
 
-.cardsTalento {
+
+/* ficha: lista de especificacao, nome a esquerda e explicacao a direita */
+
+.ficha {
+    margin: 0;
+}
+
+.fichaLinha {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--espaco-3);
-    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--espaco-8);
+    padding: var(--espaco-5) 0;
+    border-top: 1px solid var(--cor-borda);
 }
 
-.cardTalento {
+.fichaLinha:last-child {
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.ficha dt {
+    color: var(--cor-texto);
+    font-size: var(--texto-md);
+    font-weight: var(--peso-forte);
+    letter-spacing: var(--letra-titulo);
+}
+
+.ficha dd {
+    max-width: var(--largura-leitura);
+    margin: 0;
+    color: var(--cor-texto-2);
+    font-size: var(--texto-base);
+    line-height: var(--linha-corpo);
+}
+
+
+/* funcoes */
+
+.funcoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--cor-borda-forte);
+    list-style: none;
+}
+
+/* o fio fica no proprio item: com fundo no container, celula vazia da grade
+   aparecia como um bloco de cor */
+.funcoes li {
+    background-color: var(--cor-superficie);
+    box-shadow: inset -1px -1px 0 var(--cor-borda-forte);
+}
+
+.funcoes a {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: var(--espaco-3);
-    padding: var(--espaco-6) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-superficie);
-    box-shadow: var(--luz-topo);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
-}
-
-.cardTalento svg {
-    width: 26px;
-    height: 26px;
-    fill: var(--cor-marca);
-}
-
-.cardTalento h3 {
+    padding: var(--espaco-5);
     color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
+    font-size: var(--texto-base);
+    text-decoration: none;
+    transition: background-color var(--tempo-rapido) ease,
+                color var(--tempo-rapido) ease;
+}
+
+.funcoes svg {
+    flex-shrink: 0;
+    color: var(--cor-marca);
+}
+
+.funcaoNome {
+    flex: 1;
+}
+
+/* quantas funcoes a categoria tem: numero pequeno, mas e informacao real */
+.funcaoTotal {
+    color: var(--cor-texto-3);
     font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
+    font-variant-numeric: tabular-nums;
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .cardTalento:hover {
-        transform: translateY(-3px);
-        border-color: var(--cor-marca-borda);
-    }
-
-    .cardTalento:hover svg {
-        fill: var(--cor-marca-forte);
+    .funcoes a:hover {
+        background-color: var(--cor-superficie-2);
+        color: var(--cor-texto);
     }
 }
 
-.pronto {
-    padding-top: var(--espaco-12);
+.funcoes a:active {
+    background-color: var(--cor-superficie-3);
+}
+
+
+/* os creditos entram em sequencia: e o unico momento da pagina que anima sozinho */
+.elencoItem {
+    animation: entrarCredito 400ms var(--curva-saida) backwards;
+}
+
+.elencoItem:nth-child(1) { animation-delay: 40ms; }
+.elencoItem:nth-child(2) { animation-delay: 85ms; }
+.elencoItem:nth-child(3) { animation-delay: 130ms; }
+.elencoItem:nth-child(4) { animation-delay: 175ms; }
+.elencoItem:nth-child(5) { animation-delay: 220ms; }
+.elencoItem:nth-child(6) { animation-delay: 265ms; }
+.elencoItem:nth-child(7) { animation-delay: 310ms; }
+
+@keyframes entrarCredito {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .elencoItem {
+        animation: none;
+    }
+}
+
+
+/* fecho */
+
+.fecho {
+    padding-top: var(--espaco-20);
     padding-bottom: var(--espaco-24);
 }
+
+.fecho h2 {
+    max-width: 16ch;
+    color: var(--cor-texto);
+    font-size: var(--texto-2xl);
+    font-weight: var(--peso-pesado);
+    line-height: var(--linha-apertada);
+    letter-spacing: var(--letra-display);
+}
+
+.fecho p {
+    max-width: var(--largura-leitura);
+    margin-top: var(--espaco-3);
+    color: var(--cor-texto-2);
+    font-size: var(--texto-md);
+    line-height: var(--linha-corpo);
+}
+
+.fecho a {
+    margin-top: var(--espaco-8);
+}
+
 
 footer {
     display: flex;
@@ -873,7 +983,7 @@ footer {
 .passoOnboarding > h3 {
     margin-bottom: var(--espaco-5);
     color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-base);
     font-weight: var(--peso-normal);
     letter-spacing: var(--letra-corpo);
@@ -916,7 +1026,7 @@ footer {
 
 .linkPular {
     color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-sm);
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -951,7 +1061,7 @@ footer {
 }
 
 .topoPerfilCompleto strong {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-base);
 }
 
@@ -1085,20 +1195,46 @@ footer {
         display: none;
     }
 
-    .tituloPrincipal,
-    .comoFunciona,
-    .infraCompleta,
-    .talentos,
-    .pronto {
-        padding-left: var(--espaco-4);
-        padding-right: var(--espaco-4);
+    .landing > section {
+        padding-inline: var(--espaco-4);
     }
 
-    .tituloPrincipal {
-        padding-top: var(--espaco-16);
+    /* no celular o elenco vai pra baixo do texto, nao do lado */
+    .abertura {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--espaco-10);
+        padding-top: var(--espaco-12);
+        padding-bottom: var(--espaco-12);
     }
 
-    .botoesTituloPrincipal a {
+    .aberturaTexto h1 {
+        max-width: none;
+    }
+
+    .aberturaAcoes a {
+        flex: 1 1 100%;
+    }
+
+    .secao {
+        padding-top: var(--espaco-12);
+    }
+
+    .passos li {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--espaco-2);
+    }
+
+    .fichaLinha {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--espaco-2);
+    }
+
+    .fecho {
+        padding-top: var(--espaco-12);
+        padding-bottom: var(--espaco-16);
+    }
+
+    .fecho a {
         width: 100%;
     }
 

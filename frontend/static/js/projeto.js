@@ -58,7 +58,7 @@ function estrelas(criterio, idColega) {
     for (let valor = 5; valor >= 1; valor--) {
         html += `
             <input type="radio" name="${nome}" id="${nome}-${valor}" value="${valor}" ${valor === 5 ? "" : ""} />
-            <label for="${nome}-${valor}" title="${valor} de 5" aria-label="${valor} de 5">★</label>
+            <label for="${nome}-${valor}" title="${valor} de 5" aria-label="${valor} de 5">${icone("estrela", 22)}</label>
         `;
     }
 
@@ -439,8 +439,8 @@ async function carregarProjeto() {
         listar("marcosProjeto", projeto.marcos, function (marco) {
             // o dono marca e desmarca o marco clicando na caixa
             const caixa = projeto.ehCriador
-                ? `<span class="caixaMarco caixaMarcoClicavel" onclick="alternarMarco(${marco.id}, ${marco.concluido})" title="Marcar como concluído">${marco.concluido ? "✓" : ""}</span>`
-                : `<span class="caixaMarco">${marco.concluido ? "✓" : ""}</span>`;
+                ? `<span class="caixaMarco caixaMarcoClicavel" onclick="alternarMarco(${marco.id}, ${marco.concluido})" title="Marcar como concluído">${marco.concluido ? icone("confere", 13) : ""}</span>`
+                : `<span class="caixaMarco">${marco.concluido ? icone("confere", 13) : ""}</span>`;
 
             const acoes = projeto.ehCriador
                 ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="apagarMarco(${marco.id})">Apagar</button></div>`
@@ -560,7 +560,7 @@ async function mostrarCandidaturas() {
     listar("listaCandidaturas", candidaturas, function (candidatura) {
         const pessoa = candidatura.candidato;
         const nota = pessoa.reputacao.total > 0
-            ? `<span class="metricaResultado">${ICONES.estrela} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
+            ? `<span class="metricaResultado">${icone("estrela")} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
             : `<span class="metricaResultado">Sem avaliação ainda</span>`;
 
         // pendente mostra os botoes; ja respondida mostra so o resultado

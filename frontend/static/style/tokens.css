@@ -1,32 +1,30 @@
 /* IndieSquad - tokens: cor, espaco, tipografia, raio, sombra e tempo de animacao */
 
 :root {
-    /* tipografia */
-
-    /* Orbitron so na marca: fonte de display cansa em texto corrido */
-    --fonte-marca: "Orbitron", sans-serif;
-    --fonte-titulo: "Space Grotesk", "Inter", sans-serif;
-    --fonte-corpo: "Inter", system-ui, sans-serif;
+    /* tipografia: uma familia so, usada nos extremos da escala */
+    --fonte: "Space Grotesk", system-ui, sans-serif;
 
     /* a escala combina tamanho, altura de linha e espacamento de letra */
     --texto-xs: 0.75rem;
     --texto-sm: 0.8125rem;
     --texto-base: 0.9375rem;
     --texto-md: 1.0625rem;
-    --texto-lg: 1.375rem;
+    --texto-lg: 1.3125rem;
     --texto-xl: 1.75rem;
-    --texto-2xl: 2.25rem;
-    --texto-3xl: clamp(2.25rem, 5.5vw, 3.75rem);
+    --texto-2xl: 2.5rem;
+    --texto-3xl: clamp(2.75rem, 8vw, 5.5rem);
 
+    --linha-display: 0.94;
     --linha-apertada: 1.1;
-    --linha-titulo: 1.25;
-    --linha-corpo: 1.6;
+    --linha-titulo: 1.2;
+    --linha-corpo: 1.55;
 
-    --letra-display: -0.03em;
-    --letra-titulo: -0.015em;
-    --letra-corpo: 0;
-    --letra-miuda: 0.01em;
-    --letra-etiqueta: 0.08em;
+    /* quanto maior o texto, mais apertado o espacamento precisa ser */
+    --letra-display: -0.045em;
+    --letra-titulo: -0.02em;
+    --letra-corpo: -0.005em;
+    --letra-miuda: 0;
+    --letra-etiqueta: 0.02em;
 
     --peso-normal: 400;
     --peso-medio: 500;
@@ -47,19 +45,19 @@
     --espaco-20: 5rem;
     --espaco-24: 6rem;
 
-    /* arredondamento */
-    --raio-sm: 8px;
-    --raio-md: 12px;
-    --raio-lg: 16px;
-    --raio-xl: 22px;
+    /* canto duro: o arredondado uniforme e o que deixa tudo com cara de template */
+    --raio-sm: 2px;
+    --raio-md: 3px;
+    --raio-lg: 4px;
+    --raio-xl: 4px;
     --raio-total: 999px;
 
     /* medidas de layout */
     --largura-menu: 248px;
-    --largura-conteudo: 1100px;
+    --largura-conteudo: 1180px;
     --largura-media: 880px;
     --largura-estreita: 680px;
-    --largura-leitura: 62ch;
+    --largura-leitura: 58ch;
 
     /* movimento */
 
@@ -79,29 +77,29 @@
 [data-tema="escuro"] {
     color-scheme: dark;
 
-    /* camadas: fundo da pagina, card, campo e hover */
-    --cor-fundo: #0b0f14;
-    --cor-superficie: #12171e;
-    --cor-superficie-2: #1a212a;
-    --cor-superficie-3: #232c37;
+    /* o cinza puxa pro verde, nao pro azul: azul escuro e o dark mode de todo mundo */
+    --cor-fundo: #0e100f;
+    --cor-superficie: #151816;
+    --cor-superficie-2: #1c201e;
+    --cor-superficie-3: #262b28;
 
-    /* borda fina pra estrutura; a forte e pra contorno de campo */
-    --cor-borda: #222b35;
-    --cor-borda-forte: #2d3945;
+    --cor-borda: #242926;
+    --cor-borda-forte: #39403c;
 
-    --cor-texto: #eef3f8;
-    --cor-texto-2: #9aa9b8;
-    --cor-texto-3: #7b8a9a;
+    --cor-texto: #f0f3f1;
+    --cor-texto-2: #a2ada8;
+    --cor-texto-3: #8b958f;
 
-    /* ciano da marca */
-    --cor-marca: #2ebdcc;
-    --cor-marca-forte: #45d3e2;
-    --cor-marca-contraste: #06222a;
-    --cor-marca-fraca: rgba(46, 189, 204, 0.12);
-    --cor-marca-borda: rgba(46, 189, 204, 0.32);
+    /* a marca entra como bloco chapado, nao como texto brilhando no escuro */
+    --cor-marca: #2ed3c6;
+    --cor-marca-forte: #5be8dc;
+    --cor-marca-contraste: #06201d;
+    --cor-marca-fraca: rgba(46, 211, 198, 0.12);
+    --cor-marca-borda: rgba(46, 211, 198, 0.34);
 
-    --cor-acento: #e07b2e;
-    --cor-acento-fraca: rgba(224, 123, 46, 0.14);
+    --cor-acento: #ff6b35;
+    --cor-acento-contraste: #260c02;
+    --cor-acento-fraca: rgba(255, 107, 53, 0.14);
 
     --cor-sucesso: #37c98a;
     --cor-sucesso-fraca: rgba(55, 201, 138, 0.14);
@@ -114,37 +112,38 @@
     --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.5);
     --sombra-2: 0 4px 16px rgba(0, 0, 0, 0.45);
     --sombra-3: 0 18px 48px rgba(0, 0, 0, 0.55);
-    --luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 
-    --cor-vidro: rgba(18, 23, 30, 0.72);
+    --cor-vidro: rgba(14, 16, 15, 0.82);
 }
 
 
-/* tema claro: o ciano da marca tem so 2.27:1 contra o branco, entao vira um teal mais fundo */
+/* tema claro: o ciano da marca tem contraste baixo demais no branco, entao vira um teal fundo */
 
 [data-tema="claro"] {
     color-scheme: light;
 
-    --cor-fundo: #f4f7f9;
+    --cor-fundo: #f3f5f3;
     --cor-superficie: #ffffff;
-    --cor-superficie-2: #eff3f6;
-    --cor-superficie-3: #e3eaef;
+    --cor-superficie-2: #ebefec;
+    --cor-superficie-3: #dfe5e1;
 
-    --cor-borda: #e2e8ee;
-    --cor-borda-forte: #cfd9e1;
+    --cor-borda: #e0e6e2;
+    --cor-borda-forte: #c7d0ca;
 
-    --cor-texto: #0d141b;
-    --cor-texto-2: #52616f;
-    --cor-texto-3: #64727e;
+    --cor-texto: #0d100e;
+    --cor-texto-2: #515b56;
+    --cor-texto-3: #646e69;
 
-    --cor-marca: #0a717d;
-    --cor-marca-forte: #085d66;
+    --cor-marca: #0a6f69;
+    --cor-marca-forte: #085a55;
     --cor-marca-contraste: #ffffff;
-    --cor-marca-fraca: rgba(10, 113, 125, 0.09);
-    --cor-marca-borda: rgba(10, 113, 125, 0.26);
+    --cor-marca-fraca: rgba(10, 111, 105, 0.09);
+    --cor-marca-borda: rgba(10, 111, 105, 0.26);
 
-    --cor-acento: #b05413;
-    --cor-acento-fraca: rgba(176, 84, 19, 0.09);
+    --cor-acento: #c1440e;
+    --cor-acento-contraste: #ffffff;
+    --cor-acento-fraca: rgba(193, 68, 14, 0.09);
 
     --cor-sucesso: #0c7a53;
     --cor-sucesso-fraca: rgba(12, 122, 83, 0.1);
@@ -154,12 +153,12 @@
     --cor-erro-fraca: rgba(194, 59, 59, 0.1);
 
     /* no claro a sombra faz o trabalho que a luz de borda faz no escuro */
-    --sombra-1: 0 1px 2px rgba(13, 20, 27, 0.06);
-    --sombra-2: 0 4px 14px rgba(13, 20, 27, 0.08);
-    --sombra-3: 0 18px 44px rgba(13, 20, 27, 0.12);
+    --sombra-1: 0 1px 2px rgba(13, 16, 14, 0.06);
+    --sombra-2: 0 4px 14px rgba(13, 16, 14, 0.08);
+    --sombra-3: 0 18px 44px rgba(13, 16, 14, 0.12);
     --luz-topo: none;
 
-    --cor-vidro: rgba(255, 255, 255, 0.78);
+    --cor-vidro: rgba(255, 255, 255, 0.82);
 }
 
 

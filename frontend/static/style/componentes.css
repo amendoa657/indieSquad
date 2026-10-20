@@ -18,7 +18,7 @@
 .logo h3,
 .logoF h3,
 .logoMenuLateral h3 {
-    font-family: var(--fonte-marca);
+    font-family: var(--fonte);
     font-size: var(--texto-base);
     font-weight: var(--peso-pesado);
     letter-spacing: 0.04em;
@@ -45,9 +45,7 @@
 .botaoCandidatar,
 .botaoProximo,
 .botaoComecar,
-.botaoPublicarProjeto,
-.botaoEncontrarEquipe,
-.pronto a {
+.botaoPrimario {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,7 +55,7 @@
     border-radius: var(--raio-sm);
     background-color: var(--cor-marca);
     color: var(--cor-marca-contraste);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-base);
     font-weight: var(--peso-forte);
     letter-spacing: var(--letra-miuda);
@@ -80,8 +78,7 @@
     .botaoCandidatar:hover,
     .botaoProximo:hover,
     .botaoComecar:hover,
-    .botaoPublicarProjeto:hover,
-    .pronto a:hover {
+    .botaoPrimario:hover {
         background-color: var(--cor-marca-forte);
         color: var(--cor-marca-contraste);
     }
@@ -91,9 +88,8 @@
 .botaoCandidatar:active,
 .botaoProximo:active,
 .botaoComecar:active,
-.botaoPublicarProjeto:active,
-.botaoEncontrarEquipe:active,
-.pronto a:active {
+.botaoPrimario:active,
+.botaoSecundario:active {
     transform: scale(0.97);
 }
 
@@ -106,7 +102,7 @@
 }
 
 /* secundario: fundo neutro, contorno visivel */
-.botaoEncontrarEquipe,
+.botaoSecundario,
 .botaoEditarPerfil,
 .botaoVoltarPagina {
     display: inline-flex;
@@ -128,7 +124,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .botaoEncontrarEquipe:hover,
+    .botaoSecundario:hover,
     .botaoEditarPerfil:hover,
     .botaoVoltarPagina:hover {
         border-color: var(--cor-marca-borda);
@@ -142,11 +138,6 @@
     transform: scale(0.97);
 }
 
-.botaoEncontrarEquipe img,
-.botaoPublicarProjeto img {
-    width: 16px;
-    height: 16px;
-}
 
 /* destrutivo: recusar, cancelar, remover */
 .botaoRecusar {
@@ -294,7 +285,7 @@
 .botaoPerfil {
     padding: 0.42rem 0.8rem;
     border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     background-color: var(--cor-superficie-2);
     color: var(--cor-texto-2);
     font-size: var(--texto-sm);
@@ -412,7 +403,7 @@
 }
 
 .valorEstatistica {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-xl);
     font-weight: var(--peso-pesado);
     line-height: 1.1;
@@ -434,7 +425,7 @@
 .detalheNota {
     display: block;
     color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-xs);
     font-weight: var(--peso-normal);
     letter-spacing: var(--letra-corpo);
@@ -529,7 +520,7 @@
     align-items: center;
     padding: 0.25rem 0.6rem;
     border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     background-color: var(--cor-superficie-2);
     color: var(--cor-texto-2);
     font-size: var(--texto-xs);
@@ -541,7 +532,7 @@
 .seloStatus {
     padding: 0.22rem 0.6rem;
     border: 1px solid var(--cor-marca-borda);
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     background-color: var(--cor-marca-fraca);
     color: var(--cor-marca);
     font-size: var(--texto-xs);
@@ -555,7 +546,7 @@
     display: inline-flex;
     align-items: center;
     padding: 0.22rem 0.65rem;
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     font-size: var(--texto-xs);
     font-weight: var(--peso-forte);
     letter-spacing: var(--letra-etiqueta);
@@ -581,7 +572,7 @@
 .cargoMembro {
     margin-left: auto;
     padding: 0.18rem 0.55rem;
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     background-color: var(--cor-marca-fraca);
     color: var(--cor-marca);
     font-size: var(--texto-xs);
@@ -596,7 +587,7 @@
     align-items: center;
     gap: var(--espaco-1);
     padding: 0.2rem 0.6rem;
-    border-radius: var(--raio-total);
+    border-radius: var(--raio-sm);
     background-color: var(--cor-acento-fraca);
     color: var(--cor-acento);
     font-size: var(--texto-xs);
@@ -641,7 +632,7 @@
     border-radius: var(--raio-lg);
     background-color: var(--cor-marca-fraca);
     color: var(--cor-marca);
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-xl);
     font-weight: var(--peso-pesado);
 }
@@ -656,7 +647,7 @@
     border-radius: var(--raio-sm);
     background-color: var(--cor-marca-fraca);
     color: var(--cor-marca);
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-xs);
     font-weight: var(--peso-pesado);
 }
@@ -692,7 +683,7 @@
 
 .blocoSecao > h3,
 .tituloSecao {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-lg);
     font-weight: var(--peso-forte);
     letter-spacing: var(--letra-titulo);
@@ -1119,7 +1110,7 @@
 }
 
 .notaGrande {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-2xl);
     font-weight: var(--peso-pesado);
     line-height: 1;
@@ -1185,7 +1176,7 @@
     border-radius: var(--raio-sm);
     background-color: var(--cor-superficie-2);
     color: var(--cor-texto-2);
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     font-size: var(--texto-xs);
     font-weight: var(--peso-medio);
     cursor: pointer;
@@ -1238,7 +1229,7 @@
 }
 
 .notaCompatibilidade {
-    font-family: var(--fonte-titulo);
+    font-family: var(--fonte);
     font-size: var(--texto-md);
     font-weight: var(--peso-pesado);
     line-height: 1;

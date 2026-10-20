@@ -15,20 +15,20 @@ function cardPessoa(pessoa) {
     const metricas = [];
 
     if (pessoa.reputacao.total > 0) {
-        metricas.push(`${ICONES.estrela} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}`);
+        metricas.push(`${icone("estrela")} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}`);
     }
 
     if (pessoa.projetosCriados > 0) {
-        metricas.push(`${ICONES.pasta} ${plural(pessoa.projetosCriados, "projeto", "projetos")}`);
-        metricas.push(`${ICONES.grafico} ${pessoa.taxaConclusao}% concluídos`);
+        metricas.push(`${icone("pasta")} ${plural(pessoa.projetosCriados, "projeto", "projetos")}`);
+        metricas.push(`${icone("grafico")} ${pessoa.taxaConclusao}% concluídos`);
     }
 
     if (pessoa.colaboracoes > 0) {
-        metricas.push(`${ICONES.pessoas} ${plural(pessoa.colaboracoes, "colaboração", "colaborações")}`);
+        metricas.push(`${icone("pessoas")} ${plural(pessoa.colaboracoes, "colaboração", "colaborações")}`);
     }
 
     if (pessoa.disponibilidadeHoras) {
-        metricas.push(`${ICONES.relogio} ${pessoa.disponibilidadeHoras}h por semana`);
+        metricas.push(`${icone("relogio")} ${pessoa.disponibilidadeHoras}h por semana`);
     }
 
     const corpoMetricas = metricas.length > 0
@@ -67,8 +67,8 @@ function cardProjeto(projeto) {
             </div>
             <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
             <div class="metricasResultado">
-                <span class="metricaResultado">${ICONES.pessoas} ${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
-                <span class="metricaResultado">${ICONES.pasta} ${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
+                <span class="metricaResultado">${icone("pessoas")} ${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
+                <span class="metricaResultado">${icone("pasta")} ${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
             </div>
             <div class="tagsResultado">${detalhes}</div>
         </div>
@@ -174,5 +174,16 @@ async function carregarSkills() {
     desenharFiltros();
 }
 
+
+// a landing manda a categoria na url, pra pessoa cair na busca ja filtrada
+function categoriaDoEndereco() {
+    const pedida = new URLSearchParams(location.search).get("categoria");
+    if (!pedida) return;
+
+    categoriaEscolhida = pedida;
+}
+
+
+categoriaDoEndereco();
 carregarSkills();
 buscar();

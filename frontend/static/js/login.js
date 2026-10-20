@@ -16,5 +16,6 @@ pegar("formLogin").onsubmit = async function (evento) {
     guardarLogin(resposta);
 
     // o objetivo da pessoa decide a tela inicial
-    irPara(resposta.usuario.objetivo === "entrarProjeto" ? "busca.html" : "dashboard.html");
+    irPara(destinoGuardado()
+        || (resposta.usuario.objetivo === "entrarProjeto" ? "busca.html" : "dashboard.html"));
 };
