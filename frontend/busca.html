@@ -4,101 +4,143 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>Buscar - IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>Buscar · IndieSquad</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
-    <body>
-        <div class="layoutPagina">
-            <aside class="menuLateral">
-                <div>
-                    <div class="logoMenuLateral">
-                        <img src="static/assets/Logo.svg" alt="" />
-                        <h3>INDIE<span>SQUAD</span></h3>
-                    </div>
+    <body class="telaApp">
+        <div class="mo-app">
+            <header class="mo-cabecalho cabecalhoApp">
+                <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
+                    <is-marca></is-marca>
+                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                </a>
 
-                    <div class="navegacaoMenuLateral">
-                        <a href="dashboard.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Dashboard
-                        </a>
-                        <a href="busca.html" class="itemMenuLateral ativo">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2"/></svg>
-                            Buscar
-                        </a>
-                        <a href="publicar-projeto.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            Publicar Projeto
-                        </a>
-                        <a href="minhas-candidaturas.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8 12 11 15 16 9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Candidaturas
-                        </a>
-                        <a href="perfil.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/></svg>
-                            Meu Perfil
-                        </a>
-                    </div>
-                </div>
+                <form class="mo-busca buscaRapida" role="search">
+                    <i class="mo-lupa" aria-hidden="true"></i>
+                    <input type="search" placeholder="Buscar pessoas ou projetos" aria-label="Buscar pessoas ou projetos" data-mo-atalho="/" autocomplete="off" />
+                    <kbd class="mo-atalho">/</kbd>
+                </form>
 
-                <div class="pePainel">
-                    <div class="linhaPePainel">
-                        <button type="button" class="botaoSair" onclick="fazerLogout()">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="16 16 21 12 16 8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            <span>Sair</span>
+                <div class="acoesCabecalho">
+                    <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
                         </button>
 
-                        <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                        <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                        <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                    </button>
-                    </div>
+                    <a class="chipUsuario" href="perfil.html">
+                        <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                        <span class="textoChip" data-jogador-nome></span>
+                    </a>
+
+                    <button class="mo-alternar-lateral" data-mo-gaveta aria-label="Abrir menu"><i></i><i></i><i></i></button>
                 </div>
-            </aside>
+            </header>
 
-            <main class="conteudoPagina">
-                <div class="topoBusca">
-                    <h1>Buscar</h1>
-                </div>
+            <div class="mo-corpo">
+                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
 
-                <div class="linhaBusca">
-                    <div class="caixaBusca">
-                        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2"/></svg>
-                        <input type="text" id="campoBusca" placeholder="Buscar profissionais ou projetos" />
-                    </div>
+                <nav class="mo-lateral menuApp" aria-label="Navegação principal">
+                        <a href="dashboard.html" class="mo-nav-item">
+                            <mo-simbolo nome="casa"></mo-simbolo>
+                            <span class="mo-nav-texto">Painel</span>
+                        </a>
+                        <a href="busca.html" class="mo-nav-item ativo" aria-current="page">
+                            <i class="mo-pilula" aria-hidden="true"></i>
+                            <mo-simbolo nome="busca"></mo-simbolo>
+                            <span class="mo-nav-texto">Buscar</span>
+                        </a>
+                        <a href="publicar-projeto.html" class="mo-nav-item">
+                            <mo-simbolo nome="mais"></mo-simbolo>
+                            <span class="mo-nav-texto">Publicar projeto</span>
+                        </a>
+                        <a href="minhas-candidaturas.html" class="mo-nav-item">
+                            <mo-simbolo nome="check"></mo-simbolo>
+                            <span class="mo-nav-texto">Candidaturas</span>
+                        </a>
+                        <a href="perfil.html" class="mo-nav-item">
+                            <mo-simbolo nome="usuario"></mo-simbolo>
+                            <span class="mo-nav-texto">Meu perfil</span>
+                        </a>
 
-                    <div class="abasBusca">
-                        <button type="button" class="abaBusca" id="abaProjetos">
-                            Projetos
-                            <svg viewBox="0 0 24 24" width="14" height="14"><rect x="4" y="4" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <div class="peMenu">
+                        <div class="cartaoJogador">
+                            <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                            <strong data-jogador-nome></strong>
+                            <span data-jogador-handle></span>
+                        </div>
+
+                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                            <mo-simbolo nome="sair"></mo-simbolo>
+                            Sair
                         </button>
-                        <button type="button" class="abaBusca ativo" id="abaProfissionais">
-                            Profissionais
-                            <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/></svg>
-                        </button>
                     </div>
-                </div>
+                </nav>
 
-                <div class="blocoFiltros">
-                    <div class="filtrosSkills" id="filtrosCategorias"></div>
-                    <div class="filtrosSkills filtrosSecundarios escondido" id="filtrosSkills"></div>
-                </div>
+                <main class="mo-conteudo">
+                    <div class="paginaApp">
+                        <header class="topoTela">
+                            <p class="sobretitulo">Recrutar</p>
+                            <h1>Encontre quem falta na sua equipe</h1>
+                            <p class="apoio">Pessoas por função e nível, ou projetos com vaga aberta.</p>
+                        </header>
 
-                <div class="listaResultados" id="listaResultados"></div>
-            </main>
+                        <div class="painelBusca">
+                            <div class="linhaBusca">
+                                <label class="mo-busca mo-busca--grande caixaBusca">
+                                    <i class="mo-lupa" aria-hidden="true"></i>
+                                    <input type="search" id="campoBusca" placeholder="Nome, função ou projeto" autocomplete="off" />
+                                </label>
+
+                                <div class="abasBusca" role="tablist" aria-label="O que buscar">
+                                    <button type="button" class="abaBusca ativo" id="abaProfissionais">
+                                        <mo-simbolo nome="usuario"></mo-simbolo>
+                                        Pessoas
+                                    </button>
+                                    <button type="button" class="abaBusca" id="abaProjetos">
+                                        <mo-simbolo nome="controle"></mo-simbolo>
+                                        Projetos
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="blocoFiltros">
+                                <div class="filtrosClasses" id="filtrosCategorias"></div>
+                                <div class="filtrosFuncoes escondido" id="filtrosSkills"></div>
+                            </div>
+                        </div>
+
+                        <p class="contagemResultados" id="contagemResultados"></p>
+
+                        <div class="grade gradeResultados" id="listaResultados"></div>
+                    </div>
+                </main>
+            </div>
+
+            <footer class="mo-rodape rodapeStatus">
+                <span class="statusApi" id="statusApi"><i class="mo-pulso" aria-hidden="true"></i><span>conectando</span></span>
+                <span id="statusNumeros"></span>
+                <div class="direita">
+                    <span>indiesquad 1.8</span>
+                    <span class="atalhoBusca"><kbd>/</kbd> busca</span>
+                </div>
+            </footer>
         </div>
 
         <script src="static/js/app.js"></script>
+        <script src="static/js/casca.js"></script>
         <script src="static/js/busca.js"></script>
     </body>
 </html>

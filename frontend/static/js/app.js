@@ -271,3 +271,94 @@ function icone(nome, tamanho = 16) {
 
     return `<svg viewBox="0 0 24 24" width="${tamanho}" height="${tamanho}" aria-hidden="true" focusable="false">${ICONES[nome]}</svg>`;
 }
+
+
+// cada area do catalogo e uma classe, como num RPG: cor e simbolo proprios
+const CLASSES = {
+    "Arte": { id: "arte", simbolo: "pincel" },
+    "Áudio": { id: "audio", simbolo: "nota" },
+    "Design": { id: "design", simbolo: "esquadro" },
+    "Produção": { id: "producao", simbolo: "claquete" },
+    "Programação": { id: "programacao", simbolo: "codigo" },
+};
+
+function classe(categoria) {
+    return CLASSES[categoria] ? `classe-${CLASSES[categoria].id}` : "";
+}
+
+function simboloDaClasse(categoria) {
+    return CLASSES[categoria] ? CLASSES[categoria].simbolo : "controle";
+}
+
+// a funcao que a pessoa leva mais longe decide a cor dela
+function funcaoPrincipal(pessoa) {
+    if (!pessoa || !pessoa.skills || pessoa.skills.length === 0) return null;
+
+    return pessoa.skills.reduce((maior, skill) => (skill.nivel > maior.nivel ? skill : maior));
+}
+
+// o bonequinho de pixel da pessoa: o apelido decide o desenho, a funcao a cor
+function sprite(pessoa, tamanho = 36, extra = "") {
+    const principal = funcaoPrincipal(pessoa);
+    const semente = pessoa.handle || pessoa.usuario || pessoa.nome || "?";
+
+    return `<is-sprite class="${principal ? classe(principal.categoria) : ""} ${extra}" semente="${escapar(semente)}" style="--is-sprite:${tamanho}px"></is-sprite>`;
+}
+
+function cartucho(nome, tamanho = 44) {
+    return `<is-cartucho nome="${escapar(nome)}" style="--is-cartucho:${tamanho}px"></is-cartucho>`;
+}
+
+// funcao com a cor da classe e o nivel em quatro casinhas
+function tagFuncao(skill, comNivel = true) {
+    const nivel = comNivel && skill.nivel ? `<is-nivel valor="${skill.nivel}" title="${escapar(NIVEIS[skill.nivel])}"></is-nivel>` : "";
+
+    return `<span class="tag tagClasse ${classe(skill.categoria)}">${escapar(skill.nome)}${nivel}</span>`;
+}
+
+function selo(status) {
+    return `<span class="selo selo-${escapar(status)}">${escapar(rotulo(status))}</span>`;
+}
+
+
+// o catalogo de funcoes vem uma vez so e fica guardado: as vagas so dizem o
+// nome da funcao, e e por ele que a tela descobre a classe
+let catalogoGuardado = null;
+
+function catalogo() {
+    if (!catalogoGuardado) {
+        catalogoGuardado = pedir("/skills").then((skills) => skills || []);
+    }
+
+    return catalogoGuardado;
+}
+
+async function categoriaDaFuncao(nome) {
+    const skills = await catalogo();
+    const achada = skills.find((skill) => skill.nome === nome);
+
+    return achada ? achada.categoria : null;
+}
+
+
+// as rotas de membro e de avaliacao nao trazem as funcoes da pessoa; a lista
+// publica de profissionais traz. Ela vem uma vez so e da a classe (a cor do
+// bonequinho) de qualquer pessoa pelo apelido
+let jogadoresGuardados = null;
+
+function jogadores() {
+    if (!jogadoresGuardados) {
+        jogadoresGuardados = pedir("/busca/profissionais").then(function (pessoas) {
+            return new Map((pessoas || []).map((pessoa) => [pessoa.handle, pessoa]));
+        });
+    }
+
+    return jogadoresGuardados;
+}
+
+// junta as funcoes na pessoa que veio sem elas
+async function comFuncoes(pessoa) {
+    const conhecida = (await jogadores()).get(pessoa.handle);
+
+    return conhecida ? { ...pessoa, skills: conhecida.skills } : pessoa;
+}

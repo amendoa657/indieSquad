@@ -9,45 +9,46 @@ let skillsDoBanco = [];
 
 
 function cardPessoa(pessoa) {
-    const funcao = pessoa.skills.length > 0 ? pessoa.skills[0].nome : "Sem função definida";
+    const principal = funcaoPrincipal(pessoa);
 
     // metrica sem dado atras nao aparece
     const metricas = [];
 
     if (pessoa.reputacao.total > 0) {
-        metricas.push(`${icone("estrela")} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}`);
-    }
-
-    if (pessoa.projetosCriados > 0) {
-        metricas.push(`${icone("pasta")} ${plural(pessoa.projetosCriados, "projeto", "projetos")}`);
-        metricas.push(`${icone("grafico")} ${pessoa.taxaConclusao}% concluídos`);
-    }
-
-    if (pessoa.colaboracoes > 0) {
-        metricas.push(`${icone("pessoas")} ${plural(pessoa.colaboracoes, "colaboração", "colaborações")}`);
+        metricas.push(`<mo-simbolo nome="estrela"></mo-simbolo>${numero(pessoa.reputacao.media)} <small>(${pessoa.reputacao.total})</small>`);
     }
 
     if (pessoa.disponibilidadeHoras) {
-        metricas.push(`${icone("relogio")} ${pessoa.disponibilidadeHoras}h por semana`);
+        metricas.push(`<mo-simbolo nome="relogio"></mo-simbolo>${pessoa.disponibilidadeHoras}h/sem`);
+    }
+
+    if (pessoa.colaboracoes > 0) {
+        metricas.push(`<mo-simbolo nome="usuario"></mo-simbolo>${plural(pessoa.colaboracoes, "colab.", "colabs.")}`);
+    }
+
+    if (pessoa.projetosCriados > 0) {
+        metricas.push(`<mo-simbolo nome="bandeira"></mo-simbolo>${pessoa.taxaConclusao}% concluídos`);
     }
 
     const corpoMetricas = metricas.length > 0
-        ? `<div class="metricasResultado">${metricas.map((m) => `<span class="metricaResultado">${m}</span>`).join("")}</div>`
+        ? `<div class="statusPessoa">${metricas.map((m) => `<span>${m}</span>`).join("")}</div>`
         : `<p class="semMetrica">Perfil novo por aqui</p>`;
 
     return `
-        <div class="cardResultado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
-            <div class="topoCardResultado">
-                <div>
-                    <h2>${escapar(pessoa.nome)}</h2>
-                    <p class="funcaoResultado">${escapar(funcao)}</p>
+        <article class="cartao cartaoClicavel mira cartaoPessoa ${principal ? classe(principal.categoria) : ""}" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
+            <div class="cartaoTopo">
+                ${sprite(pessoa, 54)}
+                <div class="cartaoTitulo">
+                    <h3>${escapar(pessoa.nome)}</h3>
+                    <p class="classePessoa">${principal ? `${escapar(principal.nome)} · ${escapar(NIVEIS[principal.nivel])}` : "Sem função definida"}</p>
+                    <span>@${escapar(pessoa.handle)}</span>
                 </div>
             </div>
             ${corpoMetricas}
-            <div class="tagsResultado">
-                ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
+            <div class="tags">
+                ${pessoa.skills.map((skill) => tagFuncao(skill)).join("")}
             </div>
-        </div>
+        </article>
     `;
 }
 
@@ -56,22 +57,26 @@ function cardProjeto(projeto) {
 
     const detalhes = [projeto.genero, projeto.engine, parceria]
         .filter((item) => item)
-        .map((item) => `<span class="tagSkill">${escapar(item)}</span>`)
+        .map((item) => `<span class="tag">${escapar(item)}</span>`)
         .join("");
 
     return `
-        <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
-            <div class="topoCardResultado">
-                <h2>${escapar(projeto.nome)}</h2>
-                <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
+        <article class="cartao cartaoClicavel mira cartaoProjeto" onclick="irPara('projeto.html?id=${projeto.id}')">
+            <div class="cartaoTopo">
+                ${cartucho(projeto.nome, 55)}
+                <div class="cartaoTitulo">
+                    <h3>${escapar(projeto.nome)}</h3>
+                    <span>por ${escapar(projeto.criador.usuario)}</span>
+                </div>
+                ${selo(projeto.status)}
             </div>
-            <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
-            <div class="metricasResultado">
-                <span class="metricaResultado">${icone("pessoas")} ${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
-                <span class="metricaResultado">${icone("pasta")} ${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
+            <p class="cartaoTexto">${escapar(projeto.descricao) || "Sem descrição"}</p>
+            <div class="tags">${detalhes}</div>
+            <div class="cartaoPe">
+                <span class="dado"><mo-simbolo nome="usuario"></mo-simbolo>${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
+                <span class="dado ${projeto.vagasAbertas > 0 ? "dadoRealce" : ""}"><mo-simbolo nome="pasta"></mo-simbolo>${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
             </div>
-            <div class="tagsResultado">${detalhes}</div>
-        </div>
+        </article>
     `;
 }
 
@@ -89,12 +94,14 @@ async function buscar() {
         })}`);
         if (!pessoas) return;
 
-        listar("listaResultados", pessoas, cardPessoa, "Nenhum profissional encontrado.");
+        escrever("contagemResultados", plural(pessoas.length, "pessoa encontrada", "pessoas encontradas"));
+        listar("listaResultados", pessoas, cardPessoa, "Ninguém com esse perfil ainda. Tenta outra função.");
     } else {
         const projetos = await pedir(`/busca/projetos${filtros({ q: termo })}`);
         if (!projetos) return;
 
-        listar("listaResultados", projetos, cardProjeto, "Nenhum projeto encontrado.");
+        escrever("contagemResultados", plural(projetos.length, "projeto encontrado", "projetos encontrados"));
+        listar("listaResultados", projetos, cardProjeto, "Nenhum projeto com esse nome.");
     }
 }
 
@@ -129,8 +136,12 @@ function filtrarPorSkill(nomeDaSkill) {
 }
 
 
-function chip(texto, ativo, acao) {
-    return `<button type="button" class="botaoFiltro ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${escapar(texto)}</button>`;
+function chip(texto, ativo, acao, categoria) {
+    // a categoria vira a classe: o chip ganha a cor e o simbolo dela
+    const comClasse = acao === "categoria" && texto !== "Todos";
+    const simbolo = comClasse ? `<mo-simbolo nome="${simboloDaClasse(texto)}"></mo-simbolo>` : "";
+
+    return `<button type="button" class="botaoFiltro ${classe(categoria || texto)} ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${simbolo}${escapar(texto)}</button>`;
 }
 
 function desenharFiltros() {
@@ -145,7 +156,7 @@ function desenharFiltros() {
     pegar("filtrosSkills").classList.toggle("escondido", daCategoria.length === 0);
 
     escrever("filtrosSkills", ["Todos", ...daCategoria.map((skill) => skill.nome)].map(function (nome) {
-        return chip(nome, nome === skillEscolhida, "skill");
+        return chip(nome, nome === skillEscolhida, "skill", categoriaEscolhida);
     }).join(""));
 
     // o valor vai no atributo: nome com apostrofo quebraria o onclick
@@ -175,12 +186,14 @@ async function carregarSkills() {
 }
 
 
-// a landing manda a categoria na url, pra pessoa cair na busca ja filtrada
+// a landing manda a categoria na url, e a busca do cabecalho manda o termo,
+// pra pessoa cair na busca ja filtrada
 function categoriaDoEndereco() {
-    const pedida = new URLSearchParams(location.search).get("categoria");
-    if (!pedida) return;
+    const pedida = parametro("categoria");
+    const termo = parametro("q");
 
-    categoriaEscolhida = pedida;
+    if (pedida) categoriaEscolhida = pedida;
+    if (termo) pegar("campoBusca").value = termo;
 }
 
 

@@ -4,64 +4,80 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>Entrar - IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>Entrar · IndieSquad</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
+    <body class="telaEntrada">
+        <mo-pixels class="mo-fundo" opacidade="0.5"></mo-pixels>
 
-    <body class="corpoLogin">
-        <main class="paginaLogin">
-            <div class="topoLogin">
-                <a class="botaoLogo" href="index.html">
-                    <div class="logo">
-                        <img src="static/assets/Logo.svg" alt=""/>
-                        <h3>INDIE<span>SQUAD</span></h3>
+        <header class="topoEntrada">
+            <a class="logoIndie" href="index.html" aria-label="IndieSquad">
+                <is-marca></is-marca>
+                <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+            </a>
+
+            <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
+                        </button>
+        </header>
+
+        <main class="miolo">
+            <div class="cartaoEntrada">
+                <div class="janelaTopo">
+                    <span>Entrar</span>
+                    <span>P1</span>
+                </div>
+
+                <div class="cartaoEntradaCorpo">
+                    <div class="cabecaEntrada">
+                        <h1>Continue de onde parou</h1>
+                        <p>Entre na sua conta da IndieSquad.</p>
                     </div>
-                </a>
 
-                <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                    <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                    <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                </button>
-            </div>
-
-            <div class="cardLogin">
-                <h2>Entrar</h2>
-                <h3>Acesse sua conta IndieSquad</h3>
-
-                <form class="formLogin" id="formLogin">
-                    <div class="campoFormulario">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" placeholder="seu@email.com" required />
-                    </div>
-
-                    <div class="campoFormulario">
-                        <label for="senha">Senha</label>
-                        <div class="caixaSenha">
-                            <input type="password" id="senha" name="senha" placeholder="••••••••" required />
-                            <button type="button" class="botaoOlho" id="botaoOlho">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 128C147.3 128 21.6 245.7 3.5 262.4C-1.2 266.8-1.2 274.2 3.5 278.6C21.6 295.3 147.3 413 320 413C492.7 413 618.4 295.3 636.5 278.6C641.2 274.2 641.2 266.8 636.5 262.4C618.4 245.7 492.7 128 320 128zM320 349C275.3 349 239 312.7 239 268C239 223.3 275.3 187 320 187C364.7 187 401 223.3 401 268C401 312.7 364.7 349 320 349z"/></svg>
-                            </button>
+                    <form class="formLogin formulario" id="formLogin">
+                        <div class="campoFormulario">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required />
                         </div>
-                    </div>
 
-                    <button type="submit" class="botaoEnviar">Entrar</button>
-                    <p class="mensagemErro" id="mensagemErro"></p>
-                </form>
+                        <div class="campoFormulario">
+                            <label for="senha">Senha</label>
+                            <div class="caixaSenha">
+                                <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" required />
+                                <button type="button" class="botaoOlho" id="botaoOlho" aria-label="Mostrar a senha">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 128C147.3 128 21.6 245.7 3.5 262.4C-1.2 266.8-1.2 274.2 3.5 278.6C21.6 295.3 147.3 413 320 413C492.7 413 618.4 295.3 636.5 278.6C641.2 274.2 641.2 266.8 636.5 262.4C618.4 245.7 492.7 128 320 128zM320 349C275.3 349 239 312.7 239 268C239 223.3 275.3 187 320 187C364.7 187 401 223.3 401 268C401 312.7 364.7 349 320 349z"/></svg>
+                                </button>
+                            </div>
+                        </div>
 
-                <a class="linkCadastro" href="cadastro.html">Não tem conta? <span>Cadastre-se</span></a>
+                        <p class="mensagemErro" id="mensagemErro"></p>
+
+                        <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoEnviar">
+                            <mo-simbolo nome="play"></mo-simbolo>
+                            Entrar
+                        </button>
+                    </form>
+                </div>
+
+                <a class="linkCadastro" href="cadastro.html">Ainda não tem conta? <span>Criar agora</span></a>
             </div>
         </main>
+
+        <p class="peEntrada">monte a equipe que termina o jogo</p>
 
         <script src="static/js/app.js"></script>
         <script src="static/js/login.js"></script>

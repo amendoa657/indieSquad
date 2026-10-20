@@ -6,21 +6,36 @@ const idProjeto = parametro("id");
 let skillsDoBanco = [];
 
 
-async function candidatar(idVaga) {
+// candidatar abre o dialogo da mensagem; enviar e que manda pro servidor
+function candidatar(idVaga, titulo) {
     avisar("");
 
-    const mensagem = prompt("Escreve uma mensagem pro dono do projeto (opcional):") || "";
+    const dialogo = pegar("dialogoCandidatura");
 
+    dialogo.dataset.vaga = idVaga;
+    escrever("tituloCandidatura", `Entrar como ${escapar(titulo || "membro")}`);
+    pegar("mensagemCandidatura").value = "";
+    dialogo.showModal();
+}
+
+async function enviarCandidatura() {
     const resposta = await pedir("/candidaturas", "POST", {
-        idVagaProjeto: idVaga,
-        mensagem: mensagem,
+        idVagaProjeto: Number(pegar("dialogoCandidatura").dataset.vaga),
+        mensagem: pegar("mensagemCandidatura").value.trim(),
     });
 
     if (!resposta) return;
 
-    avisarSucesso("Candidatura enviada! Acompanhe em 'Minhas Candidaturas'.");
+    avisarSucesso("Candidatura enviada! Acompanhe em 'Candidaturas'.");
     carregarProjeto();
 }
+
+pegar("formCandidatura").onsubmit = function (evento) {
+    // o form e method="dialog": o navegador fecha o dialogo sozinho
+    if (evento.submitter && evento.submitter.value === "enviar") {
+        enviarCandidatura();
+    }
+};
 
 
 async function responder(idCandidatura, status) {
@@ -114,11 +129,12 @@ async function avaliar(idColega) {
 function cardColega(colega) {
     const pessoa = colega.usuario;
     const cabecalho = `
-        <div class="topoCardResultado">
-            <h2>
-                <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
-                ${escapar(pessoa.usuario)}
-            </h2>
+        <div class="cartaoTopo">
+            ${sprite(pessoa, 36)}
+            <div class="cartaoTitulo">
+                <h3>${escapar(pessoa.usuario)}</h3>
+                <span>@${escapar(pessoa.handle || "")}</span>
+            </div>
         </div>
     `;
 
@@ -127,35 +143,36 @@ function cardColega(colega) {
         const recebida = colega.recebida;
 
         return `
-            <div class="cardResultado">
+            <article class="cartao cartaoAvaliacao">
                 ${cabecalho}
-                <div class="notasRecebidas">
-                    <span class="notaGrande">${numero(recebida.nota, 0)}</span>
-                    <div class="detalheNotas">
-                        <span>Comunicação ${recebida.notaComunicacao}</span>
-                        <span>Prazo ${recebida.notaPrazo}</span>
-                        <span>Qualidade ${recebida.notaQualidade}</span>
+                <div class="notaRecebida">
+                    <is-numero class="notaAvaliacao">${numero(recebida.nota, 0)}</is-numero>
+                    <div class="notasDetalhe">
+                        <span>Comunicação <is-medidor valor="${recebida.notaComunicacao}" max="5" segmentos="5"></is-medidor></span>
+                        <span>Prazo <is-medidor valor="${recebida.notaPrazo}" max="5" segmentos="5"></is-medidor></span>
+                        <span>Qualidade <is-medidor valor="${recebida.notaQualidade}" max="5" segmentos="5"></is-medidor></span>
                     </div>
                 </div>
-                ${recebida.comentario ? `<p class="descricaoResultado">“${escapar(recebida.comentario)}”</p>` : ""}
-            </div>
+                ${recebida.comentario ? `<p class="citacao">“${escapar(recebida.comentario)}”</p>` : ""}
+            </article>
         `;
     }
 
     // eu ja avaliei, mas a outra pessoa ainda nao
     if (colega.esperandoResposta) {
         return `
-            <div class="cardResultado">
+            <article class="cartao cartaoAvaliacao">
                 ${cabecalho}
                 <p class="avisoEspera">
+                    <mo-simbolo nome="relogio"></mo-simbolo>
                     Você já avaliou. A sua nota e a dela só aparecem quando ${escapar(pessoa.usuario)} também avaliar.
                 </p>
-            </div>
+            </article>
         `;
     }
 
     return `
-        <div class="cardResultado">
+        <article class="cartao cartaoAvaliacao">
             ${cabecalho}
             ${campoNota("Comunicação", "comunicacao", pessoa.id)}
             ${campoNota("Cumpriu prazos", "prazo", pessoa.id)}
@@ -166,8 +183,8 @@ function cardColega(colega) {
                 <textarea id="comentario-${pessoa.id}" placeholder="O que foi bom, o que daria pra melhorar..."></textarea>
             </div>
 
-            <button type="button" class="botaoEnviar" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
-        </div>
+            <button type="button" class="mo-tecla mo-tecla--destaque" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
+        </article>
     `;
 }
 
@@ -182,7 +199,9 @@ async function carregarAvaliacoes() {
         `A sua avaliação fica escondida até a outra pessoa enviar a dela, ou até passar ${dados.prazoLiberacaoDias} dias. ` +
         `Assim ninguém avalia já sabendo que nota vai receber de volta.`);
 
-    listar("listaAvaliacoes", dados.colegas, cardColega, "Você foi o único participante desse projeto.");
+    const colegas = await Promise.all(dados.colegas.map(async (colega) => ({ ...colega, usuario: await comFuncoes(colega.usuario) })));
+
+    listar("listaAvaliacoes", colegas, cardColega, "Você foi o único participante desse projeto.");
 }
 
 
@@ -196,18 +215,47 @@ function classeDaNota(nota) {
 }
 
 
+// os sete criterios do match, na ordem em que pesam
+const CRITERIOS = [
+    ["funcao", "Função"],
+    ["nivel", "Nível"],
+    ["parceria", "Parceria"],
+    ["ferramenta", "Ferramentas"],
+    ["disponibilidade", "Tempo"],
+    ["reputacao", "Reputação"],
+    ["texto", "Descrição"],
+];
+
 function seloCompatibilidade(compatibilidade) {
     if (!compatibilidade) return "";
 
     const fortes = compatibilidade.fortes.map((texto) => `<li class="pontoForte">${escapar(texto)}</li>`).join("");
     const fracos = compatibilidade.fracos.map((texto) => `<li class="pontoFraco">${escapar(texto)}</li>`).join("");
 
+    // cada criterio vira uma barra: quanto voce fez de quanto dava pra fazer
+    const barras = compatibilidade.criterios
+        ? CRITERIOS.map(function ([chave, nome]) {
+            const feito = compatibilidade.criterios[chave] || 0;
+            const peso = (compatibilidade.pesos && compatibilidade.pesos[chave]) || 0;
+
+            // cada segmento vale 5 pontos: a barra do criterio que pesa mais e mais comprida
+            return `
+                <div class="criterio" title="${feito} de ${peso} pontos">
+                    <span>${nome}</span>
+                    <span class="trilhoCriterio"><is-medidor valor="${feito}" max="${peso || 1}" segmentos="${Math.max(1, Math.round(peso / 5))}" style="width:${(peso / 35) * 100}%"></is-medidor></span>
+                    <strong>${feito}/${peso}</strong>
+                </div>
+            `;
+        }).join("")
+        : "";
+
     return `
-        <div class="blocoCompatibilidade">
-            <div class="topoCompatibilidade">
-                <span class="notaCompatibilidade ${classeDaNota(compatibilidade.nota)}">${compatibilidade.nota}%</span>
-                <span class="rotuloCompatibilidade">compatível com você</span>
+        <div class="blocoCompatibilidade ${classeDaNota(compatibilidade.nota)}">
+            <div class="notaMatch">
+                <is-numero>${compatibilidade.nota}%</is-numero>
+                <span>compatível com você</span>
             </div>
+            <div class="criterios">${barras}</div>
             <ul class="listaPontos">${fortes}${fracos}</ul>
         </div>
     `;
@@ -216,7 +264,7 @@ function seloCompatibilidade(compatibilidade) {
 
 async function verRecomendados(idVaga) {
     const alvo = pegar(`recomendados-${idVaga}`);
-    const card = alvo.closest(".cardResultado");
+    const card = alvo.closest(".cartaoVaga");
 
     if (!alvo.classList.contains("escondido")) {
         alvo.classList.add("escondido");
@@ -226,7 +274,7 @@ async function verRecomendados(idVaga) {
 
     alvo.classList.remove("escondido");
     card.classList.add("vagaExpandida");
-    escrever(`recomendados-${idVaga}`, `<p class="mensagemVazia">Procurando quem combina...</p>`);
+    escrever(`recomendados-${idVaga}`, `<p class="procurando"><i class="mo-marca mo-marca--girando"></i>Procurando quem combina...</p>`);
 
     const dados = await pedir(`/vagas/${idVaga}/recomendacoes`);
     if (!dados) return;
@@ -236,30 +284,31 @@ async function verRecomendados(idVaga) {
         const nota = candidato.compatibilidade.nota;
 
         const situacao = candidato.jaEhMembro
-            ? `<span class="tagSkill">Já está na equipe</span>`
+            ? `<span class="selo selo-aceita">Já está na equipe</span>`
             : candidato.jaSeCandidatou
-                ? `<span class="tagSkill">Já se candidatou</span>`
+                ? `<span class="selo selo-pendente">Já se candidatou</span>`
                 : "";
 
         const marcaIA = candidato.explicadoPorIA
-            ? `<span class="selaIA" title="Texto escrito por IA a partir dos dados do perfil">IA</span>`
+            ? `<span class="selo selo-ia" title="Texto escrito por IA a partir dos dados do perfil">IA</span>`
             : "";
 
         return `
-            <div class="cardRecomendado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
-                <div class="topoCardResultado">
-                    <h2>
-                        <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
-                        ${escapar(pessoa.usuario)}
-                    </h2>
-                    <span class="notaCompatibilidade ${classeDaNota(nota)}">${nota}%</span>
+            <article class="recomendado cardClicavel mira ${classeDaNota(nota)}" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
+                <div class="cartaoTopo">
+                    ${sprite(pessoa, 36)}
+                    <div class="cartaoTitulo">
+                        <h3>${escapar(pessoa.usuario)}</h3>
+                        <span>@${escapar(pessoa.handle)}</span>
+                    </div>
+                    <is-numero class="notaRecomendado">${nota}%</is-numero>
                 </div>
-                <p class="descricaoResultado">${marcaIA} ${escapar(candidato.explicacao)}</p>
-                <div class="tagsResultado">
-                    ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)}</span>`).join("")}
+                <p class="cartaoTexto">${marcaIA} ${escapar(candidato.explicacao)}</p>
+                <div class="tags">
+                    ${pessoa.skills.map((skill) => tagFuncao(skill)).join("")}
                     ${situacao}
                 </div>
-            </div>
+            </article>
         `;
     }, "Ninguém com perfil preenchido combina com essa vaga ainda.");
 }
@@ -409,17 +458,34 @@ async function carregarProjeto() {
     const projeto = await pedir(`/projetos/${idProjeto}`);
     if (!projeto) return;
 
-    const membros = (await pedir(`/projetos/${idProjeto}/membros`)) || [];
+    // os membros ganham as funcoes, pra cada bonequinho sair na cor da classe
+    const membros = await Promise.all(((await pedir(`/projetos/${idProjeto}/membros`)) || []).map(comFuncoes));
     const vagas = (await pedir(`/projetos/${idProjeto}/vagas`)) || [];
 
-    escrever("avatarProjeto", escapar(projeto.nome.charAt(0).toUpperCase()));
+    pegar("avatarProjeto").setAttribute("nome", projeto.nome);
     escrever("nomeProjeto", escapar(projeto.nome));
     escrever("statusProjeto", escapar(rotulo(projeto.status)));
+    pegar("statusProjeto").className = `seloStatus selo-${projeto.status}`;
     escrever("criadorProjeto", escapar(projeto.criador.usuario));
+    pegar("spriteCriador").setAttribute("semente", projeto.criador.handle);
+    comFuncoes(projeto.criador).then(function (criador) {
+        const principal = funcaoPrincipal(criador);
+        if (principal) pegar("spriteCriador").className = classe(principal.categoria);
+    });
+    pegar("linkCriador").href = `perfil.html?handle=${encodeURIComponent(projeto.criador.handle)}`;
     escrever("descricaoProjeto", escapar(projeto.descricao) || "Sem descrição.");
+    document.title = `${projeto.nome} · IndieSquad`;
+
+    const abertas = vagas.filter((vaga) => vaga.status === "aberta");
 
     escrever("totalMembros", membros.length);
-    escrever("totalVagasAbertas", vagas.filter((vaga) => vaga.status === "aberta").length);
+    escrever("totalVagasAbertas", abertas.length);
+    escrever("totalCandidaturas", vagas.reduce((soma, vaga) => soma + (vaga.totalCandidaturas || 0), 0));
+    escrever("contadorVagas", vagas.length);
+
+    // as vagas so dizem o nome da funcao: o catalogo diz a classe de cada uma
+    const skills = await catalogo();
+    const categoriaDe = (nome) => (skills.find((skill) => skill.nome === nome) || {}).categoria;
 
     // ficha tecnica: campos que o formulario ja pedia e eram descartados
     if (pegar("fichaProjeto")) {
@@ -428,6 +494,7 @@ async function carregarProjeto() {
             ["Engine", projeto.engine],
             ["Parceria", TIPOS_PARCERIA[projeto.tipoParceria] || projeto.tipoParceria],
             ["Duração", projeto.duracaoEstimada],
+            ["Criado em", dataBonita(projeto.dataCriacao)],
         ].filter((item) => item[1]);
 
         listar("fichaProjeto", ficha, function (item) {
@@ -436,45 +503,75 @@ async function carregarProjeto() {
     }
 
     if (pegar("marcosProjeto")) {
-        listar("marcosProjeto", projeto.marcos, function (marco) {
-            // o dono marca e desmarca o marco clicando na caixa
-            const caixa = projeto.ehCriador
-                ? `<span class="caixaMarco caixaMarcoClicavel" onclick="alternarMarco(${marco.id}, ${marco.concluido})" title="Marcar como concluído">${marco.concluido ? icone("confere", 13) : ""}</span>`
-                : `<span class="caixaMarco">${marco.concluido ? icone("confere", 13) : ""}</span>`;
+        const marcos = projeto.marcos || [];
+        const concluidos = marcos.filter((marco) => marco.concluido).length;
 
-            const acoes = projeto.ehCriador
-                ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="apagarMarco(${marco.id})">Apagar</button></div>`
+        // o primeiro marco nao concluido e a fase em que a equipe esta agora
+        const atual = marcos.findIndex((marco) => !marco.concluido);
+
+        escrever("contadorMarcos", `${concluidos}/${marcos.length}`);
+
+        listar("marcosProjeto", marcos, function (marco, indice) {
+            const estado = marco.concluido ? "marcoConcluido" : indice === atual ? "marcoAtual" : "";
+
+            // o dono marca e desmarca o marco clicando na casa dele
+            const casa = projeto.ehCriador
+                ? `<button type="button" class="casaMarco" onclick="alternarMarco(${marco.id}, ${marco.concluido})" title="${marco.concluido ? "Desmarcar" : "Marcar como concluído"}">${marco.concluido ? icone("confere", 14) : ""}</button>`
+                : `<span class="casaMarco">${marco.concluido ? icone("confere", 14) : ""}</span>`;
+
+            const apagar = projeto.ehCriador
+                ? `<button type="button" class="apagarMarco" onclick="apagarMarco(${marco.id})" aria-label="Apagar marco">×</button>`
                 : "";
 
             return `
-                <div class="itemMarco ${marco.concluido ? "marcoConcluido" : ""}">
-                    ${caixa}
-                    ${escapar(marco.titulo)}
-                    ${acoes}
+                <div class="itemMarco ${estado}">
+                    <span class="faseMarco">fase ${indice + 1}</span>
+                    ${casa}
+                    <span class="tituloMarco">${escapar(marco.titulo)}</span>
+                    ${apagar}
                 </div>
             `;
-        }, "Nenhum marco definido.");
+        }, "Nenhum marco definido ainda.");
     }
 
-    listar("listaMembros", membros, function (membro) {
+    // a equipe como uma party: quem ja entrou e um espaco vazio por vaga aberta
+    escrever("contadorEquipe", `${membros.length}/${membros.length + abertas.length}`);
+
+    const ocupados = membros.map(function (membro) {
         const ehCriadorDoProjeto = membro.id === projeto.criador.id;
 
         const acoes = projeto.ehCriador && !ehCriadorDoProjeto
-            ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="event.stopPropagation(); tirarMembro(${membro.id}, '${escapar(membro.usuario).replace(/'/g, "")}')">Tirar</button></div>`
+            ? `<button type="button" class="tirarMembro" onclick="event.stopPropagation(); tirarMembro(${membro.id}, '${escapar(membro.usuario).replace(/'/g, "")}')" aria-label="Tirar da equipe">×</button>`
             : "";
 
         return `
-            <div class="itemMembro cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(membro.handle)}')">
-                <span class="avatarMembro">${escapar(membro.usuario.charAt(0).toUpperCase())}</span>
-                ${escapar(membro.usuario)}
-                <span class="cargoMembro">${escapar(membro.cargo)}</span>
+            <div class="slot slotOcupado cardClicavel mira" onclick="irPara('perfil.html?handle=${encodeURIComponent(membro.handle)}')">
+                ${ehCriadorDoProjeto ? `<mo-simbolo class="coroaSlot" nome="coroa" rotulo="Criador"></mo-simbolo>` : ""}
+                ${sprite(membro, 54)}
+                <strong>${escapar(membro.usuario.split(" ")[0])}</strong>
+                <span>${escapar(membro.cargo)}</span>
                 ${acoes}
             </div>
         `;
-    }, "Ninguém na equipe ainda.");
+    });
+
+    const livres = abertas.map(function (vaga) {
+        const categoria = categoriaDe(vaga.skillNome);
+
+        return `
+            <a class="slot slotLivre ${classe(categoria)}" href="#vaga-${vaga.id}">
+                <span class="slotVazio"><mo-simbolo nome="${simboloDaClasse(categoria)}"></mo-simbolo></span>
+                <strong>${escapar(vaga.skillNome)}</strong>
+                <span>vaga aberta</span>
+            </a>
+        `;
+    });
+
+    escrever("listaMembros", [...ocupados, ...livres].join("") || `<p class="mensagemVazia">Ninguém na equipe ainda.</p>`);
 
     listar("listaVagas", vagas, function (vaga) {
-        const nivel = vaga.nivelMinimo ? `<span class="tagSkill">${escapar(NIVEIS[vaga.nivelMinimo])} ou mais</span>` : "";
+        const categoria = categoriaDe(vaga.skillNome);
+        const nivel = vaga.nivelMinimo ? `<span class="tag">${escapar(NIVEIS[vaga.nivelMinimo])} ou mais <is-nivel valor="${vaga.nivelMinimo}"></is-nivel></span>` : `<span class="tag">Qualquer nível</span>`;
 
         // o servidor ja diz se eu me candidatei nessa vaga
         let acao = "";
@@ -482,39 +579,39 @@ async function carregarProjeto() {
         if (vaga.minhaCandidatura) {
             acao = `<span class="statusCandidatura ${corDoStatus(vaga.minhaCandidatura.status)}">Candidatura ${escapar(rotulo(vaga.minhaCandidatura.status))}</span>`;
         } else if (vaga.status === "aberta" && !projeto.ehCriador) {
-            acao = `<button type="button" class="botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
+            acao = `<button type="button" class="mo-tecla mo-tecla--destaque" onclick="candidatar(${vaga.id}, '${escapar(vaga.titulo).replace(/'/g, "")}')">Candidatar-se</button>`;
         }
 
         const recomendar = projeto.ehCriador
-            ? `<button type="button" class="botaoMiudo" onclick="verRecomendados(${vaga.id})">Ver quem combina</button>`
+            ? `<button type="button" class="mo-tecla mo-tecla--p" onclick="verRecomendados(${vaga.id})"><mo-simbolo nome="busca"></mo-simbolo> Quem combina</button>`
             : "";
 
         const acoesDono = projeto.ehCriador
             ? `<div class="acoesItem">
                    ${recomendar}
                    ${vaga.status === "aberta"
-                       ? `<button type="button" class="botaoMiudo" onclick="fecharVaga(${vaga.id})">Fechar</button>`
-                       : `<button type="button" class="botaoMiudo" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
-                   <button type="button" class="botaoMiudo botaoPerigo" onclick="apagarVaga(${vaga.id})">Apagar</button>
+                       ? `<button type="button" class="mo-tecla mo-tecla--p" onclick="fecharVaga(${vaga.id})">Fechar</button>`
+                       : `<button type="button" class="mo-tecla mo-tecla--p" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
+                   <button type="button" class="mo-tecla mo-tecla--p mo-tecla--sutil mo-tecla--perigo" onclick="apagarVaga(${vaga.id})">Apagar</button>
                </div>`
             : "";
 
         return `
-            <div class="cardResultado">
-                <div class="topoCardResultado">
-                    <h2>${escapar(vaga.titulo)}</h2>
-                    <span class="statusResultado">${escapar(rotulo(vaga.status))}</span>
+            <article class="cartao cartaoVaga ${classe(categoria)}" id="vaga-${vaga.id}">
+                <div class="cartaoTopo">
+                    <span class="iconeClasse"><mo-simbolo nome="${simboloDaClasse(categoria)}"></mo-simbolo></span>
+                    <div class="cartaoTitulo">
+                        <h3>${escapar(vaga.titulo)}</h3>
+                        <span>${escapar(categoria || "Função")} · ${plural(vaga.totalCandidaturas || 0, "candidatura", "candidaturas")}</span>
+                    </div>
+                    ${selo(vaga.status)}
                 </div>
-                <p class="descricaoResultado">${escapar(vaga.descricao)}</p>
-                <div class="tagsResultado">
-                    <span class="tagSkill">${escapar(vaga.skillNome)}</span>
-                    ${nivel}
-                </div>
+                ${vaga.descricao ? `<p class="cartaoTexto">${escapar(vaga.descricao)}</p>` : ""}
+                <div class="tags">${nivel}</div>
                 ${seloCompatibilidade(vaga.compatibilidade)}
-                ${acao}
-                ${acoesDono}
+                ${acao || acoesDono ? `<div class="rodapeVaga">${acao}${acoesDono}</div>` : ""}
                 <div class="listaRecomendados escondido" id="recomendados-${vaga.id}"></div>
-            </div>
+            </article>
         `;
     }, "Nenhuma vaga cadastrada pra esse projeto.");
 
@@ -560,35 +657,35 @@ async function mostrarCandidaturas() {
     listar("listaCandidaturas", candidaturas, function (candidatura) {
         const pessoa = candidatura.candidato;
         const nota = pessoa.reputacao.total > 0
-            ? `<span class="metricaResultado">${icone("estrela")} ${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
-            : `<span class="metricaResultado">Sem avaliação ainda</span>`;
+            ? `<span><mo-simbolo nome="estrela"></mo-simbolo>${numero(pessoa.reputacao.media)} · ${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</span>`
+            : `<span><mo-simbolo nome="estrela"></mo-simbolo>sem avaliação ainda</span>`;
 
         // pendente mostra os botoes; ja respondida mostra so o resultado
         const acoes = candidatura.status === "pendente"
-            ? `<button type="button" class="botaoCandidatar" onclick="responder(${candidatura.id}, 'aceita')">Aceitar</button>
-               <button type="button" class="botaoCandidatar botaoRecusar" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`
+            ? `<button type="button" class="mo-tecla mo-tecla--destaque" onclick="responder(${candidatura.id}, 'aceita')"><mo-simbolo nome="check"></mo-simbolo> Aceitar na equipe</button>
+               <button type="button" class="mo-tecla mo-tecla--sutil" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`
             : `<span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>`;
 
         const mensagem = candidatura.mensagem
-            ? `<p class="descricaoResultado">“${escapar(candidatura.mensagem)}”</p>`
+            ? `<p class="citacao">“${escapar(candidatura.mensagem)}”</p>`
             : "";
 
         return `
-            <div class="cardResultado">
-                <div class="topoCardResultado">
-                    <h2>
-                        <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
-                        ${escapar(pessoa.usuario)}
-                    </h2>
-                    <span class="statusResultado">${escapar(candidatura.vaga.titulo)}</span>
+            <article class="cartao cartaoCandidato ${classe((funcaoPrincipal(pessoa) || {}).categoria)}">
+                <div class="cartaoTopo">
+                    ${sprite(pessoa, 45)}
+                    <div class="cartaoTitulo">
+                        <h3><a href="perfil.html?handle=${encodeURIComponent(pessoa.handle)}">${escapar(pessoa.usuario)}</a></h3>
+                        <span>quer ser <strong>${escapar(candidatura.vaga.titulo)}</strong></span>
+                    </div>
                 </div>
-                <div class="metricasResultado">${nota}</div>
-                <div class="tagsResultado">
-                    ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
+                <div class="statusPessoa">${nota}</div>
+                <div class="tags">
+                    ${pessoa.skills.map((skill) => tagFuncao(skill)).join("")}
                 </div>
                 ${mensagem}
-                ${acoes}
-            </div>
+                <div class="rodapeVaga">${acoes}</div>
+            </article>
         `;
     }, "Ninguém se candidatou ainda.");
 }

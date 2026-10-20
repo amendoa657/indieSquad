@@ -4,110 +4,121 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>Criar Conta - IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>Criar conta · IndieSquad</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
-    <body class="corpoLogin">
-        <main class="paginaLogin">
-            <div class="topoLogin">
-                <a class="botaoLogo" href="index.html">
-                    <div class="logo">
-                        <img src="static/assets/Logo.svg" alt=""/>
-                        <h3>INDIE<span>SQUAD</span></h3>
-                    </div>
-                </a>
+    <body class="telaEntrada">
+        <mo-pixels class="mo-fundo" opacidade="0.5"></mo-pixels>
 
-                <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                    <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                    <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                </button>
-            </div>
+        <header class="topoEntrada">
+            <a class="logoIndie" href="index.html" aria-label="IndieSquad">
+                <is-marca></is-marca>
+                <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+            </a>
 
-            <div class="cardLogin">
-                <h2>Criar Conta</h2>
-                <h3>Junte-se à comunidade indie</h3>
+            <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
+                        </button>
+        </header>
 
-                <div class="etapaPerfil" id="etapaPerfil">
-                    <p class="perguntaPerfil">Qual é o seu perfil?</p>
-
-                    <button type="button" class="opcaoPerfil" data-objetivo="montarEquipe">
-                        <div class="opcaoPerfilTopo">
-                            <span class="iconePerfil"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="13" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.7"/><path d="M9 13h6M12 20v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/><circle cx="6" cy="6.5" r="0.9" fill="currentColor"/></svg></span>
-                            <span class="tituloPerfil">Montar equipe</span>
-                        </div>
-                        <p>Tenho um projeto e preciso de gente</p>
-                    </button>
-
-                    <button type="button" class="opcaoPerfil" data-objetivo="entrarProjeto">
-                        <div class="opcaoPerfilTopo">
-                            <span class="iconePerfil"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><circle cx="12" cy="7" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 21a7 7 0 0 1 9.5-6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15 19h6M18 16v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg></span>
-                            <span class="tituloPerfil">Entrar num projeto</span>
-                        </div>
-                        <p>Quero colaborar e fortalecer meu portfólio</p>
-                    </button>
-
-                    <button type="button" class="opcaoPerfil" data-objetivo="ambos">
-                        <div class="opcaoPerfilTopo">
-                            <span class="iconePerfil"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M4 9h12l-3-3M20 15H8l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
-                            <span class="tituloPerfil">Os dois</span>
-                        </div>
-                        <p>Tenho projeto e também quero colaborar</p>
-                    </button>
+        <main class="miolo">
+            <div class="cartaoEntrada cartaoCadastro">
+                <div class="janelaTopo">
+                    <span>Novo jogador</span>
+                    <span id="passoCadastro">1/2</span>
                 </div>
 
-                <div class="etapaFormulario" id="etapaFormulario">
-                    <a href="#" class="botaoVoltar" id="botaoVoltar">← Voltar</a>
-
-                    <form class="formLogin" id="formCadastro">
-                        <div class="campoFormulario">
-                            <label for="nome">Nome</label>
-                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+                <div class="cartaoEntradaCorpo">
+                    <div class="etapaPerfil" id="etapaPerfil">
+                        <div class="cabecaEntrada">
+                            <h1>Como você quer jogar?</h1>
+                            <p class="perguntaPerfil">Dá pra mudar depois, no seu perfil.</p>
                         </div>
 
-                        <div class="campoFormulario">
-                            <label for="handle">Apelido</label>
-                            <div class="caixaApelido">
-                                <span class="prefixoApelido">@</span>
-                                <input type="text" id="handle" name="handle" placeholder="seu_apelido" pattern="[a-z0-9_]{3,30}" required />
+                        <button type="button" class="opcaoPerfil mira" data-objetivo="montarEquipe">
+                            <span class="iconePerfil"><mo-simbolo nome="coroa" tamanho="27"></mo-simbolo></span>
+                            <span class="tituloPerfil">Montar equipe</span>
+                            <span class="textoPerfil">Tenho um projeto e preciso de gente</span>
+                        </button>
+
+                        <button type="button" class="opcaoPerfil mira" data-objetivo="entrarProjeto">
+                            <span class="iconePerfil"><mo-simbolo nome="usuario" tamanho="27"></mo-simbolo></span>
+                            <span class="tituloPerfil">Entrar num projeto</span>
+                            <span class="textoPerfil">Quero colaborar e fortalecer meu portfólio</span>
+                        </button>
+
+                        <button type="button" class="opcaoPerfil mira" data-objetivo="ambos">
+                            <span class="iconePerfil"><mo-simbolo nome="raio" tamanho="27"></mo-simbolo></span>
+                            <span class="tituloPerfil">Os dois</span>
+                            <span class="textoPerfil">Tenho projeto e também quero colaborar</span>
+                        </button>
+                    </div>
+
+                    <div class="etapaFormulario" id="etapaFormulario">
+                        <a href="#" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoVoltar" id="botaoVoltar">← Voltar</a>
+
+                        <form class="formLogin formulario" id="formCadastro">
+                            <div class="campoFormulario">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required />
                             </div>
-                            <small class="dicaCampo">É o seu endereço no IndieSquad. Letra minúscula, número e _</small>
-                        </div>
 
-                        <div class="campoFormulario">
-                            <label for="email">E-mail</label>
-                            <input type="email" id="email" name="email" placeholder="seu@email.com" required />
-                        </div>
+                            <div class="campoFormulario">
+                                <label for="handle">Apelido</label>
+                                <div class="caixaApelido">
+                                    <span class="prefixoApelido">@</span>
+                                    <input type="text" id="handle" name="handle" placeholder="seu_apelido" pattern="[a-z0-9_]{3,30}" required />
+                                </div>
+                                <div class="previaApelido">
+                                    <is-sprite id="spriteApelido" semente="?" style="--is-sprite:36px"></is-sprite>
+                                    <small class="dicaCampo">Esse é o seu endereço e o seu bonequinho. Letra minúscula, número e _.</small>
+                                </div>
+                            </div>
 
-                        <div class="campoFormulario">
-                            <label for="senha">Senha</label>
-                            <div class="caixaSenha">
-                                <input type="password" id="senha" name="senha" placeholder="••••••••" minlength="8" required />
-                                <button type="button" class="botaoOlho" id="botaoOlho">
+                            <div class="campoFormulario">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required />
+                            </div>
+
+                            <div class="campoFormulario">
+                                <label for="senha">Senha</label>
+                                <div class="caixaSenha">
+                                    <input type="password" id="senha" name="senha" placeholder="Pelo menos 8 caracteres" minlength="8" autocomplete="new-password" required />
+                                    <button type="button" class="botaoOlho" id="botaoOlho" aria-label="Mostrar a senha">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 128C147.3 128 21.6 245.7 3.5 262.4C-1.2 266.8-1.2 274.2 3.5 278.6C21.6 295.3 147.3 413 320 413C492.7 413 618.4 295.3 636.5 278.6C641.2 274.2 641.2 266.8 636.5 262.4C618.4 245.7 492.7 128 320 128zM320 349C275.3 349 239 312.7 239 268C239 223.3 275.3 187 320 187C364.7 187 401 223.3 401 268C401 312.7 364.7 349 320 349z"/></svg>
                                 </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <button type="submit" class="botaoEnviar">Criar Conta</button>
+                            <p class="mensagemErro" id="mensagemErro"></p>
 
-                        <p class="mensagemErro" id="mensagemErro"></p>
-                    </form>
+                            <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoEnviar">
+                                <mo-simbolo nome="play"></mo-simbolo>
+                                Criar conta
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
                 <a class="linkCadastro" href="login.html">Já tem conta? <span>Entrar</span></a>
             </div>
         </main>
+
+        <p class="peEntrada">monte a equipe que termina o jogo</p>
 
         <script src="static/js/app.js"></script>
         <script src="static/js/cadastro.js"></script>

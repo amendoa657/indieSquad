@@ -15,7 +15,7 @@ function desenharPassos() {
 
     for (let numero = 1; numero <= TOTAL_PASSOS; numero++) {
         const estado = numero === passoAtual ? "passoAtivo" : (numero < passoAtual ? "passoFeito" : "");
-        passos.push(`<span class="marcadorPasso ${estado}">${numero}</span>`);
+        passos.push(`<span class="marcadorPasso ${estado}" aria-label="passo ${numero}"></span>`);
     }
 
     escrever("passosOnboarding", passos.join(""));
@@ -59,9 +59,9 @@ async function mostrarMinhasSkills() {
     const skills = (await pedir(`/usuarios/${meuId()}/skills/`)) || [];
 
     listar("minhasSkills", skills, function (skill) {
-        return `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}
-            <button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})">×</button></span>`;
-    }, "Nenhuma função ainda.");
+        return `<span class="tag tagClasse ${classe(skill.categoria)}">${escapar(skill.nome)}<is-nivel valor="${skill.nivel}"></is-nivel>
+            <button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})" aria-label="Remover">×</button></span>`;
+    }, "");
 }
 
 
@@ -171,9 +171,9 @@ async function mostrarMeusLinks() {
     const links = (await pedir(`/usuarios/${meuId()}/links`)) || [];
 
     listar("meusLinks", links, function (link) {
-        return `<span class="tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
+        return `<span class="tag">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
             <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})">×</button></span>`;
-    }, "Nenhum link ainda.");
+    }, "");
 }
 
 

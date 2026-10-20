@@ -4,109 +4,163 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>Dashboard - IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>Painel · IndieSquad</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
-    <body>
-        <div class="layoutPagina">
-            <aside class="menuLateral">
-                <div>
-                    <div class="logoMenuLateral">
-                        <img src="static/assets/Logo.svg" alt="" />
-                        <h3>INDIE<span>SQUAD</span></h3>
-                    </div>
+    <body class="telaApp">
+        <div class="mo-app">
+            <header class="mo-cabecalho cabecalhoApp">
+                <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
+                    <is-marca></is-marca>
+                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                </a>
 
-                    <div class="navegacaoMenuLateral">
-                        <a href="dashboard.html" class="itemMenuLateral ativo">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Dashboard
-                        </a>
-                        <a href="busca.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2"/></svg>
-                            Buscar
-                        </a>
-                        <a href="publicar-projeto.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            Publicar Projeto
-                        </a>
-                        <a href="minhas-candidaturas.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8 12 11 15 16 9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Candidaturas
-                        </a>
-                        <a href="perfil.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/></svg>
-                            Meu Perfil
-                        </a>
-                    </div>
-                </div>
+                <form class="mo-busca buscaRapida" role="search">
+                    <i class="mo-lupa" aria-hidden="true"></i>
+                    <input type="search" placeholder="Buscar pessoas ou projetos" aria-label="Buscar pessoas ou projetos" data-mo-atalho="/" autocomplete="off" />
+                    <kbd class="mo-atalho">/</kbd>
+                </form>
 
-                <div class="pePainel">
-                    <div class="linhaPePainel">
-                        <button type="button" class="botaoSair" onclick="fazerLogout()">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="16 16 21 12 16 8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            <span>Sair</span>
+                <div class="acoesCabecalho">
+                    <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
                         </button>
 
-                        <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                        <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                        <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                    </button>
-                    </div>
+                    <a class="chipUsuario" href="perfil.html">
+                        <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                        <span class="textoChip" data-jogador-nome></span>
+                    </a>
+
+                    <button class="mo-alternar-lateral" data-mo-gaveta aria-label="Abrir menu"><i></i><i></i><i></i></button>
                 </div>
-            </aside>
+            </header>
 
-            <main class="conteudoPagina">
-                <div class="saudacaoDashboard">
-                    <h1>Olá, <span id="nomeUsuario">...</span>!</h1>
-                    <h3>Aqui está o resumo dos seus projetos</h3>
+            <div class="mo-corpo">
+                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+
+                <nav class="mo-lateral menuApp" aria-label="Navegação principal">
+                        <a href="dashboard.html" class="mo-nav-item ativo" aria-current="page">
+                            <i class="mo-pilula" aria-hidden="true"></i>
+                            <mo-simbolo nome="casa"></mo-simbolo>
+                            <span class="mo-nav-texto">Painel</span>
+                        </a>
+                        <a href="busca.html" class="mo-nav-item">
+                            <mo-simbolo nome="busca"></mo-simbolo>
+                            <span class="mo-nav-texto">Buscar</span>
+                        </a>
+                        <a href="publicar-projeto.html" class="mo-nav-item">
+                            <mo-simbolo nome="mais"></mo-simbolo>
+                            <span class="mo-nav-texto">Publicar projeto</span>
+                        </a>
+                        <a href="minhas-candidaturas.html" class="mo-nav-item">
+                            <mo-simbolo nome="check"></mo-simbolo>
+                            <span class="mo-nav-texto">Candidaturas</span>
+                        </a>
+                        <a href="perfil.html" class="mo-nav-item">
+                            <mo-simbolo nome="usuario"></mo-simbolo>
+                            <span class="mo-nav-texto">Meu perfil</span>
+                        </a>
+
+                    <div class="peMenu">
+                        <div class="cartaoJogador">
+                            <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                            <strong data-jogador-nome></strong>
+                            <span data-jogador-handle></span>
+                        </div>
+
+                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                            <mo-simbolo nome="sair"></mo-simbolo>
+                            Sair
+                        </button>
+                    </div>
+                </nav>
+
+                <main class="mo-conteudo">
+                    <div class="paginaApp">
+                        <header class="topoTela">
+                            <p class="sobretitulo">Painel</p>
+                            <h1>Olá, <span id="nomeUsuario">…</span></h1>
+                            <p class="apoio">O resumo dos seus projetos e de onde você está jogando junto.</p>
+                        </header>
+
+                        <p class="mensagemErro" id="mensagemErro"></p>
+
+                        <div class="placar">
+                            <div class="placarItem realce">
+                                <mo-simbolo nome="controle"></mo-simbolo>
+                                <is-numero id="totalProjetosAtivos">0</is-numero>
+                                <span class="placarRotulo">Projetos ativos</span>
+                            </div>
+
+                            <div class="placarItem">
+                                <mo-simbolo nome="usuario"></mo-simbolo>
+                                <is-numero id="totalColaboracoes">0</is-numero>
+                                <span class="placarRotulo">Colaborações</span>
+                            </div>
+
+                            <div class="placarItem">
+                                <mo-simbolo nome="bandeira"></mo-simbolo>
+                                <is-numero id="taxaConclusao">0%</is-numero>
+                                <span class="placarRotulo">Conclusão</span>
+                            </div>
+
+                            <div class="placarItem">
+                                <mo-simbolo nome="pasta"></mo-simbolo>
+                                <is-numero id="totalProjetosCriados">0</is-numero>
+                                <span class="placarRotulo">Projetos criados</span>
+                            </div>
+                        </div>
+
+                        <div class="avisoPendencias escondido" id="avisoPendencias"></div>
+
+                        <div class="colunasPainel">
+                            <section class="secaoTela">
+                                <h2 class="tituloSecao">
+                                    Meus projetos ativos
+                                    <span class="contador" id="contadorProjetos">0</span>
+                                    <a class="mo-tecla mo-tecla--sutil mo-tecla--p acaoSecao" href="publicar-projeto.html"><mo-simbolo nome="mais"></mo-simbolo> Novo</a>
+                                </h2>
+                                <div class="pilha" id="listaProjetosDashboard"></div>
+                            </section>
+
+                            <section class="secaoTela">
+                                <h2 class="tituloSecao">
+                                    Onde eu jogo junto
+                                    <span class="contador" id="contadorParticipacoes">0</span>
+                                </h2>
+                                <div class="pilha" id="listaColaboracoes"></div>
+                            </section>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <footer class="mo-rodape rodapeStatus">
+                <span class="statusApi" id="statusApi"><i class="mo-pulso" aria-hidden="true"></i><span>conectando</span></span>
+                <span id="statusNumeros"></span>
+                <div class="direita">
+                    <span>indiesquad 1.8</span>
+                    <span class="atalhoBusca"><kbd>/</kbd> busca</span>
                 </div>
-
-                <div class="cardsEstatisticaQuatro">
-                    <div class="cardEstatistica">
-                        <svg class="iconeEstatistica" viewBox="0 0 24 24" width="20" height="20"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                        <span class="valorEstatistica" id="totalProjetosAtivos">0</span>
-                        <span class="legendaEstatistica">Projetos Ativos</span>
-                    </div>
-
-                    <div class="cardEstatistica">
-                        <svg class="iconeEstatistica" viewBox="0 0 24 24" width="20" height="20"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 20c0-2 1-3.5 3-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                        <span class="valorEstatistica" id="totalColaboracoes">0</span>
-                        <span class="legendaEstatistica">Colaborações</span>
-                    </div>
-
-                    <div class="cardEstatistica">
-                        <svg class="iconeEstatistica" viewBox="0 0 24 24" width="20" height="20"><polyline points="3 17 9 11 13 15 21 6" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="15 6 21 6 21 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                        <span class="valorEstatistica" id="taxaConclusao">0%</span>
-                        <span class="legendaEstatistica">Conclusão</span>
-                    </div>
-
-                    <div class="cardEstatistica">
-                        <svg class="iconeEstatistica" viewBox="0 0 24 24" width="20" height="20"><rect x="4" y="4" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="10" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="16" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                        <span class="valorEstatistica" id="totalProjetosCriados">0</span>
-                        <span class="legendaEstatistica">Projetos Criados</span>
-                    </div>
-                </div>
-
-                <h3 class="tituloSecao">Projetos ativos</h3>
-                <div class="listaProjetosDashboard" id="listaProjetosDashboard"></div>
-
-                <h2 class="tituloSecao">Projetos que eu participo</h2>
-                <div class="listaProjetosDashboard" id="listaColaboracoes"></div>
-            </main>
+            </footer>
         </div>
 
         <script src="static/js/app.js"></script>
+        <script src="static/js/casca.js"></script>
         <script src="static/js/dashboard.js"></script>
     </body>
 </html>

@@ -4,46 +4,50 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>IndieSquad · monte a equipe que termina o jogo</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
-    <body>
-        <nav>
-            <a class="botaoLogo" href="index.html">
-                <div class="logo">
-                    <img src="static/assets/Logo.svg" alt=""/>
-                    <h3>INDIE<span>SQUAD</span></h3>
-                </div>
+    <body class="telaPublica">
+        <mo-pixels class="mo-fundo" opacidade="0.5"></mo-pixels>
+
+        <header class="barraPublica">
+            <a class="logoIndie" href="index.html" aria-label="IndieSquad">
+                <is-marca></is-marca>
+                <span class="nomeMarca">INDIE<b>SQUAD</b></span>
             </a>
 
-            <div class="botoesNav">
-                <a class="mediaSumir" href="index.html#comoFunciona"> Como funciona? </a>
-                <a class="mediaSumir" href="index.html#infraCompleta"> Estrutura </a>
-                <a class="mediaSumir" href="index.html#talentos"> Talentos</a>
-                <a href="index.html#pronto" class="botaoComecar">Começar agora</a>
-
-                <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                    <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                    <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                </button>
-            </div>
-        </nav>
+            <nav aria-label="Seções">
+                <a href="#comoFunciona">Como funciona</a>
+                <a href="#infraCompleta">Recursos</a>
+                <a href="#talentos">Classes</a>
+                <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
+                        </button>
+                <a class="mo-tecla" href="login.html">Entrar</a>
+                <a class="mo-tecla mo-tecla--destaque" href="cadastro.html">Criar conta</a>
+            </nav>
+        </header>
 
         <main class="landing">
             <section class="abertura" id="principal">
                 <div class="aberturaTexto">
-                    <h1>Monte a equipe que termina o jogo</h1>
+                    <p class="sobretitulo">Plataforma de equipes pra jogos indie</p>
+
+                    <h1>Monte a equipe que <span>termina o jogo.</span></h1>
 
                     <p class="aberturaApoio">
                         Projeto indie não morre por falta de ideia, morre por falta de gente que fica
@@ -52,121 +56,179 @@
                     </p>
 
                     <div class="aberturaAcoes">
-                        <a class="botaoPrimario" href="cadastro.html">Publicar um projeto</a>
-                        <a class="botaoSecundario" href="cadastro.html">Procurar uma vaga</a>
+                        <a class="mo-tecla mo-tecla--destaque mo-tecla--g" href="cadastro.html">
+                            <mo-simbolo nome="mais"></mo-simbolo>
+                            Publicar um projeto
+                        </a>
+                        <a class="mo-tecla mo-tecla--g" href="cadastro.html">
+                            <mo-simbolo nome="busca"></mo-simbolo>
+                            Procurar uma vaga
+                        </a>
                     </div>
                 </div>
 
-                <aside class="elenco">
-                    <p class="elencoTopo">No IndieSquad agora</p>
+                <!-- a tela de escolher a party: as pessoas que ja estao no sistema -->
+                <aside class="selecao" aria-label="Quem já está no IndieSquad">
+                    <div class="selecaoTopo">
+                        <span>Escolha sua party</span>
+                        <span class="selecaoLed"><i class="mo-pulso"></i> ao vivo</span>
+                    </div>
 
                     <ol class="elencoLista" id="elencoLista"></ol>
 
-                    <p class="elencoRodape" id="elencoRodape"></p>
+                    <div class="selecaoRodape">
+                        <span id="elencoRodape"></span>
+                        <span class="dicaTeclas"><kbd>↑</kbd><kbd>↓</kbd> escolher</span>
+                    </div>
                 </aside>
             </section>
 
             <section class="secao" id="comoFunciona">
                 <div class="secaoTopo">
+                    <p class="sobretitulo">Como funciona</p>
                     <h2>Da ideia até os créditos</h2>
-                    <p>Três passos, e o compromisso de cada um fica registrado.</p>
+                    <p>Três fases, e o compromisso de cada um fica registrado.</p>
                 </div>
 
                 <ol class="passos">
                     <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">1</span>
-                            <h3>Publique seu projeto</h3>
-                        </div>
-                        <div>
-                            <p>Defina gênero, engine, duração e os marcos. Escolha as funções que faltam na equipe e o sistema abre uma vaga para cada uma.</p>
-                        </div>
+                        <span class="faseNumero">Fase 1</span>
+                        <span class="casaFase"><mo-simbolo nome="bandeira"></mo-simbolo></span>
+                        <h3>Publique seu projeto</h3>
+                        <p>Defina gênero, engine, duração e os marcos. Escolha as funções que faltam na equipe e o sistema abre uma vaga para cada uma.</p>
                     </li>
 
                     <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">2</span>
-                            <h3>Monte sua equipe</h3>
-                        </div>
-                        <div>
-                            <p>Receba candidaturas com mensagem, portfólio e reputação de cada pessoa. Ao aceitar, ela entra na equipe e a vaga fecha na hora.</p>
-                        </div>
+                        <span class="faseNumero">Fase 2</span>
+                        <span class="casaFase"><mo-simbolo nome="usuario"></mo-simbolo></span>
+                        <h3>Monte sua equipe</h3>
+                        <p>Receba candidaturas com mensagem, portfólio e reputação de cada pessoa. Ao aceitar, ela entra na equipe e a vaga fecha na hora.</p>
                     </li>
 
                     <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">3</span>
-                            <h3>Execute e entregue</h3>
-                        </div>
-                        <div>
-                            <p>Acompanhe os marcos, conclua o projeto e avalie quem trabalhou com você. A reputação de todo mundo cresce junto.</p>
-                        </div>
+                        <span class="faseNumero">Fase 3</span>
+                        <span class="casaFase"><mo-simbolo nome="estrela"></mo-simbolo></span>
+                        <h3>Execute e entregue</h3>
+                        <p>Acompanhe os marcos, conclua o projeto e avalie quem trabalhou com você. A reputação de todo mundo cresce junto.</p>
                     </li>
                 </ol>
             </section>
 
             <section class="secao" id="infraCompleta">
                 <div class="secaoTopo">
+                    <p class="sobretitulo">Recursos</p>
                     <h2>O que segura a equipe junta</h2>
                     <p>Mais que networking: as ferramentas que fazem o projeto chegar até o fim.</p>
                 </div>
 
-                <dl class="ficha">
-                    <div class="fichaLinha">
-                        <dt>Catálogo de funções</dt>
-                        <dd>Funções reais do mercado de games, de pixel artist a sound designer. Você escolhe de uma lista, sem erro de digitação e sem função duplicada.</dd>
-                    </div>
+                <div class="recursos">
+                    <article class="recurso recursoLargo">
+                        <div class="recursoTexto">
+                            <h3>Compatibilidade por vaga</h3>
+                            <p>O sistema cruza função, nível, ferramentas, tipo de parceria e disponibilidade, dá uma nota de 0 a 100 e mostra de onde ela veio, critério por critério.</p>
+                        </div>
+                        <div class="demo demoMatch">
+                            <div class="notaMatch">
+                                <is-numero>89%</is-numero>
+                                <span>compatível com você</span>
+                            </div>
+                            <div class="criterios">
+                                <div class="criterio"><span>Função</span><span class="trilhoCriterio"><is-medidor valor="35" max="35" segmentos="7"></is-medidor></span><strong>35/35</strong></div>
+                                <div class="criterio"><span>Nível</span><span class="trilhoCriterio"><is-medidor valor="15" max="15" segmentos="3" style="width:43%"></is-medidor></span><strong>15/15</strong></div>
+                                <div class="criterio"><span>Parceria</span><span class="trilhoCriterio"><is-medidor valor="15" max="15" segmentos="3" style="width:43%"></is-medidor></span><strong>15/15</strong></div>
+                                <div class="criterio"><span>Ferramentas</span><span class="trilhoCriterio"><is-medidor valor="10" max="10" segmentos="2" style="width:29%"></is-medidor></span><strong>10/10</strong></div>
+                                <div class="criterio"><span>Tempo</span><span class="trilhoCriterio"><is-medidor valor="8" max="10" segmentos="2" style="width:29%"></is-medidor></span><strong>8/10</strong></div>
+                            </div>
+                        </div>
+                    </article>
 
-                    <div class="fichaLinha">
-                        <dt>Vaga por função</dt>
-                        <dd>Cada vaga pede uma função específica e um nível mínimo. Quem se candidata já sabe exatamente o que você precisa.</dd>
-                    </div>
+                    <article class="recurso">
+                        <div class="demo demoReputacao">
+                            <div class="atributo"><span>Comunicação</span><is-medidor valor="4.5" max="5" segmentos="10"></is-medidor></div>
+                            <div class="atributo"><span>Prazo</span><is-medidor valor="4" max="5" segmentos="10"></is-medidor></div>
+                            <div class="atributo"><span>Qualidade</span><is-medidor valor="5" max="5" segmentos="10"></is-medidor></div>
+                        </div>
+                        <div class="recursoTexto">
+                            <h3>Reputação estruturada</h3>
+                            <p>Comunicação, prazo e qualidade avaliados separadamente, e só por quem esteve no mesmo projeto que você.</p>
+                        </div>
+                    </article>
 
-                    <div class="fichaLinha">
-                        <dt>Reputação estruturada</dt>
-                        <dd>Comunicação, cumprimento de prazo e qualidade da entrega avaliados separadamente, e só por quem esteve no mesmo projeto que você.</dd>
-                    </div>
+                    <article class="recurso">
+                        <div class="demo demoCega">
+                            <div class="cartaCega"><span>Você</span><is-numero>5</is-numero></div>
+                            <div class="cartaCega virada"><span>Colega</span><is-numero>?</is-numero></div>
+                        </div>
+                        <div class="recursoTexto">
+                            <h3>Avaliação duplo-cega</h3>
+                            <p>Cada lado só vê a nota do outro depois que os dois enviarem. Ninguém segura a nota esperando a do colega.</p>
+                        </div>
+                    </article>
 
-                    <div class="fichaLinha">
-                        <dt>Marcos do projeto</dt>
-                        <dd>Protótipo jogável, demo, lançamento: os marcos ficam visíveis para a equipe e para quem está pensando em entrar.</dd>
-                    </div>
+                    <article class="recurso">
+                        <div class="demo demoMarcos">
+                            <span class="casaMini feito"></span><i></i><span class="casaMini feito"></span><i></i><span class="casaMini atual"></span><i class="pontilhado"></i><span class="casaMini"></span>
+                        </div>
+                        <div class="recursoTexto">
+                            <h3>Marcos do projeto</h3>
+                            <p>Protótipo jogável, demo, lançamento: as fases ficam visíveis pra equipe e pra quem está pensando em entrar.</p>
+                        </div>
+                    </article>
 
-                    <div class="fichaLinha">
-                        <dt>Avaliação duplo-cega</dt>
-                        <dd>Cada lado só vê a avaliação do outro depois que os dois enviarem a sua. Ninguém segura a nota esperando a do colega.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Compatibilidade por vaga</dt>
-                        <dd>O sistema cruza função, nível, ferramentas, tipo de parceria e disponibilidade, dá uma nota de 0 a 100 e explica em uma frase de onde ela veio.</dd>
-                    </div>
-                </dl>
+                    <article class="recurso">
+                        <div class="demo demoVaga">
+                            <span class="slotMini classe-audio"><mo-simbolo nome="nota"></mo-simbolo></span>
+                            <span class="slotMini classe-arte"><mo-simbolo nome="pincel"></mo-simbolo></span>
+                            <span class="slotMini classe-design"><mo-simbolo nome="esquadro"></mo-simbolo></span>
+                        </div>
+                        <div class="recursoTexto">
+                            <h3>Vaga por função</h3>
+                            <p>Cada vaga pede uma função do catálogo e um nível mínimo. Quem se candidata já sabe exatamente o que você precisa.</p>
+                        </div>
+                    </article>
+                </div>
             </section>
 
             <section class="secao" id="talentos">
                 <div class="secaoTopo">
+                    <p class="sobretitulo">Classes</p>
                     <h2>Todo mundo que entra nos créditos</h2>
-                    <p>O catálogo tem função pronta para cada área. Clique numa delas para ver quem está disponível.</p>
+                    <p>O catálogo tem função pronta pra cada área. Escolha uma classe pra ver quem está disponível.</p>
                 </div>
 
-                <ul class="funcoes" id="funcoes"></ul>
+                <ul class="classes" id="funcoes"></ul>
             </section>
 
             <section class="fecho" id="pronto">
-                <h2>Seu projeto ainda não tem equipe</h2>
+                <div class="fechoSprites" id="fechoSprites" aria-hidden="true"></div>
+                <h2>Seu projeto ainda não tem equipe.</h2>
                 <p>Publique ele hoje e veja quem combina com as vagas que faltam.</p>
-                <a class="botaoPrimario" href="cadastro.html">Criar conta</a>
+                <a class="mo-tecla mo-tecla--destaque mo-tecla--g" href="cadastro.html">
+                    <mo-simbolo nome="play"></mo-simbolo>
+                    Criar conta
+                </a>
             </section>
         </main>
 
-        <footer>
-            <a class="botaoLogo" href="index.html#principal">
-                <div class="logoF">
-                    <img src="static/assets/Logo.svg" alt=""/>
-                    <h3>INDIE<span>SQUAD</span></h3>
-                </div>
+        <footer class="creditos">
+            <a class="logoIndie" href="#principal">
+                <is-marca></is-marca>
+                <span class="nomeMarca">INDIE<b>SQUAD</b></span>
             </a>
+
+            <div class="creditosLista">
+                <span class="placarRotulo">Feito por</span>
+                <ul>
+                    <li><is-sprite semente="thales" class="classe-programacao"></is-sprite>Thales Alves Gomes</li>
+                    <li><is-sprite semente="italo" class="classe-design"></is-sprite>Italo Cunha Cisar Pinheiro</li>
+                    <li><is-sprite semente="estevao" class="classe-audio"></is-sprite>Estêvão Neves Coimbra Nery</li>
+                    <li><is-sprite semente="laura" class="classe-arte"></is-sprite>Laura Coelho Pacheco</li>
+                    <li><is-sprite semente="lucas" class="classe-arte"></is-sprite>Lucas Augusto de Paula Rocha</li>
+                    <li><is-sprite semente="heitor" class="classe-producao"></is-sprite>Heitor Castro Felipe</li>
+                </ul>
+            </div>
+
+            <p class="creditosFim">Trabalho de conclusão do curso técnico · obrigado por jogar</p>
         </footer>
 
         <script src="static/js/app.js"></script>

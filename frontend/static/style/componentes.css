@@ -1,237 +1,691 @@
-/* IndieSquad - componentes: as pecas reutilizaveis da interface */
+/* ==========================================================================
+   Componentes da IndieSquad
+
+   O que ja existe na Mosaic UI (teclas, campos, chips, selos, avisos) vem
+   de la. Aqui fica o que e daqui:
+
+     pixel art     is-sprite, is-cartucho, is-numero, is-medidor, is-nivel
+     mira          os cantos de selecao de menu de jogo, no hover e no foco
+     cartoes       .cartao e as variantes de pessoa, projeto e vaga
+     placar        os numeros grandes de cada tela
+     etiquetas     .tag, .tagClasse e os selos de status
+     formularios   os campos soltos que os scripts das telas montam
+   ========================================================================== */
 
 
-/* marca */
+/* ---------- sprite: o bonequinho de cada pessoa ---------- */
 
-.botaoLogo {
-    text-decoration: none;
+/* os tamanhos sao multiplos de 9 (a grade do bichinho), pra cada pixel cair inteiro */
+is-sprite {
+    --is-sprite: 36px;
+    display: inline-grid;
+    place-items: center;
+    width: var(--is-sprite);
+    height: var(--is-sprite);
+    flex: none;
+    border-radius: calc(var(--is-sprite) * 0.22);
+    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 15%, var(--mo-cartao));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 22%, transparent);
+    color: var(--is-cor, var(--mo-destaque));
+    overflow: hidden;
 }
 
-.logo,
-.logoF,
-.logoMenuLateral {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-2);
-}
-
-.logo h3,
-.logoF h3,
-.logoMenuLateral h3 {
-    font-family: var(--fonte);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-pesado);
-    letter-spacing: 0.04em;
-    color: var(--cor-texto);
-}
-
-.logo span,
-.logoF span,
-.logoMenuLateral span {
-    color: var(--cor-marca);
-}
-
-.logo img,
-.logoF img,
-.logoMenuLateral img {
-    width: 26px;
-    height: 26px;
-}
-
-
-/* o :active com scale(0.97) faz o botao reagir no instante do toque */
-
-.botaoEnviar,
-.botaoCandidatar,
-.botaoProximo,
-.botaoComecar,
-.botaoPrimario {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--espaco-2);
-    padding: 0.7rem 1.15rem;
-    border: 1px solid transparent;
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-marca);
-    color: var(--cor-marca-contraste);
-    font-family: var(--fonte);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-forte);
-    letter-spacing: var(--letra-miuda);
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform var(--tempo-toque) var(--curva-saida),
-                background-color var(--tempo-rapido) ease,
-                box-shadow var(--tempo-rapido) ease;
-}
-
-.botaoEnviar,
-.botaoProximo {
+is-sprite svg {
     width: 100%;
-    padding: 0.8rem 1.15rem;
-    margin-top: var(--espaco-2);
+    height: 100%;
+    fill: currentColor;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .botaoEnviar:hover,
-    .botaoCandidatar:hover,
-    .botaoProximo:hover,
-    .botaoComecar:hover,
-    .botaoPrimario:hover {
-        background-color: var(--cor-marca-forte);
-        color: var(--cor-marca-contraste);
-    }
+/* sprite grande (perfil): cada pixel do bichinho respira de leve, fora de sincronia */
+is-sprite.vivo svg rect {
+    animation: pixelVivo 3.2s steps(1, end) infinite;
 }
 
-.botaoEnviar:active,
-.botaoCandidatar:active,
-.botaoProximo:active,
-.botaoComecar:active,
-.botaoPrimario:active,
-.botaoSecundario:active {
-    transform: scale(0.97);
-}
+is-sprite.vivo svg rect:nth-child(3n) { animation-delay: -1.1s; }
+is-sprite.vivo svg rect:nth-child(5n) { animation-delay: -2.3s; }
 
-.botaoCandidatar {
-    align-self: flex-start;
-    width: auto;
-    padding: 0.5rem 0.95rem;
-    margin-top: var(--espaco-3);
-    font-size: var(--texto-sm);
-}
-
-/* secundario: fundo neutro, contorno visivel */
-.botaoSecundario,
-.botaoEditarPerfil,
-.botaoVoltarPagina {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--espaco-2);
-    padding: 0.7rem 1.15rem;
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    color: var(--cor-texto);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-medio);
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform var(--tempo-toque) var(--curva-saida),
-                background-color var(--tempo-rapido) ease,
-                border-color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .botaoSecundario:hover,
-    .botaoEditarPerfil:hover,
-    .botaoVoltarPagina:hover {
-        border-color: var(--cor-marca-borda);
-        background-color: var(--cor-superficie-3);
-        color: var(--cor-texto);
-    }
-}
-
-.botaoEditarPerfil:active,
-.botaoVoltarPagina:active {
-    transform: scale(0.97);
+@keyframes pixelVivo {
+    0%, 92% { opacity: 1; }
+    94% { opacity: 0.45; }
 }
 
 
-/* destrutivo: recusar, cancelar, remover */
-.botaoRecusar {
-    border-color: var(--cor-erro-fraca);
-    background-color: var(--cor-erro-fraca);
-    color: var(--cor-erro);
+/* ---------- cartucho: a capa do projeto ---------- */
+
+/* altura em multiplos de 11 (a grade do cartucho) */
+is-cartucho {
+    --is-cartucho: 44px;
+    display: inline-block;
+    width: calc(var(--is-cartucho) * 9 / 11);
+    height: var(--is-cartucho);
+    flex: none;
+    border-radius: calc(var(--is-cartucho) * 0.1) calc(var(--is-cartucho) * 0.1) calc(var(--is-cartucho) * 0.05) calc(var(--is-cartucho) * 0.05);
+    background: var(--is-cor);
+    color: color-mix(in srgb, var(--is-cor) 22%, black);
+    box-shadow: inset 0 calc(var(--is-cartucho) * -0.06) 0 color-mix(in srgb, var(--is-cor) 60%, black);
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .botaoRecusar:hover {
-        background-color: var(--cor-erro);
-        color: #fff;
-    }
-}
-
-/* sair, no pe do menu */
-.botaoSair {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-3);
-    width: 100%;
-    padding: 0.65rem var(--espaco-3);
-    border-radius: var(--raio-sm);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
-    cursor: pointer;
-    transition: background-color var(--tempo-rapido) ease,
-                color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .botaoSair:hover {
-        background-color: var(--cor-erro-fraca);
-        color: var(--cor-erro);
-    }
-}
-
-/* troca de tema */
-.botaoTema {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    color: var(--cor-texto-2);
-    cursor: pointer;
-    transition: transform var(--tempo-toque) var(--curva-saida),
-                border-color var(--tempo-rapido) ease,
-                color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .botaoTema:hover {
-        border-color: var(--cor-marca-borda);
-        color: var(--cor-marca);
-    }
-}
-
-.botaoTema:active {
-    transform: scale(0.94);
-}
-
-/* o sol aparece no tema escuro e a lua no claro */
-.botaoTema .iconeSol {
-    display: none;
-}
-
-[data-tema="escuro"] .botaoTema .iconeSol {
+is-cartucho svg {
     display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
 }
 
-[data-tema="escuro"] .botaoTema .iconeLua {
+is-cartucho .fenda {
+    fill: color-mix(in srgb, var(--is-cor) 55%, black);
+}
+
+
+/* ---------- numero em pixel ---------- */
+
+/* altura em multiplos de 7 (a fonte), pra nao sobrar fresta entre os pixels */
+is-numero {
+    --is-numero-altura: 28px;
+    color: var(--mo-texto);
+}
+
+
+/* ---------- medidor em segmentos (barra de vida) ---------- */
+
+is-medidor {
+    --is-medidor-altura: 8px;
+    display: flex;
+    gap: 3px;
+    width: 100%;
+    height: var(--is-medidor-altura);
+}
+
+is-medidor i {
+    flex: 1;
+    border-radius: 1.5px;
+    background: var(--mo-linha);
+}
+
+is-medidor i.cheio {
+    background: var(--is-cor, var(--mo-destaque));
+    animation: segmentoAcende 220ms steps(2, end) both;
+    animation-delay: calc(var(--i) * 45ms + 120ms);
+}
+
+@keyframes segmentoAcende {
+    from { background: var(--mo-linha); }
+}
+
+.mo-repeticao is-medidor i.cheio {
+    animation: none;
+}
+
+
+/* ---------- nivel da funcao (1 a 4) ---------- */
+
+is-nivel {
+    display: inline-flex;
+    gap: 2px;
+    vertical-align: middle;
+}
+
+is-nivel i {
+    width: 5px;
+    height: 9px;
+    border-radius: 1px;
+    background: color-mix(in srgb, currentColor 22%, transparent);
+}
+
+is-nivel i.cheio {
+    background: currentColor;
+}
+
+
+/* ---------- mira: os cantos de selecao ----------
+
+   Os quatro cantos de um cursor de menu de jogo. Ficam um pouco pra fora e
+   encostam no cartao quando o mouse chega, como se mirassem nele. */
+
+.mira {
+    position: relative;
+}
+
+.mira::after {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    pointer-events: none;
+    --c: var(--is-mira);
+    --l: 12px;
+    --e: 2px;
+    background:
+        linear-gradient(var(--c) 0 0) top left / var(--l) var(--e),
+        linear-gradient(var(--c) 0 0) top left / var(--e) var(--l),
+        linear-gradient(var(--c) 0 0) top right / var(--l) var(--e),
+        linear-gradient(var(--c) 0 0) top right / var(--e) var(--l),
+        linear-gradient(var(--c) 0 0) bottom left / var(--l) var(--e),
+        linear-gradient(var(--c) 0 0) bottom left / var(--e) var(--l),
+        linear-gradient(var(--c) 0 0) bottom right / var(--l) var(--e),
+        linear-gradient(var(--c) 0 0) bottom right / var(--e) var(--l);
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition:
+        inset var(--mo-dur-media) var(--mo-ease-saida),
+        opacity var(--mo-dur-curta) ease;
+}
+
+.mira:hover::after,
+.mira:focus-visible::after,
+.mira:has(:focus-visible)::after {
+    inset: -4px;
+    opacity: 1;
+}
+
+@media (hover: none) {
+    .mira::after {
+        display: none;
+    }
+}
+
+
+/* ---------- cartoes ---------- */
+
+.cartao {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 18px;
+    border: 1px solid var(--mo-borda);
+    border-radius: var(--is-raio);
+    background: var(--mo-cartao);
+    color: var(--mo-texto-cartao);
+    box-shadow: var(--mo-sombra-cartao);
+    min-width: 0;
+}
+
+.cartaoClicavel,
+.cardClicavel {
+    cursor: pointer;
+    transition:
+        background var(--mo-dur-curta) ease,
+        border-color var(--mo-dur-curta) ease,
+        transform var(--mo-dur-toque) var(--mo-ease-saida);
+}
+
+.cartaoClicavel:hover,
+.cardClicavel:hover {
+    background: var(--mo-cartao-hover);
+    border-color: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 30%, var(--mo-borda));
+}
+
+.cartaoClicavel:active,
+.cardClicavel:active {
+    transform: translateY(1px);
+}
+
+.cartaoTopo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.cartaoTitulo {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.cartaoTitulo h3 {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cartaoTitulo p,
+.cartaoTitulo span {
+    font-size: 12px;
+    color: var(--mo-texto-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cartaoTexto {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--mo-texto-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cartaoPe {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px dashed var(--mo-linha);
+}
+
+.grade {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+
+.pilha {
+    display: grid;
+    gap: 10px;
+}
+
+
+/* ---------- placar: os numeros grandes ---------- */
+
+.placar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border: 1px solid var(--mo-borda);
+    border-radius: var(--is-raio);
+    background: var(--mo-cartao);
+    overflow: hidden;
+}
+
+.placarItem {
+    display: grid;
+    gap: 12px;
+    padding: 18px 20px 16px;
+    position: relative;
+    min-width: 0;
+}
+
+.placarItem + .placarItem {
+    border-left: 1px solid var(--mo-borda);
+}
+
+.placarItem > mo-simbolo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--mo-texto-3);
+}
+
+.placarItem is-numero {
+    --is-numero-altura: 35px;
+}
+
+.placarItem.realce is-numero {
+    color: var(--mo-destaque);
+}
+
+.placarRotulo {
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.placarItem .detalheNota {
+    display: block;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    color: var(--mo-texto-3);
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+@media (max-width: 760px) {
+    .placar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .placarItem:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .placarItem:nth-child(n + 3) {
+        border-top: 1px solid var(--mo-borda);
+    }
+}
+
+
+/* ---------- topo de tela e secoes ---------- */
+
+.topoTela {
+    display: grid;
+    gap: 8px;
+}
+
+.sobretitulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mo-destaque);
+}
+
+.sobretitulo::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+}
+
+.topoTela h1 {
+    font-size: clamp(26px, 3.2vw, 34px);
+    line-height: 1.1;
+}
+
+.topoTela h1 span {
+    color: var(--mo-destaque);
+}
+
+.topoTela .apoio {
+    font-size: 14px;
+    color: var(--mo-texto-2);
+}
+
+.secaoTela {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+}
+
+.tituloSecao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tituloSecao .contador {
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 4px;
+    background: var(--mo-elevada);
+    color: var(--mo-texto-2);
+}
+
+.tituloSecao .acaoSecao {
+    margin-left: auto;
+}
+
+.explicacao {
+    font-size: 13px;
+    color: var(--mo-texto-3);
+    line-height: 1.5;
+}
+
+
+/* ---------- etiquetas ---------- */
+
+.tags,
+.tagsResultado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag,
+.tagSkill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 24px;
+    padding: 0 9px;
+    border-radius: 5px;
+    background: var(--mo-elevada);
+    color: var(--mo-texto-2);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* a funcao com a cor da classe: um quadradinho na frente e o nivel no fim */
+.tagClasse {
+    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 12%, var(--mo-cartao));
+    color: var(--mo-texto);
+}
+
+.tagClasse::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--is-cor, var(--mo-destaque));
+    flex: none;
+}
+
+.tagClasse is-nivel {
+    color: var(--is-cor, var(--mo-destaque));
+    margin-left: 2px;
+}
+
+.tagLink {
+    color: var(--mo-destaque);
+}
+
+.tagLink:hover {
+    background: var(--mo-destaque-suave);
+}
+
+.botaoRemoverTag {
+    display: inline-grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    margin-right: -4px;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    color: var(--mo-texto-3);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.botaoRemoverTag:hover {
+    background: var(--mo-perigo-suave);
+    color: var(--mo-perigo);
+}
+
+/* selos de status: o texto em mono com um quadradinho na cor do estado */
+.selo,
+.statusResultado,
+.statusCandidatura,
+.seloStatus {
+    --selo: var(--mo-texto-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--selo) 14%, transparent);
+    color: var(--selo);
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.selo::before,
+.statusResultado::before,
+.statusCandidatura::before,
+.seloStatus::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+}
+
+.seloStatus:empty {
     display: none;
 }
 
-/* olho da senha */
+.selo-ativo,
+.selo-aberta,
+.statusAceita,
+.selo-aceita { --selo: var(--mo-sucesso); }
+
+.selo-pausado,
+.selo-pendente,
+.statusPendente { --selo: var(--is-audio); }
+
+.selo-concluido,
+.selo-preenchida { --selo: var(--mo-destaque); }
+
+.selo-cancelado,
+.selo-fechada,
+.selo-recusada,
+.statusRecusada { --selo: var(--mo-perigo); }
+
+.selo-ia {
+    --selo: var(--mo-terciaria);
+}
+
+
+/* ---------- botoes que os scripts montam ---------- */
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.acoesItem {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+}
+
+
+/* ---------- formularios ---------- */
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input:not([type="checkbox"], [type="radio"]), select, textarea) {
+    width: 100%;
+    min-width: 0;
+    height: 38px;
+    padding: 0 12px;
+    border: 1.5px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background: var(--mo-fundo);
+    color: var(--mo-texto);
+    font-family: var(--mo-fonte);
+    font-size: 13.5px;
+    transition:
+        border-color var(--mo-dur-curta) ease,
+        box-shadow var(--mo-dur-curta) ease;
+}
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) textarea {
+    height: auto;
+    min-height: 92px;
+    padding: 10px 12px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) select {
+    appearance: none;
+    padding-right: 32px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--mo-texto-3) 50%),
+        linear-gradient(-45deg, transparent 50%, var(--mo-texto-3) 50%);
+    background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+}
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input, select, textarea):hover {
+    border-color: var(--mo-decorativa);
+}
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input, select, textarea):focus {
+    outline: none;
+    border-color: var(--mo-destaque);
+    box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+}
+
+:where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) ::placeholder {
+    color: var(--mo-texto-3);
+}
+
+.campoFormulario {
+    display: grid;
+    gap: 7px;
+    align-content: start;
+}
+
+.campoFormulario > label:first-child,
+.campoFormulario > .rotuloCampo {
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-texto-2);
+}
+
+.dicaCampo {
+    font-size: 12px;
+    color: var(--mo-texto-3);
+    line-height: 1.45;
+}
+
+.caixaApelido,
+.caixaSenha {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.prefixoApelido {
+    position: absolute;
+    left: 12px;
+    font-family: var(--mo-fonte-mono);
+    color: var(--mo-destaque);
+    pointer-events: none;
+}
+
+.caixaApelido input {
+    padding-left: 28px !important;
+}
+
+.caixaSenha input {
+    padding-right: 44px !important;
+}
+
 .botaoOlho {
     position: absolute;
-    top: 50%;
-    right: 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    right: 5px;
+    display: grid;
+    place-items: center;
     width: 30px;
-    height: 30px;
-    border-radius: var(--raio-sm);
-    color: var(--cor-texto-3);
-    transform: translateY(-50%);
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--mo-raio-p);
+    background: transparent;
+    color: var(--mo-texto-3);
     cursor: pointer;
-    transition: color var(--tempo-rapido) ease;
+}
+
+.botaoOlho:hover {
+    background: var(--mo-elevada);
+    color: var(--mo-texto);
 }
 
 .botaoOlho svg {
@@ -240,1105 +694,286 @@
     fill: currentColor;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .botaoOlho:hover {
-        color: var(--cor-marca);
-    }
-}
-
-/* voltar, na etapa do cadastro */
-.botaoVoltar {
-    display: inline-block;
-    margin-bottom: var(--espaco-4);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-sm);
-}
-
-/* × que remove uma tag */
-.botaoRemoverTag {
-    display: inline-flex;
+.linhaLink,
+.adicionarSkill {
+    display: flex;
+    gap: 8px;
     align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    margin-left: var(--espaco-1);
-    border-radius: var(--raio-total);
-    color: inherit;
-    font-size: 13px;
-    line-height: 1;
-    opacity: 0.55;
-    cursor: pointer;
-    transition: opacity var(--tempo-rapido) ease, color var(--tempo-rapido) ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .botaoRemoverTag:hover {
-        color: var(--cor-erro);
-        opacity: 1;
-    }
+.linhaLink > select {
+    flex: 0 0 140px;
 }
 
-
-/* chips — filtro de skill e perfis da vaga */
-
-.botaoFiltro,
-.botaoPerfil {
-    padding: 0.42rem 0.8rem;
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
-    white-space: nowrap;
-    cursor: pointer;
-    transition: transform var(--tempo-toque) var(--curva-saida),
-                background-color var(--tempo-rapido) ease,
-                border-color var(--tempo-rapido) ease,
-                color var(--tempo-rapido) ease;
+.adicionarSkill > select:first-child {
+    flex: 1.4;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .botaoFiltro:hover,
-    .botaoPerfil:hover {
-        border-color: var(--cor-marca-borda);
-        color: var(--cor-texto);
-    }
-}
-
-.botaoFiltro:active,
-.botaoPerfil:active {
-    transform: scale(0.96);
-}
-
-.botaoFiltro.ativo,
-.botaoPerfil.ativo {
-    border-color: var(--cor-marca);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-}
-
-
-/* cards */
-
-.cardResultado {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-3);
-    padding: var(--espaco-5);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-superficie);
-    box-shadow: var(--sombra-1), var(--luz-topo);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease,
-                box-shadow var(--tempo-rapido) ease;
-}
-
-.cardClicavel {
-    cursor: pointer;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .cardClicavel:hover {
-        transform: translateY(-2px);
-        border-color: var(--cor-marca-borda);
-        box-shadow: var(--sombra-2), var(--luz-topo);
-    }
-}
-
-.cardClicavel:active {
-    transform: translateY(0) scale(0.995);
-}
-
-.topoCardResultado {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--espaco-3);
-}
-
-.topoCardResultado h2 {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-2);
-    font-size: var(--texto-md);
-}
-
-.funcaoResultado {
-    margin-top: var(--espaco-1);
-    color: var(--cor-marca);
-    font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
-}
-
-.descricaoResultado {
-    color: var(--cor-texto-2);
-    font-size: var(--texto-base);
-
-    /* corta a descricao em 3 linhas pra nao quebrar o ritmo da lista */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-
-/* card de estatistica */
-.cardsEstatistica {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--espaco-3);
-}
-
-.cardEstatistica {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-1);
-    padding: var(--espaco-4) var(--espaco-5);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-superficie);
-    box-shadow: var(--luz-topo);
-}
-
-.valorEstatistica {
-    font-family: var(--fonte);
-    font-size: var(--texto-xl);
-    font-weight: var(--peso-pesado);
-    line-height: 1.1;
-    letter-spacing: var(--letra-titulo);
-    color: var(--cor-texto);
-
-    /* numero com largura fixa: sem isso o valor danca ao trocar de 9 pra 10 */
-    font-variant-numeric: tabular-nums;
-}
-
-.legendaEstatistica {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    letter-spacing: var(--letra-etiqueta);
-    text-transform: uppercase;
-}
-
-.detalheNota {
-    display: block;
-    color: var(--cor-texto-3);
-    font-family: var(--fonte);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-normal);
-    letter-spacing: var(--letra-corpo);
-}
-
-
-/* card de projeto no dashboard */
-.cardProjetoDashboard {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-4);
-    padding: var(--espaco-4) var(--espaco-5);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-superficie);
-    box-shadow: var(--luz-topo);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .cardProjetoDashboard:hover {
-        transform: translateY(-2px);
-        border-color: var(--cor-marca-borda);
-    }
-
-    .cardProjetoDashboard:hover .setaCardProjeto {
-        transform: translateX(3px);
-        color: var(--cor-marca);
-    }
-}
-
-.cardProjetoDashboard:active {
-    transform: translateY(0) scale(0.995);
-}
-
-.infoProjetoDashboard {
-    display: flex;
+.adicionarSkill > select {
     flex: 1;
-    flex-direction: column;
-    gap: var(--espaco-2);
-    min-width: 0;
 }
 
-.infoProjetoDashboard h2 {
-    font-size: var(--texto-md);
+.linhaLink > .mo-tecla,
+.adicionarSkill > .mo-tecla {
+    flex: none;
+    height: 38px;
 }
 
-.infoProjetoDashboard p {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-sm);
-}
-
-.setaCardProjeto {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-lg);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                color var(--tempo-rapido) ease;
-}
-
-
-/* a barra anima com scaleX, nao com width: largura obriga a recalcular layout */
-
-.barraProgresso {
-    width: 100%;
-    height: 5px;
-    overflow: hidden;
-    border-radius: var(--raio-total);
-    background-color: var(--cor-superficie-3);
-}
-
-.barraProgressoPreenchida {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--raio-total);
-    background: linear-gradient(90deg, var(--cor-marca), var(--cor-marca-forte));
-    transform-origin: left center;
-    transition: transform var(--tempo-medio) var(--curva-saida);
-}
-
-
-/* tags, selos e status */
-
-.tagsResultado {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espaco-2);
-}
-
-.tagSkill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    letter-spacing: var(--letra-miuda);
-}
-
-.statusResultado,
-.seloStatus {
-    padding: 0.22rem 0.6rem;
-    border: 1px solid var(--cor-marca-borda);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-forte);
-    letter-spacing: var(--letra-etiqueta);
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.statusCandidatura {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.22rem 0.65rem;
-    border-radius: var(--raio-sm);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-forte);
-    letter-spacing: var(--letra-etiqueta);
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.statusPendente {
-    background-color: var(--cor-aviso-fraca);
-    color: var(--cor-aviso);
-}
-
-.statusAceita {
-    background-color: var(--cor-sucesso-fraca);
-    color: var(--cor-sucesso);
-}
-
-.statusRecusada {
-    background-color: var(--cor-erro-fraca);
-    color: var(--cor-erro);
-}
-
-.cargoMembro {
-    margin-left: auto;
-    padding: 0.18rem 0.55rem;
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    white-space: nowrap;
-}
-
-/* aviso de "tem candidatura esperando voce" */
-.aviso {
-    display: inline-flex;
-    align-self: flex-start;
-    align-items: center;
-    gap: var(--espaco-1);
-    padding: 0.2rem 0.6rem;
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-acento-fraca);
-    color: var(--cor-acento);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-forte);
-}
-
-
-/* metricas dentro do card */
-
-.metricasResultado {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espaco-4);
-}
-
-.metricaResultado {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    font-variant-numeric: tabular-nums;
-}
-
-.metricaResultado svg {
-    color: var(--cor-texto-3);
-}
-
-
-/* avatares: a inicial do nome num quadrado com a cor da marca */
-
-.avatarPerfil,
-.avatarProjeto {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 72px;
-    height: 72px;
-    border: 1px solid var(--cor-marca-borda);
-    border-radius: var(--raio-lg);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-    font-family: var(--fonte);
-    font-size: var(--texto-xl);
-    font-weight: var(--peso-pesado);
-}
-
-.avatarMembro {
-    display: inline-flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-    font-family: var(--fonte);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-pesado);
-}
-
-
-/* listas e blocos */
-
-.listaResultados {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: var(--espaco-4);
-}
-
-.listaProjetosDashboard {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-3);
-}
-
-.blocoSecao {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-4);
-    margin-top: var(--espaco-10);
-}
-
-.blocoSecao > button,
-.blocoSecao > .botaoEnviar,
-.blocoSecao > .botaoEditarPerfil {
-    align-self: flex-start;
-    width: auto;
-}
-
-.blocoSecao > h3,
-.tituloSecao {
-    font-family: var(--fonte);
-    font-size: var(--texto-lg);
-    font-weight: var(--peso-forte);
-    letter-spacing: var(--letra-titulo);
-    color: var(--cor-texto);
-}
-
-.listaMembros {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espaco-3);
-}
-
-.itemMembro {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-3);
-    min-width: 220px;
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-md);
-    background-color: var(--cor-superficie);
-    color: var(--cor-texto);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-medio);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .itemMembro.cardClicavel:hover {
-        transform: translateY(-2px);
-        border-color: var(--cor-marca-borda);
-    }
-}
-
-
-/* ficha tecnica do projeto */
-.fichaProjeto {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--espaco-3);
-}
-
-.itemFicha {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-1);
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-md);
-    background-color: var(--cor-superficie);
-}
-
-.itemFicha span {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    letter-spacing: var(--letra-etiqueta);
-    text-transform: uppercase;
-}
-
-.itemFicha strong {
-    font-size: var(--texto-base);
-    font-weight: var(--peso-forte);
-}
-
-
-/* marcos do projeto */
-.listaMarcos {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-}
-
-.itemMarco {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-3);
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-md);
-    background-color: var(--cor-superficie);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-base);
-}
-
-.itemMarco.marcoConcluido {
-    color: var(--cor-texto);
-}
-
-.caixaMarco {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 19px;
-    height: 19px;
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: 5px;
-    color: var(--cor-marca);
-    font-size: 11px;
-    font-weight: var(--peso-pesado);
-}
-
-.marcoConcluido .caixaMarco {
-    border-color: var(--cor-marca);
-    background-color: var(--cor-marca-fraca);
-}
-
-
-/* formulario */
-
-.campoFormulario {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-    margin-bottom: var(--espaco-4);
-}
-
-.caixaSenha,
-.caixaApelido {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.caixaSenha input {
-    padding-right: 2.6rem;
-}
-
-.caixaApelido {
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    transition: border-color var(--tempo-rapido) ease,
-                box-shadow var(--tempo-rapido) ease;
-}
-
-.caixaApelido:focus-within {
-    border-color: var(--cor-marca);
-    box-shadow: 0 0 0 3px var(--cor-marca-fraca);
-}
-
-.caixaApelido .prefixoApelido {
-    padding-left: 0.85rem;
-    color: var(--cor-texto-3);
-    font-size: var(--texto-base);
-    line-height: 1;
-}
-
-.caixaApelido input {
-    padding-left: 0;
-    border: none;
-    background: transparent;
-}
-
-.caixaApelido input:focus {
-    box-shadow: none;
-    background: transparent;
-}
-
-.dicaCampo {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    line-height: 1.45;
-}
-
+/* caixinha de marcar, no lugar da do navegador */
 .opcaoMarcavel {
     display: flex;
     align-items: center;
-    gap: var(--espaco-2);
-    padding: var(--espaco-2) 0;
-    color: var(--cor-texto-2);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-normal);
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    font-size: 13.5px;
     cursor: pointer;
+    transition: border-color var(--mo-dur-curta) ease, background var(--mo-dur-curta) ease;
+}
+
+.opcaoMarcavel:hover {
+    border-color: var(--mo-decorativa);
+}
+
+.opcaoMarcavel:has(input:checked) {
+    border-color: var(--mo-destaque);
+    background: var(--mo-destaque-suave);
 }
 
 .opcaoMarcavel input {
-    width: auto;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border: 2px solid var(--mo-decorativa);
+    border-radius: 3px;
+    display: grid;
+    place-items: center;
+    flex: none;
 }
 
-.adicionarSkill {
+.opcaoMarcavel input:checked {
+    border-color: var(--mo-destaque);
+    background: var(--mo-destaque);
+}
+
+.opcaoMarcavel input:checked::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--mo-sobre-destaque);
+}
+
+.grupoMarcavel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+}
+
+/* botoes que ligam e desligam (funcoes, ferramentas) */
+.botoesPerfil {
+    display: grid;
+    gap: 14px;
+}
+
+.grupoPerfil {
+    display: grid;
+    gap: 8px;
+}
+
+.tituloGrupoPerfil {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.tituloGrupoPerfil::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--is-cor, var(--mo-texto-3));
+}
+
+.chipsGrupoPerfil {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--espaco-2);
-    padding-top: var(--espaco-2);
+    gap: 6px;
 }
 
-.adicionarSkill select {
-    flex: 1 1 170px;
+.botaoPerfil {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 30px;
+    padding: 0 12px;
+    border: 1.5px solid var(--mo-linha);
+    border-radius: var(--mo-raio-p);
+    background: transparent;
+    color: var(--mo-texto-2);
+    font-family: var(--mo-fonte);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition:
+        border-color var(--mo-dur-curta) ease,
+        background var(--mo-dur-curta) ease,
+        color var(--mo-dur-curta) ease,
+        transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 
-.adicionarSkill .botaoEnviar {
-    flex: 0 0 auto;
-    width: auto;
-    margin: 0;
+.botaoPerfil:hover {
+    border-color: var(--mo-decorativa);
+    color: var(--mo-texto);
+}
+
+.botaoPerfil:active {
+    transform: translateY(1px);
+}
+
+.botaoPerfil.ativo {
+    border-color: var(--is-cor, var(--mo-destaque));
+    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 16%, transparent);
+    color: var(--mo-texto);
+}
+
+.botaoPerfil.ativo::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--is-cor, var(--mo-destaque));
 }
 
 
-/* mensagens */
+/* ---------- mensagens ---------- */
 
 .mensagemErro,
 .mensagemSucesso {
-    font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: var(--mo-raio-m);
+    font-size: 13px;
+    line-height: 1.45;
 }
 
-/* o :not(:empty) evita o espaco reservado quando nao tem mensagem */
-.mensagemErro:not(:empty) {
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-erro-fraca);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-erro-fraca);
-    color: var(--cor-erro);
+.mensagemErro {
+    background: var(--mo-perigo-suave);
+    color: var(--mo-perigo-texto);
+    box-shadow: inset 3px 0 0 var(--mo-perigo);
 }
 
-.mensagemSucesso:not(:empty) {
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-sucesso-fraca);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-sucesso-fraca);
-    color: var(--cor-sucesso);
+.mensagemSucesso {
+    background: color-mix(in srgb, var(--mo-sucesso) 14%, transparent);
+    color: var(--mo-texto);
+    box-shadow: inset 3px 0 0 var(--mo-sucesso);
 }
 
+.mensagemErro:empty,
+.mensagemSucesso:empty {
+    display: none;
+}
+
+/* lista vazia: um quadro tracejado com um fantasminha de pixel */
 .mensagemVazia {
     grid-column: 1 / -1;
-    padding: var(--espaco-10) var(--espaco-5);
-    border: 1px dashed var(--cor-borda-forte);
-    border-radius: var(--raio-lg);
-    color: var(--cor-texto-3);
-    font-size: var(--texto-base);
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 30px 20px;
+    border: 1.5px dashed var(--mo-linha);
+    border-radius: var(--is-raio);
+    color: var(--mo-texto-3);
+    font-size: 13px;
     text-align: center;
-    max-width: none;
+}
+
+.mensagemVazia::before {
+    content: "";
+    width: 27px;
+    height: 27px;
+    background: currentColor;
+    opacity: 0.6;
+    -webkit-mask: var(--is-fantasma) center / contain no-repeat;
+    mask: var(--is-fantasma) center / contain no-repeat;
+}
+
+:root {
+    --is-fantasma: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h3v1h1v1h1v7H7V8H6v1H5V8H4v1H3V8H2v1H1V2h1V1h1zM3 3v2h1V3zm2 0v2h1V3z'/%3E%3C/svg%3E");
 }
 
 .linkMensagemVazia {
-    display: inline-block;
-    margin-top: var(--espaco-2);
-    color: var(--cor-marca);
-    font-weight: var(--peso-medio);
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: -4px;
+    font-size: 13px;
+    color: var(--mo-destaque);
 }
 
 
-/* menu lateral */
+/* ---------- estrelas da avaliacao (radio de 5) ---------- */
 
-.menuLateral {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: var(--espaco-8);
-    width: var(--largura-menu);
-    flex-shrink: 0;
-    padding: var(--espaco-6) var(--espaco-4);
-
-    /* dvh e nao vh: no celular o vh ignora a barra de endereco e o menu passava da tela */
-    height: 100dvh;
-    position: sticky;
-    top: 0;
-    border-right: 1px solid var(--cor-borda);
-    background-color: var(--cor-superficie);
+.estrelas {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: 2px;
 }
 
-.logoMenuLateral {
-    padding: 0 var(--espaco-3) var(--espaco-6);
+.estrelas input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.navegacaoMenuLateral {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-1);
-}
-
-.itemMenuLateral {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-3);
-    padding: 0.65rem var(--espaco-3);
-    border-radius: var(--raio-sm);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-base);
-    font-weight: var(--peso-medio);
-    text-decoration: none;
-    transition: background-color var(--tempo-rapido) ease,
-                color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .itemMenuLateral:hover {
-        background-color: var(--cor-superficie-2);
-        color: var(--cor-texto);
-    }
-}
-
-.itemMenuLateral.ativo {
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-}
-
-.iconeMenuLateral {
-    width: 18px;
-    height: 18px;
-}
-
-.pePainel {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-}
-
-.linhaPePainel {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-2);
-}
-
-.linhaPePainel .botaoSair {
-    flex: 1;
-}
-
-
-/* card de pessoa sem nenhum numero ainda */
-.semMetrica {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    font-style: italic;
-}
-
-
-
-/* avaliacao */
-
-.explicacaoDuploCego {
-    max-width: var(--largura-leitura);
-    padding: var(--espaco-3) var(--espaco-4);
-    border-left: 2px solid var(--cor-marca);
-    border-radius: 0 var(--raio-sm) var(--raio-sm) 0;
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-sm);
-}
-
-.listaAvaliacoes {
+.estrelas label {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    align-items: start;
-    gap: var(--espaco-4);
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    color: var(--mo-decorativa);
+    cursor: pointer;
+    transition: color var(--mo-dur-toque) ease, transform var(--mo-dur-toque) var(--mo-ease-saida);
+}
+
+.estrelas label svg {
+    width: 20px;
+    height: 20px;
+}
+
+.estrelas label:hover,
+.estrelas label:hover ~ label,
+.estrelas input:checked ~ label {
+    color: var(--is-audio);
+}
+
+.estrelas label:active {
+    transform: scale(0.88);
+}
+
+.estrelas input:focus-visible + label {
+    outline: 2px solid var(--mo-destaque);
 }
 
 .campoNota {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--espaco-4);
+    gap: 12px;
 }
 
 .rotuloNota {
-    color: var(--cor-texto-2);
-    font-size: var(--texto-sm);
-    font-weight: var(--peso-medio);
+    font-size: 13px;
+    color: var(--mo-texto-2);
 }
 
-/* as estrelas saem de 5 pra 1 e o row-reverse devolve a ordem na tela */
-.estrelas {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-}
-
-.estrelas input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-}
-
-.estrelas label {
-    padding: 0 2px;
-    color: var(--cor-borda-forte);
-    font-size: var(--texto-lg);
-    line-height: 1;
-    cursor: pointer;
-    transition: color var(--tempo-toque) ease, transform var(--tempo-toque) var(--curva-saida);
-}
-
-.estrelas input:checked ~ label {
-    color: var(--cor-aviso);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .estrelas:hover label {
-        color: var(--cor-borda-forte);
-    }
-
-    .estrelas label:hover,
-    .estrelas label:hover ~ label {
-        color: var(--cor-aviso);
-    }
-}
-
-.estrelas label:active {
-    transform: scale(1.18);
-}
-
-/* o anel de foco acompanha a estrela, pra quem navega por teclado ver onde esta */
-.estrelas input:focus-visible + label {
-    outline: 2px solid var(--cor-marca);
-    outline-offset: 2px;
-    border-radius: var(--raio-sm);
-}
-
-.avisoEspera {
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px dashed var(--cor-borda-forte);
-    border-radius: var(--raio-sm);
-    color: var(--cor-texto-3);
-    font-size: var(--texto-sm);
-}
-
-.notasRecebidas {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-4);
-}
-
-.notaGrande {
-    font-family: var(--fonte);
-    font-size: var(--texto-2xl);
-    font-weight: var(--peso-pesado);
-    line-height: 1;
-    color: var(--cor-aviso);
-    font-variant-numeric: tabular-nums;
-}
-
-.detalheNotas {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    font-variant-numeric: tabular-nums;
-}
-
-
-/* link de portfolio no cabecalho do perfil: e uma tag, mas clicavel */
-.tagLink {
-    color: var(--cor-marca);
-    text-decoration: none;
-    transition: border-color var(--tempo-rapido) ease, color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .tagLink:hover {
-        border-color: var(--cor-marca);
-        color: var(--cor-marca-forte);
-    }
-}
-
-
-/* acoes de dono, lado a lado */
-.linhaAcoesDono {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espaco-2);
-}
-
-.botaoPerigo {
-    border-color: var(--cor-erro-fraca);
-    color: var(--cor-erro);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .botaoPerigo:hover {
-        border-color: var(--cor-erro);
-        background-color: var(--cor-erro-fraca);
-        color: var(--cor-erro);
-    }
-}
-
-/* botoes pequenos no canto de um item que o dono gerencia */
-.acoesItem {
-    display: flex;
-    gap: var(--espaco-2);
-    margin-top: var(--espaco-2);
-}
-
-.botaoMiudo {
-    padding: 0.28rem 0.6rem;
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-superficie-2);
-    color: var(--cor-texto-2);
-    font-family: var(--fonte);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    cursor: pointer;
-    transition: transform var(--tempo-toque) var(--curva-saida),
-                border-color var(--tempo-rapido) ease,
-                color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .botaoMiudo:hover {
-        border-color: var(--cor-marca-borda);
-        color: var(--cor-texto);
-    }
-
-    .botaoMiudo.botaoPerigo:hover {
-        border-color: var(--cor-erro);
-        color: var(--cor-erro);
-    }
-}
-
-.botaoMiudo:active {
-    transform: scale(0.96);
-}
-
-/* o marco vira botao quando o dono pode marcar como concluido */
-.caixaMarcoClicavel {
-    cursor: pointer;
-}
-
-.itemMarco .acoesItem {
-    margin: 0 0 0 auto;
-}
-
-
-/* compatibilidade entre a pessoa e a vaga */
-.blocoCompatibilidade {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-md);
-    background-color: var(--cor-superficie-2);
-}
-
-.topoCompatibilidade {
-    display: flex;
-    align-items: baseline;
-    gap: var(--espaco-2);
-}
-
-.notaCompatibilidade {
-    font-family: var(--fonte);
-    font-size: var(--texto-md);
-    font-weight: var(--peso-pesado);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-}
-
-.notaAlta {
-    color: var(--cor-sucesso);
-}
-
-.notaMedia {
-    color: var(--cor-aviso);
-}
-
-.notaBaixa {
-    color: var(--cor-texto-3);
-}
-
-.rotuloCompatibilidade {
-    color: var(--cor-texto-3);
-    font-size: var(--texto-xs);
-    letter-spacing: var(--letra-miuda);
-}
-
-.listaPontos {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.listaPontos li {
-    position: relative;
-    padding-left: var(--espaco-4);
-    color: var(--cor-texto-2);
-    font-size: var(--texto-xs);
-}
-
-.listaPontos li::before {
-    position: absolute;
-    left: 0;
-    font-weight: var(--peso-pesado);
-}
-
-.pontoForte::before {
-    content: "+";
-    color: var(--cor-sucesso);
-}
-
-.pontoFraco::before {
-    content: "−";
-    color: var(--cor-texto-3);
-}
-
-/* candidatos sugeridos pela vaga */
-
-/* a vaga aberta ocupa a linha inteira, senao a lista fica num funil estreito */
-.cardResultado.vagaExpandida {
-    grid-column: 1 / -1;
-}
-
-.listaRecomendados {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--espaco-3);
-    margin-top: var(--espaco-3);
-    padding-top: var(--espaco-3);
-    border-top: 1px dashed var(--cor-borda-forte);
-}
-
-/* a explicacao do match e curta, e o valor dela e justamente ser lida inteira */
-.cardRecomendado .descricaoResultado {
-    display: block;
-    overflow: visible;
-    font-size: var(--texto-sm);
-}
-
-.cardRecomendado {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-2);
-    padding: var(--espaco-3) var(--espaco-4);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-md);
-    background-color: var(--cor-superficie-2);
-    transition: transform var(--tempo-rapido) var(--curva-saida),
-                border-color var(--tempo-rapido) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .cardRecomendado:hover {
-        transform: translateY(-2px);
-        border-color: var(--cor-marca-borda);
-    }
-}
-
-/* marca o texto que saiu da LLM, pra ninguem confundir com dado do perfil */
-.selaIA {
-    display: inline-block;
-    padding: 0.1rem 0.4rem;
-    margin-right: var(--espaco-1);
-    border: 1px solid var(--cor-marca-borda);
-    border-radius: var(--raio-sm);
-    background-color: var(--cor-marca-fraca);
-    color: var(--cor-marca);
-    font-size: 10px;
-    font-weight: var(--peso-pesado);
-    letter-spacing: var(--letra-etiqueta);
-    vertical-align: middle;
+/* lista que veio vazia sem texto: nao mostra o quadro */
+.mensagemVazia:empty {
+    display: none;
 }

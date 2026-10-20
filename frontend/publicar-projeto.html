@@ -4,144 +4,236 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
         <meta name="color-scheme" content="dark light" />
-        <meta name="theme-color" content="#0e100f" />
-        <title>Publicar Projeto - IndieSquad</title>
+        <meta name="theme-color" content="#0d1111" />
+        <title>Publicar projeto · IndieSquad</title>
+        <link rel="icon" href="static/assets/icone.svg" type="image/svg+xml" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- o tema vem antes de tudo pra tela ja nascer na cor certa -->
+        <script src="static/js/tema.js"></script>
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
 
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
         <link rel="stylesheet" href="static/style/tokens.css" />
         <link rel="stylesheet" href="static/style/base.css" />
         <link rel="stylesheet" href="static/style/componentes.css" />
         <link rel="stylesheet" href="static/style/telas.css" />
 
-        <script src="static/js/tema.js"></script>
+        <script type="module" src="static/js/indie.js"></script>
     </head>
-    <body>
-        <div class="layoutPagina">
-            <aside class="menuLateral">
-                <div>
-                    <div class="logoMenuLateral">
-                        <img src="static/assets/Logo.svg" alt="" />
-                        <h3>INDIE<span>SQUAD</span></h3>
-                    </div>
+    <body class="telaApp">
+        <div class="mo-app">
+            <header class="mo-cabecalho cabecalhoApp">
+                <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
+                    <is-marca></is-marca>
+                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                </a>
 
-                    <div class="navegacaoMenuLateral">
-                        <a href="dashboard.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Dashboard
-                        </a>
-                        <a href="busca.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2"/></svg>
-                            Buscar
-                        </a>
-                        <a href="publicar-projeto.html" class="itemMenuLateral ativo">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            Publicar Projeto
-                        </a>
-                        <a href="minhas-candidaturas.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8 12 11 15 16 9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                            Candidaturas
-                        </a>
-                        <a href="perfil.html" class="itemMenuLateral">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/></svg>
-                            Meu Perfil
-                        </a>
-                    </div>
-                </div>
+                <form class="mo-busca buscaRapida" role="search">
+                    <i class="mo-lupa" aria-hidden="true"></i>
+                    <input type="search" placeholder="Buscar pessoas ou projetos" aria-label="Buscar pessoas ou projetos" data-mo-atalho="/" autocomplete="off" />
+                    <kbd class="mo-atalho">/</kbd>
+                </form>
 
-                <div class="pePainel">
-                    <div class="linhaPePainel">
-                        <button type="button" class="botaoSair" onclick="fazerLogout()">
-                            <svg class="iconeMenuLateral" viewBox="0 0 24 24" width="18" height="18"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="16 16 21 12 16 8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2"/></svg>
-                            <span>Sair</span>
+                <div class="acoesCabecalho">
+                    <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                            <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
+                            <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
                         </button>
 
-                        <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                        <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                        <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                    </button>
-                    </div>
+                    <a class="chipUsuario" href="perfil.html">
+                        <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                        <span class="textoChip" data-jogador-nome></span>
+                    </a>
+
+                    <button class="mo-alternar-lateral" data-mo-gaveta aria-label="Abrir menu"><i></i><i></i><i></i></button>
                 </div>
-            </aside>
+            </header>
 
-            <main class="conteudoPagina conteudoMedio">
-                <div class="topoPagina">
-                    <h1>Publicar Projeto</h1>
-                    <h3>Conte pra gente sobre o seu jogo</h3>
-                </div>
+            <div class="mo-corpo">
+                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
 
-                <p class="mensagemErro" id="mensagemErro"></p>
+                <nav class="mo-lateral menuApp" aria-label="Navegação principal">
+                        <a href="dashboard.html" class="mo-nav-item">
+                            <mo-simbolo nome="casa"></mo-simbolo>
+                            <span class="mo-nav-texto">Painel</span>
+                        </a>
+                        <a href="busca.html" class="mo-nav-item">
+                            <mo-simbolo nome="busca"></mo-simbolo>
+                            <span class="mo-nav-texto">Buscar</span>
+                        </a>
+                        <a href="publicar-projeto.html" class="mo-nav-item ativo" aria-current="page">
+                            <i class="mo-pilula" aria-hidden="true"></i>
+                            <mo-simbolo nome="mais"></mo-simbolo>
+                            <span class="mo-nav-texto">Publicar projeto</span>
+                        </a>
+                        <a href="minhas-candidaturas.html" class="mo-nav-item">
+                            <mo-simbolo nome="check"></mo-simbolo>
+                            <span class="mo-nav-texto">Candidaturas</span>
+                        </a>
+                        <a href="perfil.html" class="mo-nav-item">
+                            <mo-simbolo nome="usuario"></mo-simbolo>
+                            <span class="mo-nav-texto">Meu perfil</span>
+                        </a>
 
-                <form id="formPublicarProjeto">
-                    <div class="etapaPublicar etapaAtiva">
-                        <div class="campoFormulario">
-                            <label for="nomeProjeto">Nome do Projeto</label>
-                            <input type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
+                    <div class="peMenu">
+                        <div class="cartaoJogador">
+                            <is-sprite semente="?" data-jogador-sprite></is-sprite>
+                            <strong data-jogador-nome></strong>
+                            <span data-jogador-handle></span>
                         </div>
 
-                        <div class="campoFormulario">
-                            <label for="descricaoProjeto">Descrição curta</label>
-                            <textarea id="descricaoProjeto" placeholder="Descreva seu jogo em poucas linhas..." required></textarea>
-                        </div>
+                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                            <mo-simbolo nome="sair"></mo-simbolo>
+                            Sair
+                        </button>
+                    </div>
+                </nav>
 
-                        <div class="campoFormulario">
-                            <label for="generoProjeto">Gênero</label>
-                            <input type="text" id="generoProjeto" placeholder="Ex: Metroidvania, RPG, Puzzle..." />
-                        </div>
+                <main class="mo-conteudo">
+                    <div class="paginaApp">
+                        <header class="topoTela">
+                            <p class="sobretitulo">Novo projeto</p>
+                            <h1>Conte pra gente sobre o seu jogo</h1>
+                            <p class="apoio">Cada função que você escolher vira uma vaga aberta, e quem combina com ela aparece pra você.</p>
+                        </header>
 
-                        <div class="campoFormulario">
-                            <label for="engineProjeto">Engine / Ferramenta</label>
-                            <input type="text" id="engineProjeto" placeholder="Ex: Unity, Godot, Unreal..." />
-                        </div>
+                        <p class="mensagemErro" id="mensagemErro"></p>
 
-                        <div class="campoFormulario">
-                            <label>Perfis necessários</label>
-                            <div class="botoesPerfil" id="botoesPerfil"></div>
-                        </div>
+                        <div class="colunasPublicar">
+                            <form class="formPublicar formulario" id="formPublicarProjeto">
+                                <fieldset class="etapaForm">
+                                    <legend><span>1</span> O jogo</legend>
 
-                        <div class="campoFormulario">
-                            <label for="marcoProjeto">Marcos do projeto</label>
-                            <small class="dicaCampo">Separe por vírgula</small>
-                            <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Ex: Protótipo jogável, Demo na Steam..." />
-                        </div>
+                                    <div class="campoFormulario">
+                                        <label for="nomeProjeto">Nome do projeto</label>
+                                        <input type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
+                                    </div>
 
-                        <div class="campoFormulario">
-                            <label>Tipo de Parceria</label>
+                                    <div class="campoFormulario">
+                                        <label for="descricaoProjeto">Descrição curta</label>
+                                        <textarea id="descricaoProjeto" placeholder="Do que se trata, qual a sensação de jogar, o que já existe..." required></textarea>
+                                    </div>
+                                </fieldset>
 
-                            <div class="opcaoParceria" data-parceria="portfolio">
-                                <h2>Portfólio</h2>
-                                <p>Colaboração para experiência e portfólio</p>
-                            </div>
+                                <fieldset class="etapaForm">
+                                    <legend><span>2</span> Ficha técnica</legend>
 
-                            <div class="opcaoParceria" data-parceria="revenueShare">
-                                <h2>Revenue Share</h2>
-                                <p>Divisão futura de receita</p>
-                            </div>
+                                    <div class="tresColunas">
+                                        <div class="campoFormulario">
+                                            <label for="generoProjeto">Gênero</label>
+                                            <input type="text" id="generoProjeto" placeholder="Metroidvania, RPG..." />
+                                        </div>
 
-                            <div class="opcaoParceria" data-parceria="remunerado">
-                                <h2>Remunerado</h2>
-                                <p>Pagamento por tarefa ou por hora</p>
-                            </div>
-                        </div>
+                                        <div class="campoFormulario">
+                                            <label for="engineProjeto">Engine</label>
+                                            <input type="text" id="engineProjeto" placeholder="Godot, Unity..." list="engines" />
+                                            <datalist id="engines">
+                                                <option value="Godot"></option>
+                                                <option value="Unity"></option>
+                                                <option value="Unreal"></option>
+                                                <option value="GameMaker"></option>
+                                                <option value="Pico-8"></option>
+                                                <option value="Love2D"></option>
+                                            </datalist>
+                                        </div>
 
-                        <div class="campoFormulario">
-                            <label for="duracaoProjeto">Duração estimada</label>
-                            <input type="text" id="duracaoProjeto" placeholder="Ex: 3 meses, 6 meses..." />
-                        </div>
+                                        <div class="campoFormulario">
+                                            <label for="duracaoProjeto">Duração</label>
+                                            <input type="text" id="duracaoProjeto" placeholder="3 meses, 6 meses..." />
+                                        </div>
+                                    </div>
+                                </fieldset>
 
-                        <div class="botoesEtapa">
-                            <button type="submit" class="botaoProximo">
-                                Publicar Projeto 
-                            </button>
+                                <fieldset class="etapaForm">
+                                    <legend><span>3</span> Quem falta na equipe</legend>
+                                    <p class="dicaCampo">Escolha as funções. Cada uma vira uma vaga aberta.</p>
+                                    <div class="botoesPerfil" id="botoesPerfil"></div>
+                                </fieldset>
+
+                                <fieldset class="etapaForm">
+                                    <legend><span>4</span> Marcos</legend>
+
+                                    <div class="campoFormulario">
+                                        <label for="marcoProjeto">Fases até o lançamento</label>
+                                        <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Protótipo jogável, Demo na Steam, Lançamento" />
+                                        <small class="dicaCampo">Separe por vírgula. Viram o mapa de marcos do projeto.</small>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset class="etapaForm">
+                                    <legend><span>5</span> Tipo de parceria</legend>
+
+                                    <div class="opcoesParceria">
+                                        <button type="button" class="opcaoParceria" data-parceria="portfolio">
+                                            <mo-simbolo nome="pasta"></mo-simbolo>
+                                            <strong>Portfólio</strong>
+                                            <span>Colaboração pra ganhar experiência e portfólio</span>
+                                        </button>
+
+                                        <button type="button" class="opcaoParceria" data-parceria="revenueShare">
+                                            <mo-simbolo nome="estrela"></mo-simbolo>
+                                            <strong>Divisão de lucro</strong>
+                                            <span>Cada um leva uma parte do que o jogo render</span>
+                                        </button>
+
+                                        <button type="button" class="opcaoParceria" data-parceria="remunerado">
+                                            <mo-simbolo nome="raio"></mo-simbolo>
+                                            <strong>Remunerado</strong>
+                                            <span>Pagamento por tarefa ou por hora</span>
+                                        </button>
+                                    </div>
+                                </fieldset>
+
+                                <div class="acoes acoesPublicar">
+                                    <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoProximo">
+                                        <mo-simbolo nome="play"></mo-simbolo>
+                                        Publicar projeto
+                                    </button>
+                                </div>
+                            </form>
+
+                            <aside class="previaProjeto" aria-label="Prévia do projeto">
+                                <p class="sobretitulo">Prévia</p>
+
+                                <div class="cartao">
+                                    <div class="cartaoTopo">
+                                        <is-cartucho id="previaCartucho" nome="?" style="--is-cartucho:66px"></is-cartucho>
+                                        <div class="cartaoTitulo">
+                                            <h3 id="previaNome">Seu jogo</h3>
+                                            <span id="previaFicha">Gênero · Engine</span>
+                                        </div>
+                                    </div>
+
+                                    <p class="cartaoTexto" id="previaDescricao">A descrição aparece aqui.</p>
+
+                                    <div class="previaBloco">
+                                        <span class="placarRotulo">Equipe</span>
+                                        <div class="previaSlots" id="previaSlots"></div>
+                                    </div>
+
+                                    <div class="previaBloco">
+                                        <span class="placarRotulo">Marcos</span>
+                                        <ol class="previaMarcos" id="previaMarcos"></ol>
+                                    </div>
+                                </div>
+                            </aside>
                         </div>
                     </div>
-                </form>
-            </main>
+                </main>
+            </div>
+
+            <footer class="mo-rodape rodapeStatus">
+                <span class="statusApi" id="statusApi"><i class="mo-pulso" aria-hidden="true"></i><span>conectando</span></span>
+                <span id="statusNumeros"></span>
+                <div class="direita">
+                    <span>indiesquad 1.8</span>
+                    <span class="atalhoBusca"><kbd>/</kbd> busca</span>
+                </div>
+            </footer>
         </div>
 
         <script src="static/js/app.js"></script>
+        <script src="static/js/casca.js"></script>
         <script src="static/js/publicarProjeto.js"></script>
     </body>
 </html>

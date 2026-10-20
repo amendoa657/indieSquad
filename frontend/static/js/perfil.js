@@ -23,7 +23,13 @@ const FALTANDO = {
 
 
 pegar("botaoEditar").onclick = function () {
-    pegar("blocoEdicao").classList.toggle("escondido");
+    const bloco = pegar("blocoEdicao");
+
+    bloco.classList.toggle("escondido");
+
+    if (!bloco.classList.contains("escondido")) {
+        bloco.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 };
 
 
@@ -78,7 +84,7 @@ async function carregarFerramentas() {
     minhas.forEach((ferramenta) => minhasFerramentas.add(ferramenta.id));
 
     listar("ferramentasPerfil", minhas, function (ferramenta) {
-        return `<span class="tagSkill">${escapar(ferramenta.nome)}</span>`;
+        return `<span class="tag tagFerramenta"><mo-simbolo nome="${ferramenta.categoria === "Engine" ? "controle" : "pacote"}"></mo-simbolo>${escapar(ferramenta.nome)}</span>`;
     }, "Nenhuma ferramenta cadastrada ainda.");
 
     if (!souEu) return;
@@ -138,16 +144,14 @@ async function carregarLinks() {
 
     // no cabecalho os links sao clicaveis; so o dono ve a lista de gerenciar
     listar("linksPerfil", links, function (link) {
-        return `<a class="tagSkill tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">
-            ${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗
-        </a>`;
+        return `<a class="tag tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗</a>`;
     }, "");
 
     if (!souEu) return;
 
     listar("meusLinks", links, function (link) {
-        return `<span class="tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
-            <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})">×</button></span>`;
+        return `<span class="tag">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
+            <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})" aria-label="Remover link">×</button></span>`;
     }, "Nenhum link ainda.");
 }
 
@@ -190,26 +194,26 @@ async function carregarAvaliacoesRecebidas() {
 
     pegar("blocoAvaliacoesPerfil").classList.remove("escondido");
 
+    const pessoas = await jogadores();
+
     listar("listaAvaliacoesPerfil", dados.avaliacoes, function (avaliacao) {
         return `
-            <div class="cardResultado">
-                <div class="topoCardResultado">
-                    <h2>
-                        <span class="avatarMembro">${escapar(avaliacao.avaliador.usuario.charAt(0).toUpperCase())}</span>
-                        ${escapar(avaliacao.avaliador.usuario)}
-                    </h2>
-                    <span class="statusResultado">${escapar(avaliacao.projeto.nome)}</span>
-                </div>
-                <div class="notasRecebidas">
-                    <span class="notaGrande">${numero(avaliacao.nota, 0)}</span>
-                    <div class="detalheNotas">
-                        <span>Comunicação ${avaliacao.notaComunicacao}</span>
-                        <span>Prazo ${avaliacao.notaPrazo}</span>
-                        <span>Qualidade ${avaliacao.notaQualidade}</span>
+            <article class="cartao cartaoAvaliacao">
+                <div class="cartaoTopo">
+                    ${sprite(pessoas.get(avaliacao.avaliador.handle) || avaliacao.avaliador, 36)}
+                    <div class="cartaoTitulo">
+                        <h3>${escapar(avaliacao.avaliador.usuario)}</h3>
+                        <span>em ${escapar(avaliacao.projeto.nome)}</span>
                     </div>
+                    <is-numero class="notaAvaliacao">${numero(avaliacao.nota, 0)}</is-numero>
                 </div>
-                ${avaliacao.comentario ? `<p class="descricaoResultado">“${escapar(avaliacao.comentario)}”</p>` : ""}
-            </div>
+                <div class="notasDetalhe">
+                    <span>Comunicação <is-medidor valor="${avaliacao.notaComunicacao}" max="5" segmentos="5"></is-medidor></span>
+                    <span>Prazo <is-medidor valor="${avaliacao.notaPrazo}" max="5" segmentos="5"></is-medidor></span>
+                    <span>Qualidade <is-medidor valor="${avaliacao.notaQualidade}" max="5" segmentos="5"></is-medidor></span>
+                </div>
+                ${avaliacao.comentario ? `<p class="citacao">“${escapar(avaliacao.comentario)}”</p>` : ""}
+            </article>
         `;
     }, "");
 }
@@ -231,10 +235,10 @@ function mostrarPerfilCompleto(dados) {
 
     pegar("barraPerfilCompleto").classList.remove("escondido");
     escrever("percentualPerfil", `${dados.perfilCompleto}%`);
-    pegar("progressoPerfil").style.transform = `scaleX(${dados.perfilCompleto / 100})`;
+    pegar("progressoPerfil").setAttribute("valor", dados.perfilCompleto);
 
-    const itens = dados.faltando.map((chave) => FALTANDO[chave] || chave);
-    escrever("faltandoPerfil", `Falta ${escapar(itens.join(", "))}.`);
+    // o que falta vira a lista de tarefas da missao
+    escrever("faltandoPerfil", dados.faltando.map((chave) => `<li>${escapar(FALTANDO[chave] || chave)}</li>`).join(""));
 }
 
 
@@ -253,12 +257,18 @@ async function carregarPerfil() {
     const numeros = (await pedir(`/usuarios/${idDoPerfil}/estatisticas`)) || {};
     const projetos = (await pedir(`/usuarios/projeto/${idDoPerfil}`)) || [];
 
-    // cabecalho
-    escrever("avatarPerfil", escapar(dados.usuario.charAt(0).toUpperCase()));
+    // cabecalho: o sprite sai do apelido, a cor da funcao mais forte
+    const principal = funcaoPrincipal({ skills: skills });
+
+    pegar("avatarPerfil").setAttribute("semente", dados.handle);
+    pegar("cartaoHeroi").className = `cartao cartaoHeroi ${principal ? classe(principal.categoria) : ""}`;
     escrever("nomePerfil", escapar(dados.usuario));
     escrever("handlePerfil", `@${escapar(dados.handle)}`);
-    escrever("funcaoPerfil", skills.length > 0 ? escapar(skills[0].nome) : "Sem função definida");
+    escrever("funcaoPerfil", principal
+        ? `<mo-simbolo nome="${simboloDaClasse(principal.categoria)}"></mo-simbolo>${escapar(principal.nome)} · ${escapar(NIVEIS[principal.nivel])}`
+        : "Sem função definida");
     escrever("bioPerfil", escapar(dados.bio) || "Sem bio ainda.");
+    document.title = `${dados.usuario} · IndieSquad`;
 
     if (dados.dataCriacao) {
         escrever("membroDesde", `Membro desde ${new Date(dados.dataCriacao).getFullYear()}`);
@@ -271,9 +281,20 @@ async function carregarPerfil() {
     if (pegar("notaPerfil")) {
         const reputacao = numeros.reputacao || { total: 0, media: 0 };
 
+        // a reputacao vira os atributos da ficha: a media grande e os tres criterios em barra
         escrever("notaPerfil", reputacao.total > 0
-            ? `${numero(reputacao.media)} <span class="detalheNota">de ${plural(reputacao.total, "avaliação", "avaliações")}</span>`
-            : `<span class="detalheNota">Sem avaliação ainda</span>`);
+            ? `
+                <div class="atributoMedia">
+                    <is-numero>${numero(reputacao.media)}</is-numero>
+                    <span>de ${plural(reputacao.total, "avaliação", "avaliações")}</span>
+                </div>
+                <div class="atributosLista">
+                    <div class="atributo"><span>Comunicação</span><is-medidor valor="${reputacao.mediaComunicacao}" max="5" segmentos="10"></is-medidor><strong>${numero(reputacao.mediaComunicacao)}</strong></div>
+                    <div class="atributo"><span>Prazo</span><is-medidor valor="${reputacao.mediaPrazo}" max="5" segmentos="10"></is-medidor><strong>${numero(reputacao.mediaPrazo)}</strong></div>
+                    <div class="atributo"><span>Qualidade</span><is-medidor valor="${reputacao.mediaQualidade}" max="5" segmentos="10"></is-medidor><strong>${numero(reputacao.mediaQualidade)}</strong></div>
+                </div>
+            `
+            : `<p class="semAvaliacao">Sem avaliação ainda. A reputação aparece depois do primeiro projeto concluído junto com alguém.</p>`);
     }
 
     if (pegar("objetivoPerfil")) {
@@ -288,8 +309,8 @@ async function carregarPerfil() {
         ].filter((item) => item);
 
         listar("objetivoPerfil", linhas, function (linha) {
-            return `<span class="tagSkill">${escapar(linha)}</span>`;
-        }, "Perfil ainda não preenchido.");
+            return `<span class="tag">${escapar(linha)}</span>`;
+        }, "");
     }
 
     // so eu mexo nas minhas funcoes; no perfil de outra pessoa e so leitura
@@ -298,21 +319,34 @@ async function carregarPerfil() {
             ? `<button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})">×</button>`
             : "";
 
-        return `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}${remover}</span>`;
-    }, "Nenhuma skill cadastrada ainda.");
+        return `
+            <div class="linhaFuncao ${classe(skill.categoria)}">
+                <span class="iconeClasse"><mo-simbolo nome="${simboloDaClasse(skill.categoria)}"></mo-simbolo></span>
+                <div class="cartaoTitulo">
+                    <h3>${escapar(skill.nome)}</h3>
+                    <span>${escapar(skill.categoria || "")} · ${escapar(NIVEIS[skill.nivel])}</span>
+                </div>
+                <is-nivel valor="${skill.nivel}"></is-nivel>
+                ${remover}
+            </div>
+        `;
+    }, "Nenhuma função cadastrada ainda.");
 
     listar("projetosPerfil", projetos, function (projeto) {
-        const papel = projeto.ehCriador ? "Criador" : "Membro";
+        const papel = projeto.ehCriador ? `<span class="tag"><mo-simbolo nome="coroa"></mo-simbolo>Criador</span>` : `<span class="tag">Membro</span>`;
 
         return `
-            <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
-                <div class="topoCardResultado">
-                    <h2>${escapar(projeto.nome)}</h2>
-                    <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
+            <article class="cartao cartaoClicavel mira" onclick="irPara('projeto.html?id=${projeto.id}')">
+                <div class="cartaoTopo">
+                    ${cartucho(projeto.nome, 44)}
+                    <div class="cartaoTitulo">
+                        <h3>${escapar(projeto.nome)}</h3>
+                        <span>${[projeto.genero, projeto.engine].filter(Boolean).map(escapar).join(" · ") || "Sem ficha técnica"}</span>
+                    </div>
+                    ${selo(projeto.status)}
                 </div>
-                <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
-                <div class="tagsResultado"><span class="tagSkill">${papel}</span></div>
-            </div>
+                <div class="tags">${papel}</div>
+            </article>
         `;
     }, "Nenhum projeto ainda.");
 
@@ -345,6 +379,15 @@ async function carregarPerfil() {
         pegar("blocoSkills").classList.add("escondido");
         pegar("blocoFerramentas").classList.add("escondido");
         pegar("blocoLinks").classList.add("escondido");
+        pegar("linkCandidaturas").classList.add("escondido");
+
+        // perfil de outra pessoa: o "Meu perfil" do menu nao fica aceso
+        document.querySelectorAll(".menuApp .mo-nav-item.ativo").forEach((item) => {
+            item.classList.remove("ativo");
+            item.removeAttribute("aria-current");
+            item.querySelector(".mo-pilula")?.remove();
+        });
+        pegar("barraPerfilCompleto").classList.add("escondido");
     }
 }
 

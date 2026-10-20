@@ -1,14 +1,8 @@
-// a abertura mostra quem ja esta no sistema, no formato de uma lista de creditos
+// a abertura mostra quem ja esta no sistema, como a tela de escolher a party
+// de um jogo: um cursor de menu passa de pessoa em pessoa
 
-const LIMITE_ELENCO = 7;
-
-
-// a funcao que a pessoa leva mais longe e a que melhor representa ela na lista
-function funcaoPrincipal(pessoa) {
-    if (!pessoa.skills || pessoa.skills.length === 0) return null;
-
-    return pessoa.skills.reduce((maior, skill) => (skill.nivel > maior.nivel ? skill : maior)).nome;
-}
+const LIMITE_ELENCO = 6;
+const ESPERA_CURSOR = 1600;
 
 
 function primeiroESobrenome(nome) {
@@ -27,13 +21,72 @@ async function carregarElenco() {
     const comFuncao = pessoas.filter(funcaoPrincipal).slice(0, LIMITE_ELENCO);
 
     listar("elencoLista", comFuncao, function (pessoa) {
+        const principal = funcaoPrincipal(pessoa);
+
         return `
-            <li class="elencoItem">
-                <span class="elencoFuncao">${escapar(funcaoPrincipal(pessoa))}</span>
+            <li class="elencoItem ${classe(principal.categoria)}" tabindex="-1">
+                ${sprite(pessoa, 36)}
                 <span class="elencoNome">${escapar(primeiroESobrenome(pessoa.nome))}</span>
+                <span class="elencoFuncao">${escapar(principal.nome)}</span>
+                <is-nivel valor="${principal.nivel}"></is-nivel>
             </li>
         `;
     }, "Ninguém por aqui ainda. Seja o primeiro.");
+
+    ligarCursor();
+}
+
+
+// o cursor anda sozinho; o mouse e as setas tomam o controle
+function ligarCursor() {
+    const itens = [...document.querySelectorAll(".elencoItem")];
+    if (itens.length === 0) return;
+
+    let atual = 0;
+    let relogio = null;
+
+    function escolher(indice) {
+        itens[atual].classList.remove("escolhido");
+        atual = (indice + itens.length) % itens.length;
+        itens[atual].classList.add("escolhido");
+    }
+
+    function andar() {
+        clearInterval(relogio);
+
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        relogio = setInterval(() => escolher(atual + 1), ESPERA_CURSOR);
+    }
+
+    itens.forEach(function (item, indice) {
+        item.onmouseenter = function () {
+            escolher(indice);
+            clearInterval(relogio);
+        };
+
+        item.onclick = () => irPara("cadastro.html");
+    });
+
+    document.querySelector(".elencoLista").onmouseleave = andar;
+
+    document.addEventListener("keydown", function (evento) {
+        if (evento.target.closest("input, textarea")) return;
+
+        if (evento.key === "ArrowDown" || evento.key === "ArrowUp") {
+            const caixa = document.querySelector(".selecao").getBoundingClientRect();
+
+            // so rouba as setas quando a party esta na tela
+            if (caixa.bottom < 0 || caixa.top > innerHeight) return;
+
+            evento.preventDefault();
+            escolher(atual + (evento.key === "ArrowDown" ? 1 : -1));
+            andar();
+        }
+    });
+
+    escolher(0);
+    andar();
 }
 
 
@@ -42,47 +95,34 @@ async function carregarEstatisticas() {
     if (!dados) return;
 
     escrever("elencoRodape",
-        `${plural(dados.profissionais, "pessoa", "pessoas")} · ` +
+        `${plural(dados.profissionais, "jogador", "jogadores")} · ` +
         `${plural(dados.projetos, "projeto", "projetos")} · ` +
         `${plural(dados.avaliacoes, "avaliação", "avaliações")}`);
 }
 
 
-carregarElenco();
-carregarEstatisticas();
-
-
 // as categorias vem do catalogo do banco e levam pra busca ja filtrada
-const ICONE_CATEGORIA = {
-    "Programação": `<path d="M8.5 7.5 3 12l5.5 4.5M15.5 7.5 21 12l-5.5 4.5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>`,
-    "Arte": `<path d="M4 20.5 15 9.5l-2.5-2.5L1.5 18v2.5z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M14 4.5 19.5 10M16.5 2 22 7.5" fill="none" stroke="currentColor" stroke-width="1.8"/>`,
-    "Áudio": `<path d="M4 15V9h3l5-4v14l-5-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/><path d="M16 9.5a4 4 0 0 1 0 5M19 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.8"/>`,
-    "Design": `<rect x="3" y="3" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="18" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="13" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.8"/>`,
-    "Produção": `<rect x="4" y="3" width="16" height="18" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 13h8M8 17h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>`,
-};
-
-
 async function carregarFuncoes() {
-    const skills = await pedir("/skills");
-    if (!skills) return;
+    const skills = await catalogo();
+    if (skills.length === 0) return;
 
     const porCategoria = new Map();
 
     skills.forEach(function (skill) {
-        porCategoria.set(skill.categoria, (porCategoria.get(skill.categoria) || 0) + 1);
+        if (!porCategoria.has(skill.categoria)) porCategoria.set(skill.categoria, []);
+        porCategoria.get(skill.categoria).push(skill.nome);
     });
 
-    const categorias = [...porCategoria.entries()].sort((a, b) => b[1] - a[1]);
+    const categorias = [...porCategoria.entries()].sort((a, b) => b[1].length - a[1].length);
 
-    listar("funcoes", categorias, function ([categoria, total]) {
-        const desenho = ICONE_CATEGORIA[categoria] || "";
-
+    listar("funcoes", categorias, function ([categoria, nomes]) {
         return `
             <li>
-                <a href="busca.html?categoria=${encodeURIComponent(categoria)}">
-                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">${desenho}</svg>
-                    <span class="funcaoNome">${escapar(categoria)}</span>
-                    <span class="funcaoTotal">${total}</span>
+                <a class="classeCartao mira ${classe(categoria)}" href="busca.html?categoria=${encodeURIComponent(categoria)}">
+                    <span class="classeIcone"><mo-simbolo nome="${simboloDaClasse(categoria)}" tamanho="27"></mo-simbolo></span>
+                    <span class="classeNome">${escapar(categoria)}</span>
+                    <span class="classeTotal">${plural(nomes.length, "função", "funções")}</span>
+                    <span class="classeFuncoes">${nomes.slice(0, 4).map(escapar).join(" · ")}</span>
                 </a>
             </li>
         `;
@@ -90,4 +130,20 @@ async function carregarFuncoes() {
 }
 
 
+// no fim da pagina, uma fileira de bichinhos esperando a equipe ser montada
+function desenharFecho() {
+    const classes = ["arte", "audio", "design", "producao", "programacao"];
+    let html = "";
+
+    for (let i = 0; i < 9; i++) {
+        html += `<is-sprite class="classe-${classes[i % classes.length]}" semente="jogador-${i * 7 + 3}" style="--is-sprite:45px; --i:${i}"></is-sprite>`;
+    }
+
+    escrever("fechoSprites", html);
+}
+
+
+carregarElenco();
+carregarEstatisticas();
 carregarFuncoes();
+desenharFecho();

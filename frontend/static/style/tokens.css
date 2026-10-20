@@ -1,170 +1,130 @@
-/* IndieSquad - tokens: cor, espaco, tipografia, raio, sombra e tempo de animacao */
+/* ==========================================================================
+   Cores da IndieSquad, nos dois temas.
 
-:root {
-    /* tipografia: uma familia so, usada nos extremos da escala */
-    --fonte: "Space Grotesk", system-ui, sans-serif;
+   A Mosaic UI (static/mosaic-ui) le as cores destas variaveis --cor*, as
+   mesmas que o Matugen gera pra Mosaic Store. Entao e so definir elas aqui
+   que botoes, campos, cartoes e os pixels do fundo seguem o tema.
 
-    /* a escala combina tamanho, altura de linha e espacamento de letra */
-    --texto-xs: 0.75rem;
-    --texto-sm: 0.8125rem;
-    --texto-base: 0.9375rem;
-    --texto-md: 1.0625rem;
-    --texto-lg: 1.3125rem;
-    --texto-xl: 1.75rem;
-    --texto-2xl: 2.5rem;
-    --texto-3xl: clamp(2.75rem, 8vw, 5.5rem);
-
-    --linha-display: 0.94;
-    --linha-apertada: 1.1;
-    --linha-titulo: 1.2;
-    --linha-corpo: 1.55;
-
-    /* quanto maior o texto, mais apertado o espacamento precisa ser */
-    --letra-display: -0.045em;
-    --letra-titulo: -0.02em;
-    --letra-corpo: -0.005em;
-    --letra-miuda: 0;
-    --letra-etiqueta: 0.02em;
-
-    --peso-normal: 400;
-    --peso-medio: 500;
-    --peso-forte: 600;
-    --peso-pesado: 700;
-
-    /* espaco (base 4px) */
-    --espaco-1: 0.25rem;
-    --espaco-2: 0.5rem;
-    --espaco-3: 0.75rem;
-    --espaco-4: 1rem;
-    --espaco-5: 1.25rem;
-    --espaco-6: 1.5rem;
-    --espaco-8: 2rem;
-    --espaco-10: 2.5rem;
-    --espaco-12: 3rem;
-    --espaco-16: 4rem;
-    --espaco-20: 5rem;
-    --espaco-24: 6rem;
-
-    /* canto duro: o arredondado uniforme e o que deixa tudo com cara de template */
-    --raio-sm: 2px;
-    --raio-md: 3px;
-    --raio-lg: 4px;
-    --raio-xl: 4px;
-    --raio-total: 999px;
-
-    /* medidas de layout */
-    --largura-menu: 248px;
-    --largura-conteudo: 1180px;
-    --largura-media: 880px;
-    --largura-estreita: 680px;
-    --largura-leitura: 58ch;
-
-    /* movimento */
-
-    /* a curva padrao do CSS e fraca demais, essa da o puxao da animacao */
-    --curva-saida: cubic-bezier(0.23, 1, 0.32, 1);
-
-    /* nada de interface passa de 300ms: acima disso a tela parece lenta */
-    --tempo-toque: 120ms;
-    --tempo-rapido: 180ms;
-    --tempo-medio: 240ms;
-}
-
-
-/* tema escuro — o padrao do IndieSquad */
+   Alem delas, cada area do catalogo de funcoes e uma "classe", como num RPG,
+   com uma cor fixa: Arte, Audio, Design, Producao e Programacao. A pessoa
+   ganha a cor da funcao principal, a vaga a cor da funcao que pede.
+   ========================================================================== */
 
 :root,
-[data-tema="escuro"] {
+:root[data-tema="escuro"] {
     color-scheme: dark;
 
-    /* o cinza puxa pro verde, nao pro azul: azul escuro e o dark mode de todo mundo */
-    --cor-fundo: #0e100f;
-    --cor-superficie: #151816;
-    --cor-superficie-2: #1c201e;
-    --cor-superficie-3: #262b28;
+    --corDestaque: #2ecedc;
+    --corFundoDestaque: #2ecedc;
+    --corTextoDestaque: #00262a;
 
-    --cor-borda: #242926;
-    --cor-borda-forte: #39403c;
+    --corAcentoSecundario: #ff7eb3;
+    --corFundoAcentoSecundario: #4d1d35;
+    --corTextoAcentoSecundario: #ffd9e8;
 
-    --cor-texto: #f0f3f1;
-    --cor-texto-2: #a2ada8;
-    --cor-texto-3: #8b958f;
+    --corAcentoTerciario: #a493ff;
+    --corFundoAcentoTerciario: #2e2766;
+    --corTextoAcentoTerciario: #e4deff;
 
-    /* a marca entra como bloco chapado, nao como texto brilhando no escuro */
-    --cor-marca: #2ed3c6;
-    --cor-marca-forte: #5be8dc;
-    --cor-marca-contraste: #06201d;
-    --cor-marca-fraca: rgba(46, 211, 198, 0.12);
-    --cor-marca-borda: rgba(46, 211, 198, 0.34);
+    --corDestrutiva: #ff8a80;
+    --corFundoDestrutivo: #6e1717;
+    --corTextoDestrutivo: #ffdad6;
 
-    --cor-acento: #ff6b35;
-    --cor-acento-contraste: #260c02;
-    --cor-acento-fraca: rgba(255, 107, 53, 0.14);
+    --corSucesso: #7ee08a;
+    --corFundoSucesso: #1c3d22;
+    --corTextoSucesso: #c9f5cf;
 
-    --cor-sucesso: #37c98a;
-    --cor-sucesso-fraca: rgba(55, 201, 138, 0.14);
-    --cor-aviso: #e0a552;
-    --cor-aviso-fraca: rgba(224, 165, 82, 0.14);
-    --cor-erro: #e05252;
-    --cor-erro-fraca: rgba(224, 82, 82, 0.14);
+    --corFundoVisualizacao: #0a0d0d;
+    --corFundoJanela: #0d1111;
+    --corFundoBarraLateralSecundaria: #131919;
+    --corFundoBarraCabecalho: #0f1414;
+    --corFundoBarraLateral: #0f1414;
+    --corFundoCartao: #131a1a;
+    --corFundoDialogo: #182020;
+    --corFundoPopUp: #1f2929;
+    --corTextoJanela: #e5eeec;
 
-    /* no escuro quem separa as camadas e um fio de luz na borda de cima */
-    --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --sombra-2: 0 4px 16px rgba(0, 0, 0, 0.45);
-    --sombra-3: 0 18px 48px rgba(0, 0, 0, 0.55);
-    --luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    /* as classes */
+    --is-arte: #ff7eb3;
+    --is-audio: #ffb547;
+    --is-design: #a493ff;
+    --is-producao: #b4e05c;
+    --is-programacao: #55a8ff;
 
-    --cor-vidro: rgba(14, 16, 15, 0.82);
+    /* o quanto do fundo de pixels aparece */
+    --is-pixels: 0.3;
+    --is-numero-fundo: 0.07;
 }
 
-
-/* tema claro: o ciano da marca tem contraste baixo demais no branco, entao vira um teal fundo */
-
-[data-tema="claro"] {
+:root[data-tema="claro"] {
     color-scheme: light;
 
-    --cor-fundo: #f3f5f3;
-    --cor-superficie: #ffffff;
-    --cor-superficie-2: #ebefec;
-    --cor-superficie-3: #dfe5e1;
+    --corDestaque: #0b8e9a;
+    --corFundoDestaque: #0b8e9a;
+    --corTextoDestaque: #ffffff;
 
-    --cor-borda: #e0e6e2;
-    --cor-borda-forte: #c7d0ca;
+    --corAcentoSecundario: #c8306f;
+    --corFundoAcentoSecundario: #fbdbe8;
+    --corTextoAcentoSecundario: #6a1237;
 
-    --cor-texto: #0d100e;
-    --cor-texto-2: #515b56;
-    --cor-texto-3: #646e69;
+    --corAcentoTerciario: #5b45d6;
+    --corFundoAcentoTerciario: #e4defd;
+    --corTextoAcentoTerciario: #2a1c80;
 
-    --cor-marca: #0a6f69;
-    --cor-marca-forte: #085a55;
-    --cor-marca-contraste: #ffffff;
-    --cor-marca-fraca: rgba(10, 111, 105, 0.09);
-    --cor-marca-borda: rgba(10, 111, 105, 0.26);
+    --corDestrutiva: #c42b23;
+    --corFundoDestrutivo: #fde1dd;
+    --corTextoDestrutivo: #7a120d;
 
-    --cor-acento: #c1440e;
-    --cor-acento-contraste: #ffffff;
-    --cor-acento-fraca: rgba(193, 68, 14, 0.09);
+    --corSucesso: #1d8139;
+    --corFundoSucesso: #d6f0db;
+    --corTextoSucesso: #0d4a1d;
 
-    --cor-sucesso: #0c7a53;
-    --cor-sucesso-fraca: rgba(12, 122, 83, 0.1);
-    --cor-aviso: #8a6008;
-    --cor-aviso-fraca: rgba(138, 96, 8, 0.1);
-    --cor-erro: #c23b3b;
-    --cor-erro-fraca: rgba(194, 59, 59, 0.1);
+    --corFundoVisualizacao: #eef2f1;
+    --corFundoJanela: #f4f7f6;
+    --corFundoBarraLateralSecundaria: #e9eeec;
+    --corFundoBarraCabecalho: #fbfcfc;
+    --corFundoBarraLateral: #fbfcfc;
+    --corFundoCartao: #ffffff;
+    --corFundoDialogo: #ffffff;
+    --corFundoPopUp: #e3e9e7;
+    --corTextoJanela: #111b1a;
 
-    /* no claro a sombra faz o trabalho que a luz de borda faz no escuro */
-    --sombra-1: 0 1px 2px rgba(13, 16, 14, 0.06);
-    --sombra-2: 0 4px 14px rgba(13, 16, 14, 0.08);
-    --sombra-3: 0 18px 44px rgba(13, 16, 14, 0.12);
-    --luz-topo: none;
+    --is-arte: #c8306f;
+    --is-audio: #a85f00;
+    --is-design: #5b45d6;
+    --is-producao: #46800f;
+    --is-programacao: #1665c4;
 
-    --cor-vidro: rgba(255, 255, 255, 0.82);
+    --is-pixels: 0.2;
+    --is-numero-fundo: 0.06;
+
+    /* no claro a borda de baixo das teclas pede menos preto */
+    --mo-tecla-sombra: 72%;
 }
 
+/* a cor de cada classe vira --is-cor dentro de quem escolheu ela */
+.classe-arte { --is-cor: var(--is-arte); }
+.classe-audio { --is-cor: var(--is-audio); }
+.classe-design { --is-cor: var(--is-design); }
+.classe-producao { --is-cor: var(--is-producao); }
+.classe-programacao { --is-cor: var(--is-programacao); }
 
-/* quem liga reduzir transparencia no sistema recebe superficie solida */
-@media (prefers-reduced-transparency: reduce) {
-    :root {
-        --cor-vidro: var(--cor-superficie);
-    }
+/* tons sem classe (projetos): saem do nome, sempre os mesmos */
+[data-tom="0"] { --is-cor: var(--mo-destaque); }
+[data-tom="1"] { --is-cor: var(--is-arte); }
+[data-tom="2"] { --is-cor: var(--is-design); }
+[data-tom="3"] { --is-cor: var(--is-audio); }
+[data-tom="4"] { --is-cor: var(--is-programacao); }
+
+:root {
+    /* medidas da IndieSquad por cima das da Mosaic */
+    --is-largura: 1120px;
+    --is-largura-media: 860px;
+    --is-raio: 10px;
+    --is-mira: var(--mo-destaque);
+
+    --mo-raio-p: 6px;
+    --mo-raio-m: 8px;
+    --mo-raio-g: 10px;
+    --mo-raio-xg: 14px;
 }

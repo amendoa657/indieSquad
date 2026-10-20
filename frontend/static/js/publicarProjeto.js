@@ -10,6 +10,7 @@ document.querySelectorAll(".opcaoParceria").forEach(function (card) {
         document.querySelectorAll(".opcaoParceria").forEach((c) => c.classList.remove("ativo"));
         card.classList.add("ativo");
         parceriaEscolhida = card.dataset.parceria;
+        atualizarPrevia();
     };
 });
 
@@ -28,10 +29,10 @@ async function carregarPerfis() {
         const daCategoria = skills.filter((skill) => skill.categoria === categoria);
 
         return `
-            <div class="grupoPerfil">
+            <div class="grupoPerfil ${classe(categoria)}">
                 <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
                 <div class="chipsGrupoPerfil">
-                    ${daCategoria.map((skill) => `<button type="button" class="botaoPerfil" data-id="${skill.id}">${escapar(skill.nome)}</button>`).join("")}
+                    ${daCategoria.map((skill) => `<button type="button" class="botaoPerfil" data-id="${skill.id}" aria-pressed="false">${escapar(skill.nome)}</button>`).join("")}
                 </div>
             </div>
         `;
@@ -48,9 +49,42 @@ async function carregarPerfis() {
                 vagasEscolhidas.add(id);
                 botao.classList.add("ativo");
             }
+
+            botao.setAttribute("aria-pressed", vagasEscolhidas.has(id));
+            atualizarPrevia();
         };
     });
 }
+
+
+// a previa ao lado vai se montando enquanto a pessoa preenche
+function atualizarPrevia() {
+    const nome = valor("nomeProjeto");
+    const ficha = [valor("generoProjeto"), valor("engineProjeto"), valor("duracaoProjeto")].filter(Boolean);
+
+    pegar("previaCartucho").setAttribute("nome", nome || "?");
+    escrever("previaNome", escapar(nome) || "Seu jogo");
+    escrever("previaFicha", ficha.map(escapar).join(" · ") || "Gênero · Engine");
+    escrever("previaDescricao", escapar(valor("descricaoProjeto")) || "A descrição aparece aqui.");
+
+    // voce no primeiro espaco, e um espaco vazio por vaga escolhida
+    const vagas = [...vagasEscolhidas].map((id) => skillsDoBanco.find((skill) => skill.id === id));
+    const eu = euSou() || {};
+
+    escrever("previaSlots",
+        `<span class="previaSlot" title="Você">${sprite({ handle: eu.handle }, 27)}</span>` +
+        vagas.map((skill) => `<span class="previaSlot vazio ${classe(skill.categoria)}" title="${escapar(skill.nome)}"><mo-simbolo nome="${simboloDaClasse(skill.categoria)}"></mo-simbolo></span>`).join(""));
+
+    const marcos = marcosDigitados();
+
+    escrever("previaMarcos", marcos.length > 0
+        ? marcos.map((marco) => `<li>${escapar(marco)}</li>`).join("")
+        : `<li class="semMarco">Nenhum ainda</li>`);
+}
+
+["nomeProjeto", "descricaoProjeto", "generoProjeto", "engineProjeto", "duracaoProjeto", "marcoProjeto"].forEach(function (id) {
+    pegar(id).addEventListener("input", atualizarPrevia);
+});
 
 
 // os marcos sao escritos separados por virgula e viram uma lista
@@ -106,4 +140,4 @@ pegar("formPublicarProjeto").onsubmit = async function (evento) {
     irPara(`projeto.html?id=${projeto.id}`);
 };
 
-carregarPerfis();
+carregarPerfis().then(atualizarPrevia);
