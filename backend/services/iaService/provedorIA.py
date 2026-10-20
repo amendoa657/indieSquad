@@ -58,13 +58,16 @@ def lerJson(texto):
         limpo = limpo.split("```")[1] if "```" in limpo[3:] else limpo[3:]
         limpo = limpo.removeprefix("json").strip()
 
-    inicio = limpo.find("{")
-    fim = limpo.rfind("}")
+    for abre, fecha in [("{", "}"), ("[", "]")]:
+        inicio = limpo.find(abre)
+        fim = limpo.rfind(fecha)
 
-    if inicio == -1 or fim == -1:
-        return None
+        if inicio == -1 or fim == -1 or fim < inicio:
+            continue
 
-    try:
-        return json.loads(limpo[inicio:fim + 1])
-    except ValueError:
-        return None
+        try:
+            return json.loads(limpo[inicio:fim + 1])
+        except ValueError:
+            continue
+
+    return None

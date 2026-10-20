@@ -8,7 +8,8 @@ INSTRUCAO = (
     "Escreva em portugues do Brasil, em no maximo duas frases curtas por candidato, em tom direto e honesto. "
     "Use apenas os fatos que receber: nunca invente experiencia, nome de jogo ou habilidade. "
     "Quando um ponto for fraco, diga com naturalidade em vez de esconder. "
-    "Responda somente um objeto JSON no formato {\"id do candidato\": \"frase\"}."
+    "Responda somente um objeto JSON em que cada chave e o id do candidato e cada valor e a frase dele, "
+    "assim: {\"7\": \"frase do candidato 7\", \"12\": \"frase do candidato 12\"}."
 )
 
 
@@ -40,6 +41,34 @@ def _juntar(partes):
         return partes[0]
 
     return ", ".join(partes[:-1]) + " e " + partes[-1]
+
+
+CHAVES_TEXTO = ("texto", "explicacao", "frase", "motivo")
+
+
+# o modelo nem sempre devolve no formato pedido, entao aceita as variacoes comuns
+def _normalizar(resposta):
+    if isinstance(resposta, dict) and isinstance(resposta.get("candidatos"), list):
+        resposta = resposta["candidatos"]
+
+    if isinstance(resposta, list):
+        frases = {}
+
+        for item in resposta:
+            if not isinstance(item, dict) or item.get("id") is None:
+                continue
+
+            texto = next((item[chave] for chave in CHAVES_TEXTO if isinstance(item.get(chave), str)), None)
+
+            if texto:
+                frases[str(item["id"])] = texto
+
+        return frases
+
+    if isinstance(resposta, dict):
+        return {str(id): texto for id, texto in resposta.items() if isinstance(texto, str)}
+
+    return {}
 
 
 def _montarPergunta(vaga, projeto, candidatos):
@@ -80,7 +109,7 @@ class ExplicarMatchService:
             return candidatos
 
         resposta = provedorIA.conversar(INSTRUCAO, _montarPergunta(vaga, projeto, primeiros))
-        frases = provedorIA.lerJson(resposta)
+        frases = _normalizar(provedorIA.lerJson(resposta))
 
         if not frases:
             return candidatos
@@ -88,7 +117,7 @@ class ExplicarMatchService:
         for candidato in primeiros:
             frase = frases.get(str(candidato["usuario"]["id"]))
 
-            if frase and isinstance(frase, str):
+            if frase:
                 candidato["explicacao"] = frase.strip()
                 candidato["explicadoPorIA"] = True
 
