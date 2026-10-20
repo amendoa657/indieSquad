@@ -188,12 +188,11 @@ is-marca .bloco-programacao { fill: var(--is-programacao); }
     --is-sprite: 27px;
 }
 
-/* o menu lateral: itens numerados, o atual invertido */
+/* o menu lateral: simbolo de pixel e nome, o atual invertido */
 .menuApp {
     padding: 22px 0 0;
     gap: 0;
     border-right: 1px solid var(--is-regua);
-    counter-reset: menu;
 }
 
 .menuApp .mo-nav-item {
@@ -203,17 +202,6 @@ is-marca .bloco-programacao { fill: var(--is-programacao); }
     font-size: 14px;
     font-weight: 500;
     color: var(--mo-texto-2);
-    counter-increment: menu;
-}
-
-.menuApp .mo-nav-item::after {
-    content: counter(menu, decimal-leading-zero);
-    order: -1;
-    width: 18px;
-    font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
-    font-weight: 500;
-    color: var(--mo-texto-3);
 }
 
 .menuApp .mo-nav-item:hover {
@@ -228,17 +216,21 @@ is-marca .bloco-programacao { fill: var(--is-programacao); }
     font-weight: 600;
 }
 
-.menuApp .mo-nav-item:is(.ativo, [aria-current="page"])::after {
-    color: inherit;
-    opacity: 0.55;
-}
-
 .menuApp .mo-nav-item > .mo-pilula {
     border-radius: 0;
 }
 
 .menuApp .mo-nav-item > mo-simbolo {
-    display: none;
+    color: var(--mo-texto-3);
+    transition: color var(--mo-dur-curta) ease;
+}
+
+.menuApp .mo-nav-item:hover > mo-simbolo {
+    color: var(--mo-texto);
+}
+
+.menuApp .mo-nav-item:is(.ativo, [aria-current="page"]) > mo-simbolo {
+    color: inherit;
 }
 
 .menuApp .peMenu {
