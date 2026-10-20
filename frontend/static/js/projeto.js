@@ -216,13 +216,16 @@ function seloCompatibilidade(compatibilidade) {
 
 async function verRecomendados(idVaga) {
     const alvo = pegar(`recomendados-${idVaga}`);
+    const card = alvo.closest(".cardResultado");
 
     if (!alvo.classList.contains("escondido")) {
         alvo.classList.add("escondido");
+        card.classList.remove("vagaExpandida");
         return;
     }
 
     alvo.classList.remove("escondido");
+    card.classList.add("vagaExpandida");
     escrever(`recomendados-${idVaga}`, `<p class="mensagemVazia">Procurando quem combina...</p>`);
 
     const dados = await pedir(`/vagas/${idVaga}/recomendacoes`);

@@ -1296,13 +1296,26 @@
 }
 
 /* candidatos sugeridos pela vaga */
+
+/* a vaga aberta ocupa a linha inteira, senao a lista fica num funil estreito */
+.cardResultado.vagaExpandida {
+    grid-column: 1 / -1;
+}
+
 .listaRecomendados {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: var(--espaco-3);
     margin-top: var(--espaco-3);
     padding-top: var(--espaco-3);
     border-top: 1px dashed var(--cor-borda-forte);
+}
+
+/* a explicacao do match e curta, e o valor dela e justamente ser lida inteira */
+.cardRecomendado .descricaoResultado {
+    display: block;
+    overflow: visible;
+    font-size: var(--texto-sm);
 }
 
 .cardRecomendado {
