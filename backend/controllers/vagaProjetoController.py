@@ -6,7 +6,9 @@ from services.vagaService.atualizarVagaService import AtualizarVagaService
 from services.vagaService.deletarVagaService import DeletarVagaService
 from services.vagaService.buscarProjetoVagaService import BuscarProjetoVagaService
 from services.vagaService.buscarSkillVagaService import BuscarSkillVagaService
-from middlewares.autenticacao import exigirLogin
+from services.matchService.listarRecomendacoesVagaService import ListarRecomendacoesVagaService
+from services.matchService.calcularCompatibilidadeVagaService import CalcularCompatibilidadeVagaService
+from middlewares.autenticacao import exigirLogin, idUsuarioLogado
 
 
 class VagaProjetoController:
@@ -41,6 +43,16 @@ class VagaProjetoController:
         service = BuscarSkillVagaService()
         return service.execute(id)
 
+    @exigirLogin
+    def recomendacoes(self, id):
+        service = ListarRecomendacoesVagaService()
+        return service.execute(id)
+
+    @exigirLogin
+    def compatibilidade(self, id):
+        service = CalcularCompatibilidadeVagaService()
+        return service.execute(id, idUsuarioLogado())
+
 
 vagaBp = Blueprint("vagaProjeto", __name__)
 _controller = VagaProjetoController()
@@ -52,3 +64,5 @@ vagaBp.add_url_rule("/vagas/<int:id>", view_func=_controller.atualizar, methods=
 vagaBp.add_url_rule("/vagas/<int:id>", view_func=_controller.deletar, methods=["DELETE"], endpoint="deletarVaga")
 vagaBp.add_url_rule("/vagas/<int:id>/projeto", view_func=_controller.buscarProjeto, methods=["GET"])
 vagaBp.add_url_rule("/vagas/<int:id>/skill", view_func=_controller.buscarSkill, methods=["GET"])
+vagaBp.add_url_rule("/vagas/<int:id>/recomendacoes", view_func=_controller.recomendacoes, methods=["GET"])
+vagaBp.add_url_rule("/vagas/<int:id>/compatibilidade", view_func=_controller.compatibilidade, methods=["GET"])

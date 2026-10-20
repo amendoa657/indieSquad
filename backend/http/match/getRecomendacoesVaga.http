@@ -1,0 +1,10 @@
+### Candidatos recomendados pra uma vaga, ordenados por compatibilidade.
+### So o criador do projeto chega aqui.
+###
+### A nota e calculada no servidor por soma ponderada; a explicacao em
+### linguagem natural e escrita pela LLM. Sem chave de IA no .env, a
+### explicacao vem montada localmente e o resto funciona igual.
+GET {{baseUrl}}/vagas/1/recomendacoes
+Authorization: Bearer {{token}}
+
+###

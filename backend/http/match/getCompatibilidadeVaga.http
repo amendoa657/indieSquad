@@ -1,0 +1,5 @@
+### O quanto quem esta logado combina com uma vaga, criterio por criterio.
+GET {{baseUrl}}/vagas/1/compatibilidade
+Authorization: Bearer {{token}}
+
+###

@@ -186,10 +186,86 @@ async function carregarAvaliacoes() {
 }
 
 
+// match
+
+// a cor acompanha a nota: verde combina muito, laranja combina em parte
+function classeDaNota(nota) {
+    if (nota >= 70) return "notaAlta";
+    if (nota >= 45) return "notaMedia";
+    return "notaBaixa";
+}
+
+
+function seloCompatibilidade(compatibilidade) {
+    if (!compatibilidade) return "";
+
+    const fortes = compatibilidade.fortes.map((texto) => `<li class="pontoForte">${escapar(texto)}</li>`).join("");
+    const fracos = compatibilidade.fracos.map((texto) => `<li class="pontoFraco">${escapar(texto)}</li>`).join("");
+
+    return `
+        <div class="blocoCompatibilidade">
+            <div class="topoCompatibilidade">
+                <span class="notaCompatibilidade ${classeDaNota(compatibilidade.nota)}">${compatibilidade.nota}%</span>
+                <span class="rotuloCompatibilidade">compatível com você</span>
+            </div>
+            <ul class="listaPontos">${fortes}${fracos}</ul>
+        </div>
+    `;
+}
+
+
+async function verRecomendados(idVaga) {
+    const alvo = pegar(`recomendados-${idVaga}`);
+
+    if (!alvo.classList.contains("escondido")) {
+        alvo.classList.add("escondido");
+        return;
+    }
+
+    alvo.classList.remove("escondido");
+    escrever(`recomendados-${idVaga}`, `<p class="mensagemVazia">Procurando quem combina...</p>`);
+
+    const dados = await pedir(`/vagas/${idVaga}/recomendacoes`);
+    if (!dados) return;
+
+    listar(`recomendados-${idVaga}`, dados.candidatos, function (candidato) {
+        const pessoa = candidato.usuario;
+        const nota = candidato.compatibilidade.nota;
+
+        const situacao = candidato.jaEhMembro
+            ? `<span class="tagSkill">Já está na equipe</span>`
+            : candidato.jaSeCandidatou
+                ? `<span class="tagSkill">Já se candidatou</span>`
+                : "";
+
+        const marcaIA = candidato.explicadoPorIA
+            ? `<span class="selaIA" title="Texto escrito por IA a partir dos dados do perfil">IA</span>`
+            : "";
+
+        return `
+            <div class="cardRecomendado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
+                <div class="topoCardResultado">
+                    <h2>
+                        <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
+                        ${escapar(pessoa.usuario)}
+                    </h2>
+                    <span class="notaCompatibilidade ${classeDaNota(nota)}">${nota}%</span>
+                </div>
+                <p class="descricaoResultado">${marcaIA} ${escapar(candidato.explicacao)}</p>
+                <div class="tagsResultado">
+                    ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)}</span>`).join("")}
+                    ${situacao}
+                </div>
+            </div>
+        `;
+    }, "Ninguém com perfil preenchido combina com essa vaga ainda.");
+}
+
+
 // gerenciar projeto
 
-function abrirEdicao() {
-    pegar("blocoEdicaoProjeto").classList.toggle("escondido");
+function alternarBloco(id) {
+    pegar(id).classList.toggle("escondido");
 }
 
 
@@ -406,8 +482,13 @@ async function carregarProjeto() {
             acao = `<button type="button" class="botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
         }
 
+        const recomendar = projeto.ehCriador
+            ? `<button type="button" class="botaoMiudo" onclick="verRecomendados(${vaga.id})">Ver quem combina</button>`
+            : "";
+
         const acoesDono = projeto.ehCriador
             ? `<div class="acoesItem">
+                   ${recomendar}
                    ${vaga.status === "aberta"
                        ? `<button type="button" class="botaoMiudo" onclick="fecharVaga(${vaga.id})">Fechar</button>`
                        : `<button type="button" class="botaoMiudo" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
@@ -426,8 +507,10 @@ async function carregarProjeto() {
                     <span class="tagSkill">${escapar(vaga.skillNome)}</span>
                     ${nivel}
                 </div>
+                ${seloCompatibilidade(vaga.compatibilidade)}
                 ${acao}
                 ${acoesDono}
+                <div class="listaRecomendados escondido" id="recomendados-${vaga.id}"></div>
             </div>
         `;
     }, "Nenhuma vaga cadastrada pra esse projeto.");
@@ -444,8 +527,6 @@ async function carregarProjeto() {
 
         pegar("blocoDono").classList.remove("escondido");
         pegar("botaoConcluir").disabled = projeto.status === "concluido";
-        pegar("blocoNovaVaga").classList.remove("escondido");
-        pegar("blocoNovoMarco").classList.remove("escondido");
 
         pegar("campoNomeProjeto").value = projeto.nome || "";
         pegar("campoDescricaoProjeto").value = projeto.descricao || "";

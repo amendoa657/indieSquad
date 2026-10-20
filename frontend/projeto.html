@@ -111,7 +111,9 @@
                     <h3>Gerenciar projeto</h3>
 
                     <div class="linhaAcoesDono">
-                        <button type="button" class="botaoEditarPerfil" onclick="abrirEdicao()">Editar projeto</button>
+                        <button type="button" class="botaoEditarPerfil" onclick="alternarBloco('blocoEdicaoProjeto')">Editar projeto</button>
+                        <button type="button" class="botaoEditarPerfil" onclick="alternarBloco('blocoNovaVaga')">Abrir vaga</button>
+                        <button type="button" class="botaoEditarPerfil" onclick="alternarBloco('blocoNovoMarco')">Add marco</button>
                         <button type="button" class="botaoEditarPerfil" id="botaoConcluir" onclick="concluir()">Concluir projeto</button>
                         <button type="button" class="botaoEditarPerfil botaoPerigo" onclick="apagarProjeto()">Apagar projeto</button>
                     </div>
@@ -167,8 +169,6 @@
                     </div>
 
                     <div class="escondido" id="blocoNovaVaga">
-                        <h3>Abrir vaga</h3>
-
                         <div class="campoFormulario">
                             <label for="campoVagaSkill">Função</label>
                             <select id="campoVagaSkill"></select>
@@ -194,8 +194,6 @@
                     </div>
 
                     <div class="escondido" id="blocoNovoMarco">
-                        <h3>Add marco</h3>
-
                         <div class="linhaLink">
                             <input type="text" id="campoNovoMarco" placeholder="Ex: Demo na Steam" />
                             <button type="button" class="botaoEnviar" onclick="criarMarco()">Add</button>

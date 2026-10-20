@@ -3,8 +3,8 @@ from database.database import db
 # o nivel vai de 1 a 4
 NIVEIS = {
     1: "Iniciante",
-    2: "Intermediario",
-    3: "Avancado",
+    2: "Intermediário",
+    3: "Avançado",
     4: "Especialista"
 }
 

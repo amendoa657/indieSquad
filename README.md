@@ -74,6 +74,10 @@ O que precisa ser mudado no `.env`:
 | `HORAS_EXPIRACAO_TOKEN` | Quantas horas o login continua valendo |
 | `ORIGENS_PERMITIDAS` | Endereços do front que podem chamar a API |
 | `DEBUG` | `1` no seu computador, `0` em produção |
+| `IA_CHAVE` | Chave da LLM que escreve a explicação do match. Pode ficar vazia |
+| `IA_URL`, `IA_MODELO`, `IA_TEMPO_LIMITE` | Endereço, nome do modelo e tempo limite da LLM |
+
+A `IA_CHAVE` é a única opcional: sem ela o match continua calculando e explicando a nota, só não passa pela LLM. A chave gratuita da Groq sai em [console.groq.com/keys](https://console.groq.com/keys), sem cartão, e o nome do modelo disponível no momento está em [console.groq.com/docs/models](https://console.groq.com/docs/models). Qualquer serviço que fale o protocolo da OpenAI funciona trocando `IA_URL` e `IA_MODELO`.
 
 Rodar:
 
@@ -163,25 +167,31 @@ Rodar `backend/http/auth/login.http` primeiro: ele guarda o token automaticament
 51. Catálogo fixo de funções, agrupado por categoria
 52. Catálogo fixo de ferramentas, agrupado por categoria
 
+### Match e recomendação
+53. Ver a compatibilidade entre o meu perfil e cada vaga, numa nota de 0 a 100
+54. Compatibilidade calculada por sete critérios com peso: função, nível, tipo de parceria, ferramentas, disponibilidade, reputação e semelhança entre as descrições
+55. Ver os pontos fortes e os pontos fracos da minha compatibilidade com a vaga
+56. Ver os candidatos que mais combinam com uma vaga, ordenados pela nota, só pro criador do projeto
+57. Explicação do match escrita por IA, com um texto montado pelo próprio sistema quando a IA não está configurada
+
 ### Dashboard
-53. Ver projetos ativos, colaborações, taxa de conclusão e total de projetos
-54. Ver os projetos ativos com o progresso das vagas preenchidas
-55. Ver os projetos em que participo como membro
-56. Ser avisado quando tem candidatura esperando resposta
+58. Ver projetos ativos, colaborações, taxa de conclusão e total de projetos
+59. Ver os projetos ativos com o progresso das vagas preenchidas
+60. Ver os projetos em que participo como membro
+61. Ser avisado quando tem candidatura esperando resposta
 
 ### Sistema
-57. Tema escuro e tema claro, com a escolha guardada
-58. Layout adaptado pra celular
-59. Números da página inicial vindos do banco
-60. Autorização: só o criador mexe no projeto, só a própria pessoa mexe na conta
-61. Rotas protegidas por login
+62. Tema escuro e tema claro, com a escolha guardada
+63. Layout adaptado pra celular
+64. Números da página inicial vindos do banco
+65. Autorização: só o criador mexe no projeto, só a própria pessoa mexe na conta
+66. Rotas protegidas por login
 
 
 ## Próximos passos
 
 Funcionalidades planejadas que ainda não foram implementadas:
 
-- Match inteligente entre vaga e perfil, com explicação gerada por IA
 - Notificações
 - Mensagens entre usuários
 - Upload de imagem para foto de perfil e logo do projeto

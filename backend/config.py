@@ -17,6 +17,12 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "mysql+pymysql://root@localhost/indieSquad?charset=utf8mb4")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # LLM que escreve a explicacao do match, opcional: sem chave usa o texto local
+    IA_URL = os.getenv("IA_URL", "https://api.groq.com/openai/v1/chat/completions")
+    IA_CHAVE = os.getenv("IA_CHAVE", "")
+    IA_MODELO = os.getenv("IA_MODELO", "llama-3.3-70b-versatile")
+    IA_TEMPO_LIMITE = int(os.getenv("IA_TEMPO_LIMITE", "8"))
+
     # enderecos do front que tem permissao pra chamar essa API
     ORIGENS_PERMITIDAS = os.getenv(
         "ORIGENS_PERMITIDAS",

@@ -1022,22 +1022,6 @@
 }
 
 
-/* em breve marca o que esta planejado e ainda nao existe */
-.seloEmBreve {
-    display: inline-block;
-    padding: 0.15rem 0.5rem;
-    margin-left: var(--espaco-2);
-    border: 1px solid var(--cor-borda-forte);
-    border-radius: var(--raio-total);
-    color: var(--cor-texto-3);
-    font-family: var(--fonte-corpo);
-    font-size: var(--texto-xs);
-    font-weight: var(--peso-medio);
-    letter-spacing: var(--letra-miuda);
-    text-transform: none;
-    vertical-align: middle;
-}
-
 
 /* avaliacao */
 
@@ -1233,4 +1217,124 @@
 
 .itemMarco .acoesItem {
     margin: 0 0 0 auto;
+}
+
+
+/* compatibilidade entre a pessoa e a vaga */
+.blocoCompatibilidade {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3) var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-md);
+    background-color: var(--cor-superficie-2);
+}
+
+.topoCompatibilidade {
+    display: flex;
+    align-items: baseline;
+    gap: var(--espaco-2);
+}
+
+.notaCompatibilidade {
+    font-family: var(--fonte-titulo);
+    font-size: var(--texto-md);
+    font-weight: var(--peso-pesado);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.notaAlta {
+    color: var(--cor-sucesso);
+}
+
+.notaMedia {
+    color: var(--cor-aviso);
+}
+
+.notaBaixa {
+    color: var(--cor-texto-3);
+}
+
+.rotuloCompatibilidade {
+    color: var(--cor-texto-3);
+    font-size: var(--texto-xs);
+    letter-spacing: var(--letra-miuda);
+}
+
+.listaPontos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.listaPontos li {
+    position: relative;
+    padding-left: var(--espaco-4);
+    color: var(--cor-texto-2);
+    font-size: var(--texto-xs);
+}
+
+.listaPontos li::before {
+    position: absolute;
+    left: 0;
+    font-weight: var(--peso-pesado);
+}
+
+.pontoForte::before {
+    content: "+";
+    color: var(--cor-sucesso);
+}
+
+.pontoFraco::before {
+    content: "−";
+    color: var(--cor-texto-3);
+}
+
+/* candidatos sugeridos pela vaga */
+.listaRecomendados {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-3);
+    padding-top: var(--espaco-3);
+    border-top: 1px dashed var(--cor-borda-forte);
+}
+
+.cardRecomendado {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3) var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-md);
+    background-color: var(--cor-superficie-2);
+    transition: transform var(--tempo-rapido) var(--curva-saida),
+                border-color var(--tempo-rapido) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cardRecomendado:hover {
+        transform: translateY(-2px);
+        border-color: var(--cor-marca-borda);
+    }
+}
+
+/* marca o texto que saiu da LLM, pra ninguem confundir com dado do perfil */
+.selaIA {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    margin-right: var(--espaco-1);
+    border: 1px solid var(--cor-marca-borda);
+    border-radius: var(--raio-sm);
+    background-color: var(--cor-marca-fraca);
+    color: var(--cor-marca);
+    font-size: 10px;
+    font-weight: var(--peso-pesado);
+    letter-spacing: var(--letra-etiqueta);
+    vertical-align: middle;
 }
