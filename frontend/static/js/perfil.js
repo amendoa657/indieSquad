@@ -78,7 +78,7 @@ async function carregarFerramentas() {
     minhas.forEach((ferramenta) => minhasFerramentas.add(ferramenta.id));
 
     listar("ferramentasPerfil", minhas, function (ferramenta) {
-        return `<span class="tagSkill">${escapar(ferramenta.nome)}</span>`;
+        return `<span class="mo-chip tagSkill">${escapar(ferramenta.nome)}</span>`;
     }, "Nenhuma ferramenta cadastrada ainda.");
 
     if (!souEu) return;
@@ -97,7 +97,7 @@ async function carregarFerramentas() {
                 <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
                 <div class="chipsGrupoPerfil">
                     ${daCategoria.map((f) => `
-                        <button type="button" class="botaoPerfil ${minhasFerramentas.has(f.id) ? "ativo" : ""}" data-id="${f.id}">
+                        <button type="button" class="mo-chip botaoPerfil ${minhasFerramentas.has(f.id) ? "ativo" : ""}" data-id="${f.id}">
                             ${escapar(f.nome)}
                         </button>
                     `).join("")}
@@ -138,7 +138,7 @@ async function carregarLinks() {
 
     // no cabecalho os links sao clicaveis; so o dono ve a lista de gerenciar
     listar("linksPerfil", links, function (link) {
-        return `<a class="tagSkill tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">
+        return `<a class="mo-chip tagSkill tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">
             ${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗
         </a>`;
     }, "");
@@ -146,7 +146,7 @@ async function carregarLinks() {
     if (!souEu) return;
 
     listar("meusLinks", links, function (link) {
-        return `<span class="tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
+        return `<span class="mo-chip tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
             <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})">×</button></span>`;
     }, "Nenhum link ainda.");
 }
@@ -192,13 +192,13 @@ async function carregarAvaliacoesRecebidas() {
 
     listar("listaAvaliacoesPerfil", dados.avaliacoes, function (avaliacao) {
         return `
-            <div class="cardResultado">
+            <div class="mo-cartao cardResultado">
                 <div class="topoCardResultado">
                     <h2>
                         <span class="avatarMembro">${escapar(avaliacao.avaliador.usuario.charAt(0).toUpperCase())}</span>
                         ${escapar(avaliacao.avaliador.usuario)}
                     </h2>
-                    <span class="statusResultado">${escapar(avaliacao.projeto.nome)}</span>
+                    <span class="mo-selo statusResultado">${escapar(avaliacao.projeto.nome)}</span>
                 </div>
                 <div class="notasRecebidas">
                     <span class="notaGrande">${numero(avaliacao.nota, 0)}</span>
@@ -288,7 +288,7 @@ async function carregarPerfil() {
         ].filter((item) => item);
 
         listar("objetivoPerfil", linhas, function (linha) {
-            return `<span class="tagSkill">${escapar(linha)}</span>`;
+            return `<span class="mo-chip tagSkill">${escapar(linha)}</span>`;
         }, "Perfil ainda não preenchido.");
     }
 
@@ -298,20 +298,20 @@ async function carregarPerfil() {
             ? `<button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})">×</button>`
             : "";
 
-        return `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}${remover}</span>`;
+        return `<span class="mo-chip tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}${remover}</span>`;
     }, "Nenhuma skill cadastrada ainda.");
 
     listar("projetosPerfil", projetos, function (projeto) {
         const papel = projeto.ehCriador ? "Criador" : "Membro";
 
         return `
-            <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
+            <div class="mo-cartao cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
                 <div class="topoCardResultado">
                     <h2>${escapar(projeto.nome)}</h2>
-                    <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
+                    <span class="mo-selo statusResultado">${escapar(rotulo(projeto.status))}</span>
                 </div>
                 <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
-                <div class="tagsResultado"><span class="tagSkill">${papel}</span></div>
+                <div class="tagsResultado"><span class="mo-chip tagSkill">${papel}</span></div>
             </div>
         `;
     }, "Nenhum projeto ainda.");

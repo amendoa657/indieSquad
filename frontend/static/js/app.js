@@ -103,7 +103,7 @@ async function pedir(caminho, metodo = "GET", dados = null) {
 
 function listar(id, itens, molde, textoSeVazio) {
     if (!itens || itens.length === 0) {
-        escrever(id, `<p class="mensagemVazia">${textoSeVazio}</p>`);
+        escrever(id, `<p class="mo-vazio mensagemVazia">${textoSeVazio}</p>`);
         return;
     }
 

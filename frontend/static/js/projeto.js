@@ -127,7 +127,7 @@ function cardColega(colega) {
         const recebida = colega.recebida;
 
         return `
-            <div class="cardResultado">
+            <div class="mo-cartao cardResultado">
                 ${cabecalho}
                 <div class="notasRecebidas">
                     <span class="notaGrande">${numero(recebida.nota, 0)}</span>
@@ -145,7 +145,7 @@ function cardColega(colega) {
     // eu ja avaliei, mas a outra pessoa ainda nao
     if (colega.esperandoResposta) {
         return `
-            <div class="cardResultado">
+            <div class="mo-cartao cardResultado">
                 ${cabecalho}
                 <p class="avisoEspera">
                     Você já avaliou. A sua nota e a dela só aparecem quando ${escapar(pessoa.usuario)} também avaliar.
@@ -155,7 +155,7 @@ function cardColega(colega) {
     }
 
     return `
-        <div class="cardResultado">
+        <div class="mo-cartao cardResultado">
             ${cabecalho}
             ${campoNota("Comunicação", "comunicacao", pessoa.id)}
             ${campoNota("Cumpriu prazos", "prazo", pessoa.id)}
@@ -166,7 +166,7 @@ function cardColega(colega) {
                 <textarea id="comentario-${pessoa.id}" placeholder="O que foi bom, o que daria pra melhorar..."></textarea>
             </div>
 
-            <button type="button" class="botaoEnviar" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
+            <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
         </div>
     `;
 }
@@ -226,7 +226,7 @@ async function verRecomendados(idVaga) {
 
     alvo.classList.remove("escondido");
     card.classList.add("vagaExpandida");
-    escrever(`recomendados-${idVaga}`, `<p class="mensagemVazia">Procurando quem combina...</p>`);
+    escrever(`recomendados-${idVaga}`, `<p class="mo-vazio mensagemVazia">Procurando quem combina...</p>`);
 
     const dados = await pedir(`/vagas/${idVaga}/recomendacoes`);
     if (!dados) return;
@@ -236,9 +236,9 @@ async function verRecomendados(idVaga) {
         const nota = candidato.compatibilidade.nota;
 
         const situacao = candidato.jaEhMembro
-            ? `<span class="tagSkill">Já está na equipe</span>`
+            ? `<span class="mo-chip tagSkill">Já está na equipe</span>`
             : candidato.jaSeCandidatou
-                ? `<span class="tagSkill">Já se candidatou</span>`
+                ? `<span class="mo-chip tagSkill">Já se candidatou</span>`
                 : "";
 
         const marcaIA = candidato.explicadoPorIA
@@ -256,7 +256,7 @@ async function verRecomendados(idVaga) {
                 </div>
                 <p class="descricaoResultado">${marcaIA} ${escapar(candidato.explicacao)}</p>
                 <div class="tagsResultado">
-                    ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)}</span>`).join("")}
+                    ${pessoa.skills.map((skill) => `<span class="mo-chip tagSkill">${escapar(skill.nome)}</span>`).join("")}
                     ${situacao}
                 </div>
             </div>
@@ -443,7 +443,7 @@ async function carregarProjeto() {
                 : `<span class="caixaMarco">${marco.concluido ? icone("confere", 13) : ""}</span>`;
 
             const acoes = projeto.ehCriador
-                ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="apagarMarco(${marco.id})">Apagar</button></div>`
+                ? `<div class="acoesItem"><button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo mo-tecla--perigo botaoPerigo" onclick="apagarMarco(${marco.id})">Apagar</button></div>`
                 : "";
 
             return `
@@ -460,7 +460,7 @@ async function carregarProjeto() {
         const ehCriadorDoProjeto = membro.id === projeto.criador.id;
 
         const acoes = projeto.ehCriador && !ehCriadorDoProjeto
-            ? `<div class="acoesItem"><button type="button" class="botaoMiudo botaoPerigo" onclick="event.stopPropagation(); tirarMembro(${membro.id}, '${escapar(membro.usuario).replace(/'/g, "")}')">Tirar</button></div>`
+            ? `<div class="acoesItem"><button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo mo-tecla--perigo botaoPerigo" onclick="event.stopPropagation(); tirarMembro(${membro.id}, '${escapar(membro.usuario).replace(/'/g, "")}')">Tirar</button></div>`
             : "";
 
         return `
@@ -474,40 +474,40 @@ async function carregarProjeto() {
     }, "Ninguém na equipe ainda.");
 
     listar("listaVagas", vagas, function (vaga) {
-        const nivel = vaga.nivelMinimo ? `<span class="tagSkill">${escapar(NIVEIS[vaga.nivelMinimo])} ou mais</span>` : "";
+        const nivel = vaga.nivelMinimo ? `<span class="mo-chip tagSkill">${escapar(NIVEIS[vaga.nivelMinimo])} ou mais</span>` : "";
 
         // o servidor ja diz se eu me candidatei nessa vaga
         let acao = "";
 
         if (vaga.minhaCandidatura) {
-            acao = `<span class="statusCandidatura ${corDoStatus(vaga.minhaCandidatura.status)}">Candidatura ${escapar(rotulo(vaga.minhaCandidatura.status))}</span>`;
+            acao = `<span class="mo-selo statusCandidatura ${corDoStatus(vaga.minhaCandidatura.status)}">Candidatura ${escapar(rotulo(vaga.minhaCandidatura.status))}</span>`;
         } else if (vaga.status === "aberta" && !projeto.ehCriador) {
-            acao = `<button type="button" class="botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
+            acao = `<button type="button" class="mo-tecla mo-tecla--destaque mo-tecla--p botaoCandidatar" onclick="candidatar(${vaga.id})">Candidatar-se</button>`;
         }
 
         const recomendar = projeto.ehCriador
-            ? `<button type="button" class="botaoMiudo" onclick="verRecomendados(${vaga.id})">Ver quem combina</button>`
+            ? `<button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo" onclick="verRecomendados(${vaga.id})">Ver quem combina</button>`
             : "";
 
         const acoesDono = projeto.ehCriador
             ? `<div class="acoesItem">
                    ${recomendar}
                    ${vaga.status === "aberta"
-                       ? `<button type="button" class="botaoMiudo" onclick="fecharVaga(${vaga.id})">Fechar</button>`
-                       : `<button type="button" class="botaoMiudo" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
-                   <button type="button" class="botaoMiudo botaoPerigo" onclick="apagarVaga(${vaga.id})">Apagar</button>
+                       ? `<button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo" onclick="fecharVaga(${vaga.id})">Fechar</button>`
+                       : `<button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo" onclick="reabrirVaga(${vaga.id})">Reabrir</button>`}
+                   <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p botaoMiudo mo-tecla--perigo botaoPerigo" onclick="apagarVaga(${vaga.id})">Apagar</button>
                </div>`
             : "";
 
         return `
-            <div class="cardResultado">
+            <div class="mo-cartao cardResultado">
                 <div class="topoCardResultado">
                     <h2>${escapar(vaga.titulo)}</h2>
-                    <span class="statusResultado">${escapar(rotulo(vaga.status))}</span>
+                    <span class="mo-selo statusResultado">${escapar(rotulo(vaga.status))}</span>
                 </div>
                 <p class="descricaoResultado">${escapar(vaga.descricao)}</p>
                 <div class="tagsResultado">
-                    <span class="tagSkill">${escapar(vaga.skillNome)}</span>
+                    <span class="mo-chip tagSkill">${escapar(vaga.skillNome)}</span>
                     ${nivel}
                 </div>
                 ${seloCompatibilidade(vaga.compatibilidade)}
@@ -565,26 +565,26 @@ async function mostrarCandidaturas() {
 
         // pendente mostra os botoes; ja respondida mostra so o resultado
         const acoes = candidatura.status === "pendente"
-            ? `<button type="button" class="botaoCandidatar" onclick="responder(${candidatura.id}, 'aceita')">Aceitar</button>
-               <button type="button" class="botaoCandidatar botaoRecusar" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`
-            : `<span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>`;
+            ? `<button type="button" class="mo-tecla mo-tecla--destaque mo-tecla--p botaoCandidatar" onclick="responder(${candidatura.id}, 'aceita')">Aceitar</button>
+               <button type="button" class="mo-tecla mo-tecla--destaque mo-tecla--p botaoCandidatar botaoRecusar" onclick="responder(${candidatura.id}, 'recusada')">Recusar</button>`
+            : `<span class="mo-selo statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>`;
 
         const mensagem = candidatura.mensagem
             ? `<p class="descricaoResultado">“${escapar(candidatura.mensagem)}”</p>`
             : "";
 
         return `
-            <div class="cardResultado">
+            <div class="mo-cartao cardResultado">
                 <div class="topoCardResultado">
                     <h2>
                         <span class="avatarMembro">${escapar(pessoa.usuario.charAt(0).toUpperCase())}</span>
                         ${escapar(pessoa.usuario)}
                     </h2>
-                    <span class="statusResultado">${escapar(candidatura.vaga.titulo)}</span>
+                    <span class="mo-selo statusResultado">${escapar(candidatura.vaga.titulo)}</span>
                 </div>
                 <div class="metricasResultado">${nota}</div>
                 <div class="tagsResultado">
-                    ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
+                    ${pessoa.skills.map((skill) => `<span class="mo-chip tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
                 </div>
                 ${mensagem}
                 ${acoes}

@@ -7,15 +7,12 @@
         <meta name="theme-color" content="#0e100f" />
         <title>Entrar - IndieSquad</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="preload" href="static/mosaic-ui/fontes/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
+        <link rel="stylesheet" href="static/style/tema-indiesquad.css" />
+        <link rel="stylesheet" href="static/style/indiesquad.css" />
 
-        <link rel="stylesheet" href="static/style/tokens.css" />
-        <link rel="stylesheet" href="static/style/base.css" />
-        <link rel="stylesheet" href="static/style/componentes.css" />
-        <link rel="stylesheet" href="static/style/telas.css" />
-
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
         <script src="static/js/tema.js"></script>
     </head>
 
@@ -55,7 +52,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="botaoEnviar">Entrar</button>
+                    <button type="submit" class="mo-tecla mo-tecla--destaque botaoEnviar">Entrar</button>
                     <p class="mensagemErro" id="mensagemErro"></p>
                 </form>
 
@@ -63,6 +60,7 @@
             </div>
         </main>
 
+        <script type="module" src="static/mosaic-ui/mosaic.js"></script>
         <script src="static/js/app.js"></script>
         <script src="static/js/login.js"></script>
     </body>

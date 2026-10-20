@@ -1,0 +1,434 @@
+/* ==========================================================================
+   Janela do app: cabeçalho, barra lateral, área de conteúdo e rodapé.
+   O esqueleto da loja, para todo app Mosaic ter a mesma "cara de casa".
+
+   <div class="mo-app">
+     <header class="mo-cabecalho">…</header>
+     <div class="mo-corpo">
+       <mo-pixels class="mo-fundo"></mo-pixels>     (opcional)
+       <nav class="mo-lateral">…</nav>               (opcional)
+       <main class="mo-conteudo">…</main>
+     </div>
+     <footer class="mo-rodape">…</footer>            (opcional)
+   </div>
+
+   Ajustes: --mo-lateral-largura, --mo-cabecalho-altura, --mo-escala.
+   Até 900 px a lateral vira um trilho só de ícones; até 760 px, gaveta
+   (botão com data-mo-gaveta).
+   ========================================================================== */
+
+/* Escala da interface inteira: :root { --mo-escala: 1.1 } deixa tudo 10%
+   maior, sem mexer em medida nenhuma. */
+html {
+  zoom: var(--mo-escala);
+}
+
+.mo-app {
+  --mo-lateral-largura: 224px;
+  --mo-cabecalho-altura: 47px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: calc(100vh / var(--mo-escala));
+  height: calc(100dvh / var(--mo-escala));
+  min-height: calc(420px / var(--mo-escala));
+  background: var(--mo-janela);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+/* ---------- Cabeçalho ---------- */
+.mo-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: var(--mo-cabecalho-altura);
+  padding: 0 12px 0 16px;
+  background: var(--mo-cabecalho);
+  border-bottom: 1px solid var(--mo-linha);
+  color: var(--mo-texto-cabecalho);
+  position: relative;
+  z-index: calc(var(--mo-z-gaveta) + 5);
+}
+.mo-cabecalho-meta {
+  font-family: var(--mo-fonte-mono);
+  font-size: 12px;
+  color: var(--mo-texto-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* O nome do app com a marca na frente. No hover a marca gira um quarto. */
+.mo-logotipo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: inherit;
+  flex: none;
+  position: relative;
+}
+.mo-logotipo:hover {
+  color: inherit;
+}
+.mo-logotipo:hover .mo-marca {
+  transform: rotate(90deg);
+}
+
+/* Os três pontos de janela, decorativos (pywebview sem moldura). */
+.mo-controles-janela {
+  display: flex;
+  gap: 7px;
+  margin-left: auto;
+  flex: none;
+}
+.mo-controles-janela > * {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--mo-decorativa);
+  transition: background 0.18s;
+}
+.mo-controles-janela > :last-child {
+  background: color-mix(in srgb, var(--mo-texto) 38%, transparent);
+}
+.mo-controles-janela:hover > * {
+  background: var(--mo-texto-3);
+}
+
+/* Botão da gaveta (três traços), só aparece em tela estreita. */
+.mo-alternar-lateral {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 30px;
+  height: 30px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: var(--mo-raio-p);
+  background: transparent;
+  cursor: pointer;
+}
+.mo-alternar-lateral > i {
+  display: block;
+  height: 1.5px;
+  background: var(--mo-texto-2);
+  border-radius: 1px;
+  transition: transform 0.2s;
+}
+.mo-alternar-lateral:hover {
+  background: var(--mo-elevada);
+}
+
+/* ---------- Corpo ---------- */
+.mo-corpo {
+  display: grid;
+  grid-template-columns: var(--mo-lateral-largura) minmax(0, 1fr);
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+}
+.mo-corpo:not(:has(> .mo-lateral)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* O fundo de pixels mora só na coluna do conteúdo: atrás do menu não aparece. */
+.mo-corpo > .mo-fundo {
+  grid-column: -2 / -1;
+  grid-row: 1;
+}
+/* Tudo que vem por cima do fundo. Com peso zero (:where), para não vencer
+   a gaveta da tela estreita, que troca o position por absolute. */
+:where(.mo-corpo > .mo-lateral, .mo-corpo > .mo-conteudo) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Barra lateral ---------- */
+.mo-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 10px;
+  background: var(--mo-lateral);
+  color: var(--mo-texto-lateral);
+  border-right: 1px solid var(--mo-borda);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.mo-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--mo-texto-2);
+  font-weight: 500;
+  position: relative;
+  isolation: isolate;
+  transition:
+    background var(--mo-dur-curta) ease,
+    color var(--mo-dur-curta) ease;
+}
+.mo-nav-item:hover {
+  background: var(--mo-secundaria-suave);
+  color: var(--mo-texto-lateral);
+}
+/* O item atual: pílula chapada no container de destaque. */
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo),
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo):hover {
+  background: transparent;
+  color: var(--mo-sobre-destaque);
+  font-weight: 600;
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo):not(:has(> .mo-pilula))::before,
+.mo-nav-item > .mo-pilula {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--mo-destaque-fundo);
+}
+/* Com a pílula como elemento (<i class="mo-pilula">), ela ganha nome na
+   View Transition e desliza de um item para o outro ao trocar de página.
+   Dê nome também ao ponto e ao rótulo de cada item (style="view-transition-
+   name: rotulo-x") para eles ficarem por cima, só trocando de cor. */
+.mo-nav-item > .mo-pilula {
+  view-transition-name: mo-pilula;
+}
+.mo-nav-item > .mo-ponto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mo-decorativa);
+  flex: none;
+  transition:
+    background 0.16s,
+    transform 0.16s;
+}
+.mo-nav-item:hover > .mo-ponto {
+  background: var(--mo-texto-3);
+  transform: scale(1.25);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-ponto {
+  background: var(--mo-sobre-destaque);
+}
+.mo-nav-item > .mo-simbolo {
+  color: var(--mo-texto-3);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-simbolo {
+  color: inherit;
+}
+.mo-nav-texto {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mo-nav-item > .mo-contagem {
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+  flex: none;
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-contagem {
+  color: color-mix(in srgb, var(--mo-sobre-destaque) 80%, transparent);
+}
+/* Contagem que pede atenção (atualizações): selo cheio no destaque. */
+.mo-nav-item > .mo-nav-selo {
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 9px;
+  flex: none;
+  background: var(--mo-destaque-fundo);
+  color: var(--mo-sobre-destaque);
+}
+.mo-nav-item:is([aria-current]:not([aria-current="false"]), .ativo) > .mo-nav-selo {
+  background: var(--mo-sobre-destaque);
+  color: var(--mo-destaque-fundo);
+}
+
+/* Rótulo de grupo: mono, pequeno, espaçado, com algo na direita se
+   precisar (uma contagem, um link). Na lateral ganha o recuo dos itens. */
+.mo-rotulo-grupo,
+.mo-lateral-rotulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--mo-fonte-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--mo-texto-3);
+}
+.mo-lateral-rotulo {
+  padding: 4px 12px 8px;
+}
+.mo-lateral > .mo-separador {
+  margin: 12px 4px;
+}
+/* Pé da lateral: o que fica embaixo de tudo (versão, estado). */
+.mo-lateral-pe {
+  margin-top: auto;
+  padding: 12px 12px 4px;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+}
+
+/* ---------- Conteúdo ---------- */
+.mo-conteudo {
+  background: transparent;
+  color: var(--mo-texto-conteudo);
+  /* Transparente para o fundo de pixels aparecer: sem isto o Chromium pode
+     desistir de rolar na GPU e repintar tudo a cada quadro. */
+  will-change: scroll-position;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Barra que gruda no topo do conteúdo (filtros, abas, ações). */
+.mo-barra-fixa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 11px 18px;
+  background: var(--mo-lateral-2);
+  border-block: 1px solid var(--mo-borda);
+  position: sticky;
+  top: 0;
+  z-index: var(--mo-z-fixo);
+  flex: none;
+}
+.mo-barra-fixa--pe {
+  top: auto;
+  bottom: 0;
+  border-bottom: 0;
+}
+
+/* ---------- Rodapé (barra de estado) ---------- */
+.mo-rodape {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  padding: 0 18px;
+  background: var(--mo-cabecalho);
+  border-top: 1px solid var(--mo-borda);
+  position: relative;
+  z-index: 1;
+  font-family: var(--mo-fonte-mono);
+  font-size: 11px;
+  color: var(--mo-texto-3);
+}
+.mo-rodape a {
+  color: var(--mo-texto-3);
+}
+.mo-rodape a:hover {
+  color: var(--mo-destaque);
+}
+
+/* ---------- Até 900 px: a lateral vira trilho, só os pontos ---------- */
+@media (max-width: 900px) {
+  .mo-corpo:has(> .mo-lateral) {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  .mo-lateral {
+    padding: 12px 8px;
+  }
+  .mo-nav-item {
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .mo-nav-texto,
+  .mo-nav-item > .mo-contagem,
+  .mo-lateral-rotulo {
+    display: none;
+  }
+  .mo-nav-item > .mo-nav-selo {
+    position: absolute;
+    margin: -18px 0 0 22px;
+    font-size: 9.5px;
+    padding: 0 5px;
+  }
+}
+
+/* ---------- Até 760 px: a lateral vira gaveta ---------- */
+@media (max-width: 760px) {
+  .mo-corpo:has(> .mo-lateral) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mo-alternar-lateral {
+    display: flex;
+  }
+  .mo-corpo > .mo-lateral {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--mo-lateral-largura);
+    z-index: var(--mo-z-gaveta);
+    padding: 12px 10px;
+    transform: translateX(-100%);
+    transition: transform 0.3s var(--mo-ease-gaveta);
+    background: var(--mo-janela);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  }
+  [data-mo-gaveta-aberta] .mo-corpo > .mo-lateral {
+    transform: none;
+  }
+  /* O resto da janela escurece por trás da gaveta. */
+  [data-mo-gaveta-aberta] .mo-corpo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: calc(var(--mo-z-gaveta) - 1);
+    background: rgba(0, 0, 0, 0.5);
+    animation: mo-so-aparecer 0.2s ease-out;
+  }
+  .mo-nav-item {
+    justify-content: flex-start;
+    padding: 9px 12px;
+  }
+  .mo-nav-texto,
+  .mo-nav-item > .mo-contagem {
+    display: block;
+  }
+  .mo-lateral-rotulo {
+    display: flex;
+  }
+  .mo-nav-texto {
+    flex: 1;
+  }
+  .mo-nav-item > .mo-nav-selo {
+    position: static;
+    margin: 0;
+    font-size: 11px;
+    padding: 1px 7px;
+  }
+  .mo-cabecalho {
+    padding: 0 10px;
+    gap: 10px;
+  }
+}
+
+/* ---------- Até 520 px: o cabeçalho fica só com a marca ---------- */
+@media (max-width: 520px) {
+  .mo-logotipo span {
+    display: none;
+  }
+  .mo-controles-janela {
+    display: none;
+  }
+}

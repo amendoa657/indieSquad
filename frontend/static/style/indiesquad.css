@@ -1,0 +1,1739 @@
+/* O que e so da IndieSquad e a Mosaic UI nao cobre.
+
+   A biblioteca inteira mora em @layer, entao tudo aqui vence ela sem
+   !important e sem briga de especificidade. Por isso este arquivo e curto
+   de proposito: o que a Mosaic ja resolve nao e reescrito aqui. */
+
+.tituloTela {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.tituloSecao {
+    margin-bottom: var(--mo-espaco-4);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.escondido {
+    display: none !important;
+}
+
+
+/* linha de projeto: nome, progresso e um sinal de abrir a direita */
+
+.linhaProjeto {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-4);
+    text-decoration: none;
+}
+
+.linhaProjetoInfo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    min-width: 0;
+}
+
+.linhaProjetoInfo h3 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* chevron de abrir: a biblioteca nao tem um, e o "mais" girado vira um X */
+.linhaProjetoSeta {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-top: 2px solid var(--mo-texto-3);
+    border-right: 2px solid var(--mo-texto-3);
+    transform: rotate(45deg);
+}
+
+.painelNumeros {
+    --mo-coluna: 170px;
+}
+
+
+/* os quatro numeros do topo do dashboard */
+
+.painelNumeros .mo-cartao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+}
+
+
+/* o pe da lateral, com sair e a troca de tema */
+
+.pePainel {
+    display: flex;
+    gap: var(--mo-espaco-2);
+    align-items: center;
+    margin-top: auto;
+}
+
+.pePainel .mo-tecla:first-child {
+    flex: 1;
+}
+
+[data-tema="escuro"] .iconeSol,
+[data-tema="claro"] .iconeLua {
+    display: none;
+}
+
+
+/* ---------- Telas em geral ---------- */
+
+.topoPagina {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mo-espaco-3);
+    margin-bottom: var(--mo-espaco-5);
+}
+
+.conteudoMedio > * {
+    max-width: 960px;
+}
+
+.blocoSecao {
+    margin-bottom: var(--mo-espaco-6);
+}
+
+.acoesItem {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+    margin-top: var(--mo-espaco-3);
+}
+
+
+/* ---------- Cartao de resultado ---------- */
+
+.cardResultado {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-3);
+}
+
+.topoCardResultado {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--mo-espaco-3);
+}
+
+.topoCardResultado h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-2);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.descricaoResultado {
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.tagsResultado,
+.metricasResultado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+}
+
+.metricaResultado {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-family: var(--mo-fonte-mono);
+}
+
+.metricaResultado svg {
+    flex-shrink: 0;
+}
+
+.avatarMembro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--mo-raio-p);
+    background: var(--mo-tom, var(--mo-terciaria-fundo));
+    color: var(--mo-terciaria-texto);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* ---------- Formularios ---------- */
+
+.campoFormulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-4);
+}
+
+.campoFormulario > label,
+.tituloGrupoPerfil {
+    color: var(--mo-texto-2);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.campoFormulario input,
+.campoFormulario select,
+.campoFormulario textarea {
+    font: inherit;
+}
+
+.dicaCampo {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+}
+
+.mensagemErro {
+    color: var(--mo-perigo);
+    font-size: 13px;
+}
+
+.mensagemSucesso {
+    color: var(--mo-sucesso);
+    font-size: 13px;
+}
+
+.chipsGrupoPerfil,
+.opcoesParceria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+}
+
+.botaoRemoverTag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    margin-left: 4px;
+    border: 0;
+    border-radius: var(--mo-raio-p);
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .botaoRemoverTag:hover {
+        background: var(--mo-perigo-suave);
+        color: var(--mo-perigo);
+    }
+}
+
+
+/* ---------- Reputacao e avaliacao ---------- */
+
+.notaGrande {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.notasRecebidas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-4);
+}
+
+/* as estrelas vem em ordem invertida no html, pra o css acender da esquerda */
+.estrelas {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 2px;
+}
+
+.estrelas input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.estrelas label {
+    color: var(--mo-decorativa);
+    cursor: pointer;
+    transition: color var(--mo-dur-toque) var(--mo-ease-saida),
+                transform var(--mo-dur-toque) var(--mo-ease-saida);
+}
+
+.estrelas label:active {
+    transform: scale(0.9);
+}
+
+.estrelas input:checked ~ label,
+.estrelas label:hover,
+.estrelas label:hover ~ label {
+    color: var(--mo-destaque);
+}
+
+.estrelas input:focus-visible + label {
+    outline: 2px solid var(--mo-foco);
+    outline-offset: 2px;
+}
+
+
+/* ---------- Compatibilidade e match ---------- */
+
+.blocoCompatibilidade {
+    padding: var(--mo-espaco-3);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background: color-mix(in srgb, var(--mo-destaque) 5%, transparent);
+}
+
+.topoCompatibilidade {
+    display: flex;
+    align-items: baseline;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-2);
+}
+
+.notaCompatibilidade {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.notaAlta { color: var(--mo-sucesso); }
+.notaMedia { color: var(--mo-secundaria); }
+.notaBaixa { color: var(--mo-texto-3); }
+
+.rotuloCompatibilidade {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+}
+
+.listaPontos {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+}
+
+.pontoForte,
+.pontoFraco {
+    display: flex;
+    gap: var(--mo-espaco-2);
+    color: var(--mo-texto-2);
+}
+
+.pontoForte::before {
+    content: "+";
+    color: var(--mo-sucesso);
+    font-family: var(--mo-fonte-mono);
+}
+
+.pontoFraco::before {
+    content: "–";
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte-mono);
+}
+
+.listaRecomendados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: var(--mo-espaco-3);
+    margin-top: var(--mo-espaco-3);
+    padding-top: var(--mo-espaco-3);
+    border-top: 1px dashed var(--mo-linha);
+}
+
+.cardRecomendado {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+}
+
+/* marca o texto que saiu da llm, pra ninguem confundir com dado do perfil */
+.selaIA {
+    display: inline-block;
+    padding: 1px 5px;
+    margin-right: 4px;
+    border-radius: var(--mo-raio-p);
+    background: var(--mo-destaque-suave);
+    color: var(--mo-destaque);
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+
+/* ---------- Busca ---------- */
+
+.linhaBusca {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-3);
+    align-items: center;
+    margin-bottom: var(--mo-espaco-4);
+}
+
+.linhaBusca .mo-busca {
+    flex: 1;
+    min-width: 260px;
+}
+
+.blocoFiltros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-5);
+}
+
+.filtrosSkills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+}
+
+.listaResultados {
+    --mo-coluna: 290px;
+}
+
+
+/* ---------- Landing ----------
+   Roda dentro da janela do app: a pagina inteira e um so lugar, e a troca
+   pras telas internas nao muda de moldura. */
+
+.landing > .mo-secao {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.navLanding {
+    display: flex;
+    gap: var(--mo-espaco-4);
+    margin-left: auto;
+    font-size: 13px;
+}
+
+.navLanding a {
+    color: var(--mo-texto-2);
+    text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .navLanding a:hover {
+        color: var(--mo-texto);
+    }
+}
+
+.acoesLanding {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-2);
+}
+
+.abertura {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--mo-espaco-8);
+    padding-top: var(--mo-espaco-8);
+}
+
+.aberturaTexto h1 {
+    max-width: 12ch;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+}
+
+.aberturaApoio {
+    max-width: 54ch;
+    margin-top: var(--mo-espaco-5);
+    color: var(--mo-texto-2);
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.aberturaAcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-3);
+    margin-top: var(--mo-espaco-6);
+}
+
+
+/* o elenco: funcao a esquerda, nome a direita, como em credito de jogo */
+
+.elencoTopo {
+    padding-bottom: var(--mo-espaco-3);
+    border-bottom: 1px solid var(--mo-linha);
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+}
+
+.elencoLista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.elencoItem {
+    display: flex;
+    align-items: baseline;
+    gap: var(--mo-espaco-3);
+    padding: var(--mo-espaco-2) 0;
+    border-bottom: 1px solid var(--mo-linha);
+    animation: mo-entrar 0.42s var(--mo-ease-saida) backwards;
+    animation-delay: calc(var(--ordem, 0) * 45ms);
+}
+
+.elencoItem:nth-child(2) { --ordem: 1; }
+.elencoItem:nth-child(3) { --ordem: 2; }
+.elencoItem:nth-child(4) { --ordem: 3; }
+.elencoItem:nth-child(5) { --ordem: 4; }
+.elencoItem:nth-child(6) { --ordem: 5; }
+.elencoItem:nth-child(n + 7) { --ordem: 6; }
+
+.elencoItem:last-child {
+    border-bottom: 0;
+}
+
+.elencoFuncao {
+    flex-shrink: 0;
+    color: var(--mo-texto-3);
+    font-size: 13px;
+}
+
+/* o pontilhado que liga funcao e nome e o que faz a lista ler como credito */
+.elencoItem::after {
+    content: "";
+    flex: 1;
+    order: 1;
+    height: 0;
+    border-bottom: 1px dotted var(--mo-decorativa);
+    transform: translateY(-0.2em);
+}
+
+.elencoNome {
+    order: 2;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.elencoRodape {
+    padding-top: var(--mo-espaco-3);
+    border-top: 1px solid var(--mo-linha);
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+}
+
+
+/* secoes internas da landing */
+
+.secaoTopo {
+    max-width: 54ch;
+    margin-bottom: var(--mo-espaco-6);
+}
+
+.secaoTopo h2 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.secaoTopo p {
+    margin-top: var(--mo-espaco-2);
+    color: var(--mo-texto-2);
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.passos,
+.ficha {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.passos li,
+.fichaLinha {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--mo-espaco-6);
+    align-items: start;
+    padding: var(--mo-espaco-4) 0;
+    border-top: 1px solid var(--mo-linha);
+}
+
+.passos li:last-child,
+.fichaLinha:last-child {
+    border-bottom: 1px solid var(--mo-linha);
+}
+
+.passoTitulo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--mo-espaco-3);
+}
+
+.passoNumero {
+    color: var(--mo-destaque);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.passos h3,
+.ficha dt {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.passos p,
+.ficha dd {
+    max-width: 54ch;
+    margin: 0;
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+/* funcoes: grade de hairline, com o fio no proprio item pra celula vazia
+   da grade nao virar um bloco de cor */
+
+.funcoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    overflow: hidden;
+    list-style: none;
+}
+
+.funcoes li {
+    background: var(--mo-cartao);
+    box-shadow: inset -1px -1px 0 var(--mo-linha);
+}
+
+.funcoes a {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-3);
+    padding: var(--mo-espaco-4);
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color var(--mo-dur-curta) ease,
+                color var(--mo-dur-curta) ease;
+}
+
+.funcoes svg {
+    flex-shrink: 0;
+    color: var(--mo-destaque);
+}
+
+.funcaoNome {
+    flex: 1;
+}
+
+.funcaoTotal {
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .funcoes a:hover {
+        background: var(--mo-cartao-hover);
+        color: var(--mo-texto);
+    }
+}
+
+
+.fecho h2 {
+    max-width: 16ch;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.fecho p {
+    max-width: 54ch;
+    margin-top: var(--mo-espaco-2);
+    color: var(--mo-texto-2);
+    font-size: 16px;
+}
+
+.fecho .mo-tecla {
+    margin-top: var(--mo-espaco-6);
+}
+
+
+@media (max-width: 860px) {
+    .abertura {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .aberturaTexto h1 {
+        max-width: none;
+    }
+
+    .passos li,
+    .fichaLinha {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--mo-espaco-2);
+    }
+
+    .navLanding {
+        display: none;
+    }
+}
+
+
+/* ---------- Telas centradas: entrar, criar conta e onboarding ---------- */
+
+body.telaCentrada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--mo-espaco-6) var(--mo-espaco-4);
+    background: var(--mo-fundo);
+    position: relative;
+    isolation: isolate;
+}
+
+body.telaCentrada > mo-pixels.mo-fundo {
+    position: fixed;
+    z-index: -1;
+}
+
+.cardLogin,
+.cardOnboarding,
+.paginaOnboarding {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    padding: var(--mo-espaco-6);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-g);
+    background: var(--mo-cartao);
+    box-shadow: var(--mo-sombra-cartao);
+}
+
+.paginaOnboarding,
+.cardOnboarding {
+    max-width: 560px;
+}
+
+.cardLogin h1,
+.cardOnboarding h1 {
+    margin-bottom: var(--mo-espaco-2);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.opcaoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-1);
+    width: 100%;
+    padding: var(--mo-espaco-4);
+    margin-bottom: var(--mo-espaco-2);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background: var(--mo-elevada);
+    color: var(--mo-texto);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--mo-dur-curta) ease,
+                background-color var(--mo-dur-curta) ease,
+                transform var(--mo-dur-toque) var(--mo-ease-saida);
+}
+
+.opcaoPerfil:active {
+    transform: scale(0.99);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .opcaoPerfil:hover {
+        border-color: var(--mo-destaque);
+        background: var(--mo-elevada-hover);
+    }
+}
+
+.opcaoPerfilTopo {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-3);
+}
+
+.iconePerfil {
+    display: inline-flex;
+    color: var(--mo-destaque);
+}
+
+.tituloPerfil {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.opcaoPerfil p {
+    color: var(--mo-texto-2);
+    font-size: 13px;
+}
+
+
+/* ---------- Onboarding: so o passo ativo aparece ---------- */
+
+.passosOnboarding {
+    display: flex;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-6);
+}
+
+.marcadorPasso {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 4px;
+    border-radius: var(--mo-raio-p);
+    background: var(--mo-decorativa);
+    color: transparent;
+    font-size: 0;
+    transition: background-color var(--mo-dur-media) var(--mo-ease-saida);
+}
+
+.marcadorPasso.passoFeito,
+.marcadorPasso.passoAtivo {
+    background: var(--mo-destaque);
+}
+
+.passoOnboarding {
+    display: none;
+}
+
+.passoOnboarding.passoAtivo {
+    display: block;
+    animation: mo-entrar var(--mo-dur-curta) var(--mo-ease-saida) both;
+}
+
+.passoOnboarding h2 {
+    margin-bottom: var(--mo-espaco-2);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.passoOnboarding > p {
+    margin-bottom: var(--mo-espaco-4);
+    color: var(--mo-texto-2);
+    font-size: 14px;
+}
+
+
+/* ---------- Pecas da IndieSquad vindas da base anterior ----------
+   Mesmas regras de antes, com os tokens traduzidos pros da Mosaic. */
+
+/* marca */
+
+.botaoLogo {
+    text-decoration: none;
+}
+
+.logo,
+.logoF,
+.logoMenuLateral {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-2);
+}
+
+.logo h3,
+.logoF h3,
+.logoMenuLateral h3 {
+    font-family: var(--mo-fonte);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--mo-texto);
+}
+
+.logo span,
+.logoF span,
+.logoMenuLateral span {
+    color: var(--mo-destaque);
+}
+
+.logo img,
+.logoF img,
+.logoMenuLateral img {
+    width: 26px;
+    height: 26px;
+}
+
+/* destrutivo: recusar, cancelar, remover */
+.botaoRecusar {
+    border-color: var(--mo-perigo-suave);
+    background-color: var(--mo-perigo-suave);
+    color: var(--mo-perigo);
+}
+
+.botaoRecusar:hover {
+        background-color: var(--mo-perigo);
+        color: #fff;
+    }
+
+/* olho da senha */
+.botaoOlho {
+    position: absolute;
+    top: 50%;
+    right: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--mo-raio-p);
+    color: var(--mo-texto-3);
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: color var(--mo-dur-curta) ease;
+}
+
+.botaoOlho svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+}
+
+.botaoOlho:hover {
+        color: var(--mo-destaque);
+    }
+
+/* voltar, na etapa do cadastro */
+.botaoVoltar {
+    display: inline-block;
+    margin-bottom: var(--mo-espaco-4);
+    color: var(--mo-texto-2);
+    font-size: 13px;
+}
+
+.cardClicavel {
+    cursor: pointer;
+}
+
+.cardClicavel:hover {
+        transform: translateY(-2px);
+        border-color: var(--mo-destaque);
+        box-shadow: var(--mo-sombra-cartao), var(--mo-sombra-cartao);
+    }
+
+.cardClicavel:active {
+    transform: translateY(0) scale(0.995);
+}
+
+.funcaoResultado {
+    margin-top: var(--mo-espaco-1);
+    color: var(--mo-destaque);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* card de estatistica */
+.cardsEstatistica {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--mo-espaco-3);
+}
+
+.cardEstatistica {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-1);
+    padding: var(--mo-espaco-4) var(--mo-espaco-4);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-g);
+    background-color: var(--mo-janela);
+    box-shadow: var(--mo-sombra-cartao);
+}
+
+.valorEstatistica {
+    font-family: var(--mo-fonte);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--mo-texto);
+
+    /* numero com largura fixa: sem isso o valor danca ao trocar de 9 pra 10 */
+    font-variant-numeric: tabular-nums;
+}
+
+.legendaEstatistica {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.detalheNota {
+    display: block;
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+/* a barra anima com scaleX, nao com width: largura obriga a recalcular layout */
+
+.barraProgresso {
+    width: 100%;
+    height: 5px;
+    overflow: hidden;
+    border-radius: var(--mo-raio-p);
+    background-color: var(--mo-elevada);
+}
+
+.barraProgressoPreenchida {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--mo-raio-p);
+    background: linear-gradient(90deg, var(--mo-destaque), var(--mo-destaque));
+    transform-origin: left center;
+    transition: transform var(--mo-dur-media) var(--mo-ease-saida);
+}
+
+.cargoMembro {
+    margin-left: auto;
+    padding: 0.18rem 0.55rem;
+    border-radius: var(--mo-raio-p);
+    background-color: var(--mo-destaque-suave);
+    color: var(--mo-destaque);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* avatares: a inicial do nome num quadrado com a cor da marca */
+
+.avatarPerfil,
+.avatarProjeto {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border: 1px solid var(--mo-destaque);
+    border-radius: var(--mo-raio-g);
+    background-color: var(--mo-destaque-suave);
+    color: var(--mo-destaque);
+    font-family: var(--mo-fonte);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.listaMembros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-3);
+}
+
+.itemMembro {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-3);
+    min-width: 220px;
+    padding: var(--mo-espaco-3) var(--mo-espaco-4);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background-color: var(--mo-janela);
+    color: var(--mo-texto);
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform var(--mo-dur-curta) var(--mo-ease-saida),
+                border-color var(--mo-dur-curta) ease;
+}
+
+.itemMembro.cardClicavel:hover {
+        transform: translateY(-2px);
+        border-color: var(--mo-destaque);
+    }
+
+/* ficha tecnica do projeto */
+.fichaProjeto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--mo-espaco-3);
+}
+
+.itemFicha {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-1);
+    padding: var(--mo-espaco-3) var(--mo-espaco-4);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background-color: var(--mo-janela);
+}
+
+.itemFicha span {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.itemFicha strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* marcos do projeto */
+.listaMarcos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+}
+
+.itemMarco {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-3);
+    padding: var(--mo-espaco-3) var(--mo-espaco-4);
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-m);
+    background-color: var(--mo-janela);
+    color: var(--mo-texto-2);
+    font-size: 14px;
+}
+
+.itemMarco.marcoConcluido {
+    color: var(--mo-texto);
+}
+
+.caixaMarco {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    border: 1px solid var(--mo-borda);
+    border-radius: 5px;
+    color: var(--mo-destaque);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.marcoConcluido .caixaMarco {
+    border-color: var(--mo-destaque);
+    background-color: var(--mo-destaque-suave);
+}
+
+.caixaSenha,
+.caixaApelido {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.caixaSenha input {
+    padding-right: 2.6rem;
+}
+
+.caixaApelido {
+    border: 1px solid var(--mo-borda);
+    border-radius: var(--mo-raio-p);
+    background-color: var(--mo-cartao);
+    transition: border-color var(--mo-dur-curta) ease,
+                box-shadow var(--mo-dur-curta) ease;
+}
+
+.caixaApelido:focus-within {
+    border-color: var(--mo-destaque);
+    box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+}
+
+.caixaApelido .prefixoApelido {
+    padding-left: 0.85rem;
+    color: var(--mo-texto-3);
+    font-size: 14px;
+    line-height: 1;
+}
+
+.caixaApelido input {
+    padding-left: 0;
+    border: none;
+    background: transparent;
+}
+
+.caixaApelido input:focus {
+    box-shadow: none;
+    background: transparent;
+}
+
+.opcaoMarcavel {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-2);
+    padding: var(--mo-espaco-2) 0;
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.opcaoMarcavel input {
+    width: auto;
+}
+
+.adicionarSkill {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+    padding-top: var(--mo-espaco-2);
+}
+
+.adicionarSkill select {
+    flex: 1 1 170px;
+}
+
+.adicionarSkill .botaoEnviar {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+}
+
+.linkMensagemVazia {
+    display: inline-block;
+    margin-top: var(--mo-espaco-2);
+    color: var(--mo-destaque);
+    font-weight: 500;
+}
+
+/* card de pessoa sem nenhum numero ainda */
+.semMetrica {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* avaliacao */
+
+.explicacaoDuploCego {
+    max-width: 54ch;
+    padding: var(--mo-espaco-3) var(--mo-espaco-4);
+    border-left: 2px solid var(--mo-destaque);
+    border-radius: 0 var(--mo-raio-p) var(--mo-raio-p) 0;
+    background-color: var(--mo-destaque-suave);
+    color: var(--mo-texto-2);
+    font-size: 13px;
+}
+
+.listaAvaliacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+    gap: var(--mo-espaco-4);
+}
+
+.campoNota {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mo-espaco-4);
+}
+
+.rotuloNota {
+    color: var(--mo-texto-2);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.avisoEspera {
+    padding: var(--mo-espaco-3) var(--mo-espaco-4);
+    border: 1px dashed var(--mo-borda);
+    border-radius: var(--mo-raio-p);
+    color: var(--mo-texto-3);
+    font-size: 13px;
+}
+
+.detalheNotas {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* link de portfolio no cabecalho do perfil: e uma tag, mas clicavel */
+.tagLink {
+    color: var(--mo-destaque);
+    text-decoration: none;
+    transition: border-color var(--mo-dur-curta) ease, color var(--mo-dur-curta) ease;
+}
+
+.tagLink:hover {
+        border-color: var(--mo-destaque);
+        color: var(--mo-destaque);
+    }
+
+/* acoes de dono, lado a lado */
+.linhaAcoesDono {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+}
+
+/* o marco vira botao quando o dono pode marcar como concluido */
+.caixaMarcoClicavel {
+    cursor: pointer;
+}
+
+.itemMarco .acoesItem {
+    margin: 0 0 0 auto;
+}
+
+/* candidatos sugeridos pela vaga */
+
+/* a vaga aberta ocupa a linha inteira, senao a lista fica num funil estreito */
+.cardResultado.vagaExpandida {
+    grid-column: 1 / -1;
+}
+
+.topoPagina,
+.topoBusca,
+.saudacaoDashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-6);
+}
+
+.topoPagina h3,
+.topoBusca h3,
+.saudacaoDashboard h3 {
+    color: var(--mo-texto-2);
+    font-family: var(--mo-fonte);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+.cardsEstatisticaQuatro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--mo-espaco-3);
+}
+
+/* menos o primeiro, que ja esta logo abaixo do cabecalho da tela */
+.cardsEstatistica + .tituloSecao,
+.cardsEstatisticaQuatro + .tituloSecao {
+    margin-top: var(--mo-espaco-6);
+}
+
+/* login e cadastro */
+
+.corpoLogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--mo-espaco-5) var(--mo-espaco-4);
+
+    /* um brilho sutil da marca atras do card, pra tela de entrada nao ser um retangulo no vazio */
+    background-image: radial-gradient(
+        ellipse 70% 55% at 50% 0%,
+        var(--mo-destaque-suave),
+        transparent 70%
+    );
+}
+
+.paginaLogin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--mo-espaco-5);
+    width: 100%;
+    max-width: 420px;
+}
+
+.formLogin {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-1);
+}
+
+.linkCadastro {
+    display: block;
+    margin-top: var(--mo-espaco-5);
+    color: var(--mo-texto-3);
+    font-size: 13px;
+    text-align: center;
+}
+
+.linkCadastro span {
+    color: var(--mo-destaque);
+    font-weight: 600;
+}
+
+.linkCandidaturas {
+    display: inline-block;
+    margin-top: var(--mo-espaco-6);
+    color: var(--mo-destaque);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* etapas do cadastro */
+.perguntaPerfil {
+    margin-bottom: var(--mo-espaco-4);
+    color: var(--mo-texto-2);
+    font-size: 14px;
+}
+
+.etapaPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-3);
+}
+
+.etapaPerfil.etapaEscondida {
+    display: none;
+}
+
+.etapaFormulario {
+    display: none;
+}
+
+.etapaFormulario.etapaVisivel {
+    display: block;
+    animation: entrarEtapa var(--mo-dur-curta) var(--mo-ease-saida) both;
+}
+
+/* o que anima e so o fundo da aba ativa, com transform */
+.abasBusca {
+    display: flex;
+    gap: var(--mo-espaco-1);
+    padding: 4px;
+    border: 1px solid var(--mo-linha);
+    border-radius: var(--mo-raio-p);
+    background-color: var(--mo-cartao);
+}
+
+.abaBusca {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-espaco-2);
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    color: var(--mo-texto-3);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--mo-dur-curta) ease,
+                color var(--mo-dur-curta) ease;
+}
+
+.abaBusca:hover {
+        color: var(--mo-texto);
+    }
+
+.abaBusca.ativo {
+    background-color: var(--mo-janela);
+    color: var(--mo-texto);
+    box-shadow: var(--mo-sombra-cartao);
+}
+
+.abaBusca svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* a segunda linha fica recuada pra ler como dentro da categoria acima */
+.filtrosSecundarios {
+    padding-left: var(--mo-espaco-4);
+    border-left: 2px solid var(--mo-linha);
+}
+
+/* perfil */
+
+.cabecalhoPerfil,
+.cabecalhoProjeto {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--mo-espaco-4);
+    padding-bottom: var(--mo-espaco-6);
+    margin-bottom: var(--mo-espaco-6);
+    border-bottom: 1px solid var(--mo-linha);
+}
+
+.infoPerfil,
+.infoProjeto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    min-width: 0;
+}
+
+.infoPerfil h1,
+.infoProjeto h1 {
+    font-size: 24px;
+    overflow-wrap: anywhere;
+}
+
+.handlePerfil {
+    color: var(--mo-destaque);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.funcaoPerfil {
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.membroDesde,
+.criadorProjeto,
+.dataCandidatura {
+    color: var(--mo-texto-3);
+    font-size: 13px;
+}
+
+.criadorProjeto strong {
+    color: var(--mo-texto-2);
+}
+
+.bioPerfil,
+.descricaoProjeto {
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.infoPerfil .tagsResultado {
+    margin-top: var(--mo-espaco-2);
+}
+
+/* projeto */
+
+.cabecalhoProjeto .seloStatus {
+    align-self: flex-start;
+}
+
+/* publicar projeto */
+
+.etapaPublicar {
+    display: none;
+}
+
+.etapaPublicar.etapaAtiva {
+    display: block;
+}
+
+.botoesPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-4);
+}
+
+/* 22 funcoes em linha viravam cinco fileiras de botao antes do proximo campo */
+.grupoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+}
+
+.campoMarco {
+    font-family: var(--mo-fonte);
+}
+
+.botoesEtapa {
+    display: flex;
+    gap: var(--mo-espaco-3);
+    margin-top: var(--mo-espaco-5);
+}
+
+.botoesOnboarding {
+    display: flex;
+    gap: var(--mo-espaco-3);
+    margin-top: var(--mo-espaco-5);
+}
+
+.botoesOnboarding .botaoEnviar {
+    margin-top: 0;
+}
+
+.botoesOnboarding .botaoEditarPerfil {
+    flex-shrink: 0;
+}
+
+.linhaLink {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--mo-espaco-2);
+    margin-bottom: var(--mo-espaco-3);
+}
+
+.linhaLink select {
+    flex: 0 0 130px;
+}
+
+.linhaLink input {
+    flex: 1 1 180px;
+}
+
+.linhaLink .botaoEnviar {
+    flex: 0 0 auto;
+    width: auto;
+    margin-top: 0;
+}
+
+.linkPular {
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte);
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color var(--mo-dur-curta) ease;
+}
+
+.linkPular:hover {
+        color: var(--mo-texto-2);
+    }
+
+/* barra de perfil completo, no topo do proprio perfil */
+.barraPerfilCompleto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    padding: var(--mo-espaco-4) var(--mo-espaco-4);
+    margin-bottom: var(--mo-espaco-5);
+    border: 1px solid var(--mo-destaque);
+    border-radius: var(--mo-raio-g);
+    background-color: var(--mo-destaque-suave);
+}
+
+.topoPerfilCompleto {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--mo-espaco-3);
+}
+
+.topoPerfilCompleto strong {
+    font-family: var(--mo-fonte);
+    font-size: 14px;
+}
+
+.topoPerfilCompleto span {
+    color: var(--mo-destaque);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.faltandoPerfil {
+    color: var(--mo-texto-2);
+    font-size: 13px;
+}
+
+.cabecalhoPerfil,
+    .cabecalhoProjeto {
+        flex-wrap: wrap;
+        gap: var(--mo-espaco-4);
+    }
+
+.avatarPerfil,
+    .avatarProjeto {
+        width: 56px;
+        height: 56px;
+        font-size: 19px;
+    }
+
+.itemMembro {
+        min-width: 100%;
+    }
+
+.topoLogin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mo-espaco-4);
+    width: 100%;
+}
+
+
+/* a opcao de parceria e um chip que liga e desliga */
+.opcaoParceria {
+    cursor: pointer;
+}
+
+.opcaoParceria input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.opcaoParceria:has(input:checked) {
+    border-color: var(--mo-destaque);
+    background: var(--mo-destaque-suave);
+    color: var(--mo-destaque);
+}
+
+.opcaoParceria:has(input:focus-visible) {
+    outline: 2px solid var(--mo-foco);
+    outline-offset: 2px;
+}

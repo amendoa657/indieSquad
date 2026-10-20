@@ -7,168 +7,157 @@
         <meta name="theme-color" content="#0e100f" />
         <title>IndieSquad</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="preload" href="static/mosaic-ui/fontes/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
+        <link rel="stylesheet" href="static/style/tema-indiesquad.css" />
+        <link rel="stylesheet" href="static/style/indiesquad.css" />
 
-        <link rel="stylesheet" href="static/style/tokens.css" />
-        <link rel="stylesheet" href="static/style/base.css" />
-        <link rel="stylesheet" href="static/style/componentes.css" />
-        <link rel="stylesheet" href="static/style/telas.css" />
-
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
         <script src="static/js/tema.js"></script>
     </head>
     <body>
-        <nav>
-            <a class="botaoLogo" href="index.html">
-                <div class="logo">
-                    <img src="static/assets/Logo.svg" alt=""/>
-                    <h3>INDIE<span>SQUAD</span></h3>
+        <div class="mo-app">
+            <header class="mo-cabecalho">
+                <a class="mo-logotipo" href="index.html">
+                    <i class="mo-marca"></i>
+                    <span>IndieSquad</span>
+                </a>
+
+                <nav class="navLanding">
+                    <a href="#comoFunciona">Como funciona</a>
+                    <a href="#infraCompleta">Estrutura</a>
+                    <a href="#talentos">Funções</a>
+                </nav>
+
+                <div class="acoesLanding">
+                    <a class="mo-tecla mo-tecla--p" href="login.html">Entrar</a>
+                    <a class="mo-tecla mo-tecla--destaque mo-tecla--p" href="cadastro.html">Criar conta</a>
+
+                    <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--p mo-tecla--icone botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+                        <mo-simbolo class="iconeSol" nome="sol"></mo-simbolo>
+                        <mo-simbolo class="iconeLua" nome="lua"></mo-simbolo>
+                    </button>
                 </div>
-            </a>
+            </header>
 
-            <div class="botoesNav">
-                <a class="mediaSumir" href="index.html#comoFunciona"> Como funciona? </a>
-                <a class="mediaSumir" href="index.html#infraCompleta"> Estrutura </a>
-                <a class="mediaSumir" href="index.html#talentos"> Talentos</a>
-                <a href="index.html#pronto" class="botaoComecar">Começar agora</a>
+            <div class="mo-corpo">
+                <mo-pixels class="mo-fundo" passo="18" opacidade="0.13"></mo-pixels>
 
-                <button type="button" class="botaoTema" onclick="trocarTema()" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
-                    <svg class="iconeSol" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
-                    <svg class="iconeLua" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-                </button>
+                <main class="mo-conteudo landing">
+                    <section class="abertura mo-secao" id="principal">
+                        <div class="aberturaTexto mo-entra">
+                            <h1>Monte a equipe que termina o jogo</h1>
+
+                            <p class="aberturaApoio">
+                                Projeto indie não morre por falta de ideia, morre por falta de gente que fica
+                                até o fim. Aqui cada vaga pede uma função e um nível, e quem entra na sua
+                                equipe chega com reputação de quem já trabalhou com ela.
+                            </p>
+
+                            <div class="aberturaAcoes">
+                                <a class="mo-tecla mo-tecla--destaque" href="cadastro.html">Publicar um projeto</a>
+                                <a class="mo-tecla" href="cadastro.html">Procurar uma vaga</a>
+                            </div>
+                        </div>
+
+                        <aside class="mo-cartao elenco mo-entra">
+                            <p class="elencoTopo">No IndieSquad agora</p>
+                            <ol class="elencoLista" id="elencoLista"></ol>
+                            <p class="elencoRodape" id="elencoRodape"></p>
+                        </aside>
+                    </section>
+
+                    <section class="mo-secao" id="comoFunciona">
+                        <div class="secaoTopo">
+                            <h2>Da ideia até os créditos</h2>
+                            <p>Três passos, e o compromisso de cada um fica registrado.</p>
+                        </div>
+
+                        <ol class="passos">
+                            <li>
+                                <div class="passoTitulo">
+                                    <span class="passoNumero">1</span>
+                                    <h3>Publique seu projeto</h3>
+                                </div>
+                                <p>Defina gênero, engine, duração e os marcos. Escolha as funções que faltam na equipe e o sistema abre uma vaga para cada uma.</p>
+                            </li>
+
+                            <li>
+                                <div class="passoTitulo">
+                                    <span class="passoNumero">2</span>
+                                    <h3>Monte sua equipe</h3>
+                                </div>
+                                <p>Receba candidaturas com mensagem, portfólio e reputação de cada pessoa. Ao aceitar, ela entra na equipe e a vaga fecha na hora.</p>
+                            </li>
+
+                            <li>
+                                <div class="passoTitulo">
+                                    <span class="passoNumero">3</span>
+                                    <h3>Execute e entregue</h3>
+                                </div>
+                                <p>Acompanhe os marcos, conclua o projeto e avalie quem trabalhou com você. A reputação de todo mundo cresce junto.</p>
+                            </li>
+                        </ol>
+                    </section>
+
+                    <section class="mo-secao" id="infraCompleta">
+                        <div class="secaoTopo">
+                            <h2>O que segura a equipe junta</h2>
+                            <p>Mais que networking: as ferramentas que fazem o projeto chegar até o fim.</p>
+                        </div>
+
+                        <dl class="ficha">
+                            <div class="fichaLinha">
+                                <dt>Catálogo de funções</dt>
+                                <dd>Funções reais do mercado de games, de pixel artist a sound designer. Você escolhe de uma lista, sem erro de digitação e sem função duplicada.</dd>
+                            </div>
+
+                            <div class="fichaLinha">
+                                <dt>Vaga por função</dt>
+                                <dd>Cada vaga pede uma função específica e um nível mínimo. Quem se candidata já sabe exatamente o que você precisa.</dd>
+                            </div>
+
+                            <div class="fichaLinha">
+                                <dt>Reputação estruturada</dt>
+                                <dd>Comunicação, cumprimento de prazo e qualidade da entrega avaliados separadamente, e só por quem esteve no mesmo projeto que você.</dd>
+                            </div>
+
+                            <div class="fichaLinha">
+                                <dt>Marcos do projeto</dt>
+                                <dd>Protótipo jogável, demo, lançamento: os marcos ficam visíveis para a equipe e para quem está pensando em entrar.</dd>
+                            </div>
+
+                            <div class="fichaLinha">
+                                <dt>Avaliação duplo-cega</dt>
+                                <dd>Cada lado só vê a avaliação do outro depois que os dois enviarem a sua. Ninguém segura a nota esperando a do colega.</dd>
+                            </div>
+
+                            <div class="fichaLinha">
+                                <dt>Compatibilidade por vaga</dt>
+                                <dd>O sistema cruza função, nível, ferramentas, tipo de parceria e disponibilidade, dá uma nota de 0 a 100 e explica em uma frase de onde ela veio.</dd>
+                            </div>
+                        </dl>
+                    </section>
+
+                    <section class="mo-secao" id="talentos">
+                        <div class="secaoTopo">
+                            <h2>Todo mundo que entra nos créditos</h2>
+                            <p>O catálogo tem função pronta para cada área. Clique numa delas para ver quem está disponível.</p>
+                        </div>
+
+                        <ul class="funcoes mo-cascata" id="funcoes"></ul>
+                    </section>
+
+                    <section class="mo-secao fecho" id="pronto">
+                        <h2>Seu projeto ainda não tem equipe</h2>
+                        <p>Publique ele hoje e veja quem combina com as vagas que faltam.</p>
+                        <a class="mo-tecla mo-tecla--destaque mo-tecla--g" href="cadastro.html">Criar conta</a>
+                    </section>
+                </main>
             </div>
-        </nav>
+        </div>
 
-        <main class="landing">
-            <section class="abertura" id="principal">
-                <div class="aberturaTexto">
-                    <h1>Monte a equipe que termina o jogo</h1>
-
-                    <p class="aberturaApoio">
-                        Projeto indie não morre por falta de ideia, morre por falta de gente que fica
-                        até o fim. Aqui cada vaga pede uma função e um nível, e quem entra na sua
-                        equipe chega com reputação de quem já trabalhou com ela.
-                    </p>
-
-                    <div class="aberturaAcoes">
-                        <a class="botaoPrimario" href="cadastro.html">Publicar um projeto</a>
-                        <a class="botaoSecundario" href="cadastro.html">Procurar uma vaga</a>
-                    </div>
-                </div>
-
-                <aside class="elenco">
-                    <p class="elencoTopo">No IndieSquad agora</p>
-
-                    <ol class="elencoLista" id="elencoLista"></ol>
-
-                    <p class="elencoRodape" id="elencoRodape"></p>
-                </aside>
-            </section>
-
-            <section class="secao" id="comoFunciona">
-                <div class="secaoTopo">
-                    <h2>Da ideia até os créditos</h2>
-                    <p>Três passos, e o compromisso de cada um fica registrado.</p>
-                </div>
-
-                <ol class="passos">
-                    <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">1</span>
-                            <h3>Publique seu projeto</h3>
-                        </div>
-                        <div>
-                            <p>Defina gênero, engine, duração e os marcos. Escolha as funções que faltam na equipe e o sistema abre uma vaga para cada uma.</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">2</span>
-                            <h3>Monte sua equipe</h3>
-                        </div>
-                        <div>
-                            <p>Receba candidaturas com mensagem, portfólio e reputação de cada pessoa. Ao aceitar, ela entra na equipe e a vaga fecha na hora.</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="passoTitulo">
-                            <span class="passoNumero">3</span>
-                            <h3>Execute e entregue</h3>
-                        </div>
-                        <div>
-                            <p>Acompanhe os marcos, conclua o projeto e avalie quem trabalhou com você. A reputação de todo mundo cresce junto.</p>
-                        </div>
-                    </li>
-                </ol>
-            </section>
-
-            <section class="secao" id="infraCompleta">
-                <div class="secaoTopo">
-                    <h2>O que segura a equipe junta</h2>
-                    <p>Mais que networking: as ferramentas que fazem o projeto chegar até o fim.</p>
-                </div>
-
-                <dl class="ficha">
-                    <div class="fichaLinha">
-                        <dt>Catálogo de funções</dt>
-                        <dd>Funções reais do mercado de games, de pixel artist a sound designer. Você escolhe de uma lista, sem erro de digitação e sem função duplicada.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Vaga por função</dt>
-                        <dd>Cada vaga pede uma função específica e um nível mínimo. Quem se candidata já sabe exatamente o que você precisa.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Reputação estruturada</dt>
-                        <dd>Comunicação, cumprimento de prazo e qualidade da entrega avaliados separadamente, e só por quem esteve no mesmo projeto que você.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Marcos do projeto</dt>
-                        <dd>Protótipo jogável, demo, lançamento: os marcos ficam visíveis para a equipe e para quem está pensando em entrar.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Avaliação duplo-cega</dt>
-                        <dd>Cada lado só vê a avaliação do outro depois que os dois enviarem a sua. Ninguém segura a nota esperando a do colega.</dd>
-                    </div>
-
-                    <div class="fichaLinha">
-                        <dt>Compatibilidade por vaga</dt>
-                        <dd>O sistema cruza função, nível, ferramentas, tipo de parceria e disponibilidade, dá uma nota de 0 a 100 e explica em uma frase de onde ela veio.</dd>
-                    </div>
-                </dl>
-            </section>
-
-            <section class="secao" id="talentos">
-                <div class="secaoTopo">
-                    <h2>Todo mundo que entra nos créditos</h2>
-                    <p>O catálogo tem função pronta para cada área. Clique numa delas para ver quem está disponível.</p>
-                </div>
-
-                <ul class="funcoes" id="funcoes"></ul>
-            </section>
-
-            <section class="fecho" id="pronto">
-                <h2>Seu projeto ainda não tem equipe</h2>
-                <p>Publique ele hoje e veja quem combina com as vagas que faltam.</p>
-                <a class="botaoPrimario" href="cadastro.html">Criar conta</a>
-            </section>
-        </main>
-
-        <footer>
-            <a class="botaoLogo" href="index.html#principal">
-                <div class="logoF">
-                    <img src="static/assets/Logo.svg" alt=""/>
-                    <h3>INDIE<span>SQUAD</span></h3>
-                </div>
-            </a>
-        </footer>
-
+        <script type="module" src="static/mosaic-ui/mosaic.js"></script>
         <script src="static/js/app.js"></script>
         <script src="static/js/landing.js"></script>
     </body>

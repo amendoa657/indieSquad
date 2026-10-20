@@ -31,7 +31,7 @@ async function carregarPerfis() {
             <div class="grupoPerfil">
                 <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
                 <div class="chipsGrupoPerfil">
-                    ${daCategoria.map((skill) => `<button type="button" class="botaoPerfil" data-id="${skill.id}">${escapar(skill.nome)}</button>`).join("")}
+                    ${daCategoria.map((skill) => `<button type="button" class="mo-chip botaoPerfil" data-id="${skill.id}">${escapar(skill.nome)}</button>`).join("")}
                 </div>
             </div>
         `;

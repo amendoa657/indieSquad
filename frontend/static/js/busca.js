@@ -36,7 +36,7 @@ function cardPessoa(pessoa) {
         : `<p class="semMetrica">Perfil novo por aqui</p>`;
 
     return `
-        <div class="cardResultado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
+        <div class="mo-cartao cardResultado cardClicavel" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
             <div class="topoCardResultado">
                 <div>
                     <h2>${escapar(pessoa.nome)}</h2>
@@ -45,7 +45,7 @@ function cardPessoa(pessoa) {
             </div>
             ${corpoMetricas}
             <div class="tagsResultado">
-                ${pessoa.skills.map((skill) => `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
+                ${pessoa.skills.map((skill) => `<span class="mo-chip tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}</span>`).join("")}
             </div>
         </div>
     `;
@@ -56,14 +56,14 @@ function cardProjeto(projeto) {
 
     const detalhes = [projeto.genero, projeto.engine, parceria]
         .filter((item) => item)
-        .map((item) => `<span class="tagSkill">${escapar(item)}</span>`)
+        .map((item) => `<span class="mo-chip tagSkill">${escapar(item)}</span>`)
         .join("");
 
     return `
-        <div class="cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
+        <div class="mo-cartao cardResultado cardClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
             <div class="topoCardResultado">
                 <h2>${escapar(projeto.nome)}</h2>
-                <span class="statusResultado">${escapar(rotulo(projeto.status))}</span>
+                <span class="mo-selo statusResultado">${escapar(rotulo(projeto.status))}</span>
             </div>
             <p class="descricaoResultado">${escapar(projeto.descricao) || "Sem descrição"}</p>
             <div class="metricasResultado">
@@ -130,7 +130,7 @@ function filtrarPorSkill(nomeDaSkill) {
 
 
 function chip(texto, ativo, acao) {
-    return `<button type="button" class="botaoFiltro ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${escapar(texto)}</button>`;
+    return `<button type="button" class="mo-chip botaoFiltro ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${escapar(texto)}</button>`;
 }
 
 function desenharFiltros() {

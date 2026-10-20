@@ -59,7 +59,7 @@ async function mostrarMinhasSkills() {
     const skills = (await pedir(`/usuarios/${meuId()}/skills/`)) || [];
 
     listar("minhasSkills", skills, function (skill) {
-        return `<span class="tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}
+        return `<span class="mo-chip tagSkill">${escapar(skill.nome)} · ${escapar(NIVEIS[skill.nivel])}
             <button type="button" class="botaoRemoverTag" onclick="removerSkill(${skill.id})">×</button></span>`;
     }, "Nenhuma função ainda.");
 }
@@ -134,7 +134,7 @@ async function carregarFerramentas() {
                 <span class="tituloGrupoPerfil">${escapar(categoria)}</span>
                 <div class="chipsGrupoPerfil">
                     ${daCategoria.map((f) => `
-                        <button type="button" class="botaoPerfil ${minhasFerramentas.has(f.id) ? "ativo" : ""}" data-id="${f.id}">
+                        <button type="button" class="mo-chip botaoPerfil ${minhasFerramentas.has(f.id) ? "ativo" : ""}" data-id="${f.id}">
                             ${escapar(f.nome)}
                         </button>
                     `).join("")}
@@ -171,7 +171,7 @@ async function mostrarMeusLinks() {
     const links = (await pedir(`/usuarios/${meuId()}/links`)) || [];
 
     listar("meusLinks", links, function (link) {
-        return `<span class="tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
+        return `<span class="mo-chip tagSkill">${escapar(NOMES_LINK[link.tipo] || link.tipo)}
             <button type="button" class="botaoRemoverTag" onclick="removerLink(${link.id})">×</button></span>`;
     }, "Nenhum link ainda.");
 }

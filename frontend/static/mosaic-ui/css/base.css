@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Base: o mínimo para toda tela do Mosaic começar igual: caixa, corpo,
+   links, foco, seleção e rolagem. Títulos e parágrafos ficam com o padrão
+   do navegador; quem dá tamanho a eles são os componentes (e o seu CSS).
+   Só seletores de elemento (peso mínimo), então qualquer classe do app
+   sobrescreve sem esforço.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--mo-janela);
+  color: var(--mo-texto);
+  font-family: var(--mo-fonte);
+  font-size: var(--mo-tamanho-texto);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--mo-destaque);
+  text-decoration: none;
+}
+a:hover {
+  color: color-mix(in srgb, var(--mo-destaque) 78%, var(--mo-texto));
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--mo-destaque-suave);
+  color: var(--mo-texto);
+}
+
+/* Foco: só aparece pelo teclado, sempre na cor de destaque. */
+:focus-visible {
+  outline: 2px solid var(--mo-foco);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Rolagem fina, na cor do tema. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mo-decorativa) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--mo-decorativa);
+  border: 3px solid transparent;
+  border-radius: 6px;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mo-texto-3);
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[hidden] {
+  display: none !important;
+}

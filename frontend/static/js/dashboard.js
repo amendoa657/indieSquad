@@ -15,21 +15,19 @@ async function carregarDashboard() {
 
     listar("listaProjetosDashboard", dados.projetos, function (projeto) {
         const pendentes = projeto.candidaturasPendentes > 0
-            ? `<span class="aviso">${plural(projeto.candidaturasPendentes, "candidatura esperando", "candidaturas esperando")} você</span>`
+            ? `<span class="mo-selo">${plural(projeto.candidaturasPendentes, "candidatura esperando", "candidaturas esperando")} você</span>`
             : "";
 
         return `
-            <div class="cardProjetoDashboard" style="cursor: pointer" onclick="irPara('projeto.html?id=${projeto.id}')">
-                <div class="infoProjetoDashboard">
-                    <h2>${escapar(projeto.nome)}</h2>
-                    <p>${plural(projeto.membros, "membro", "membros")} · ${projeto.progresso}% das vagas preenchidas</p>
+            <a class="mo-cartao mo-cartao--linha linhaProjeto" href="projeto.html?id=${projeto.id}" data-mo-carregando="${escapar(projeto.nome)}">
+                <div class="linhaProjetoInfo">
+                    <h3>${escapar(projeto.nome)}</h3>
+                    <p class="mo-legenda">${plural(projeto.membros, "membro", "membros")} · ${projeto.progresso}% das vagas preenchidas</p>
                     ${pendentes}
-                    <div class="barraProgresso" role="progressbar" aria-valuenow="${projeto.progresso}" aria-valuemin="0" aria-valuemax="100" aria-label="Vagas preenchidas">
-                        <div class="barraProgressoPreenchida" style="transform: scaleX(${projeto.progresso / 100})"></div>
-                    </div>
+                    <progress class="mo-barra" value="${projeto.progresso}" max="100" aria-label="Vagas preenchidas"></progress>
                 </div>
-                <span class="setaCardProjeto">›</span>
-            </div>
+                <span class="linhaProjetoSeta" aria-hidden="true"></span>
+            </a>
         `;
     }, "Você ainda não tem projetos ativos.");
 
@@ -37,13 +35,13 @@ async function carregarDashboard() {
     if (pegar("listaColaboracoes")) {
         listar("listaColaboracoes", dados.participacoes, function (projeto) {
             return `
-                <div class="cardProjetoDashboard" style="cursor: pointer" onclick="irPara('projeto.html?id=${projeto.id}')">
-                    <div class="infoProjetoDashboard">
-                        <h2>${escapar(projeto.nome)}</h2>
-                        <p>${escapar(projeto.cargo)} · criado por ${escapar(projeto.criador)}</p>
+                <a class="mo-cartao mo-cartao--linha linhaProjeto" href="projeto.html?id=${projeto.id}" data-mo-carregando="${escapar(projeto.nome)}">
+                    <div class="linhaProjetoInfo">
+                        <h3>${escapar(projeto.nome)}</h3>
+                        <p class="mo-legenda">${escapar(projeto.cargo)} · criado por ${escapar(projeto.criador)}</p>
                     </div>
-                    <span class="setaCardProjeto">›</span>
-                </div>
+                    <span class="linhaProjetoSeta" aria-hidden="true"></span>
+                </a>
             `;
         }, "Você ainda não entrou em nenhum projeto de outra pessoa.");
     }

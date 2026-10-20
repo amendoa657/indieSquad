@@ -1,0 +1,86 @@
+/* A identidade da IndieSquad por cima da Mosaic UI.
+
+   A biblioteca inteira desenha a partir dos tokens --mo-*, entao trocar eles
+   aqui veste a Mosaic com as cores da IndieSquad sem tocar num arquivo dela.
+   Carregar depois da mosaic.css. */
+
+:root {
+    /* o ciano continua sendo a marca, agora como bloco chapado */
+    --mo-destaque: #2ed3c6;
+    --mo-destaque-fundo: #2ed3c6;
+    --mo-sobre-destaque: #06201d;
+
+    /* o laranja ganha voz propria em vez de ser so enfeite */
+    --mo-secundaria: #ff8a5c;
+    --mo-secundaria-fundo: #5c2714;
+    --mo-secundaria-texto: #ffd9c9;
+
+    /* a terceira cor fecha a triade e serve de tom pros blocos */
+    --mo-terciaria: #a9b6f2;
+    --mo-terciaria-fundo: #323c6b;
+    --mo-terciaria-texto: #dce2ff;
+
+    --mo-perigo: #ff9a92;
+    --mo-perigo-fundo: #7a1510;
+    --mo-perigo-texto: #ffdad6;
+
+    --mo-sucesso: #5fd8a4;
+    --mo-sucesso-fundo: #10432f;
+    --mo-sucesso-texto: #c4f2dd;
+
+    /* superficies: o cinza puxa pro verde, nao pro azul */
+    --mo-fundo: #0b0d0c;
+    --mo-janela: #0e100f;
+    --mo-lateral-2: #171a18;
+    --mo-cabecalho: #141716;
+    --mo-lateral: #141716;
+    --mo-cartao: #171a18;
+    --mo-dialogo: #1d211f;
+    --mo-elevada: #262b28;
+
+    --mo-texto: #f0f3f1;
+
+    /* canto mais duro que o padrao da biblioteca: e o que a IndieSquad firmou */
+    --mo-raio-p: 3px;
+    --mo-raio-m: 4px;
+    --mo-raio-g: 5px;
+    --mo-raio-xg: 6px;
+}
+
+
+/* tema claro: o ciano nao tem contraste suficiente no branco, entao escurece */
+
+[data-tema="claro"] {
+    color-scheme: light;
+
+    --mo-destaque: #0a6f69;
+    --mo-destaque-fundo: #0a6f69;
+    --mo-sobre-destaque: #ffffff;
+
+    --mo-secundaria: #a8400d;
+    --mo-secundaria-fundo: #ffe2d6;
+    --mo-secundaria-texto: #5c2714;
+
+    --mo-terciaria: #3d4a85;
+    --mo-terciaria-fundo: #e0e5ff;
+    --mo-terciaria-texto: #232c54;
+
+    --mo-perigo: #b4261d;
+    --mo-perigo-fundo: #ffdad6;
+    --mo-perigo-texto: #6d1410;
+
+    --mo-sucesso: #0c7a53;
+    --mo-sucesso-fundo: #c4f2dd;
+    --mo-sucesso-texto: #04301f;
+
+    --mo-fundo: #eef1ef;
+    --mo-janela: #f6f8f6;
+    --mo-lateral-2: #e7ebe8;
+    --mo-cabecalho: #ffffff;
+    --mo-lateral: #ffffff;
+    --mo-cartao: #ffffff;
+    --mo-dialogo: #ffffff;
+    --mo-elevada: #ffffff;
+
+    --mo-texto: #0d100e;
+}

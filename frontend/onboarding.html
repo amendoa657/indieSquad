@@ -7,15 +7,12 @@
         <meta name="theme-color" content="#0e100f" />
         <title>Completar perfil - IndieSquad</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="preload" href="static/mosaic-ui/fontes/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="static/mosaic-ui/mosaic.css" />
+        <link rel="stylesheet" href="static/style/tema-indiesquad.css" />
+        <link rel="stylesheet" href="static/style/indiesquad.css" />
 
-        <link rel="stylesheet" href="static/style/tokens.css" />
-        <link rel="stylesheet" href="static/style/base.css" />
-        <link rel="stylesheet" href="static/style/componentes.css" />
-        <link rel="stylesheet" href="static/style/telas.css" />
-
+        <script src="static/mosaic-ui/mosaic-inicio.js"></script>
         <script src="static/js/tema.js"></script>
     </head>
 
@@ -55,12 +52,12 @@
                             <option value="4">Especialista</option>
                         </select>
 
-                        <button type="button" class="botaoEnviar" onclick="adicionarSkill()">Adicionar</button>
+                        <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="adicionarSkill()">Adicionar</button>
                     </div>
 
                     <div class="botoesOnboarding">
-                        <button type="button" class="botaoEditarPerfil" onclick="pular()">Pular</button>
-                        <button type="button" class="botaoEnviar" onclick="irParaPasso(2)">Continuar</button>
+                        <button type="button" class="mo-tecla mo-tecla--p botaoEditarPerfil" onclick="pular()">Pular</button>
+                        <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="irParaPasso(2)">Continuar</button>
                     </div>
                 </section>
 
@@ -97,8 +94,8 @@
                     </div>
 
                     <div class="botoesOnboarding">
-                        <button type="button" class="botaoEditarPerfil" onclick="irParaPasso(1)">Voltar</button>
-                        <button type="button" class="botaoEnviar" onclick="salvarCompromisso()">Continuar</button>
+                        <button type="button" class="mo-tecla mo-tecla--p botaoEditarPerfil" onclick="irParaPasso(1)">Voltar</button>
+                        <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="salvarCompromisso()">Continuar</button>
                     </div>
                 </section>
 
@@ -128,15 +125,15 @@
 
                             <input type="url" id="campoUrlLink" placeholder="https://..." />
 
-                            <button type="button" class="botaoEnviar" onclick="adicionarLink()">Add</button>
+                            <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="adicionarLink()">Add</button>
                         </div>
 
                         <div class="tagsResultado" id="meusLinks"></div>
                     </div>
 
                     <div class="botoesOnboarding">
-                        <button type="button" class="botaoEditarPerfil" onclick="irParaPasso(2)">Voltar</button>
-                        <button type="button" class="botaoEnviar" onclick="terminar()">Terminar</button>
+                        <button type="button" class="mo-tecla mo-tecla--p botaoEditarPerfil" onclick="irParaPasso(2)">Voltar</button>
+                        <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="terminar()">Terminar</button>
                     </div>
                 </section>
 
@@ -146,6 +143,7 @@
             <button type="button" class="linkPular" onclick="pular()">Deixar pra depois</button>
         </main>
 
+        <script type="module" src="static/mosaic-ui/mosaic.js"></script>
         <script src="static/js/app.js"></script>
         <script src="static/js/onboarding.js"></script>
     </body>
