@@ -52,8 +52,6 @@ mysql -u root -p < backend\database\seedIndieSquad.sql
 
 > Se o `mysql` não for reconhecido no terminal, ele não está no PATH. Ou usa o Workbench, ou roda pelo caminho completo (normalmente `"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"`).
 
-> Quem já tem o banco da versão antiga roda `backend/database/scriptAtualizacaoV2.sql` em vez do primeiro: ele atualiza o banco preservando os dados que já estão lá.
-
 A senha de todos os usuários de exemplo é `indiesquad123`.
 
 ### 2. Backend

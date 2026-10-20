@@ -97,7 +97,10 @@ def conferirBanco():
     try:
         with app.app_context():
             db.session.execute(text("select 1"))
-            tabelas = set(inspect(db.engine).get_table_names())
+
+            # no Windows o MySQL guarda o nome da tabela em minusculo, entao a
+            # comparacao tem que ignorar maiuscula pra nao acusar falta a toa
+            tabelas = {nome.lower() for nome in inspect(db.engine).get_table_names()}
     except Exception as erro:
         texto = str(erro)
 
@@ -112,20 +115,19 @@ def conferirBanco():
                     "Veja se o servico do MySQL esta rodando e se a DATABASE_URL no .env esta certa.")
         return
 
-    faltando = TABELAS_ESPERADAS - tabelas
+    faltando = {nome for nome in TABELAS_ESPERADAS if nome.lower() not in tabelas}
 
     if faltando:
         _avisar(f"O banco esta na versao antiga, faltam as tabelas: {', '.join(sorted(faltando))}.",
-                "Rode database/scriptAtualizacaoV2.sql pra atualizar sem perder dados, "
-                "ou database/scriptCreateIndieSquadV2.sql pra recriar do zero.")
+                "Rode database/scriptCreateIndieSquadV2.sql e depois database/seedIndieSquad.sql.")
         return
 
     with app.app_context():
-        colunas = {coluna["name"] for coluna in inspect(db.engine).get_columns("usuario")}
+        colunas = {coluna["name"].lower() for coluna in inspect(db.engine).get_columns("usuario")}
 
         if "handle" not in colunas:
             _avisar("A tabela usuario esta na versao antiga.",
-                    "Rode database/scriptAtualizacaoV2.sql.")
+                    "Rode database/scriptCreateIndieSquadV2.sql e depois database/seedIndieSquad.sql.")
             return
 
         if not db.session.execute(text("select 1 from skills limit 1")).first():

@@ -1,34 +1,24 @@
-# Qual arquivo rodar
+# Os scripts do banco
 
-Esta pasta tem scripts de versões diferentes do banco. **Só três são usados hoje.**
-
-## Instalação nova
-
-Rodar nesta ordem:
+São dois, e rodam **nesta ordem**:
 
 | Ordem | Arquivo | O que faz |
 | --- | --- | --- |
-| 1 | `scriptCreateIndieSquadV2.sql` | Cria o banco `indieSquad` inteiro, já na versão atual |
+| 1 | `scriptCreateIndieSquadV2.sql` | Cria o banco `indieSquad` inteiro, com todas as tabelas |
 | 2 | `seedIndieSquad.sql` | Preenche o catálogo de funções e ferramentas — **o sistema não funciona sem ele** — e cria usuários e projetos de exemplo |
+
+Os dois são autossuficientes: o primeiro faz o `CREATE SCHEMA` e o segundo faz o `use indieSquad`. Não precisa selecionar schema antes de executar.
 
 A senha de todos os usuários de exemplo é `indiesquad123`.
 
-## Quem já tem o banco da versão antiga
+## No MySQL Workbench
 
-| Arquivo | O que faz |
-| --- | --- |
-| `scriptAtualizacaoV2.sql` | Atualiza o banco da V1 pra V2 **preservando os dados que já estão lá** |
+`File > Open SQL Script...`, escolhe o arquivo e executa com o raio ⚡ (ou `Ctrl+Shift+Enter`, que roda o script inteiro). Repete pro segundo.
 
-Roda ele no lugar do `scriptCreateIndieSquadV2.sql`, e depois o `seedIndieSquad.sql`.
+Se o `indieSquad` não aparecer na lista de schemas depois, clica no refresh ao lado de "SCHEMAS", no painel da esquerda — ele não atualiza sozinho.
 
-## Os antigos, que ficaram só como histórico
+## Pra recriar do zero
 
-**Não rode nenhum destes.** Eles criam o banco na estrutura antiga, sem as tabelas e colunas que o sistema usa hoje, e a API sobe mas quebra com "Erro interno no servidor" na primeira tela.
+Rodar os dois de novo. O primeiro apaga e refaz o banco, então **todos os dados que estiverem lá se perdem**.
 
-| Arquivo | Por que não |
-| --- | --- |
-| `indieSquadNewDatabase.sql` | O "New" no nome é da época dele. Hoje é o **mais antigo** dos dois |
-| `scriptCreateIndieSquadDB.sql` | Primeira versão do banco |
-| `teste.sql` | Rascunho de consultas |
-
-> Se rodar um deles por engano, o `py main.py` avisa no terminal qual é o problema e qual script roda pra consertar.
+> Se faltar alguma coisa no banco, o `py main.py` avisa no terminal o que está errado e qual script resolve.

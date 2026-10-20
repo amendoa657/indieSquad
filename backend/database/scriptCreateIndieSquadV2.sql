@@ -1,5 +1,5 @@
 -- MySQL Script - IndieSquad versao 2
--- cria o banco inteiro ja na versao 2; quem tem o banco antigo roda o scriptAtualizacaoV2
+-- cria o banco inteiro; rode o seedIndieSquad.sql depois deste
 
 -- declara a codificacao do arquivo antes de qualquer coisa
 SET NAMES utf8mb4;
