@@ -79,5 +79,60 @@ def erroInesperado(erro):
     return jsonify({"erro": "Erro interno no servidor"}), 500
 
 
+TABELAS_ESPERADAS = {"usuario", "projeto", "avaliacao", "ferramenta", "linkUsuario", "marcoProjeto"}
+
+
+def _avisar(problema, solucao):
+    print("\n" + "=" * 70)
+    print(f"  {problema}")
+    print(f"  {solucao}")
+    print("=" * 70 + "\n")
+
+
+# confere o banco no boot: problema de instalacao aparece aqui, dizendo o que
+# fazer, em vez de virar "Erro interno no servidor" na tela do navegador
+def conferirBanco():
+    from sqlalchemy import inspect, text
+
+    try:
+        with app.app_context():
+            db.session.execute(text("select 1"))
+            tabelas = set(inspect(db.engine).get_table_names())
+    except Exception as erro:
+        texto = str(erro)
+
+        if "Unknown database" in texto:
+            _avisar("O banco indieSquad ainda nao existe.",
+                    "Rode database/scriptCreateIndieSquadV2.sql e depois database/seedIndieSquad.sql.")
+        elif "Access denied" in texto:
+            _avisar("O MySQL recusou o usuario ou a senha.",
+                    "Confira a DATABASE_URL no .env.")
+        else:
+            _avisar("Nao consegui falar com o MySQL.",
+                    "Veja se o servico do MySQL esta rodando e se a DATABASE_URL no .env esta certa.")
+        return
+
+    faltando = TABELAS_ESPERADAS - tabelas
+
+    if faltando:
+        _avisar(f"O banco esta na versao antiga, faltam as tabelas: {', '.join(sorted(faltando))}.",
+                "Rode database/scriptAtualizacaoV2.sql pra atualizar sem perder dados, "
+                "ou database/scriptCreateIndieSquadV2.sql pra recriar do zero.")
+        return
+
+    with app.app_context():
+        colunas = {coluna["name"] for coluna in inspect(db.engine).get_columns("usuario")}
+
+        if "handle" not in colunas:
+            _avisar("A tabela usuario esta na versao antiga.",
+                    "Rode database/scriptAtualizacaoV2.sql.")
+            return
+
+        if not db.session.execute(text("select 1 from skills limit 1")).first():
+            _avisar("O catalogo de funcoes esta vazio, e o sistema precisa dele.",
+                    "Rode database/seedIndieSquad.sql.")
+
+
 if __name__ == "__main__":
+    conferirBanco()
     app.run(debug=Config.DEBUG)
