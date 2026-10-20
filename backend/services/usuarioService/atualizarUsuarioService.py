@@ -79,6 +79,15 @@ class AtualizarUsuarioService:
         if "aceitaRemunerado" in dados:
             usuario.aceitaRemunerado = bool(dados["aceitaRemunerado"])
 
+        # vazio volta pra cor automatica, a da funcao principal
+        if "corPerfil" in dados:
+            cor = dados["corPerfil"] or None
+
+            if cor is not None and not u.corPerfilValida(cor):
+                return {"erro": "Essa cor não está na paleta"}, 400
+
+            usuario.corPerfil = cor
+
         if "fotoDePerfil" in dados:
             usuario.fotoDePerfil = texto(dados["fotoDePerfil"], 255)
 

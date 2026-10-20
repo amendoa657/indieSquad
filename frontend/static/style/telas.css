@@ -2675,3 +2675,73 @@ button.casaMarco:hover {
 .textoPerfil {
     grid-column: 2;
 }
+
+
+/* a cor do perfil: seis blocos, a amostra cheia e o nome embaixo */
+.paletaPerfil {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border-top: 1px solid var(--is-regua-forte);
+    border-left: 1px solid var(--is-regua-forte);
+}
+
+.corOpcao {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    border-right: 1px solid var(--is-regua-forte);
+    border-bottom: 1px solid var(--is-regua-forte);
+    cursor: pointer;
+    position: relative;
+}
+
+.corOpcao input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.amostra {
+    height: 34px;
+    background: var(--is-cor);
+}
+
+/* automatica: as cinco cores juntas, como a faixa */
+.amostraAuto {
+    background: var(--is-faixa);
+}
+
+.nomeCor {
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.corOpcao:hover {
+    background: var(--mo-lateral-2);
+}
+
+.corOpcao:has(input:checked) {
+    background: var(--mo-lateral-2);
+    box-shadow: inset 0 0 0 2px var(--is-tinta);
+}
+
+.corOpcao:has(input:checked) .nomeCor {
+    color: var(--mo-texto);
+}
+
+.corOpcao:has(input:focus-visible) {
+    outline: 2px solid var(--is-tinta);
+    outline-offset: -4px;
+}
+
+@media (max-width: 560px) {
+    .paletaPerfil {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

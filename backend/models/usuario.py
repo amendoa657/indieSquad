@@ -15,6 +15,10 @@ FORMATO_HANDLE = re.compile(r"^[a-z0-9_]{3,30}$")
 
 TAMANHO_MINIMO_SENHA = 8
 
+# as cores que a pessoa pode escolher pro proprio perfil: as cinco da paleta
+# (uma por area do catalogo). Sem escolha, o perfil usa a cor da funcao principal
+CORES_PERFIL = ["arte", "audio", "design", "producao", "programacao"]
+
 
 
 class Usuario(db.Model):
@@ -33,6 +37,7 @@ class Usuario(db.Model):
     aceitaRemunerado = db.Column(db.Boolean, nullable=False, default=False)
     dataCriacao = db.Column(db.DateTime, default=func.now())
     fotoDePerfil = db.Column(db.String(255), nullable=True)
+    corPerfil = db.Column(db.String(20), nullable=True)
 
     projetosCriados = db.relationship(
         "Projeto",
@@ -95,7 +100,8 @@ def to_dict(self):
         "aceitaRevenueShare": self.aceitaRevenueShare,
         "aceitaRemunerado": self.aceitaRemunerado,
         "dataCriacao": self.dataCriacao,
-        "fotoDePerfil": self.fotoDePerfil
+        "fotoDePerfil": self.fotoDePerfil,
+        "corPerfil": self.corPerfil
     }
 
 # esse so e usado quando a pessoa pede os proprios dados
@@ -222,6 +228,9 @@ def percentualCompleto(usuario):
 
     return round(((total - faltando) / total) * 100)
 
+
+def corPerfilValida(cor):
+    return cor in CORES_PERFIL
 
 def objetivoValido(objetivo):
     return objetivo in OBJETIVOS

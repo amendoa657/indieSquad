@@ -130,6 +130,11 @@ def conferirBanco():
                     "Rode database/scriptCreateIndieSquadV2.sql e depois database/seedIndieSquad.sql.")
             return
 
+        if "corperfil" not in colunas:
+            _avisar("A tabela usuario nao tem a coluna da cor do perfil.",
+                    "Rode database/atualizacaoCorPerfil.sql (nao apaga nada).")
+            return
+
         if not db.session.execute(text("select 1 from skills limit 1")).first():
             _avisar("O catalogo de funcoes esta vazio, e o sistema precisa dele.",
                     "Rode database/seedIndieSquad.sql.")

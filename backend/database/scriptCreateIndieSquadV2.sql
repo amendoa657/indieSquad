@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS `indieSquad`.`usuario` (
   `aceitaRemunerado` TINYINT(1) NOT NULL DEFAULT 0,
   `dataCriacao` DATETIME NULL,
   `fotoDePerfil` VARCHAR(255) NULL,
+  -- a cor do perfil: arte, audio, design, producao ou programacao; nulo e automatica
+  `corPerfil` VARCHAR(20) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `handle_UNIQUE` (`handle` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)

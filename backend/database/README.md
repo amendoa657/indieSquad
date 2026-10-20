@@ -21,4 +21,14 @@ Se o `indieSquad` não aparecer na lista de schemas depois, clica no refresh ao 
 
 Rodar os dois de novo. O primeiro apaga e refaz o banco, então **todos os dados que estiverem lá se perdem**.
 
+## Pra atualizar um banco que já existe
+
+Quando entra coluna nova, tem um script de atualização que só acrescenta o que falta, sem apagar dado nenhum:
+
+| Arquivo | O que faz |
+| --- | --- |
+| `atualizacaoCorPerfil.sql` | Cria a coluna `corPerfil` em `usuario`, a cor que a pessoa escolhe pro perfil |
+
+Quem cria o banco do zero com o `scriptCreateIndieSquadV2.sql` já ganha tudo e não precisa rodar esses.
+
 > Se faltar alguma coisa no banco, o `py main.py` avisa no terminal o que está errado e qual script resolve.

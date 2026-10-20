@@ -7,6 +7,10 @@ const handleDoPerfil = parametro("handle");
 let idDoPerfil = null;
 let souEu = false;
 let skillsDoBanco = [];
+
+// a cor do topo do perfil: a escolhida pela pessoa ou, sem escolha, a da funcao principal
+let corAutomatica = "";
+let corSalva = "";
 let ferramentasDoBanco = [];
 const minhasFerramentas = new Set();
 
@@ -22,10 +26,23 @@ const FALTANDO = {
 
 
 
+function pintarBanner(cor) {
+    pegar("cartaoHeroi").className = `bannerPerfil ${cor ? `classe-${cor}` : corAutomatica}`;
+}
+
+// escolher a cor ja mostra no topo; fechar sem salvar volta pra que estava
+document.querySelectorAll("input[name='corPerfil']").forEach(function (opcao) {
+    opcao.onchange = () => pintarBanner(opcao.value);
+});
+
 pegar("botaoEditar").onclick = function () {
     const bloco = pegar("blocoEdicao");
 
     bloco.classList.toggle("escondido");
+
+    if (bloco.classList.contains("escondido")) {
+        pintarBanner(corSalva);
+    }
 
     if (!bloco.classList.contains("escondido")) {
         bloco.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -261,7 +278,9 @@ async function carregarPerfil() {
     const principal = funcaoPrincipal({ skills: skills });
 
     pegar("avatarPerfil").setAttribute("semente", dados.handle);
-    pegar("cartaoHeroi").className = `bannerPerfil ${principal ? classe(principal.categoria) : ""}`;
+    corAutomatica = principal ? classe(principal.categoria) : "";
+    corSalva = dados.corPerfil || "";
+    pintarBanner(corSalva);
     escrever("nomePerfil", escapar(dados.usuario));
     escrever("handlePerfil", `@${escapar(dados.handle)}`);
     escrever("funcaoPerfil", principal
@@ -369,6 +388,7 @@ async function carregarPerfil() {
         pegar("campoPortfolio").checked = dados.aceitaPortfolio;
         pegar("campoRevenueShare").checked = dados.aceitaRevenueShare;
         pegar("campoRemunerado").checked = dados.aceitaRemunerado;
+        document.querySelector(`input[name='corPerfil'][value='${corSalva}']`).checked = true;
 
         pegar("blocoSkills").classList.remove("escondido");
         pegar("blocoFerramentas").classList.remove("escondido");
@@ -408,6 +428,7 @@ pegar("formPerfil").onsubmit = async function (evento) {
         aceitaPortfolio: pegar("campoPortfolio").checked,
         aceitaRevenueShare: pegar("campoRevenueShare").checked,
         aceitaRemunerado: pegar("campoRemunerado").checked,
+        corPerfil: document.querySelector("input[name='corPerfil']:checked").value || null,
     });
 
     if (!resposta) return;
