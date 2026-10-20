@@ -2,9 +2,12 @@
    Base: o que vale pra pagina inteira e as tres cascas de tela.
 
      .telaApp      as telas de quem esta logado: cabecalho, menu lateral,
-                   conteudo e a barra de status embaixo (a janela da Mosaic UI)
-     .telaPublica  a landing: barra no topo e as secoes rolando
-     .telaEntrada  login, cadastro e onboarding: um cartao no meio dos pixels
+                   conteudo e a barra de status embaixo
+     .telaPublica  a landing
+     .telaEntrada  login, cadastro e primeiros passos
+
+   O desenho e de manual tecnico: quinas retas, reguas finas, tipografia
+   grande e indices numerados. Nada de sombra macia nem canto redondo.
    ========================================================================== */
 
 html {
@@ -19,7 +22,8 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-a {
+/* so os links soltos: os da Mosaic (teclas, itens do menu) tem a cor deles */
+a:not([class*="mo-"]) {
     color: inherit;
     text-decoration: none;
 }
@@ -29,7 +33,7 @@ h2,
 h3 {
     margin: 0;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     text-wrap: balance;
 }
 
@@ -39,20 +43,26 @@ p {
 }
 
 ::selection {
-    background: var(--mo-destaque);
-    color: var(--mo-sobre-destaque);
+    background: var(--is-tinta);
+    color: var(--is-papel);
+}
+
+:focus-visible {
+    outline: 2px solid var(--is-tinta);
+    outline-offset: 2px;
 }
 
 .escondido {
     display: none !important;
 }
 
+
 /* ---------- a marca ---------- */
 
 is-marca {
     display: inline-block;
-    width: calc(var(--is-marca, 26px) * 13 / 9);
-    height: var(--is-marca, 26px);
+    width: var(--is-marca, 22px);
+    height: var(--is-marca, 22px);
     flex: none;
 }
 
@@ -60,46 +70,60 @@ is-marca svg {
     display: block;
     width: 100%;
     height: 100%;
+    overflow: visible;
 }
 
-is-marca .corpo { fill: var(--mo-texto); }
-is-marca .botao-a { fill: var(--mo-destaque); }
-is-marca .botao-b { fill: var(--is-arte); }
-is-marca .botao-c { fill: var(--is-audio); }
-is-marca .botao-d { fill: var(--is-design); }
+is-marca .bloco-arte { fill: var(--is-arte); }
+is-marca .bloco-audio { fill: var(--is-audio); }
+is-marca .bloco-design { fill: var(--is-design); }
+is-marca .bloco-producao { fill: var(--is-producao); }
+is-marca .bloco-programacao { fill: var(--is-programacao); }
+
+/* no hover os blocos assentam um de cada vez, como peca caindo */
+.logoIndie:hover is-marca rect {
+    animation: blocoAssenta 420ms steps(3, end) both;
+}
+
+.logoIndie:hover is-marca rect:nth-child(2) { animation-delay: 60ms; }
+.logoIndie:hover is-marca rect:nth-child(3) { animation-delay: 120ms; }
+.logoIndie:hover is-marca rect:nth-child(4) { animation-delay: 180ms; }
+.logoIndie:hover is-marca rect:nth-child(5) { animation-delay: 240ms; }
+
+@keyframes blocoAssenta {
+    from { transform: translateY(-6px); opacity: 0.2; }
+}
 
 .logoIndie {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     flex: none;
-    --is-marca: 18px;
 }
 
 .nomeMarca {
-    font-family: var(--mo-fonte-mono);
+    font-size: 19px;
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.06em;
+    letter-spacing: -0.05em;
     color: var(--mo-texto);
 }
 
-.nomeMarca b {
-    font-weight: 700;
-    color: var(--mo-destaque);
+
+/* ---------- teclas: quinas retas, a principal invertida ---------- */
+
+.mo-tecla {
+    --mo-tecla-altura: 34px;
+    --mo-tecla-fonte: 12.5px;
+    font-weight: 600;
 }
 
-/* no hover os botoes do controle piscam, um de cada vez */
-.logoIndie:hover is-marca .botao {
-    animation: botaoPisca 600ms steps(1, end) infinite;
+.mo-tecla--p {
+    --mo-tecla-altura: 28px;
 }
 
-.logoIndie:hover is-marca .botao-b { animation-delay: 150ms; }
-.logoIndie:hover is-marca .botao-c { animation-delay: 300ms; }
-.logoIndie:hover is-marca .botao-d { animation-delay: 450ms; }
-
-@keyframes botaoPisca {
-    50% { fill: var(--mo-fundo); }
+.mo-tecla--g {
+    --mo-tecla-altura: 46px;
+    --mo-tecla-pad: 22px;
+    --mo-tecla-fonte: 14px;
 }
 
 
@@ -108,87 +132,128 @@ is-marca .botao-d { fill: var(--is-design); }
    ========================================================================== */
 
 .telaApp .mo-app {
-    --mo-lateral-largura: 232px;
-    --mo-cabecalho-altura: 54px;
+    --mo-lateral-largura: 236px;
+    --mo-cabecalho-altura: 58px;
 }
 
 .cabecalhoApp {
-    gap: 18px;
-    padding: 0 14px 0 18px;
+    gap: 22px;
+    padding: 0 16px 0 22px;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+/* a faixa colorida em cima de tudo */
+.cabecalhoApp::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--is-faixa);
 }
 
 .buscaRapida {
-    flex: 0 1 380px;
-    margin-left: 22px;
+    flex: 0 1 400px;
+    margin-left: 30px;
+}
+
+.mo-busca {
+    border-radius: 0 !important;
 }
 
 .acoesCabecalho {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin-left: auto;
 }
 
 .chipUsuario {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    height: 34px;
-    padding: 0 12px 0 4px;
-    border-radius: var(--mo-raio-m);
+    gap: 10px;
+    height: 38px;
+    padding: 0 12px 0 5px;
+    border: 1px solid transparent;
     font-size: 13px;
     font-weight: 600;
     color: var(--mo-texto);
-    transition: background var(--mo-dur-curta) ease;
+    transition: border-color var(--mo-dur-curta) ease;
 }
 
 .chipUsuario:hover {
-    background: var(--mo-elevada);
+    border-color: var(--is-regua-forte);
 }
 
 .chipUsuario is-sprite {
     --is-sprite: 27px;
 }
 
-.chipUsuario .handleChip {
-    font-family: var(--mo-fonte-mono);
-    font-weight: 400;
-    font-size: 11px;
-    color: var(--mo-texto-3);
-}
-
-/* o menu lateral */
+/* o menu lateral: itens numerados, o atual invertido */
 .menuApp {
-    padding: 16px 12px;
-    gap: 3px;
+    padding: 22px 0 0;
+    gap: 0;
+    border-right: 1px solid var(--is-regua);
+    counter-reset: menu;
 }
 
 .menuApp .mo-nav-item {
-    padding: 10px 12px;
-    font-size: 13.5px;
+    gap: 14px;
+    padding: 12px 22px;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mo-texto-2);
+    counter-increment: menu;
 }
 
-.menuApp .mo-lateral-rotulo {
-    padding: 14px 12px 8px;
+.menuApp .mo-nav-item::after {
+    content: counter(menu, decimal-leading-zero);
+    order: -1;
+    width: 18px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--mo-texto-3);
+}
+
+.menuApp .mo-nav-item:hover {
+    background: var(--mo-lateral-2);
+    color: var(--mo-texto);
+}
+
+.menuApp .mo-nav-item:is(.ativo, [aria-current="page"]),
+.menuApp .mo-nav-item:is(.ativo, [aria-current="page"]):hover {
+    background: transparent;
+    color: var(--mo-sobre-destaque);
+    font-weight: 600;
+}
+
+.menuApp .mo-nav-item:is(.ativo, [aria-current="page"])::after {
+    color: inherit;
+    opacity: 0.55;
+}
+
+.menuApp .mo-nav-item > .mo-pilula {
+    border-radius: 0;
+}
+
+.menuApp .mo-nav-item > mo-simbolo {
+    display: none;
 }
 
 .menuApp .peMenu {
     margin-top: auto;
     display: grid;
-    gap: 10px;
-    padding-top: 12px;
+    border-top: 1px solid var(--is-regua);
 }
 
-/* o cartao da party no pe do menu: quem esta logado */
+/* quem esta jogando, no pe do menu */
 .cartaoJogador {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: 2px 10px;
-    padding: 10px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--mo-raio-g);
-    background: var(--mo-lateral-2);
+    gap: 2px 12px;
+    padding: 16px 22px;
 }
 
 .cartaoJogador is-sprite {
@@ -210,18 +275,41 @@ is-marca .botao-d { fill: var(--is-design); }
 }
 
 .botaoSair {
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     width: 100%;
+    height: 44px;
+    padding: 0 22px;
+    border: 0;
+    border-top: 1px solid var(--is-regua);
+    background: transparent;
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+    cursor: pointer;
+}
+
+.botaoSair:hover {
+    color: var(--mo-texto);
+    background: var(--mo-lateral-2);
+}
+
+.botaoSair mo-simbolo {
+    --mo-simbolo-tamanho: 9px;
 }
 
 /* a area de conteudo */
 .paginaApp {
     width: min(100%, var(--is-largura));
     margin: 0 auto;
-    padding: 34px 36px 72px;
+    padding: 46px 48px 96px;
     display: grid;
-    gap: 34px;
+    gap: 48px;
     align-content: start;
+    counter-reset: secao;
 }
 
 .paginaApp.paginaMedia {
@@ -230,37 +318,47 @@ is-marca .botao-d { fill: var(--is-design); }
 
 /* a barra de status embaixo, como a de um editor de jogo */
 .rodapeStatus {
+    min-height: 30px;
+    border-top: 1px solid var(--is-regua);
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
     color: var(--mo-texto-3);
-    gap: 14px;
+    gap: 18px;
 }
 
 .rodapeStatus .direita {
     margin-left: auto;
     display: flex;
-    gap: 14px;
+    gap: 18px;
 }
 
 .rodapeStatus .statusApi {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    text-transform: uppercase;
+}
+
+.rodapeStatus .mo-pulso {
+    border-radius: 0;
+    --mo-pulso-cor: var(--is-ok);
 }
 
 .rodapeStatus .statusApi.fora .mo-pulso {
-    --mo-pulso-cor: var(--mo-perigo);
-    background: var(--mo-perigo);
+    --mo-pulso-cor: var(--is-erro);
+}
+
+.rodapeStatus kbd {
+    padding: 0 5px;
+    border: 1px solid var(--is-regua-forte);
+    font-family: inherit;
 }
 
 
 /* ==========================================================================
    Casca da landing
    ========================================================================== */
-
-.telaPublica {
-    min-height: 100dvh;
-}
 
 .telaPublica > mo-pixels.mo-fundo {
     position: fixed;
@@ -276,30 +374,38 @@ is-marca .botao-d { fill: var(--is-design); }
     display: flex;
     align-items: center;
     gap: 24px;
-    height: 62px;
-    padding: 0 max(20px, calc((100vw - var(--is-largura)) / 2));
+    height: 64px;
+    padding: 0 max(24px, calc((100vw - var(--is-largura)) / 2));
     background: var(--mo-fundo);
-    border-bottom: 1px solid var(--mo-borda);
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.barraPublica::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--is-faixa);
 }
 
 .barraPublica nav {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     margin-left: auto;
 }
 
 .barraPublica nav > a:not(.mo-tecla) {
-    padding: 8px 12px;
-    border-radius: var(--mo-raio-p);
-    font-size: 13px;
+    padding: 8px 14px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--mo-texto-2);
-    transition: color var(--mo-dur-curta) ease, background var(--mo-dur-curta) ease;
 }
 
 .barraPublica nav > a:not(.mo-tecla):hover {
     color: var(--mo-texto);
-    background: var(--mo-elevada);
 }
 
 .barraPublica .mo-tecla {
@@ -314,47 +420,68 @@ is-marca .botao-d { fill: var(--is-design); }
 
 
 /* ==========================================================================
-   Casca das telas de entrada
+   Casca das telas de entrada: tela dividida, a marca de um lado
    ========================================================================== */
 
 .telaEntrada {
     min-height: 100dvh;
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    position: relative;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
-.telaEntrada > mo-pixels.mo-fundo {
-    position: fixed;
+.ladoMarca {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 40px;
+    padding: 34px 48px 40px;
+    border-right: 1px solid var(--is-regua);
+    overflow: hidden;
+}
+
+.ladoMarca::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--is-faixa);
+    z-index: 2;
+}
+
+.ladoMarca > mo-pixels.mo-fundo {
+    position: absolute;
     inset: 0;
     z-index: 0;
     opacity: var(--is-pixels);
 }
 
-.topoEntrada {
+.ladoMarca > :not(mo-pixels) {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+}
+
+.ladoForm {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 28px 48px 34px;
+}
+
+.topoForm {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 28px;
+    justify-content: flex-end;
 }
 
 .miolo {
-    position: relative;
-    z-index: 1;
     display: grid;
     place-items: center;
-    padding: 20px 20px 48px;
+    padding: 20px 0 40px;
 }
 
 .peEntrada {
-    position: relative;
-    z-index: 1;
-    padding: 0 0 28px;
-    text-align: center;
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
@@ -362,6 +489,23 @@ is-marca .botao-d { fill: var(--is-design); }
 /* ==========================================================================
    Celular
    ========================================================================== */
+
+@media (max-width: 900px) {
+    .telaEntrada {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ladoMarca {
+        border-right: 0;
+        border-bottom: 1px solid var(--is-regua);
+        padding: 26px 20px 28px;
+        gap: 22px;
+    }
+
+    .ladoForm {
+        padding: 18px 20px 28px;
+    }
+}
 
 @media (max-width: 760px) {
     .buscaRapida,
@@ -374,8 +518,8 @@ is-marca .botao-d { fill: var(--is-design); }
     }
 
     .paginaApp {
-        padding: 22px 16px 56px;
-        gap: 26px;
+        padding: 28px 16px 64px;
+        gap: 36px;
     }
 
     .rodapeStatus .direita > :not(:last-child) {
@@ -383,15 +527,39 @@ is-marca .botao-d { fill: var(--is-design); }
     }
 
     .barraPublica {
-        gap: 12px;
+        gap: 10px;
         padding: 0 16px;
     }
 
     .barraPublica nav > a:not(.mo-tecla) {
         display: none;
     }
+}
 
-    .topoEntrada {
-        padding: 16px;
-    }
+
+/* ---------- a Mosaic UI no idioma daqui ----------
+   a biblioteca fica intocada; daqui pra fora, toda peca dela perde o canto
+   redondo, e a marca e os pixels do fundo ganham as cores das classes */
+
+[class*="mo-"],
+[class*="mo-"]::before,
+[class*="mo-"]::after,
+[class*="mo-"] > * {
+    border-radius: 0 !important;
+}
+
+.mo-marca {
+    --mo-marca-1: var(--is-arte);
+    --mo-marca-2: var(--is-audio);
+    --mo-marca-3: var(--is-design);
+    --mo-marca-4: var(--is-programacao);
+}
+
+.mo-campo,
+.mo-busca {
+    --mo-campo-borda: var(--is-regua-forte);
+}
+
+.mo-dialogo {
+    box-shadow: 0 0 0 1px var(--is-regua-forte), 12px 12px 0 color-mix(in srgb, black 40%, transparent) !important;
 }

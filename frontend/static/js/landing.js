@@ -117,12 +117,13 @@ async function carregarFuncoes() {
 
     listar("funcoes", categorias, function ([categoria, nomes]) {
         return `
-            <li>
-                <a class="classeCartao mira ${classe(categoria)}" href="busca.html?categoria=${encodeURIComponent(categoria)}">
-                    <span class="classeIcone"><mo-simbolo nome="${simboloDaClasse(categoria)}" tamanho="27"></mo-simbolo></span>
-                    <span class="classeNome">${escapar(categoria)}</span>
+            <li class="${classe(categoria)}">
+                <a class="classeColuna" href="busca.html?categoria=${encodeURIComponent(categoria)}">
+                    <mo-simbolo nome="${simboloDaClasse(categoria)}" tamanho="36"></mo-simbolo>
                     <span class="classeTotal">${plural(nomes.length, "função", "funções")}</span>
-                    <span class="classeFuncoes">${nomes.slice(0, 4).map(escapar).join(" · ")}</span>
+                    <span class="classeNome">${escapar(categoria)}</span>
+                    <span class="classeFuncoes">${nomes.map(escapar).join("<br>")}</span>
+                    <span class="classeVer">ver quem está livre →</span>
                 </a>
             </li>
         `;
@@ -136,7 +137,7 @@ function desenharFecho() {
     let html = "";
 
     for (let i = 0; i < 9; i++) {
-        html += `<is-sprite class="classe-${classes[i % classes.length]}" semente="jogador-${i * 7 + 3}" style="--is-sprite:45px; --i:${i}"></is-sprite>`;
+        html += `<is-sprite class="classe-${classes[i % classes.length]}" semente="jogador-${i * 7 + 3}" style="--is-sprite:54px; --i:${i}"></is-sprite>`;
     }
 
     escrever("fechoSprites", html);

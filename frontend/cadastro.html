@@ -21,26 +21,39 @@
         <script type="module" src="static/js/indie.js"></script>
     </head>
     <body class="telaEntrada">
-        <mo-pixels class="mo-fundo" opacidade="0.5"></mo-pixels>
+        <section class="ladoMarca">
+            <mo-pixels class="mo-fundo" opacidade="0.5" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
-        <header class="topoEntrada">
             <a class="logoIndie" href="index.html" aria-label="IndieSquad">
                 <is-marca></is-marca>
-                <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                <span class="nomeMarca">indiesquad</span>
             </a>
 
-            <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
+            <div class="mancheteEntrada">
+                <h2>Monte a equipe que termina o jogo.</h2>
+                <p>Crie a conta, escolha sua classe e apareça pra quem está montando equipe.</p>
+            </div>
+
+            <div class="filaEntrada" aria-hidden="true">
+                <is-sprite class="classe-arte" semente="laura"></is-sprite>
+                <is-sprite class="classe-audio" semente="estevao"></is-sprite>
+                <is-sprite class="classe-design" semente="italo"></is-sprite>
+                <is-sprite class="classe-producao" semente="heitor"></is-sprite>
+                <is-sprite class="classe-programacao" semente="thales"></is-sprite>
+            </div>
+        </section>
+
+        <section class="ladoForm">
+            <div class="topoForm">
+                <button type="button" class="mo-tecla mo-tecla--sutil mo-tecla--icone botaoTema" onclick="trocarTema(event)" aria-label="Trocar entre tema claro e escuro" title="Trocar tema">
                             <mo-simbolo nome="sol" class="iconeSol"></mo-simbolo>
                             <mo-simbolo nome="lua" class="iconeLua"></mo-simbolo>
                         </button>
-        </header>
+            </div>
 
-        <main class="miolo">
+            <main class="miolo">
             <div class="cartaoEntrada cartaoCadastro">
-                <div class="janelaTopo">
-                    <span>Novo jogador</span>
-                    <span id="passoCadastro">1/2</span>
-                </div>
+                <p class="sobretitulo">Novo jogador · <span id="passoCadastro">1/2</span></p>
 
                 <div class="cartaoEntradaCorpo">
                     <div class="etapaPerfil" id="etapaPerfil">
@@ -106,19 +119,17 @@
 
                             <p class="mensagemErro" id="mensagemErro"></p>
 
-                            <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoEnviar">
-                                <mo-simbolo nome="play"></mo-simbolo>
-                                Criar conta
-                            </button>
+                            <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoEnviar">Criar conta →</button>
                         </form>
                     </div>
                 </div>
 
                 <a class="linkCadastro" href="login.html">Já tem conta? <span>Entrar</span></a>
             </div>
-        </main>
+            </main>
 
-        <p class="peEntrada">monte a equipe que termina o jogo</p>
+            <p class="peEntrada">P2 · entrar no jogo</p>
+        </section>
 
         <script src="static/js/app.js"></script>
         <script src="static/js/cadastro.js"></script>

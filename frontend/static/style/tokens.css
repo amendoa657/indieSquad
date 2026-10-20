@@ -1,48 +1,52 @@
 /* ==========================================================================
    Cores da IndieSquad, nos dois temas.
 
-   A Mosaic UI (static/mosaic-ui) le as cores destas variaveis --cor*, as
-   mesmas que o Matugen gera pra Mosaic Store. Entao e so definir elas aqui
-   que botoes, campos, cartoes e os pixels do fundo seguem o tema.
+   A interface e tinta e papel: preto, branco e cinzas, sem cor de destaque.
+   Cor so aparece em duas coisas:
+     - no conteudo: cada area do catalogo e uma "classe" com cor propria
+       (Arte, Audio, Design, Producao, Programacao), e as pessoas, vagas e
+       projetos levam a cor delas;
+     - na faixa de assinatura: as cinco cores lado a lado, a mesma da logo.
+   Verde, amarelo e vermelho ficam so pra estado (aceita, pendente, recusada).
 
-   Alem delas, cada area do catalogo de funcoes e uma "classe", como num RPG,
-   com uma cor fixa: Arte, Audio, Design, Producao e Programacao. A pessoa
-   ganha a cor da funcao principal, a vaga a cor da funcao que pede.
+   A Mosaic UI (static/mosaic-ui) le as cores das variaveis --cor*; aqui o
+   "destaque" dela e a propria tinta, entao botao principal e item ativo
+   saem invertidos, preto no branco ou branco no preto.
    ========================================================================== */
 
 :root,
 :root[data-tema="escuro"] {
     color-scheme: dark;
 
-    --corDestaque: #2ecedc;
-    --corFundoDestaque: #2ecedc;
-    --corTextoDestaque: #00262a;
+    --corDestaque: #ecebe6;
+    --corFundoDestaque: #ecebe6;
+    --corTextoDestaque: #0b0b0c;
 
-    --corAcentoSecundario: #ff7eb3;
-    --corFundoAcentoSecundario: #4d1d35;
-    --corTextoAcentoSecundario: #ffd9e8;
+    --corAcentoSecundario: #8e8d88;
+    --corFundoAcentoSecundario: #232325;
+    --corTextoAcentoSecundario: #ecebe6;
 
-    --corAcentoTerciario: #a493ff;
-    --corFundoAcentoTerciario: #2e2766;
-    --corTextoAcentoTerciario: #e4deff;
+    --corAcentoTerciario: #8e8d88;
+    --corFundoAcentoTerciario: #232325;
+    --corTextoAcentoTerciario: #ecebe6;
 
-    --corDestrutiva: #ff8a80;
-    --corFundoDestrutivo: #6e1717;
-    --corTextoDestrutivo: #ffdad6;
+    --corDestrutiva: #ff7a6b;
+    --corFundoDestrutivo: #5e1710;
+    --corTextoDestrutivo: #ffdad5;
 
-    --corSucesso: #7ee08a;
-    --corFundoSucesso: #1c3d22;
+    --corSucesso: #7fdc8c;
+    --corFundoSucesso: #193a20;
     --corTextoSucesso: #c9f5cf;
 
-    --corFundoVisualizacao: #0a0d0d;
-    --corFundoJanela: #0d1111;
-    --corFundoBarraLateralSecundaria: #131919;
-    --corFundoBarraCabecalho: #0f1414;
-    --corFundoBarraLateral: #0f1414;
-    --corFundoCartao: #131a1a;
-    --corFundoDialogo: #182020;
-    --corFundoPopUp: #1f2929;
-    --corTextoJanela: #e5eeec;
+    --corFundoVisualizacao: #0b0b0c;
+    --corFundoJanela: #0b0b0c;
+    --corFundoBarraLateralSecundaria: #141416;
+    --corFundoBarraCabecalho: #0b0b0c;
+    --corFundoBarraLateral: #0b0b0c;
+    --corFundoCartao: #111113;
+    --corFundoDialogo: #141416;
+    --corFundoPopUp: #1d1d20;
+    --corTextoJanela: #ecebe6;
 
     /* as classes */
     --is-arte: #ff7eb3;
@@ -51,55 +55,70 @@
     --is-producao: #b4e05c;
     --is-programacao: #55a8ff;
 
+    /* estado */
+    --is-ok: #7fdc8c;
+    --is-espera: #ffb547;
+    --is-erro: #ff7a6b;
+
+    --is-tinta: #ecebe6;
+    --is-papel: #0b0b0c;
+    --is-regua: #262629;
+    --is-regua-forte: #3a3a3e;
+
     /* o quanto do fundo de pixels aparece */
-    --is-pixels: 0.3;
-    --is-numero-fundo: 0.07;
+    --is-pixels: 0.22;
 }
 
 :root[data-tema="claro"] {
     color-scheme: light;
 
-    --corDestaque: #0b8e9a;
-    --corFundoDestaque: #0b8e9a;
-    --corTextoDestaque: #ffffff;
+    --corDestaque: #121212;
+    --corFundoDestaque: #121212;
+    --corTextoDestaque: #f3f2ee;
 
-    --corAcentoSecundario: #c8306f;
-    --corFundoAcentoSecundario: #fbdbe8;
-    --corTextoAcentoSecundario: #6a1237;
+    --corAcentoSecundario: #6b6a66;
+    --corFundoAcentoSecundario: #e4e2dc;
+    --corTextoAcentoSecundario: #121212;
 
-    --corAcentoTerciario: #5b45d6;
-    --corFundoAcentoTerciario: #e4defd;
-    --corTextoAcentoTerciario: #2a1c80;
+    --corAcentoTerciario: #6b6a66;
+    --corFundoAcentoTerciario: #e4e2dc;
+    --corTextoAcentoTerciario: #121212;
 
-    --corDestrutiva: #c42b23;
-    --corFundoDestrutivo: #fde1dd;
-    --corTextoDestrutivo: #7a120d;
+    --corDestrutiva: #c42b1c;
+    --corFundoDestrutivo: #fbe0db;
+    --corTextoDestrutivo: #6e140b;
 
-    --corSucesso: #1d8139;
-    --corFundoSucesso: #d6f0db;
+    --corSucesso: #1c7d36;
+    --corFundoSucesso: #d6efda;
     --corTextoSucesso: #0d4a1d;
 
-    --corFundoVisualizacao: #eef2f1;
-    --corFundoJanela: #f4f7f6;
-    --corFundoBarraLateralSecundaria: #e9eeec;
-    --corFundoBarraCabecalho: #fbfcfc;
-    --corFundoBarraLateral: #fbfcfc;
-    --corFundoCartao: #ffffff;
-    --corFundoDialogo: #ffffff;
-    --corFundoPopUp: #e3e9e7;
-    --corTextoJanela: #111b1a;
+    --corFundoVisualizacao: #f3f2ee;
+    --corFundoJanela: #f3f2ee;
+    --corFundoBarraLateralSecundaria: #e9e7e1;
+    --corFundoBarraCabecalho: #f3f2ee;
+    --corFundoBarraLateral: #f3f2ee;
+    --corFundoCartao: #fbfaf7;
+    --corFundoDialogo: #fbfaf7;
+    --corFundoPopUp: #e4e2dc;
+    --corTextoJanela: #121212;
 
-    --is-arte: #c8306f;
-    --is-audio: #a85f00;
+    --is-arte: #d0306f;
+    --is-audio: #b06400;
     --is-design: #5b45d6;
-    --is-producao: #46800f;
+    --is-producao: #4a840f;
     --is-programacao: #1665c4;
 
-    --is-pixels: 0.2;
-    --is-numero-fundo: 0.06;
+    --is-ok: #1c7d36;
+    --is-espera: #b06400;
+    --is-erro: #c42b1c;
 
-    /* no claro a borda de baixo das teclas pede menos preto */
-    --mo-tecla-sombra: 72%;
+    --is-tinta: #121212;
+    --is-papel: #f3f2ee;
+    --is-regua: #dcdad3;
+    --is-regua-forte: #bdbbb3;
+
+    --is-pixels: 0.16;
+    --mo-tecla-sombra: 70%;
 }
 
 /* a cor de cada classe vira --is-cor dentro de quem escolheu ela */
@@ -109,22 +128,30 @@
 .classe-producao { --is-cor: var(--is-producao); }
 .classe-programacao { --is-cor: var(--is-programacao); }
 
-/* tons sem classe (projetos): saem do nome, sempre os mesmos */
-[data-tom="0"] { --is-cor: var(--mo-destaque); }
-[data-tom="1"] { --is-cor: var(--is-arte); }
+/* projetos nao tem classe: o tom sai do nome, e e sempre o mesmo */
+[data-tom="0"] { --is-cor: var(--is-arte); }
+[data-tom="1"] { --is-cor: var(--is-audio); }
 [data-tom="2"] { --is-cor: var(--is-design); }
-[data-tom="3"] { --is-cor: var(--is-audio); }
+[data-tom="3"] { --is-cor: var(--is-producao); }
 [data-tom="4"] { --is-cor: var(--is-programacao); }
 
 :root {
-    /* medidas da IndieSquad por cima das da Mosaic */
-    --is-largura: 1120px;
-    --is-largura-media: 860px;
-    --is-raio: 10px;
-    --is-mira: var(--mo-destaque);
+    --is-largura: 1180px;
+    --is-largura-media: 880px;
+    --is-mira: var(--is-tinta);
 
-    --mo-raio-p: 6px;
-    --mo-raio-m: 8px;
-    --mo-raio-g: 10px;
-    --mo-raio-xg: 14px;
+    /* nada de canto redondo: tudo e quina */
+    --is-raio: 0px;
+    --mo-raio-p: 0px;
+    --mo-raio-m: 0px;
+    --mo-raio-g: 0px;
+    --mo-raio-xg: 0px;
+
+    /* a faixa de assinatura: as cinco classes lado a lado */
+    --is-faixa: linear-gradient(90deg,
+        var(--is-arte) 0 20%,
+        var(--is-audio) 20% 40%,
+        var(--is-design) 40% 60%,
+        var(--is-producao) 60% 80%,
+        var(--is-programacao) 80% 100%);
 }

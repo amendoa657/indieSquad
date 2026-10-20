@@ -16,8 +16,9 @@
 .dado {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    gap: 7px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11.5px;
     color: var(--mo-texto-2);
 }
 
@@ -26,30 +27,75 @@
     color: var(--mo-texto-3);
 }
 
-.cartaoPe .dado + .dado::before {
-    content: "";
-    width: 3px;
-    height: 3px;
-    margin: 0 6px 0 2px;
-    background: var(--mo-decorativa);
+.dadoRealce {
+    color: var(--is-ok);
 }
 
-/* medidor com rotulo dos dois lados */
+.dadoRealce mo-simbolo {
+    color: currentColor;
+}
+
+/* medidor com o numero do lado */
 .linhaMedidor {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 12px;
-    font-size: 12px;
-    color: var(--mo-texto-3);
 }
 
 .linhaMedidor strong {
     font-family: var(--mo-fonte-mono);
-    font-size: 12px;
-    color: var(--mo-texto);
+    font-size: 11.5px;
+    font-weight: 500;
     min-width: 4ch;
     text-align: right;
+}
+
+.duasColunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.tresColunas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.formulario {
+    gap: 18px;
+}
+
+.tituloForm {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.citacao {
+    padding-left: 14px;
+    border-left: 2px solid var(--is-regua-forte);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mo-texto-2);
+}
+
+.iconeClasse {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    background: var(--is-cor);
+    color: var(--is-papel);
+    flex: none;
+}
+
+@media (max-width: 560px) {
+    .duasColunas,
+    .tresColunas {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 
@@ -57,27 +103,28 @@
    Painel
    ========================================================================== */
 
-.colunasPainel {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: 28px;
-    align-items: start;
+.tabelaProjetos {
+    --colunas: minmax(0, 2.4fr) minmax(130px, 1.2fr) 80px 80px 20px;
 }
 
+.tabelaParticipacoes {
+    --colunas: minmax(0, 1fr) 20px;
+}
+
+/* candidatura esperando: uma faixa com o numero grande */
 .avisoPendencias {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border-radius: var(--is-raio);
-    background: color-mix(in srgb, var(--is-audio) 12%, var(--mo-cartao));
-    border: 1px solid color-mix(in srgb, var(--is-audio) 35%, transparent);
-    font-size: 13.5px;
+    gap: 22px;
+    padding: 18px 22px;
+    border: 1px solid var(--is-espera);
+    background: var(--mo-fundo);
+    font-size: 14.5px;
 }
 
-.avisoPendencias > mo-simbolo {
-    color: var(--is-audio);
-    animation: sinoBalanca 2.4s steps(1, end) infinite;
+.avisoNumero is-numero {
+    --is-numero-altura: 35px;
+    color: var(--is-espera);
 }
 
 .avisoPendencias p {
@@ -89,20 +136,22 @@
     color: var(--mo-texto);
 }
 
-@keyframes sinoBalanca {
-    0%, 80%, 100% { transform: none; }
-    84% { transform: rotate(-12deg); }
-    88% { transform: rotate(12deg); }
-    92% { transform: rotate(-8deg); }
-}
-
-@media (max-width: 960px) {
-    .colunasPainel {
-        grid-template-columns: minmax(0, 1fr);
+@media (max-width: 760px) {
+    .tabelaProjetos {
+        --colunas: minmax(0, 1fr) 70px;
     }
-}
 
-@media (max-width: 560px) {
+    .tabelaProjetos .tabelaTopo,
+    .tabelaProjetos .linhaTabela > .linhaMedidor,
+    .tabelaProjetos .linhaTabela > .celulaMono:nth-of-type(2),
+    .tabelaProjetos .setaLinha {
+        display: none;
+    }
+
+    .tabelaProjetos .linhaTabela .cartaoTopo .selo {
+        display: none;
+    }
+
     .avisoPendencias {
         flex-wrap: wrap;
     }
@@ -115,48 +164,73 @@
 
 .painelBusca {
     display: grid;
-    gap: 14px;
-    padding: 16px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
+    gap: 0;
+    border: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
 }
 
 .linhaBusca {
     display: flex;
-    gap: 10px;
-    align-items: center;
+    align-items: stretch;
+    border-bottom: 1px solid var(--is-regua-forte);
 }
 
+/* o campo grande, sem moldura propria: a moldura e o painel */
 .caixaBusca {
     flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 20px;
+    min-width: 0;
 }
 
-/* as abas pessoas / projetos: duas teclas, a escolhida afundada e acesa */
+.caixaBusca mo-simbolo {
+    color: var(--mo-texto-3);
+}
+
+.caixaBusca input {
+    flex: 1;
+    min-width: 0;
+    height: 64px;
+    border: 0;
+    background: transparent;
+    color: var(--mo-texto);
+    font-family: var(--mo-fonte);
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    outline: none;
+}
+
+.caixaBusca input::placeholder {
+    color: var(--mo-texto-3);
+}
+
+.caixaBusca:focus-within {
+    box-shadow: inset 0 -2px 0 var(--is-tinta);
+}
+
 .abasBusca {
     display: flex;
-    gap: 4px;
-    padding: 4px;
-    border-radius: var(--mo-raio-g);
-    background: var(--mo-fundo);
+    border-left: 1px solid var(--is-regua-forte);
     flex: none;
 }
 
 .abaBusca {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 34px;
-    padding: 0 14px;
+    padding: 0 26px;
     border: 0;
-    border-radius: var(--mo-raio-m);
     background: transparent;
-    color: var(--mo-texto-2);
-    font-family: var(--mo-fonte);
-    font-size: 13px;
+    color: var(--mo-texto-3);
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: background var(--mo-dur-curta) ease, color var(--mo-dur-curta) ease;
+}
+
+.abaBusca + .abaBusca {
+    border-left: 1px solid var(--is-regua);
 }
 
 .abaBusca:hover {
@@ -164,485 +238,194 @@
 }
 
 .abaBusca.ativo {
-    background: var(--mo-destaque);
-    color: var(--mo-sobre-destaque);
-    box-shadow: 0 2px 0 color-mix(in oklab, var(--mo-destaque) 45%, black);
+    background: var(--is-tinta);
+    color: var(--is-papel);
 }
 
-.blocoFiltros {
+/* as classes: uma barra de seis blocos, o escolhido cheio da cor dele */
+.filtrosClasses {
     display: grid;
-    gap: 10px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.filtrosClasses,
+.filtrosClasses .botaoFiltro {
+    display: grid;
+    justify-items: start;
+    align-content: space-between;
+    gap: 18px;
+    min-height: 86px;
+    padding: 14px 16px;
+    border: 0;
+    border-top: 4px solid var(--is-cor, var(--is-tinta));
+    background: transparent;
+    color: var(--mo-texto-2);
+    font-family: var(--mo-fonte);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--mo-dur-curta) ease, color var(--mo-dur-curta) ease;
+}
+
+.filtrosClasses .botaoFiltro + .botaoFiltro {
+    border-left: 1px solid var(--is-regua);
+}
+
+.filtrosClasses .botaoFiltro mo-simbolo {
+    color: var(--is-cor, var(--mo-texto-3));
+}
+
+.filtrosClasses .botaoFiltro:hover {
+    background: color-mix(in srgb, var(--is-cor, var(--is-tinta)) 10%, transparent);
+    color: var(--mo-texto);
+}
+
+.filtrosClasses .botaoFiltro.ativo {
+    background: var(--is-cor, var(--is-tinta));
+    color: var(--is-papel);
+}
+
+.filtrosClasses .botaoFiltro.ativo mo-simbolo {
+    color: currentColor;
+}
+
+/* as funcoes da classe escolhida, numa linha embaixo */
 .filtrosFuncoes {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--is-regua);
 }
 
-.filtrosFuncoes {
-    padding-top: 10px;
-    border-top: 1px dashed var(--mo-linha);
-}
-
-/* cada categoria e uma classe: o chip acende na cor dela */
-.botaoFiltro {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 32px;
-    padding: 0 13px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--mo-raio-m);
+.filtrosFuncoes .botaoFiltro {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--is-regua-forte);
     background: transparent;
     color: var(--mo-texto-2);
     font-family: var(--mo-fonte);
     font-size: 12.5px;
-    font-weight: 500;
     cursor: pointer;
-    transition:
-        border-color var(--mo-dur-curta) ease,
-        background var(--mo-dur-curta) ease,
-        color var(--mo-dur-curta) ease;
 }
 
-.botaoFiltro mo-simbolo {
-    color: var(--is-cor, var(--mo-texto-3));
-}
-
-.botaoFiltro:hover {
-    border-color: color-mix(in srgb, var(--is-cor, var(--mo-texto)) 50%, var(--mo-linha));
+.filtrosFuncoes .botaoFiltro:hover {
+    border-color: var(--mo-texto-3);
     color: var(--mo-texto);
 }
 
-.botaoFiltro.ativo {
-    border-color: var(--is-cor, var(--mo-destaque));
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 16%, transparent);
-    color: var(--mo-texto);
+.filtrosFuncoes .botaoFiltro.ativo {
+    border-color: var(--is-cor, var(--is-tinta));
+    background: var(--is-cor, var(--is-tinta));
+    color: var(--is-papel);
 }
 
-.filtrosFuncoes .botaoFiltro {
-    height: 28px;
-    font-size: 12px;
+/* a tabela de resultados: o elenco */
+.tabelaResultados[data-aba="profissionais"] {
+    --colunas: minmax(0, 1.6fr) minmax(0, 1.5fr) 110px 100px 120px 20px;
 }
 
-.contagemResultados {
-    margin-bottom: -18px;
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--mo-texto-3);
+.tabelaResultados[data-aba="projetos"] {
+    --colunas: minmax(0, 2fr) minmax(0, 1fr) 130px 100px 90px 20px;
 }
 
-/* cartao de pessoa: a ficha do personagem */
-.cartaoPessoa {
-    --is-mira: var(--is-cor, var(--mo-destaque));
-}
-
-.cartaoPessoa .classePessoa {
-    color: var(--is-cor, var(--mo-destaque));
-    font-weight: 600;
-}
-
-.statusPessoa {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-    padding: 10px 12px;
-    border-radius: var(--mo-raio-m);
-    background: var(--mo-fundo);
-    font-family: var(--mo-fonte-mono);
-    font-size: 11.5px;
-    color: var(--mo-texto-2);
-}
-
-.statusPessoa span {
-    display: inline-flex;
-    align-items: center;
+.celulaFuncao {
+    display: grid;
+    justify-items: start;
     gap: 6px;
+    min-width: 0;
 }
 
-.statusPessoa small {
+.celulaFuncao small {
+    font-size: 12px;
     color: var(--mo-texto-3);
-    font-size: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
-.statusPessoa mo-simbolo {
-    --mo-simbolo-tamanho: 9px;
-    color: var(--mo-texto-3);
+.tabelaResultados .cartaoTitulo .selo {
+    justify-self: start;
+    margin-top: 4px;
 }
 
-.semMetrica {
-    font-family: var(--mo-fonte-mono);
-    font-size: 11.5px;
-    color: var(--mo-texto-3);
+@media (max-width: 1100px) {
+    .filtrosClasses {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .filtrosClasses .botaoFiltro:nth-child(4) {
+        border-left: 0;
+    }
+
+    .filtrosClasses .botaoFiltro:nth-child(n + 4) {
+        border-top-width: 4px;
+        box-shadow: 0 -1px 0 var(--is-regua);
+    }
 }
 
-.dadoRealce {
-    color: var(--mo-sucesso);
+@media (max-width: 900px) {
+    .tabelaResultados[data-aba] {
+        --colunas: minmax(0, 1fr) 90px;
+    }
+
+    .tabelaResultados .tabelaTopo,
+    .tabelaResultados .linhaTabela > :nth-child(n + 3) {
+        display: none;
+    }
+
+    .tabelaResultados[data-aba="projetos"] .linhaTabela > :nth-child(2) {
+        display: none;
+    }
+
+    .tabelaResultados[data-aba="projetos"] {
+        --colunas: minmax(0, 1fr);
+    }
 }
 
-.dadoRealce mo-simbolo {
-    color: currentColor;
-}
-
-@media (max-width: 760px) {
+@media (max-width: 640px) {
     .linhaBusca {
         flex-direction: column;
-        align-items: stretch;
+    }
+
+    .abasBusca {
+        border-left: 0;
+        border-top: 1px solid var(--is-regua);
     }
 
     .abaBusca {
         flex: 1;
-        justify-content: center;
-    }
-}
-
-
-/* ==========================================================================
-   Perfil: a ficha do personagem
-   ========================================================================== */
-
-.fichaPersonagem {
-    display: grid;
-    grid-template-columns: 300px minmax(0, 1fr);
-    gap: 28px;
-    align-items: start;
-}
-
-.cartaoHeroi {
-    position: sticky;
-    top: 0;
-    gap: 14px;
-    padding: 22px;
-    --is-mira: var(--is-cor, var(--mo-destaque));
-    border-top: 3px solid var(--is-cor, var(--mo-destaque));
-}
-
-.heroiTopo {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
-.heroiNome h1 {
-    font-size: 24px;
-    line-height: 1.15;
-}
-
-.handlePerfil {
-    margin-top: 4px;
-    font-family: var(--mo-fonte-mono);
-    font-size: 12px;
-    color: var(--mo-texto-3);
-}
-
-.funcaoPerfil {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    justify-self: start;
-    padding: 6px 10px;
-    border-radius: var(--mo-raio-m);
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 14%, transparent);
-    color: var(--is-cor, var(--mo-destaque));
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.bioPerfil {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--mo-texto-2);
-}
-
-.membroDesde {
-    padding-top: 12px;
-    border-top: 1px dashed var(--mo-linha);
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    color: var(--mo-texto-3);
-}
-
-.membroDesde:empty {
-    display: none;
-}
-
-.fichaDetalhes {
-    display: grid;
-    gap: 30px;
-    min-width: 0;
-}
-
-/* a missao de completar o perfil */
-.missao {
-    display: grid;
-    gap: 12px;
-    padding: 16px 18px;
-    border: 1px solid color-mix(in srgb, var(--mo-destaque) 35%, transparent);
-    border-radius: var(--is-raio);
-    background: color-mix(in srgb, var(--mo-destaque) 7%, var(--mo-cartao));
-}
-
-.missaoTopo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.missaoTopo strong {
-    font-size: 14px;
-}
-
-.missaoPorcento {
-    margin-left: auto;
-    font-family: var(--mo-fonte-mono);
-    font-size: 12px;
-    color: var(--mo-destaque);
-}
-
-.missaoLista {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 18px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.missaoLista li {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    color: var(--mo-texto-2);
-}
-
-.missaoLista li::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border: 1.5px solid var(--mo-destaque);
-    border-radius: 1px;
-}
-
-/* reputacao como atributos */
-.atributos {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 28px;
-}
-
-.atributoMedia {
-    display: grid;
-    justify-items: start;
-    gap: 8px;
-    padding-right: 28px;
-    border-right: 1px solid var(--mo-borda);
-}
-
-.atributoMedia is-numero {
-    --is-numero-altura: 42px;
-    color: var(--is-audio);
-}
-
-.atributoMedia span {
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    color: var(--mo-texto-3);
-}
-
-.atributosLista {
-    display: grid;
-    gap: 12px;
-}
-
-.atributo {
-    display: grid;
-    grid-template-columns: 96px 1fr 30px;
-    align-items: center;
-    gap: 12px;
-    font-size: 12.5px;
-    color: var(--mo-texto-2);
-}
-
-.atributo is-medidor {
-    --is-cor: var(--is-audio);
-}
-
-.atributo strong {
-    font-family: var(--mo-fonte-mono);
-    font-size: 12px;
-    text-align: right;
-}
-
-.semAvaliacao {
-    grid-column: 1 / -1;
-    font-size: 13px;
-    color: var(--mo-texto-3);
-}
-
-/* funcoes: uma linha por funcao, com o nivel em casinhas grandes */
-.listaFuncoes {
-    display: grid;
-    gap: 8px;
-}
-
-.linhaFuncao {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 14px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
-}
-
-.iconeClasse {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--is-cor) 16%, transparent);
-    color: var(--is-cor);
-    flex: none;
-}
-
-.linhaFuncao is-nivel {
-    gap: 3px;
-    color: var(--is-cor);
-}
-
-.linhaFuncao is-nivel i {
-    width: 9px;
-    height: 16px;
-}
-
-.linhaFuncao .botaoRemoverTag {
-    margin: 0 0 0 4px;
-}
-
-.tagFerramenta mo-simbolo {
-    --mo-simbolo-tamanho: 9px;
-    color: var(--mo-texto-3);
-}
-
-/* gaveta que abre a lista de escolher (ferramentas) */
-.gaveta {
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
-}
-
-.gaveta summary {
-    padding: 12px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--mo-destaque);
-    cursor: pointer;
-    list-style: none;
-}
-
-.gaveta summary::before {
-    content: "+ ";
-    font-family: var(--mo-fonte-mono);
-}
-
-.gaveta[open] summary::before {
-    content: "− ";
-}
-
-.gaveta .botoesPerfil {
-    padding: 4px 14px 16px;
-}
-
-.gradeCompacta {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-}
-
-/* avaliacoes recebidas */
-.cartaoAvaliacao .notaAvaliacao {
-    --is-numero-altura: 28px;
-    color: var(--is-audio);
-}
-
-.notasDetalhe {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-}
-
-.notasDetalhe span {
-    display: grid;
-    gap: 6px;
-    font-size: 11.5px;
-    color: var(--mo-texto-3);
-}
-
-.notasDetalhe is-medidor {
-    --is-cor: var(--is-audio);
-    --is-medidor-altura: 6px;
-}
-
-.citacao {
-    padding-left: 12px;
-    border-left: 3px solid var(--mo-linha);
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: var(--mo-texto-2);
-}
-
-.duasColunas {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
-.formulario {
-    gap: 16px;
-}
-
-.tituloForm {
-    font-size: 15px;
-}
-
-.linkCandidaturas {
-    justify-self: start;
-    font-size: 13px;
-    color: var(--mo-destaque);
-}
-
-@media (max-width: 960px) {
-    .fichaPersonagem {
-        grid-template-columns: minmax(0, 1fr);
+        height: 44px;
     }
 
-    .cartaoHeroi {
-        position: static;
-    }
-}
-
-@media (max-width: 560px) {
-    .atributos {
-        grid-template-columns: 1fr;
+    .caixaBusca input {
+        height: 56px;
+        font-size: 18px;
     }
 
-    .atributoMedia {
-        padding: 0 0 16px;
-        border-right: 0;
-        border-bottom: 1px solid var(--mo-borda);
+    .filtrosClasses {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .duasColunas,
-    .notasDetalhe {
-        grid-template-columns: 1fr;
+    .filtrosClasses .botaoFiltro {
+        min-height: 70px;
     }
 
-    .atributo {
-        grid-template-columns: 84px 1fr 28px;
+    .filtrosClasses .botaoFiltro:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .filtrosClasses .botaoFiltro:nth-child(4) {
+        border-left: 1px solid var(--is-regua);
+    }
+
+    .tabelaResultados[data-aba="profissionais"] {
+        --colunas: minmax(0, 1fr);
+    }
+
+    .tabelaResultados[data-aba="profissionais"] .linhaTabela > :nth-child(2) {
+        display: grid;
     }
 }
 
@@ -653,100 +436,120 @@
 
 .voltar {
     justify-self: start;
-    margin-bottom: -14px;
+    margin-bottom: -24px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
 }
 
-.capaProjeto {
+.voltar:hover {
+    color: var(--mo-texto);
+}
+
+/* o banner: um bloco cheio na cor do projeto, como rotulo de cartucho */
+.bannerProjeto {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 28px;
-    align-items: start;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: end;
+    gap: 32px;
+    padding: 34px 34px 30px;
+    background: var(--is-cor);
+    color: var(--is-papel);
 }
 
-.capaTexto {
+.bannerCapa is-cartucho {
+    background: var(--is-papel);
+    color: var(--is-cor);
+}
+
+.bannerCapa is-cartucho .fenda {
+    fill: var(--is-cor);
+    opacity: 0.5;
+}
+
+.bannerTexto {
     display: grid;
-    gap: 18px;
-}
-
-.capaTitulo {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-}
-
-.capaTitulo > div {
-    display: grid;
-    gap: 8px;
     justify-items: start;
+    gap: 12px;
+    min-width: 0;
 }
 
-.capaTitulo h1 {
-    font-size: clamp(28px, 3.6vw, 40px);
-    line-height: 1.05;
+.bannerTexto h1 {
+    font-size: clamp(36px, 5.4vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+}
+
+.bannerProjeto .seloStatus {
+    --selo: var(--is-papel);
 }
 
 .criadorProjeto {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    font-size: 13px;
-    color: var(--mo-texto-2);
+    gap: 10px;
+    font-size: 13.5px;
+}
+
+.criadorProjeto is-sprite {
+    background: var(--is-papel);
 }
 
 .criadorProjeto:hover strong {
-    color: var(--mo-destaque);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.introProjeto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 40px;
+    align-items: start;
 }
 
 .descricaoProjeto {
-    max-width: 62ch;
-    font-size: 15px;
-    line-height: 1.65;
-    color: var(--mo-texto-2);
+    font-size: 21px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--mo-texto);
 }
 
 /* a ficha tecnica como o inspetor de uma engine */
 .inspetor {
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
-    overflow: hidden;
+    border: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
 }
 
 .inspetorTopo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    background: var(--mo-lateral-2);
-    border-bottom: 1px solid var(--mo-borda);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--is-regua-forte);
+    background: var(--is-tinta);
+    color: var(--is-papel);
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--mo-texto-2);
-}
-
-.inspetorTopo mo-simbolo {
-    --mo-simbolo-tamanho: 9px;
-    color: var(--mo-destaque);
 }
 
 .inspetorLinhas .itemFicha {
     display: grid;
     grid-template-columns: 96px 1fr;
     gap: 12px;
-    padding: 10px 14px;
-    font-size: 13px;
+    padding: 11px 14px;
+    font-size: 13.5px;
 }
 
 .inspetorLinhas .itemFicha + .itemFicha {
-    border-top: 1px solid var(--mo-borda);
+    border-top: 1px solid var(--is-regua);
 }
 
 .inspetorLinhas .itemFicha span {
     font-family: var(--mo-fonte-mono);
-    font-size: 11.5px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
     color: var(--mo-texto-3);
 }
 
@@ -756,51 +559,40 @@
     overflow-wrap: anywhere;
 }
 
-.inspetorLinhas .mensagemVazia {
-    margin: 12px;
-}
-
-/* barra de ferramentas do dono */
+/* ferramentas do dono */
 .barraDono {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-#blocoDono .tituloSecao mo-simbolo,
-#blocoAvaliacoes .tituloSecao mo-simbolo,
-#blocoCandidaturas .tituloSecao mo-simbolo {
-    color: var(--is-audio);
-}
-
-/* mapa de marcos: as fases em fila, ligadas por um caminho pontilhado */
+/* mapa de marcos: as fases numa trilha */
 .mapaMarcos {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(140px, 200px);
+    grid-auto-columns: minmax(150px, 210px);
     justify-content: start;
     overflow-x: auto;
-    padding: 4px 2px 10px;
+    padding: 4px 0 10px;
 }
 
 .itemMarco {
     display: grid;
-    justify-items: center;
-    gap: 9px;
+    justify-items: start;
+    gap: 10px;
     position: relative;
-    padding: 0 8px;
-    text-align: center;
+    padding-right: 20px;
 }
 
-/* o caminho ate a proxima fase */
+/* o trilho ate a proxima fase */
 .itemMarco::after {
     content: "";
     position: absolute;
-    top: 37px;
-    left: calc(50% + 22px);
-    right: calc(-50% + 22px);
-    height: 4px;
-    background: radial-gradient(circle, var(--mo-decorativa) 1.5px, transparent 2px) 0 50% / 8px 4px repeat-x;
+    top: 42px;
+    left: 34px;
+    right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--is-regua-forte) 0 4px, transparent 4px 8px);
 }
 
 .itemMarco:last-child::after {
@@ -808,14 +600,13 @@
 }
 
 .itemMarco.marcoConcluido::after {
-    background: var(--mo-destaque);
-    height: 3px;
+    background: var(--is-tinta);
 }
 
 .faseMarco {
     font-family: var(--mo-fonte-mono);
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mo-texto-3);
 }
@@ -823,55 +614,51 @@
 .casaMarco {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     padding: 0;
-    border: 2px solid var(--mo-decorativa);
-    border-radius: 6px;
+    border: 2px solid var(--is-regua-forte);
     background: var(--mo-fundo);
-    color: var(--mo-sobre-destaque);
+    color: var(--is-papel);
     position: relative;
     z-index: 1;
 }
 
 button.casaMarco {
     cursor: pointer;
-    transition: transform var(--mo-dur-toque) var(--mo-ease-saida), border-color var(--mo-dur-curta) ease;
 }
 
 button.casaMarco:hover {
-    border-color: var(--mo-destaque);
-    transform: translateY(-2px);
+    border-color: var(--is-tinta);
 }
 
 .marcoConcluido .casaMarco {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque);
+    border-color: var(--is-tinta);
+    background: var(--is-tinta);
 }
 
 /* a fase atual pisca como cursor de jogo */
 .marcoAtual .casaMarco {
-    border-color: var(--is-audio);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--is-audio) 20%, transparent);
-    animation: faseAtual 1.2s steps(1, end) infinite;
+    border-color: var(--is-espera);
+    animation: faseAtual 1s steps(1, end) infinite;
 }
 
 @keyframes faseAtual {
-    50% { box-shadow: 0 0 0 4px transparent; }
+    50% { background: var(--is-espera); }
 }
 
 .tituloMarco {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.35;
-    color: var(--mo-texto-2);
+    color: var(--mo-texto-3);
 }
 
-.marcoConcluido .tituloMarco {
+.marcoConcluido .tituloMarco,
+.marcoAtual .tituloMarco {
     color: var(--mo-texto);
 }
 
 .marcoAtual .tituloMarco {
-    color: var(--mo-texto);
     font-weight: 600;
 }
 
@@ -879,19 +666,22 @@ button.casaMarco:hover {
 .tirarMembro {
     position: absolute;
     top: 0;
-    right: 8px;
+    right: 16px;
     width: 20px;
     height: 20px;
     padding: 0;
     border: 0;
-    border-radius: 4px;
     background: transparent;
     color: var(--mo-texto-3);
     font-size: 15px;
     line-height: 1;
     cursor: pointer;
     opacity: 0;
-    transition: opacity var(--mo-dur-curta) ease;
+}
+
+.tirarMembro {
+    top: 8px;
+    right: 8px;
 }
 
 .itemMarco:hover .apagarMarco,
@@ -903,32 +693,39 @@ button.casaMarco:hover {
 
 .apagarMarco:hover,
 .tirarMembro:hover {
-    background: var(--mo-perigo-suave);
-    color: var(--mo-perigo);
+    background: var(--is-erro);
+    color: var(--is-papel);
 }
 
-/* a party: membros e espacos vazios lado a lado */
+/* a party: membros e espacos vazios, colados, como uma grade de selecao */
 .party {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    border-top: 1px solid var(--is-regua-forte);
+    border-left: 1px solid var(--is-regua-forte);
 }
 
 .slot {
     display: grid;
-    justify-items: center;
+    justify-items: start;
     align-content: start;
-    gap: 6px;
-    padding: 20px 12px 16px;
-    border-radius: var(--is-raio);
-    text-align: center;
+    gap: 4px;
+    min-height: 168px;
+    padding: 18px;
+    border-right: 1px solid var(--is-regua-forte);
+    border-bottom: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
     position: relative;
     min-width: 0;
 }
 
+.slot is-sprite,
+.slot .slotVazio {
+    margin-bottom: 18px;
+}
+
 .slot strong {
-    margin-top: 6px;
-    font-size: 13.5px;
+    font-size: 15px;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -937,34 +734,32 @@ button.casaMarco:hover {
 
 .slot > span:not(.slotVazio) {
     font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
+    font-size: 10px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
-.slotOcupado {
-    border: 1px solid var(--mo-borda);
-    background: var(--mo-cartao);
+.slotOcupado.cardClicavel:hover {
+    background: var(--mo-lateral-2);
+    box-shadow: inset 0 -3px 0 var(--is-cor, var(--is-tinta));
 }
 
 .coroaSlot {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    color: var(--is-audio);
+    top: 18px;
+    right: 18px;
     --mo-simbolo-tamanho: 18px;
+    color: var(--mo-texto-3);
 }
 
 .slotLivre {
-    border: 1.5px dashed color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 45%, var(--mo-linha));
+    background: repeating-linear-gradient(-45deg, transparent 0 6px, color-mix(in srgb, var(--is-cor, var(--is-tinta)) 9%, transparent) 6px 8px), var(--mo-fundo);
     color: var(--mo-texto);
-    transition: background var(--mo-dur-curta) ease, border-color var(--mo-dur-curta) ease;
 }
 
 .slotLivre:hover {
-    border-style: solid;
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 8%, transparent);
+    background: color-mix(in srgb, var(--is-cor, var(--is-tinta)) 14%, var(--mo-fundo));
 }
 
 .slotVazio {
@@ -972,36 +767,48 @@ button.casaMarco:hover {
     place-items: center;
     width: 54px;
     height: 54px;
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 10%, transparent);
-    color: var(--is-cor, var(--mo-destaque));
+    border: 2px dashed var(--is-cor, var(--is-tinta));
+    color: var(--is-cor, var(--is-tinta));
 }
 
 .slotLivre > span:last-child {
-    color: var(--is-cor, var(--mo-destaque));
+    color: var(--is-cor, var(--is-tinta));
 }
 
 .slotLivre .slotVazio mo-simbolo {
-    animation: slotPisca 1.6s steps(1, end) infinite;
+    animation: slotPisca 1.4s steps(1, end) infinite;
 }
 
 @keyframes slotPisca {
-    50% { opacity: 0.35; }
+    50% { opacity: 0.25; }
+}
+
+.party > .mensagemVazia {
+    border: 0;
+    border-right: 1px solid var(--is-regua-forte);
+    border-bottom: 1px solid var(--is-regua-forte);
 }
 
 /* vagas */
 .cartaoVaga {
-    border-left: 3px solid var(--is-cor, var(--mo-destaque));
+    gap: 16px;
+    padding: 22px 24px;
+    border-left: 4px solid var(--is-cor, var(--is-tinta));
     scroll-margin-top: 20px;
 }
 
 .cartaoVaga:target {
-    border-color: var(--is-cor, var(--mo-destaque));
-    box-shadow: 0 0 0 1px var(--is-cor, var(--mo-destaque));
+    outline: 2px solid var(--is-cor, var(--is-tinta));
+    outline-offset: -2px;
+}
+
+.cartaoVaga .cartaoTitulo h3 {
+    font-size: 19px;
 }
 
 .cartaoVaga .cartaoTexto {
     -webkit-line-clamp: unset;
+    font-size: 14.5px;
 }
 
 .rodapeVaga {
@@ -1009,35 +816,33 @@ button.casaMarco:hover {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    padding-top: 14px;
-    border-top: 1px dashed var(--mo-linha);
+    padding-top: 16px;
+    border-top: 1px solid var(--is-regua);
 }
 
-/* compatibilidade: a nota grande e os sete criterios em barra */
+/* compatibilidade: a nota grande e os sete criterios */
 .blocoCompatibilidade {
-    --nota: var(--mo-sucesso);
+    --nota: var(--is-ok);
     display: grid;
-    grid-template-columns: 170px minmax(0, 1fr);
-    gap: 14px 22px;
-    padding: 16px;
-    border-radius: var(--mo-raio-m);
+    grid-template-columns: 180px minmax(0, 1fr);
+    border: 1px solid var(--is-regua);
     background: var(--mo-fundo);
 }
 
 .blocoCompatibilidade.notaMedia {
-    --nota: var(--is-audio);
+    --nota: var(--is-espera);
 }
 
 .blocoCompatibilidade.notaBaixa {
-    --nota: var(--mo-perigo);
+    --nota: var(--is-erro);
 }
 
 .notaMatch {
     display: grid;
-    align-content: center;
-    gap: 8px;
-    padding-right: 20px;
-    border-right: 1px solid var(--mo-borda);
+    align-content: space-between;
+    gap: 16px;
+    padding: 18px;
+    border-right: 1px solid var(--is-regua);
 }
 
 .notaMatch is-numero {
@@ -1047,21 +852,24 @@ button.casaMarco:hover {
 
 .notaMatch span {
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
 .criterios {
     display: grid;
-    gap: 7px;
+    gap: 8px;
+    padding: 18px;
 }
 
 .criterio {
     display: grid;
-    grid-template-columns: 92px minmax(0, 1fr) 44px;
+    grid-template-columns: 100px minmax(0, 1fr) 48px;
     align-items: center;
-    gap: 10px;
-    font-size: 12px;
+    gap: 12px;
+    font-size: 12.5px;
     color: var(--mo-texto-2);
 }
 
@@ -1071,7 +879,7 @@ button.casaMarco:hover {
 }
 
 .criterio is-medidor {
-    --is-medidor-altura: 7px;
+    --is-medidor-altura: 8px;
     --is-cor: var(--nota);
 }
 
@@ -1089,63 +897,53 @@ button.casaMarco:hover {
     flex-wrap: wrap;
     gap: 6px;
     margin: 0;
-    padding: 12px 0 0;
-    border-top: 1px dashed var(--mo-linha);
+    padding: 14px 18px;
+    border-top: 1px solid var(--is-regua);
     list-style: none;
 }
 
 .listaPontos li {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 12px;
+    gap: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--is-regua-forte);
+    font-size: 12.5px;
+    color: var(--mo-texto-2);
 }
 
-.pontoForte {
-    background: color-mix(in srgb, var(--mo-sucesso) 12%, transparent);
-    color: var(--mo-texto);
+.pontoForte::before,
+.pontoFraco::before {
+    font-family: var(--mo-fonte-mono);
+    font-weight: 700;
 }
 
 .pontoForte::before {
     content: "+";
-    font-family: var(--mo-fonte-mono);
-    font-weight: 700;
-    color: var(--mo-sucesso);
-}
-
-.pontoFraco {
-    background: color-mix(in srgb, var(--mo-perigo) 10%, transparent);
-    color: var(--mo-texto-2);
+    color: var(--is-ok);
 }
 
 .pontoFraco::before {
     content: "−";
-    font-family: var(--mo-fonte-mono);
-    font-weight: 700;
-    color: var(--mo-perigo);
+    color: var(--is-erro);
 }
 
 /* quem combina com a vaga (so o dono ve) */
 .listaRecomendados {
     display: grid;
-    gap: 10px;
-    padding-top: 4px;
+    border-top: 1px solid var(--is-regua);
 }
 
 .recomendado {
-    --nota: var(--mo-sucesso);
+    --nota: var(--is-ok);
     display: grid;
     gap: 10px;
-    padding: 14px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--mo-raio-m);
-    background: var(--mo-fundo);
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--is-regua);
 }
 
-.recomendado.notaMedia { --nota: var(--is-audio); }
-.recomendado.notaBaixa { --nota: var(--mo-perigo); }
+.recomendado.notaMedia { --nota: var(--is-espera); }
+.recomendado.notaBaixa { --nota: var(--is-erro); }
 
 .notaRecomendado {
     --is-numero-altura: 21px;
@@ -1156,6 +954,7 @@ button.casaMarco:hover {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 16px 4px;
     font-size: 13px;
     color: var(--mo-texto-3);
 }
@@ -1163,53 +962,93 @@ button.casaMarco:hover {
 .avisoEspera {
     display: flex;
     gap: 10px;
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.5;
     color: var(--mo-texto-2);
 }
 
 .avisoEspera mo-simbolo {
-    color: var(--is-audio);
+    color: var(--is-espera);
     flex: none;
+}
+
+.cartaoAvaliacao .notaAvaliacao {
+    --is-numero-altura: 35px;
+    color: var(--is-espera);
 }
 
 .notaRecebida {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: 18px;
+    gap: 22px;
 }
 
-.notaRecebida .notasDetalhe {
-    grid-template-columns: 1fr;
-    gap: 7px;
+.notasDetalhe {
+    display: grid;
+    gap: 8px;
 }
 
-.notaRecebida .notasDetalhe span {
-    grid-template-columns: 92px 1fr;
+.notasDetalhe span {
+    display: grid;
+    grid-template-columns: 96px 1fr;
     align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--mo-texto-3);
+}
+
+.notasDetalhe is-medidor {
+    --is-cor: var(--is-espera);
+    --is-medidor-altura: 6px;
+}
+
+.cartaoCandidato {
+    border-top: 4px solid var(--is-cor, var(--is-tinta));
 }
 
 .cartaoCandidato .cartaoTitulo a:hover {
-    color: var(--mo-destaque);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .cartaoCandidato .cartaoTitulo strong {
-    color: var(--is-cor, var(--mo-destaque));
+    color: var(--mo-texto);
 }
 
+.statusPessoa {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11.5px;
+    color: var(--mo-texto-2);
+}
+
+.statusPessoa span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.statusPessoa mo-simbolo {
+    --mo-simbolo-tamanho: 9px;
+    color: var(--mo-texto-3);
+}
+
+/* o dialogo da candidatura */
 .dialogoCandidatura {
-    --mo-dialogo-largura: 480px;
+    --mo-dialogo-largura: 500px;
 }
 
 .dialogoCandidatura .mo-dialogo-corpo {
     display: grid;
-    gap: 16px;
-    padding: 24px;
+    gap: 18px;
+    padding: 28px;
 }
 
 .dialogoCandidatura h2 {
-    font-size: 20px;
+    font-size: 26px;
     color: var(--mo-texto);
 }
 
@@ -1218,19 +1057,24 @@ button.casaMarco:hover {
 }
 
 @media (max-width: 960px) {
-    .capaProjeto {
+    .introProjeto {
         grid-template-columns: minmax(0, 1fr);
     }
 }
 
 @media (max-width: 640px) {
-    .capaTitulo {
-        align-items: flex-start;
-        gap: 16px;
+    .bannerProjeto {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+        padding: 24px 20px;
     }
 
-    .capaTitulo is-cartucho {
+    .bannerCapa is-cartucho {
         --is-cartucho: 66px !important;
+    }
+
+    .descricaoProjeto {
+        font-size: 17px;
     }
 
     .blocoCompatibilidade {
@@ -1238,13 +1082,374 @@ button.casaMarco:hover {
     }
 
     .notaMatch {
-        padding: 0 0 12px;
         border-right: 0;
-        border-bottom: 1px solid var(--mo-borda);
+        border-bottom: 1px solid var(--is-regua);
+    }
+
+    .criterio {
+        grid-template-columns: 84px minmax(0, 1fr) 44px;
     }
 
     .party {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* ==========================================================================
+   Perfil: a ficha do personagem
+   ========================================================================== */
+
+/* o banner na cor da classe, com o bonequinho grande */
+.bannerPerfil {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 30px;
+    padding: 30px 30px 28px;
+    background: var(--is-cor, var(--is-tinta));
+    color: var(--is-papel);
+}
+
+.bannerSprite is-sprite {
+    background: var(--is-papel);
+    color: var(--is-cor, var(--is-tinta));
+}
+
+.bannerPerfil .bannerTexto {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+}
+
+.bannerPerfil h1 {
+    font-size: clamp(36px, 5.2vw, 68px);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+}
+
+.funcaoPerfil {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.funcaoPerfil mo-simbolo {
+    --mo-simbolo-tamanho: 18px;
+}
+
+.handlePerfil {
+    font-family: var(--mo-fonte-mono);
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.bannerPerfil #botaoEditar {
+    --mo-tecla-face: var(--is-papel);
+    --mo-tecla-texto: var(--mo-texto);
+}
+
+.fichaPersonagem {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+
+.fichaLado {
+    position: sticky;
+    top: 0;
+    display: grid;
+    gap: 26px;
+}
+
+.bioPerfil {
+    font-size: 19px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+.fichaDados {
+    display: grid;
+    margin: 0;
+    border-top: 1px solid var(--is-regua-forte);
+}
+
+.fichaDados > div {
+    display: grid;
+    gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.fichaDados dt {
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.fichaDados dd {
+    margin: 0;
+}
+
+.fichaDados dd:empty::before {
+    content: "—";
+    color: var(--mo-texto-3);
+}
+
+.membroDesde {
+    font-size: 14px;
+}
+
+.fichaDetalhes {
+    display: grid;
+    gap: 44px;
+    min-width: 0;
+}
+
+/* a missao de completar o perfil */
+.missao {
+    display: grid;
+    gap: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--is-tinta);
+    background: var(--mo-fundo);
+}
+
+.missaoTopo {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.missaoTopo strong {
+    font-size: 15px;
+}
+
+.missaoPorcento {
+    margin-left: auto;
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+}
+
+.missaoLista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.missaoLista li {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--mo-texto-2);
+}
+
+.missaoLista li::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid var(--mo-texto-3);
+}
+
+/* reputacao como atributos */
+.atributos {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    background: var(--mo-fundo);
+}
+
+.atributoMedia {
+    display: grid;
+    gap: 12px;
+    padding: 22px 28px;
+    border-right: 1px solid var(--is-regua);
+}
+
+.atributoMedia is-numero {
+    --is-numero-altura: 56px;
+    color: var(--is-espera);
+}
+
+.atributoMedia span {
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.atributosLista {
+    display: grid;
+    gap: 14px;
+    padding: 22px 26px;
+}
+
+.atributo {
+    display: grid;
+    grid-template-columns: 100px 1fr 34px;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--mo-texto-2);
+}
+
+.atributo is-medidor {
+    --is-cor: var(--is-espera);
+}
+
+.atributo strong {
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: right;
+}
+
+.semAvaliacao {
+    grid-column: 1 / -1;
+    padding: 20px;
+    font-size: 13.5px;
+    color: var(--mo-texto-3);
+}
+
+/* funcoes: uma linha por funcao, o nivel em casinhas grandes */
+.listaFuncoes {
+    display: grid;
+    border-top: 1px solid var(--is-regua-forte);
+}
+
+.linhaFuncao {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.linhaFuncao is-nivel {
+    gap: 3px;
+    color: var(--is-cor);
+}
+
+.linhaFuncao is-nivel i {
+    width: 10px;
+    height: 18px;
+}
+
+.linhaFuncao .botaoRemoverTag {
+    margin: 0 0 0 4px;
+}
+
+/* gaveta que abre a lista de escolher (ferramentas) */
+.gaveta {
+    border: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
+}
+
+.gaveta summary {
+    padding: 13px 16px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    list-style: none;
+}
+
+.gaveta summary::before {
+    content: "+ ";
+}
+
+.gaveta[open] summary::before {
+    content: "− ";
+}
+
+.gaveta .botoesPerfil {
+    padding: 4px 16px 18px;
+}
+
+.tabelaPerfil {
+    --colunas: minmax(0, 1fr) auto auto 20px;
+}
+
+.cartaoAvaliacao {
+    gap: 16px;
+}
+
+.linkCandidaturas {
+    justify-self: start;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.linkCandidaturas:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 960px) {
+    .fichaPersonagem {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 34px;
+    }
+
+    .fichaLado {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .bannerPerfil {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 18px;
+        padding: 22px 18px;
+    }
+
+    .bannerSprite is-sprite {
+        --is-sprite: 72px !important;
+    }
+
+    .bannerPerfil #botaoEditar {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .atributos {
+        grid-template-columns: 1fr;
+    }
+
+    .atributoMedia {
+        border-right: 0;
+        border-bottom: 1px solid var(--is-regua);
+    }
+
+    .atributo {
+        grid-template-columns: 88px 1fr 30px;
+    }
+
+    .tabelaPerfil {
+        --colunas: minmax(0, 1fr) auto;
+    }
+
+    .tabelaPerfil .linhaTabela > .tag,
+    .tabelaPerfil .setaLinha {
+        display: none;
     }
 }
 
@@ -1253,132 +1458,131 @@ button.casaMarco:hover {
    Candidaturas
    ========================================================================== */
 
-.placarPendente mo-simbolo,
-.placarPendente is-numero { color: var(--is-audio); }
-
-.placarAceita mo-simbolo,
-.placarAceita is-numero { color: var(--mo-sucesso); }
-
-.placarRecusada mo-simbolo,
-.placarRecusada is-numero { color: var(--mo-perigo); }
-
-.linhaCandidatura {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 16px;
-    border-left: 3px solid var(--is-cor, var(--mo-destaque));
+.tabelaCandidaturas {
+    --colunas: minmax(0, 1fr) 110px 120px 100px;
 }
 
-.linhaCandidatura .cartaoTitulo strong {
-    color: var(--mo-texto-2);
-    font-weight: 600;
+.placarPendente is-numero { color: var(--is-espera); }
+.placarAceita is-numero { color: var(--is-ok); }
+.placarRecusada is-numero { color: var(--is-erro); }
+
+.acaoLinha {
+    justify-self: end;
 }
 
-@media (max-width: 560px) {
-    .linhaCandidatura {
-        flex-wrap: wrap;
+.linhaCandidatura .iconeClasse:has(mo-simbolo[nome="controle"]) {
+    background: var(--is-tinta);
+}
+
+@media (max-width: 640px) {
+    .tabelaCandidaturas {
+        --colunas: minmax(0, 1fr) auto;
     }
 
-    .linhaCandidatura .cartaoTitulo {
-        flex-basis: calc(100% - 60px);
+    .tabelaCandidaturas .tabelaTopo,
+    .tabelaCandidaturas .linhaTabela > .celulaMono {
+        display: none;
+    }
+
+    .tabelaCandidaturas .acaoLinha {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .tabelaCandidaturas .acaoLinha:empty {
+        display: none;
     }
 }
 
 
 /* ==========================================================================
-   Publicar projeto
+   Publicar projeto: etapas numeradas, a previa do lado
    ========================================================================== */
 
 .colunasPublicar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 28px;
+    gap: 44px;
     align-items: start;
 }
 
 .formPublicar {
     display: grid;
-    gap: 14px;
+    border-top: 1px solid var(--is-regua-forte);
 }
 
 .etapaForm {
     display: grid;
-    gap: 14px;
-    margin: 0;
-    padding: 20px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 32px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.etapaTitulo {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+}
+
+.etapaTitulo is-numero {
+    --is-numero-altura: 28px;
+    color: var(--mo-texto-3);
+    margin-bottom: 8px;
+}
+
+.etapaTitulo h2 {
+    font-size: 22px;
+}
+
+.etapaTitulo p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--mo-texto-3);
+}
+
+.etapaCampos {
+    display: grid;
+    gap: 18px;
     min-width: 0;
 }
 
-.etapaForm legend {
-    float: left;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    margin-bottom: 4px;
-    padding: 0;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.etapaForm legend span {
-    display: grid;
-    place-items: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
-    background: var(--mo-destaque);
-    color: var(--mo-sobre-destaque);
-    font-family: var(--mo-fonte-mono);
-    font-size: 12px;
-}
-
-.etapaForm legend + * {
-    clear: both;
-}
-
-.tresColunas {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+/* a etapa em que a pessoa esta escrevendo acende o numero */
+.etapaForm:focus-within .etapaTitulo is-numero {
+    color: var(--mo-texto);
 }
 
 .opcoesParceria {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    border-top: 1px solid var(--is-regua-forte);
+    border-left: 1px solid var(--is-regua-forte);
 }
 
 .opcaoParceria {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     align-content: start;
     justify-items: start;
-    padding: 16px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--is-raio);
-    background: transparent;
+    min-height: 150px;
+    padding: 18px;
+    border: 0;
+    border-right: 1px solid var(--is-regua-forte);
+    border-bottom: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
     color: var(--mo-texto);
     font-family: var(--mo-fonte);
     text-align: left;
     cursor: pointer;
-    transition:
-        border-color var(--mo-dur-curta) ease,
-        background var(--mo-dur-curta) ease,
-        transform var(--mo-dur-toque) var(--mo-ease-saida);
 }
 
 .opcaoParceria mo-simbolo {
-    margin-bottom: 4px;
+    margin-bottom: 14px;
     color: var(--mo-texto-3);
 }
 
 .opcaoParceria strong {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .opcaoParceria span {
@@ -1388,24 +1592,23 @@ button.casaMarco:hover {
 }
 
 .opcaoParceria:hover {
-    border-color: var(--mo-decorativa);
-}
-
-.opcaoParceria:active {
-    transform: translateY(1px);
+    background: var(--mo-lateral-2);
 }
 
 .opcaoParceria.ativo {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque-suave);
+    background: var(--is-tinta);
+    color: var(--is-papel);
 }
 
+.opcaoParceria.ativo span,
 .opcaoParceria.ativo mo-simbolo {
-    color: var(--mo-destaque);
+    color: inherit;
+    opacity: 0.75;
 }
 
 .acoesPublicar {
     justify-content: flex-end;
+    padding-top: 26px;
 }
 
 /* a previa do lado */
@@ -1413,14 +1616,19 @@ button.casaMarco:hover {
     position: sticky;
     top: 0;
     display: grid;
-    gap: 10px;
+    gap: 12px;
+}
+
+.previaProjeto .cartao {
+    background: var(--mo-fundo);
+    border-color: var(--is-regua-forte);
 }
 
 .previaBloco {
     display: grid;
-    gap: 8px;
-    padding-top: 12px;
-    border-top: 1px dashed var(--mo-linha);
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--is-regua);
 }
 
 .previaSlots {
@@ -1434,22 +1642,21 @@ button.casaMarco:hover {
     place-items: center;
     width: 36px;
     height: 36px;
-    border-radius: 8px;
 }
 
 .previaSlot.vazio {
-    border: 1.5px dashed color-mix(in srgb, var(--is-cor) 60%, transparent);
+    border: 2px dashed var(--is-cor);
     color: var(--is-cor);
-    animation: slotEntra 240ms var(--mo-ease-saida) both;
+    animation: slotEntra 220ms steps(3, end) both;
 }
 
 @keyframes slotEntra {
-    from { transform: scale(0.6); opacity: 0; }
+    from { transform: scale(0.5); opacity: 0; }
 }
 
 .previaMarcos {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -1458,24 +1665,17 @@ button.casaMarco:hover {
 
 .previaMarcos li {
     display: flex;
-    gap: 8px;
-    font-size: 12.5px;
+    gap: 10px;
+    font-size: 13px;
     color: var(--mo-texto-2);
     counter-increment: fase;
 }
 
 .previaMarcos li::before {
-    content: counter(fase);
-    display: grid;
-    place-items: center;
-    width: 16px;
-    height: 16px;
-    border: 1.5px solid var(--mo-decorativa);
-    border-radius: 3px;
+    content: counter(fase, decimal-leading-zero);
     font-family: var(--mo-fonte-mono);
-    font-size: 9px;
+    font-size: 11px;
     color: var(--mo-texto-3);
-    flex: none;
 }
 
 .previaMarcos .semMarco {
@@ -1486,7 +1686,7 @@ button.casaMarco:hover {
     display: none;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1100px) {
     .colunasPublicar {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -1497,10 +1697,18 @@ button.casaMarco:hover {
     }
 }
 
-@media (max-width: 640px) {
-    .tresColunas,
+@media (max-width: 760px) {
+    .etapaForm {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
     .opcoesParceria {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .opcaoParceria {
+        min-height: 0;
     }
 }
 
@@ -1510,39 +1718,48 @@ button.casaMarco:hover {
    ========================================================================== */
 
 .landing {
-    width: min(100% - 40px, var(--is-largura));
+    width: min(100% - 48px, var(--is-largura));
     margin: 0 auto;
 }
 
+/* abertura: a manchete ocupa a largura toda */
 .abertura {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: 56px;
-    align-items: center;
-    min-height: calc(100dvh - 62px);
-    padding: 56px 0 72px;
+    gap: 34px;
+    padding: 64px 0 80px;
+}
+
+.manchete {
+    font-size: clamp(54px, 9.6vw, 148px);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    font-weight: 600;
+}
+
+/* "termina o jogo." sublinhado pela faixa das cinco classes */
+.sublinhado {
+    background: var(--is-faixa) left bottom / 100% 0.1em no-repeat;
+    padding-bottom: 0.06em;
+}
+
+.aberturaBase {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 48px;
+    align-items: start;
+    padding-top: 34px;
+    border-top: 1px solid var(--is-regua-forte);
 }
 
 .aberturaTexto {
     display: grid;
-    gap: 24px;
+    gap: 28px;
     justify-items: start;
 }
 
-.aberturaTexto h1 {
-    font-size: clamp(44px, 6.4vw, 84px);
-    line-height: 0.98;
-    letter-spacing: -0.045em;
-}
-
-.aberturaTexto h1 span {
-    color: var(--mo-destaque);
-}
-
 .aberturaApoio {
-    max-width: 52ch;
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: 19px;
+    line-height: 1.55;
     color: var(--mo-texto-2);
 }
 
@@ -1550,16 +1767,12 @@ button.casaMarco:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 6px;
 }
 
 /* a tela de escolher a party */
 .selecao {
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--mo-raio-xg);
-    background: var(--mo-cartao);
-    box-shadow: 0 6px 0 color-mix(in srgb, var(--mo-fundo) 60%, black);
-    overflow: hidden;
+    border: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
 }
 
 .selecaoTopo,
@@ -1568,18 +1781,17 @@ button.casaMarco:hover {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 12px 18px;
+    padding: 11px 16px;
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
 .selecaoTopo {
-    background: var(--mo-lateral-2);
-    border-bottom: 1px solid var(--mo-borda);
-    color: var(--mo-texto-2);
+    background: var(--is-tinta);
+    color: var(--is-papel);
     font-weight: 600;
 }
 
@@ -1587,16 +1799,15 @@ button.casaMarco:hover {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    color: var(--mo-sucesso);
 }
 
 .selecaoLed .mo-pulso {
-    --mo-pulso-cor: var(--mo-sucesso);
+    --mo-pulso-cor: var(--is-ok);
 }
 
 .selecaoRodape {
-    border-top: 1px solid var(--mo-borda);
-    letter-spacing: 0.02em;
+    border-top: 1px solid var(--is-regua);
+    letter-spacing: 0.04em;
     text-transform: none;
 }
 
@@ -1606,8 +1817,7 @@ button.casaMarco:hover {
     min-width: 18px;
     height: 18px;
     margin-right: 3px;
-    border-radius: 4px;
-    background: var(--mo-elevada);
+    border: 1px solid var(--is-regua-forte);
     font-family: inherit;
     font-size: 10px;
     color: var(--mo-texto-2);
@@ -1615,9 +1825,8 @@ button.casaMarco:hover {
 
 .elencoLista {
     display: grid;
-    gap: 4px;
     margin: 0;
-    padding: 10px;
+    padding: 0;
     list-style: none;
 }
 
@@ -1627,12 +1836,14 @@ button.casaMarco:hover {
     grid-template-rows: auto auto;
     align-items: center;
     column-gap: 14px;
-    padding: 9px 12px;
-    border-radius: var(--mo-raio-m);
+    padding: 11px 16px 11px 22px;
+    border-bottom: 1px solid var(--is-regua);
     cursor: pointer;
     position: relative;
-    transition: background var(--mo-dur-toque) ease;
-    --is-mira: var(--is-cor);
+}
+
+.elencoItem:last-child {
+    border-bottom: 0;
 }
 
 .elencoItem is-sprite {
@@ -1640,14 +1851,15 @@ button.casaMarco:hover {
 }
 
 .elencoNome {
-    font-size: 14.5px;
+    font-size: 15px;
     font-weight: 600;
 }
 
 .elencoFuncao {
     grid-column: 2;
-    font-size: 12px;
-    color: var(--is-cor);
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    color: var(--mo-texto-3);
 }
 
 .elencoItem is-nivel {
@@ -1656,50 +1868,28 @@ button.casaMarco:hover {
     color: var(--is-cor);
 }
 
-/* o item escolhido: fundo na cor da classe, os cantos da mira e a setinha */
+/* o escolhido: fundo cheio na cor da classe e a setinha piscando */
 .elencoItem.escolhido {
-    background: color-mix(in srgb, var(--is-cor) 13%, transparent);
+    background: var(--is-cor);
+    color: var(--is-papel);
 }
 
-.elencoItem::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    --c: var(--is-cor);
-    --l: 10px;
-    --e: 2px;
-    background:
-        linear-gradient(var(--c) 0 0) top left / var(--l) var(--e),
-        linear-gradient(var(--c) 0 0) top left / var(--e) var(--l),
-        linear-gradient(var(--c) 0 0) top right / var(--l) var(--e),
-        linear-gradient(var(--c) 0 0) top right / var(--e) var(--l),
-        linear-gradient(var(--c) 0 0) bottom left / var(--l) var(--e),
-        linear-gradient(var(--c) 0 0) bottom left / var(--e) var(--l),
-        linear-gradient(var(--c) 0 0) bottom right / var(--l) var(--e),
-        linear-gradient(var(--c) 0 0) bottom right / var(--e) var(--l);
-    background-repeat: no-repeat;
-    opacity: 0;
-    transform: scale(1.04);
-    transition:
-        opacity var(--mo-dur-toque) ease,
-        transform var(--mo-dur-media) var(--mo-ease-saida);
+.elencoItem.escolhido .elencoFuncao,
+.elencoItem.escolhido is-nivel {
+    color: var(--is-papel);
 }
 
-.elencoItem.escolhido::after {
-    opacity: 1;
-    transform: none;
+.elencoItem.escolhido is-sprite {
+    background: var(--is-papel);
 }
 
 .elencoItem.escolhido::before {
     content: "";
     position: absolute;
-    left: -9px;
-    top: calc(50% - 6px);
-    width: 0;
-    height: 0;
-    border-block: 6px solid transparent;
-    border-left: 6px solid var(--is-cor);
+    left: 7px;
+    top: calc(50% - 5px);
+    border-block: 5px solid transparent;
+    border-left: 5px solid var(--is-papel);
     animation: setaPisca 0.8s steps(1, end) infinite;
 }
 
@@ -1707,145 +1897,130 @@ button.casaMarco:hover {
     50% { opacity: 0; }
 }
 
-/* secoes */
+/* secoes numeradas */
 .secao {
     display: grid;
-    gap: 36px;
-    padding: 88px 0;
-    border-top: 1px solid var(--mo-borda);
+    gap: 44px;
+    padding: 90px 0;
+    border-top: 1px solid var(--is-regua-forte);
 }
 
 .secaoTopo {
     display: grid;
-    gap: 10px;
-    max-width: 640px;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 10px 0;
+    align-items: baseline;
+}
+
+.secaoIndice {
+    grid-row: span 2;
+    font-family: var(--mo-fonte-mono);
+    font-size: 13px;
+    color: var(--mo-texto-3);
 }
 
 .secaoTopo h2 {
-    font-size: clamp(30px, 3.8vw, 46px);
-    line-height: 1.05;
-    letter-spacing: -0.035em;
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
 }
 
-.secaoTopo > p:last-child {
-    font-size: 16px;
+.secaoTopo p {
+    max-width: 56ch;
+    font-size: 17px;
     color: var(--mo-texto-2);
 }
 
-/* como funciona: tres fases ligadas por um caminho */
+/* como funciona: tres colunas entre reguas, o numero grande em pixel */
 .passos {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0;
-    margin: 0;
+    margin: 0 0 0 120px;
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--is-regua);
 }
 
 .passos li {
     display: grid;
-    gap: 12px;
     align-content: start;
-    padding-right: 36px;
-    position: relative;
+    gap: 14px;
+    padding: 26px 28px 8px 0;
 }
 
-.passos li::after {
-    content: "";
-    position: absolute;
-    top: 50px;
-    left: 64px;
-    right: 18px;
-    height: 4px;
-    background: radial-gradient(circle, var(--mo-destaque) 1.5px, transparent 2px) 0 50% / 9px 4px repeat-x;
-    opacity: 0.6;
+.passos li + li {
+    padding-left: 28px;
+    border-left: 1px solid var(--is-regua);
 }
 
-.passos li:last-child::after {
-    display: none;
-}
-
-.faseNumero {
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mo-destaque);
-}
-
-.casaFase {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    background: var(--mo-destaque);
-    color: var(--mo-sobre-destaque);
-    box-shadow: 0 3px 0 color-mix(in oklab, var(--mo-destaque) 45%, black);
+.passos is-numero {
+    --is-numero-altura: 56px;
+    margin-bottom: 14px;
 }
 
 .passos h3 {
-    margin-top: 8px;
-    font-size: 19px;
+    font-size: 21px;
 }
 
 .passos p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mo-texto-2);
+}
+
+/* recursos: uma ficha tecnica, uma linha por recurso */
+.recursos {
+    display: grid;
+    margin-left: 120px;
+    border-top: 1px solid var(--is-regua);
+}
+
+.recurso {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 32px;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.recurso h3 {
+    font-size: 19px;
+}
+
+.recurso > p {
     font-size: 14.5px;
     line-height: 1.6;
     color: var(--mo-texto-2);
 }
 
-/* recursos: cada um com uma demonstracao viva */
-.recursos {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.recurso {
-    display: grid;
-    gap: 20px;
-    align-content: space-between;
-    padding: 24px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--mo-raio-xg);
-    background: var(--mo-cartao);
-}
-
-.recursoLargo {
-    grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    align-items: center;
-    gap: 36px;
-}
-
-.recursoTexto {
-    display: grid;
-    gap: 8px;
-}
-
-.recursoTexto h3 {
-    font-size: 18px;
-}
-
-.recursoTexto p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--mo-texto-2);
-}
-
 .demo {
-    padding: 18px;
-    border-radius: var(--is-raio);
+    padding: 16px;
+    border: 1px solid var(--is-regua);
     background: var(--mo-fundo);
 }
 
 .demoMatch {
     display: grid;
-    grid-template-columns: 150px minmax(0, 1fr);
-    gap: 22px;
-    --nota: var(--mo-sucesso);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+    padding: 0;
+    --nota: var(--is-ok);
+}
+
+.demoMatch .notaMatch {
+    padding: 16px;
+}
+
+.demoMatch .criterios {
+    padding: 14px 16px 14px 0;
+    gap: 6px;
+}
+
+.demoMatch .criterio {
+    grid-template-columns: 80px minmax(0, 1fr) 38px;
+    font-size: 11.5px;
 }
 
 .demoReputacao {
@@ -1859,28 +2034,26 @@ button.casaMarco:hover {
 
 .demoCega {
     display: flex;
-    gap: 12px;
-    justify-content: center;
+    gap: 10px;
 }
 
 .cartaCega {
     display: grid;
-    justify-items: center;
-    gap: 10px;
-    width: 96px;
-    padding: 14px 0;
-    border-radius: var(--mo-raio-m);
-    background: var(--mo-cartao);
-    border: 1px solid var(--mo-borda);
+    justify-items: start;
+    gap: 14px;
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid var(--is-regua-forte);
     font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--mo-texto-3);
 }
 
 .cartaCega is-numero {
-    color: var(--is-audio);
+    --is-numero-altura: 35px;
+    color: var(--is-espera);
 }
 
 .cartaCega.virada {
@@ -1889,50 +2062,44 @@ button.casaMarco:hover {
 
 .cartaCega.virada is-numero {
     color: var(--mo-texto-3);
-    animation: slotPisca 1.6s steps(1, end) infinite;
+    animation: slotPisca 1.4s steps(1, end) infinite;
 }
 
 .demoMarcos {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 26px 18px;
+    padding: 22px 16px;
 }
 
 .casaMini {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--mo-decorativa);
-    border-radius: 4px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--is-regua-forte);
     flex: none;
 }
 
 .casaMini.feito {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque);
+    border-color: var(--is-tinta);
+    background: var(--is-tinta);
 }
 
 .casaMini.atual {
-    border-color: var(--is-audio);
-    animation: faseAtual 1.2s steps(1, end) infinite;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--is-audio) 20%, transparent);
+    border-color: var(--is-espera);
+    animation: faseAtual 1s steps(1, end) infinite;
 }
 
 .demoMarcos i {
     flex: 1;
-    max-width: 56px;
-    height: 3px;
-    background: var(--mo-destaque);
+    height: 2px;
+    background: var(--is-tinta);
 }
 
 .demoMarcos i.pontilhado {
-    height: 4px;
-    background: radial-gradient(circle, var(--mo-decorativa) 1.5px, transparent 2px) 0 50% / 8px 4px repeat-x;
+    background: repeating-linear-gradient(90deg, var(--is-regua-forte) 0 4px, transparent 4px 8px);
 }
 
 .demoVaga {
     display: flex;
-    justify-content: center;
     gap: 10px;
 }
 
@@ -1941,90 +2108,102 @@ button.casaMarco:hover {
     place-items: center;
     width: 54px;
     height: 54px;
-    border: 1.5px dashed color-mix(in srgb, var(--is-cor) 55%, transparent);
-    border-radius: 12px;
+    border: 2px dashed var(--is-cor);
     color: var(--is-cor);
 }
 
 .slotMini mo-simbolo {
-    animation: slotPisca 1.6s steps(1, end) infinite;
+    animation: slotPisca 1.4s steps(1, end) infinite;
 }
 
 .slotMini:nth-child(2) mo-simbolo { animation-delay: 0.4s; }
 .slotMini:nth-child(3) mo-simbolo { animation-delay: 0.8s; }
 
-/* classes: a tela de escolher classe */
+/* classes: cinco colunas de cor cheia, a do mouse cresce */
+.secaoClasses {
+    padding-bottom: 0;
+}
+
 .classes {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-    margin: 0;
+    display: flex;
+    margin: 0 calc(-1 * max(24px, (100vw - var(--is-largura)) / 2));
     padding: 0;
     list-style: none;
 }
 
-.classeCartao {
+.classes > li {
+    flex: 1;
+    min-width: 0;
+    background: var(--is-cor);
+    color: var(--is-papel);
+    transition: flex-grow var(--mo-dur-longa) var(--mo-ease-saida);
+}
+
+.classes > li:hover {
+    flex-grow: 1.7;
+}
+
+.classeColuna {
     display: grid;
-    gap: 8px;
     align-content: start;
+    gap: 8px;
     height: 100%;
-    padding: 20px 18px;
-    border: 1px solid var(--mo-borda);
-    border-top: 3px solid var(--is-cor);
-    border-radius: var(--mo-raio-xg);
-    background: var(--mo-cartao);
-    --is-mira: var(--is-cor);
-    transition:
-        background var(--mo-dur-curta) ease,
-        transform var(--mo-dur-media) var(--mo-ease-saida);
+    min-height: 460px;
+    padding: 34px 28px 30px;
 }
 
-.classeCartao:hover {
-    background: color-mix(in srgb, var(--is-cor) 8%, var(--mo-cartao));
-    transform: translateY(-3px);
-}
-
-.classeIcone {
-    display: grid;
-    place-items: center;
-    width: 54px;
-    height: 54px;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--is-cor) 16%, transparent);
-    color: var(--is-cor);
-}
-
-.classeNome {
-    font-size: 17px;
-    font-weight: 600;
+.classeColuna mo-simbolo {
+    margin-bottom: 70px;
 }
 
 .classeTotal {
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    color: var(--is-cor);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.classeNome {
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
 }
 
 .classeFuncoes {
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--mo-texto-3);
+    font-size: 13.5px;
+    line-height: 1.7;
+}
+
+.classeVer {
+    margin-top: 28px;
+    font-family: var(--mo-fonte-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity var(--mo-dur-curta) ease;
+}
+
+.classes > li:hover .classeVer,
+.classeColuna:focus-visible .classeVer {
+    opacity: 1;
 }
 
 /* fecho */
 .fecho {
     display: grid;
-    justify-items: center;
-    gap: 18px;
-    padding: 100px 0 110px;
-    border-top: 1px solid var(--mo-borda);
-    text-align: center;
+    justify-items: start;
+    gap: 22px;
+    padding: 110px 0 120px;
 }
 
 .fechoSprites {
     display: flex;
-    gap: 8px;
+    gap: 0;
     margin-bottom: 18px;
 }
 
@@ -2036,53 +2215,75 @@ button.casaMarco:hover {
 
 @keyframes pulinho {
     0%, 70%, 100% { transform: none; }
-    78% { transform: translateY(-8px); }
+    78% { transform: translateY(-10px); }
 }
 
 .fecho h2 {
-    font-size: clamp(32px, 4.4vw, 56px);
-    letter-spacing: -0.04em;
+    font-size: clamp(42px, 7vw, 104px);
+    line-height: 0.92;
+    letter-spacing: -0.06em;
+    max-width: 12ch;
 }
 
 .fecho p {
-    margin-bottom: 8px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 18px;
     color: var(--mo-texto-2);
 }
 
 /* os creditos no pe da pagina */
 .creditos {
     display: grid;
-    justify-items: center;
-    gap: 26px;
-    padding: 56px 20px 48px;
-    border-top: 1px solid var(--mo-borda);
+    gap: 34px;
+    padding: 46px max(24px, calc((100vw - var(--is-largura)) / 2)) 40px;
+    border-top: 1px solid var(--is-regua-forte);
     background: var(--mo-fundo);
-    text-align: center;
+}
+
+.creditos::before {
+    content: "";
+    height: 4px;
+    margin-top: -46px;
+    margin-bottom: 12px;
+    background: var(--is-faixa);
+}
+
+.creditosTopo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.creditosTopo p {
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--mo-texto-3);
 }
 
 .creditosLista {
     display: grid;
-    gap: 16px;
-    justify-items: center;
+    gap: 14px;
 }
 
 .creditosLista ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 22px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: 0;
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--is-regua);
 }
 
 .creditosLista li {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--mo-texto-2);
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--is-regua);
+    font-size: 14px;
 }
 
 .creditosLista is-sprite {
@@ -2091,50 +2292,101 @@ button.casaMarco:hover {
 
 .creditosFim {
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1000px) {
+    .aberturaBase {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .recurso {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
     .classes {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        flex-direction: column;
+    }
+
+    .classeColuna {
+        min-height: 0;
+        grid-template-columns: auto 1fr;
+        column-gap: 18px;
+    }
+
+    .classeColuna mo-simbolo {
+        grid-row: span 3;
+        margin-bottom: 0;
+    }
+
+    .classeFuncoes {
+        grid-column: 2;
+    }
+
+    .classeVer {
+        display: none;
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 760px) {
+    .landing {
+        width: min(100% - 32px, var(--is-largura));
+    }
+
     .abertura {
+        padding: 36px 0 56px;
+    }
+
+    .secao {
+        padding: 64px 0;
+        gap: 30px;
+    }
+
+    .secaoTopo {
         grid-template-columns: minmax(0, 1fr);
-        min-height: 0;
-        gap: 40px;
-        padding-top: 40px;
+    }
+
+    .secaoIndice {
+        grid-row: auto;
+    }
+
+    .passos,
+    .recursos {
+        margin-left: 0;
     }
 
     .passos {
         grid-template-columns: minmax(0, 1fr);
-        gap: 32px;
     }
 
-    .passos li::after {
-        display: none;
+    .passos li + li {
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid var(--is-regua);
     }
 
-    .recursos,
-    .recursoLargo {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
     .classes {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin: 0 -16px;
+    }
+
+    .classeFuncoes br {
+        display: none;
     }
 
     .demoMatch {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .secao {
-        padding: 64px 0;
+    .demoMatch .criterios {
+        padding: 0 16px 14px;
+    }
+
+    .creditosLista ul {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .fechoSprites is-sprite:nth-child(n + 6) {
@@ -2147,46 +2399,47 @@ button.casaMarco:hover {
    Entrar, criar conta e primeiros passos
    ========================================================================== */
 
+.mancheteEntrada {
+    display: grid;
+    align-content: end;
+    gap: 18px;
+}
+
+.mancheteEntrada h2 {
+    font-size: clamp(42px, 5.6vw, 84px);
+    line-height: 0.92;
+    letter-spacing: -0.06em;
+    max-width: 10ch;
+}
+
+.mancheteEntrada p {
+    max-width: 40ch;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--mo-texto-2);
+}
+
+.filaEntrada {
+    display: flex;
+}
+
+.filaEntrada is-sprite {
+    --is-sprite: 54px;
+}
+
 .cartaoEntrada {
     width: min(100%, 420px);
     display: grid;
-    gap: 14px;
+    gap: 22px;
 }
 
 .cartaoOnboarding {
     width: min(100%, 560px);
 }
 
-.cartaoEntrada > .janelaTopo,
-.cartaoEntradaCorpo {
-    border: 1px solid var(--mo-borda);
-    background: var(--mo-cartao);
-}
-
-/* a barra de titulo, como a de uma janela de jogo */
-.janelaTopo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 18px;
-    border-radius: var(--mo-raio-xg) var(--mo-raio-xg) 0 0;
-    border-bottom: 0 !important;
-    background: var(--mo-lateral-2) !important;
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--mo-texto-2);
-}
-
 .cartaoEntradaCorpo {
     display: grid;
-    gap: 22px;
-    margin-top: -14px;
-    padding: 26px;
-    border-radius: 0 0 var(--mo-raio-xg) var(--mo-raio-xg);
-    box-shadow: 0 6px 0 color-mix(in srgb, var(--mo-fundo) 60%, black);
+    gap: 26px;
 }
 
 .cabecaEntrada {
@@ -2195,48 +2448,48 @@ button.casaMarco:hover {
 }
 
 .cabecaEntrada h1 {
-    font-size: 24px;
-    line-height: 1.15;
+    font-size: 34px;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
 }
 
 .cabecaEntrada p:not(.sobretitulo) {
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--mo-texto-2);
 }
 
 .formLogin {
     display: grid;
-    gap: 16px;
+    gap: 18px;
 }
 
 .botaoEnviar {
     width: 100%;
+    margin-top: 6px;
 }
 
 .linkCadastro {
-    justify-self: center;
-    font-size: 13px;
+    padding-top: 18px;
+    border-top: 1px solid var(--is-regua);
+    font-size: 13.5px;
     color: var(--mo-texto-2);
 }
 
 .linkCadastro span {
-    color: var(--mo-destaque);
+    color: var(--mo-texto);
     font-weight: 600;
-}
-
-.linkCadastro:hover span {
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 4px;
 }
 
-/* criar conta: primeiro escolhe o jeito de jogar, depois preenche */
+/* criar conta: primeiro o jeito de jogar, depois o formulario */
 .etapaPerfil {
     display: grid;
-    gap: 10px;
+    gap: 0;
 }
 
 .etapaPerfil .cabecaEntrada {
-    margin-bottom: 6px;
+    margin-bottom: 18px;
 }
 
 .etapaEscondida {
@@ -2245,44 +2498,67 @@ button.casaMarco:hover {
 
 .etapaFormulario {
     display: none;
-    gap: 18px;
+    gap: 20px;
 }
 
 .etapaFormulario.etapaVisivel {
     display: grid;
-    animation: etapaEntra 280ms var(--mo-ease-saida) both;
+    animation: etapaEntra 240ms var(--mo-ease-saida) both;
 }
 
 @keyframes etapaEntra {
-    from { opacity: 0; transform: translateX(14px); }
+    from { opacity: 0; transform: translateX(12px); }
 }
 
 .botaoVoltar {
     justify-self: start;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.botaoVoltar:hover {
+    color: var(--mo-texto);
 }
 
 .opcaoPerfil {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: auto auto;
     align-items: center;
-    column-gap: 16px;
-    padding: 16px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--is-raio);
+    column-gap: 18px;
+    padding: 18px 4px;
+    border: 0;
+    border-top: 1px solid var(--is-regua);
     background: transparent;
     color: var(--mo-texto);
     font-family: var(--mo-fonte);
     text-align: left;
     cursor: pointer;
-    transition:
-        border-color var(--mo-dur-curta) ease,
-        background var(--mo-dur-curta) ease;
+}
+
+.opcaoPerfil:last-child {
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.opcaoPerfil::after {
+    content: "→";
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    font-family: var(--mo-fonte-mono);
+    color: var(--mo-texto-3);
+    transition: transform var(--mo-dur-curta) var(--mo-ease-saida);
 }
 
 .opcaoPerfil:hover {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque-suave);
+    background: var(--mo-lateral-2);
+}
+
+.opcaoPerfil:hover::after {
+    transform: translateX(4px);
+    color: var(--mo-texto);
 }
 
 .iconePerfil {
@@ -2291,87 +2567,99 @@ button.casaMarco:hover {
     place-items: center;
     width: 48px;
     height: 48px;
-    border-radius: 10px;
-    background: var(--mo-elevada);
-    color: var(--mo-destaque);
+    background: var(--is-tinta);
+    color: var(--is-papel);
 }
 
 .tituloPerfil {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
 }
 
 .textoPerfil {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--mo-texto-3);
 }
 
 .previaApelido {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
-/* primeiros passos: tres casinhas na barra de titulo */
+/* primeiros passos: tres casinhas no topo */
+.topoPassos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .passosOnboarding {
     display: flex;
-    gap: 5px;
+    gap: 4px;
 }
 
 .marcadorPasso {
-    width: 22px;
+    width: 30px;
     height: 8px;
-    border-radius: 2px;
-    background: var(--mo-linha);
+    background: var(--is-regua-forte);
 }
 
 .marcadorPasso.passoFeito {
-    background: var(--mo-destaque);
+    background: var(--is-tinta);
 }
 
 .marcadorPasso.passoAtivo {
-    background: var(--is-audio);
+    background: var(--is-espera);
     animation: slotPisca 1.2s steps(1, end) infinite;
 }
 
 .passoOnboarding {
     display: none;
-    gap: 20px;
+    gap: 22px;
 }
 
 .passoOnboarding.passoAtivo {
     display: grid;
-    animation: etapaEntra 280ms var(--mo-ease-saida) both;
+    animation: etapaEntra 240ms var(--mo-ease-saida) both;
 }
 
 .botoesOnboarding {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    padding-top: 6px;
+    padding-top: 18px;
+    border-top: 1px solid var(--is-regua);
 }
 
 .linkPular {
-    padding: 6px 10px;
+    padding: 0;
     border: 0;
-    border-radius: var(--mo-raio-p);
     background: transparent;
     color: var(--mo-texto-3);
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     cursor: pointer;
 }
 
 .linkPular:hover {
     color: var(--mo-texto);
-    background: var(--mo-elevada);
+}
+
+@media (max-width: 900px) {
+    .mancheteEntrada h2 {
+        font-size: 40px;
+        max-width: none;
+    }
+
+    .filaEntrada is-sprite {
+        --is-sprite: 36px;
+    }
 }
 
 @media (max-width: 480px) {
-    .cartaoEntradaCorpo {
-        padding: 20px 18px;
-    }
-
     .adicionarSkill,
     .linhaLink {
         flex-wrap: wrap;
@@ -2381,4 +2669,9 @@ button.casaMarco:hover {
     .linhaLink > input {
         flex: 1 1 100%;
     }
+}
+
+.tituloPerfil,
+.textoPerfil {
+    grid-column: 2;
 }

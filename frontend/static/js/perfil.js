@@ -261,7 +261,7 @@ async function carregarPerfil() {
     const principal = funcaoPrincipal({ skills: skills });
 
     pegar("avatarPerfil").setAttribute("semente", dados.handle);
-    pegar("cartaoHeroi").className = `cartao cartaoHeroi ${principal ? classe(principal.categoria) : ""}`;
+    pegar("cartaoHeroi").className = `bannerPerfil ${principal ? classe(principal.categoria) : ""}`;
     escrever("nomePerfil", escapar(dados.usuario));
     escrever("handlePerfil", `@${escapar(dados.handle)}`);
     escrever("funcaoPerfil", principal
@@ -336,16 +336,17 @@ async function carregarPerfil() {
         const papel = projeto.ehCriador ? `<span class="tag"><mo-simbolo nome="coroa"></mo-simbolo>Criador</span>` : `<span class="tag">Membro</span>`;
 
         return `
-            <article class="cartao cartaoClicavel mira" onclick="irPara('projeto.html?id=${projeto.id}')">
+            <article class="linhaTabela cartaoClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
                 <div class="cartaoTopo">
                     ${cartucho(projeto.nome, 44)}
                     <div class="cartaoTitulo">
                         <h3>${escapar(projeto.nome)}</h3>
                         <span>${[projeto.genero, projeto.engine].filter(Boolean).map(escapar).join(" · ") || "Sem ficha técnica"}</span>
                     </div>
-                    ${selo(projeto.status)}
                 </div>
-                <div class="tags">${papel}</div>
+                ${papel}
+                ${selo(projeto.status)}
+                <span class="setaLinha">→</span>
             </article>
         `;
     }, "Nenhum projeto ainda.");

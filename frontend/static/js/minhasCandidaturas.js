@@ -33,8 +33,8 @@ async function carregarCandidaturas() {
 
         // so vira card clicavel se o projeto ainda existir
         const clique = candidatura.projeto
-            ? `class="cartao linhaCandidatura cartaoClicavel mira ${classe(funcao && funcao.categoria)}" onclick="irPara('projeto.html?id=${candidatura.projeto.id}')"`
-            : `class="cartao linhaCandidatura ${classe(funcao && funcao.categoria)}"`;
+            ? `class="linhaTabela linhaCandidatura cartaoClicavel ${classe(funcao && funcao.categoria)}" onclick="irPara('projeto.html?id=${candidatura.projeto.id}')"`
+            : `class="linhaTabela linhaCandidatura ${classe(funcao && funcao.categoria)}"`;
 
         // pendente pode ser cancelada; aceita e recusada nao
         const acao = candidatura.status === "pendente"
@@ -43,13 +43,16 @@ async function carregarCandidaturas() {
 
         return `
             <article ${clique}>
-                ${cartucho(projeto, 44)}
-                <div class="cartaoTitulo">
-                    <h3>${escapar(titulo)}</h3>
-                    <span>em <strong>${escapar(projeto)}</strong> · enviada em ${dataBonita(candidatura.dataCriacao)}</span>
+                <div class="cartaoTopo">
+                    <span class="iconeClasse"><mo-simbolo nome="${simboloDaClasse(funcao && funcao.categoria)}"></mo-simbolo></span>
+                    <div class="cartaoTitulo">
+                        <h3>${escapar(titulo)}</h3>
+                        <span>em ${escapar(projeto)}</span>
+                    </div>
                 </div>
+                <span class="celulaMono">${dataBonita(candidatura.dataCriacao)}</span>
                 <span class="statusCandidatura ${corDoStatus(candidatura.status)}">${escapar(rotulo(candidatura.status))}</span>
-                ${acao}
+                <span class="acaoLinha">${acao}</span>
             </article>
         `;
     }, "Você ainda não se candidatou a nenhuma vaga.");

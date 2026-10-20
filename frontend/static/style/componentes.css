@@ -1,21 +1,22 @@
 /* ==========================================================================
    Componentes da IndieSquad
 
-   O que ja existe na Mosaic UI (teclas, campos, chips, selos, avisos) vem
-   de la. Aqui fica o que e daqui:
-
      pixel art     is-sprite, is-cartucho, is-numero, is-medidor, is-nivel
-     mira          os cantos de selecao de menu de jogo, no hover e no foco
-     cartoes       .cartao e as variantes de pessoa, projeto e vaga
-     placar        os numeros grandes de cada tela
-     etiquetas     .tag, .tagClasse e os selos de status
+     mira          os cantos de selecao de menu de jogo
+     titulos       topo de tela e titulos de secao numerados (01, 02...)
+     quadros       .cartao, tabelas (.tabela) e o placar
+     etiquetas     .tag, .tagClasse e os selos de estado
      formularios   os campos soltos que os scripts das telas montam
+
+   Tudo de quina reta e regua fina. Cor so vem da classe (--is-cor) ou do
+   estado; o resto e tinta e papel.
    ========================================================================== */
 
 
-/* ---------- sprite: o bonequinho de cada pessoa ---------- */
+/* ---------- sprite: o bonequinho de cada pessoa ----------
+   os tamanhos sao multiplos de 9 (a grade do bichinho), pra cada pixel
+   cair inteiro */
 
-/* os tamanhos sao multiplos de 9 (a grade do bichinho), pra cada pixel cair inteiro */
 is-sprite {
     --is-sprite: 36px;
     display: inline-grid;
@@ -23,11 +24,8 @@ is-sprite {
     width: var(--is-sprite);
     height: var(--is-sprite);
     flex: none;
-    border-radius: calc(var(--is-sprite) * 0.22);
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 15%, var(--mo-cartao));
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 22%, transparent);
-    color: var(--is-cor, var(--mo-destaque));
-    overflow: hidden;
+    background: color-mix(in srgb, var(--is-cor, var(--is-tinta)) 14%, var(--mo-fundo));
+    color: var(--is-cor, var(--is-tinta));
 }
 
 is-sprite svg {
@@ -36,7 +34,7 @@ is-sprite svg {
     fill: currentColor;
 }
 
-/* sprite grande (perfil): cada pixel do bichinho respira de leve, fora de sincronia */
+/* sprite grande (perfil): de vez em quando um pixel pisca */
 is-sprite.vivo svg rect {
     animation: pixelVivo 3.2s steps(1, end) infinite;
 }
@@ -46,23 +44,23 @@ is-sprite.vivo svg rect:nth-child(5n) { animation-delay: -2.3s; }
 
 @keyframes pixelVivo {
     0%, 92% { opacity: 1; }
-    94% { opacity: 0.45; }
+    94% { opacity: 0.4; }
 }
 
 
-/* ---------- cartucho: a capa do projeto ---------- */
+/* ---------- cartucho: a capa do projeto ----------
+   altura em multiplos de 11; a quina de cima corta em diagonal, como
+   cartucho de verdade */
 
-/* altura em multiplos de 11 (a grade do cartucho) */
 is-cartucho {
     --is-cartucho: 44px;
     display: inline-block;
     width: calc(var(--is-cartucho) * 9 / 11);
     height: var(--is-cartucho);
     flex: none;
-    border-radius: calc(var(--is-cartucho) * 0.1) calc(var(--is-cartucho) * 0.1) calc(var(--is-cartucho) * 0.05) calc(var(--is-cartucho) * 0.05);
     background: var(--is-cor);
-    color: color-mix(in srgb, var(--is-cor) 22%, black);
-    box-shadow: inset 0 calc(var(--is-cartucho) * -0.06) 0 color-mix(in srgb, var(--is-cor) 60%, black);
+    color: color-mix(in srgb, var(--is-cor) 18%, black);
+    clip-path: polygon(0 0, 74% 0, 100% 20%, 100% 100%, 0 100%);
 }
 
 is-cartucho svg {
@@ -77,39 +75,38 @@ is-cartucho .fenda {
 }
 
 
-/* ---------- numero em pixel ---------- */
+/* ---------- numero em pixel ----------
+   altura em multiplos de 7 (a fonte) */
 
-/* altura em multiplos de 7 (a fonte), pra nao sobrar fresta entre os pixels */
 is-numero {
     --is-numero-altura: 28px;
     color: var(--mo-texto);
 }
 
 
-/* ---------- medidor em segmentos (barra de vida) ---------- */
+/* ---------- medidor em segmentos ---------- */
 
 is-medidor {
     --is-medidor-altura: 8px;
     display: flex;
-    gap: 3px;
+    gap: 2px;
     width: 100%;
     height: var(--is-medidor-altura);
 }
 
 is-medidor i {
     flex: 1;
-    border-radius: 1.5px;
-    background: var(--mo-linha);
+    background: var(--is-regua);
 }
 
 is-medidor i.cheio {
-    background: var(--is-cor, var(--mo-destaque));
+    background: var(--is-cor, var(--is-tinta));
     animation: segmentoAcende 220ms steps(2, end) both;
-    animation-delay: calc(var(--i) * 45ms + 120ms);
+    animation-delay: calc(var(--i) * 40ms + 100ms);
 }
 
 @keyframes segmentoAcende {
-    from { background: var(--mo-linha); }
+    from { background: var(--is-regua); }
 }
 
 .mo-repeticao is-medidor i.cheio {
@@ -127,8 +124,7 @@ is-nivel {
 
 is-nivel i {
     width: 5px;
-    height: 9px;
-    border-radius: 1px;
+    height: 10px;
     background: color-mix(in srgb, currentColor 22%, transparent);
 }
 
@@ -137,10 +133,7 @@ is-nivel i.cheio {
 }
 
 
-/* ---------- mira: os cantos de selecao ----------
-
-   Os quatro cantos de um cursor de menu de jogo. Ficam um pouco pra fora e
-   encostam no cartao quando o mouse chega, como se mirassem nele. */
+/* ---------- mira: os cantos de selecao ---------- */
 
 .mira {
     position: relative;
@@ -151,8 +144,9 @@ is-nivel i.cheio {
     position: absolute;
     inset: -7px;
     pointer-events: none;
+    z-index: 2;
     --c: var(--is-mira);
-    --l: 12px;
+    --l: 10px;
     --e: 2px;
     background:
         linear-gradient(var(--c) 0 0) top left / var(--l) var(--e),
@@ -184,57 +178,147 @@ is-nivel i.cheio {
 }
 
 
-/* ---------- cartoes ---------- */
+/* ---------- topo de tela e titulos de secao ---------- */
+
+.topoTela {
+    display: grid;
+    gap: 14px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--is-regua);
+}
+
+.sobretitulo {
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.sobretitulo::before {
+    content: "/ ";
+}
+
+.topoTela h1 {
+    font-size: clamp(34px, 4.6vw, 58px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+}
+
+.topoTela .apoio {
+    max-width: 62ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--mo-texto-2);
+}
+
+.secaoTela {
+    display: grid;
+    gap: 18px;
+    align-content: start;
+    min-width: 0;
+}
+
+/* titulo de secao: indice, nome e uma regua ate o fim da linha */
+.tituloSecao {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    counter-increment: secao;
+}
+
+.tituloSecao::before {
+    content: counter(secao, decimal-leading-zero);
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--mo-texto-3);
+}
+
+.tituloSecao::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    align-self: center;
+    background: var(--is-regua);
+    order: 5;
+}
+
+.tituloSecao > mo-simbolo {
+    display: none;
+}
+
+.tituloSecao .contador {
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--mo-texto-3);
+}
+
+.tituloSecao .contador::before { content: "["; }
+.tituloSecao .contador::after { content: "]"; }
+
+.tituloSecao .acaoSecao {
+    order: 6;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.explicacao {
+    font-size: 13.5px;
+    color: var(--mo-texto-3);
+    line-height: 1.55;
+}
+
+
+/* ---------- quadros ---------- */
 
 .cartao {
     display: grid;
-    gap: 12px;
+    gap: 14px;
     align-content: start;
-    padding: 18px;
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
+    padding: 20px;
+    border: 1px solid var(--is-regua);
     background: var(--mo-cartao);
     color: var(--mo-texto-cartao);
-    box-shadow: var(--mo-sombra-cartao);
     min-width: 0;
 }
 
 .cartaoClicavel,
 .cardClicavel {
     cursor: pointer;
-    transition:
-        background var(--mo-dur-curta) ease,
-        border-color var(--mo-dur-curta) ease,
-        transform var(--mo-dur-toque) var(--mo-ease-saida);
+    transition: background var(--mo-dur-curta) ease, border-color var(--mo-dur-curta) ease;
 }
 
 .cartaoClicavel:hover,
 .cardClicavel:hover {
-    background: var(--mo-cartao-hover);
-    border-color: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 30%, var(--mo-borda));
-}
-
-.cartaoClicavel:active,
-.cardClicavel:active {
-    transform: translateY(1px);
+    background: var(--mo-lateral-2);
+    border-color: var(--is-regua-forte);
 }
 
 .cartaoTopo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     min-width: 0;
 }
 
 .cartaoTitulo {
     display: grid;
-    gap: 2px;
+    gap: 3px;
     min-width: 0;
     flex: 1;
 }
 
 .cartaoTitulo h3 {
-    font-size: 15px;
+    font-size: 15.5px;
+    letter-spacing: -0.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -242,7 +326,7 @@ is-nivel i.cheio {
 
 .cartaoTitulo p,
 .cartaoTitulo span {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--mo-texto-3);
     white-space: nowrap;
     overflow: hidden;
@@ -250,8 +334,8 @@ is-nivel i.cheio {
 }
 
 .cartaoTexto {
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 13.5px;
+    line-height: 1.6;
     color: var(--mo-texto-2);
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -262,10 +346,10 @@ is-nivel i.cheio {
 .cartaoPe {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
     flex-wrap: wrap;
-    padding-top: 12px;
-    border-top: 1px dashed var(--mo-linha);
+    padding-top: 14px;
+    border-top: 1px solid var(--is-regua);
 }
 
 .grade {
@@ -279,61 +363,120 @@ is-nivel i.cheio {
     gap: 10px;
 }
 
+/* tabela: linhas separadas por regua, cabecalho em mono */
+.tabela {
+    display: grid;
+    border-top: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
+}
 
-/* ---------- placar: os numeros grandes ---------- */
+.tabelaTopo,
+.linhaTabela {
+    display: grid;
+    grid-template-columns: var(--colunas);
+    align-items: center;
+    gap: 18px;
+    padding: 0 16px;
+}
+
+.tabelaTopo {
+    min-height: 34px;
+    border-bottom: 1px solid var(--is-regua);
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.linhaTabela {
+    min-height: 74px;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--is-regua);
+    position: relative;
+}
+
+/* a linha clicavel ganha a cor da classe na borda esquerda */
+.linhaTabela.cartaoClicavel:hover,
+.linhaTabela.cardClicavel:hover {
+    background: var(--mo-lateral-2);
+    box-shadow: inset 3px 0 0 var(--is-cor, var(--is-tinta));
+}
+
+.tabela > .mensagemVazia {
+    border-top: 0;
+}
+
+.celulaMono {
+    font-family: var(--mo-fonte-mono);
+    font-size: 12px;
+    color: var(--mo-texto-2);
+}
+
+.celulaMono small {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-texto-3);
+}
+
+.setaLinha {
+    font-family: var(--mo-fonte-mono);
+    color: var(--mo-texto-3);
+    justify-self: end;
+    transition: transform var(--mo-dur-curta) var(--mo-ease-saida), color var(--mo-dur-curta) ease;
+}
+
+.cartaoClicavel:hover .setaLinha {
+    color: var(--mo-texto);
+    transform: translateX(3px);
+}
+
+
+/* ---------- placar: os numeros grandes, entre reguas ---------- */
 
 .placar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    border: 1px solid var(--mo-borda);
-    border-radius: var(--is-raio);
-    background: var(--mo-cartao);
-    overflow: hidden;
+    border-block: 1px solid var(--is-regua-forte);
+    background: var(--mo-fundo);
 }
 
 .placarItem {
     display: grid;
-    gap: 12px;
-    padding: 18px 20px 16px;
+    gap: 16px;
+    align-content: start;
+    padding: 18px 22px 22px;
     position: relative;
     min-width: 0;
 }
 
 .placarItem + .placarItem {
-    border-left: 1px solid var(--mo-borda);
+    border-left: 1px solid var(--is-regua);
 }
 
 .placarItem > mo-simbolo {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 18px;
+    right: 20px;
+    --mo-simbolo-tamanho: 9px;
     color: var(--mo-texto-3);
 }
 
 .placarItem is-numero {
-    --is-numero-altura: 35px;
-}
-
-.placarItem.realce is-numero {
-    color: var(--mo-destaque);
+    --is-numero-altura: 42px;
+    order: 2;
 }
 
 .placarRotulo {
     font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mo-texto-3);
-}
-
-.placarItem .detalheNota {
-    display: block;
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    color: var(--mo-texto-3);
-    letter-spacing: 0;
-    text-transform: none;
 }
 
 @media (max-width: 760px) {
@@ -346,83 +489,12 @@ is-nivel i.cheio {
     }
 
     .placarItem:nth-child(n + 3) {
-        border-top: 1px solid var(--mo-borda);
+        border-top: 1px solid var(--is-regua);
     }
-}
 
-
-/* ---------- topo de tela e secoes ---------- */
-
-.topoTela {
-    display: grid;
-    gap: 8px;
-}
-
-.sobretitulo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--mo-destaque);
-}
-
-.sobretitulo::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    background: currentColor;
-}
-
-.topoTela h1 {
-    font-size: clamp(26px, 3.2vw, 34px);
-    line-height: 1.1;
-}
-
-.topoTela h1 span {
-    color: var(--mo-destaque);
-}
-
-.topoTela .apoio {
-    font-size: 14px;
-    color: var(--mo-texto-2);
-}
-
-.secaoTela {
-    display: grid;
-    gap: 14px;
-    align-content: start;
-}
-
-.tituloSecao {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.tituloSecao .contador {
-    font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    font-weight: 500;
-    padding: 1px 7px;
-    border-radius: 4px;
-    background: var(--mo-elevada);
-    color: var(--mo-texto-2);
-}
-
-.tituloSecao .acaoSecao {
-    margin-left: auto;
-}
-
-.explicacao {
-    font-size: 13px;
-    color: var(--mo-texto-3);
-    line-height: 1.5;
+    .placarItem is-numero {
+        --is-numero-altura: 35px;
+    }
 }
 
 
@@ -439,41 +511,44 @@ is-nivel i.cheio {
 .tagSkill {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    height: 24px;
-    padding: 0 9px;
-    border-radius: 5px;
-    background: var(--mo-elevada);
+    gap: 8px;
+    height: 26px;
+    padding: 0 10px;
+    border: 1px solid var(--is-regua-forte);
     color: var(--mo-texto-2);
     font-size: 12px;
     white-space: nowrap;
 }
 
-/* a funcao com a cor da classe: um quadradinho na frente e o nivel no fim */
+.tag mo-simbolo {
+    --mo-simbolo-tamanho: 9px;
+    color: var(--mo-texto-3);
+}
+
+/* a funcao com a cor da classe: um bloco na frente, o nivel no fim */
 .tagClasse {
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 12%, var(--mo-cartao));
+    border-color: color-mix(in srgb, var(--is-cor, var(--is-tinta)) 40%, var(--is-regua));
     color: var(--mo-texto);
 }
 
 .tagClasse::before {
     content: "";
-    width: 7px;
-    height: 7px;
-    background: var(--is-cor, var(--mo-destaque));
+    width: 8px;
+    height: 8px;
+    background: var(--is-cor, var(--is-tinta));
     flex: none;
 }
 
 .tagClasse is-nivel {
-    color: var(--is-cor, var(--mo-destaque));
-    margin-left: 2px;
+    color: var(--is-cor, var(--is-tinta));
 }
 
 .tagLink {
-    color: var(--mo-destaque);
+    color: var(--mo-texto);
 }
 
 .tagLink:hover {
-    background: var(--mo-destaque-suave);
+    border-color: var(--is-tinta);
 }
 
 .botaoRemoverTag {
@@ -484,7 +559,6 @@ is-nivel i.cheio {
     margin-right: -4px;
     padding: 0;
     border: 0;
-    border-radius: 3px;
     background: transparent;
     color: var(--mo-texto-3);
     font-size: 14px;
@@ -493,11 +567,11 @@ is-nivel i.cheio {
 }
 
 .botaoRemoverTag:hover {
-    background: var(--mo-perigo-suave);
-    color: var(--mo-perigo);
+    background: var(--is-erro);
+    color: var(--is-papel);
 }
 
-/* selos de status: o texto em mono com um quadradinho na cor do estado */
+/* selos de estado: mono, um bloquinho na cor do estado */
 .selo,
 .statusResultado,
 .statusCandidatura,
@@ -505,17 +579,16 @@ is-nivel i.cheio {
     --selo: var(--mo-texto-3);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     flex: none;
     height: 22px;
     padding: 0 8px;
-    border-radius: 4px;
-    background: color-mix(in srgb, var(--selo) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--selo) 45%, transparent);
     color: var(--selo);
     font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -537,22 +610,22 @@ is-nivel i.cheio {
 .selo-ativo,
 .selo-aberta,
 .statusAceita,
-.selo-aceita { --selo: var(--mo-sucesso); }
+.selo-aceita { --selo: var(--is-ok); }
 
 .selo-pausado,
 .selo-pendente,
-.statusPendente { --selo: var(--is-audio); }
+.statusPendente { --selo: var(--is-espera); }
 
 .selo-concluido,
-.selo-preenchida { --selo: var(--mo-destaque); }
+.selo-preenchida { --selo: var(--mo-texto); }
 
 .selo-cancelado,
 .selo-fechada,
 .selo-recusada,
-.statusRecusada { --selo: var(--mo-perigo); }
+.statusRecusada { --selo: var(--is-erro); }
 
 .selo-ia {
-    --selo: var(--mo-terciaria);
+    --selo: var(--mo-texto-2);
 }
 
 
@@ -577,46 +650,44 @@ is-nivel i.cheio {
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input:not([type="checkbox"], [type="radio"]), select, textarea) {
     width: 100%;
     min-width: 0;
-    height: 38px;
-    padding: 0 12px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--mo-raio-m);
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid var(--is-regua-forte);
+    border-radius: 0;
     background: var(--mo-fundo);
     color: var(--mo-texto);
     font-family: var(--mo-fonte);
-    font-size: 13.5px;
-    transition:
-        border-color var(--mo-dur-curta) ease,
-        box-shadow var(--mo-dur-curta) ease;
+    font-size: 14px;
+    transition: border-color var(--mo-dur-curta) ease, box-shadow var(--mo-dur-curta) ease;
 }
 
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) textarea {
     height: auto;
-    min-height: 92px;
-    padding: 10px 12px;
-    line-height: 1.5;
+    min-height: 100px;
+    padding: 12px 14px;
+    line-height: 1.55;
     resize: vertical;
 }
 
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) select {
     appearance: none;
-    padding-right: 32px;
+    padding-right: 34px;
     background-image:
         linear-gradient(45deg, transparent 50%, var(--mo-texto-3) 50%),
         linear-gradient(-45deg, transparent 50%, var(--mo-texto-3) 50%);
-    background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
     background-size: 5px 5px;
     background-repeat: no-repeat;
 }
 
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input, select, textarea):hover {
-    border-color: var(--mo-decorativa);
+    border-color: var(--mo-texto-3);
 }
 
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) :where(input, select, textarea):focus {
     outline: none;
-    border-color: var(--mo-destaque);
-    box-shadow: 0 0 0 3px var(--mo-destaque-suave);
+    border-color: var(--is-tinta);
+    box-shadow: inset 0 0 0 1px var(--is-tinta);
 }
 
 :where(.campoFormulario, .linhaLink, .adicionarSkill, .formulario) ::placeholder {
@@ -625,22 +696,22 @@ is-nivel i.cheio {
 
 .campoFormulario {
     display: grid;
-    gap: 7px;
+    gap: 8px;
     align-content: start;
 }
 
 .campoFormulario > label:first-child,
 .campoFormulario > .rotuloCampo {
     font-family: var(--mo-fonte-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mo-texto-2);
 }
 
 .dicaCampo {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--mo-texto-3);
     line-height: 1.45;
 }
@@ -654,37 +725,35 @@ is-nivel i.cheio {
 
 .prefixoApelido {
     position: absolute;
-    left: 12px;
+    left: 14px;
     font-family: var(--mo-fonte-mono);
-    color: var(--mo-destaque);
+    color: var(--mo-texto-3);
     pointer-events: none;
 }
 
 .caixaApelido input {
-    padding-left: 28px !important;
+    padding-left: 30px !important;
 }
 
 .caixaSenha input {
-    padding-right: 44px !important;
+    padding-right: 46px !important;
 }
 
 .botaoOlho {
     position: absolute;
-    right: 5px;
+    right: 1px;
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     border: 0;
-    border-radius: var(--mo-raio-p);
     background: transparent;
     color: var(--mo-texto-3);
     cursor: pointer;
 }
 
 .botaoOlho:hover {
-    background: var(--mo-elevada);
     color: var(--mo-texto);
 }
 
@@ -702,7 +771,7 @@ is-nivel i.cheio {
 }
 
 .linhaLink > select {
-    flex: 0 0 140px;
+    flex: 0 0 150px;
 }
 
 .adicionarSkill > select:first-child {
@@ -716,53 +785,51 @@ is-nivel i.cheio {
 .linhaLink > .mo-tecla,
 .adicionarSkill > .mo-tecla {
     flex: none;
-    height: 38px;
+    --mo-tecla-altura: 42px;
 }
 
-/* caixinha de marcar, no lugar da do navegador */
+/* caixinha de marcar */
 .opcaoMarcavel {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--mo-raio-m);
-    font-size: 13.5px;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--is-regua-forte);
+    font-size: 14px;
     cursor: pointer;
     transition: border-color var(--mo-dur-curta) ease, background var(--mo-dur-curta) ease;
 }
 
 .opcaoMarcavel:hover {
-    border-color: var(--mo-decorativa);
+    border-color: var(--mo-texto-3);
 }
 
 .opcaoMarcavel:has(input:checked) {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque-suave);
+    border-color: var(--is-tinta);
+    background: var(--mo-lateral-2);
 }
 
 .opcaoMarcavel input {
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     margin: 0;
-    border: 2px solid var(--mo-decorativa);
-    border-radius: 3px;
+    border: 1.5px solid var(--mo-texto-3);
     display: grid;
     place-items: center;
     flex: none;
 }
 
 .opcaoMarcavel input:checked {
-    border-color: var(--mo-destaque);
-    background: var(--mo-destaque);
+    border-color: var(--is-tinta);
+    background: var(--is-tinta);
 }
 
 .opcaoMarcavel input:checked::after {
     content: "";
-    width: 6px;
-    height: 6px;
-    background: var(--mo-sobre-destaque);
+    width: 4px;
+    height: 4px;
+    background: var(--is-papel);
 }
 
 .grupoMarcavel {
@@ -771,10 +838,10 @@ is-nivel i.cheio {
     gap: 8px;
 }
 
-/* botoes que ligam e desligam (funcoes, ferramentas) */
+/* botoes de ligar e desligar (funcoes, ferramentas) */
 .botoesPerfil {
     display: grid;
-    gap: 14px;
+    gap: 16px;
 }
 
 .grupoPerfil {
@@ -785,19 +852,19 @@ is-nivel i.cheio {
 .tituloGrupoPerfil {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     font-family: var(--mo-fonte-mono);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mo-texto-3);
 }
 
 .tituloGrupoPerfil::before {
     content: "";
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     background: var(--is-cor, var(--mo-texto-3));
 }
 
@@ -810,43 +877,29 @@ is-nivel i.cheio {
 .botaoPerfil {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    height: 30px;
+    gap: 8px;
+    height: 32px;
     padding: 0 12px;
-    border: 1.5px solid var(--mo-linha);
-    border-radius: var(--mo-raio-p);
+    border: 1px solid var(--is-regua-forte);
     background: transparent;
     color: var(--mo-texto-2);
     font-family: var(--mo-fonte);
-    font-size: 12.5px;
+    font-size: 13px;
     cursor: pointer;
-    transition:
-        border-color var(--mo-dur-curta) ease,
-        background var(--mo-dur-curta) ease,
-        color var(--mo-dur-curta) ease,
-        transform var(--mo-dur-toque) var(--mo-ease-saida);
+    transition: border-color var(--mo-dur-curta) ease, background var(--mo-dur-curta) ease, color var(--mo-dur-curta) ease;
 }
 
 .botaoPerfil:hover {
-    border-color: var(--mo-decorativa);
+    border-color: var(--mo-texto-3);
     color: var(--mo-texto);
 }
 
-.botaoPerfil:active {
-    transform: translateY(1px);
-}
-
+/* ligado: o bloco enche da cor da classe */
 .botaoPerfil.ativo {
-    border-color: var(--is-cor, var(--mo-destaque));
-    background: color-mix(in srgb, var(--is-cor, var(--mo-destaque)) 16%, transparent);
-    color: var(--mo-texto);
-}
-
-.botaoPerfil.ativo::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    background: var(--is-cor, var(--mo-destaque));
+    border-color: var(--is-cor, var(--is-tinta));
+    background: var(--is-cor, var(--is-tinta));
+    color: var(--is-papel);
+    font-weight: 600;
 }
 
 
@@ -856,23 +909,39 @@ is-nivel i.cheio {
 .mensagemSucesso {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 11px 14px;
-    border-radius: var(--mo-raio-m);
-    font-size: 13px;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 13.5px;
     line-height: 1.45;
+    border: 1px solid;
 }
 
 .mensagemErro {
-    background: var(--mo-perigo-suave);
-    color: var(--mo-perigo-texto);
-    box-shadow: inset 3px 0 0 var(--mo-perigo);
+    border-color: var(--is-erro);
+    color: var(--mo-texto);
+}
+
+.mensagemErro::before,
+.mensagemSucesso::before {
+    font-family: var(--mo-fonte-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+
+.mensagemErro::before {
+    content: "ERRO";
+    color: var(--is-erro);
 }
 
 .mensagemSucesso {
-    background: color-mix(in srgb, var(--mo-sucesso) 14%, transparent);
+    border-color: var(--is-ok);
     color: var(--mo-texto);
-    box-shadow: inset 3px 0 0 var(--mo-sucesso);
+}
+
+.mensagemSucesso::before {
+    content: "OK";
+    color: var(--is-ok);
 }
 
 .mensagemErro:empty,
@@ -880,28 +949,30 @@ is-nivel i.cheio {
     display: none;
 }
 
-/* lista vazia: um quadro tracejado com um fantasminha de pixel */
+/* lista vazia: regua tracejada e um fantasminha de pixel */
 .mensagemVazia {
     grid-column: 1 / -1;
-    display: grid;
-    justify-items: center;
-    gap: 10px;
-    padding: 30px 20px;
-    border: 1.5px dashed var(--mo-linha);
-    border-radius: var(--is-raio);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 16px;
+    border-bottom: 1px dashed var(--is-regua-forte);
     color: var(--mo-texto-3);
-    font-size: 13px;
-    text-align: center;
+    font-size: 13.5px;
 }
 
 .mensagemVazia::before {
     content: "";
-    width: 27px;
-    height: 27px;
+    width: 18px;
+    height: 18px;
+    flex: none;
     background: currentColor;
-    opacity: 0.6;
     -webkit-mask: var(--is-fantasma) center / contain no-repeat;
     mask: var(--is-fantasma) center / contain no-repeat;
+}
+
+.mensagemVazia:empty {
+    display: none;
 }
 
 :root {
@@ -910,10 +981,18 @@ is-nivel i.cheio {
 
 .linkMensagemVazia {
     grid-column: 1 / -1;
-    justify-self: center;
-    margin-top: -4px;
-    font-size: 13px;
-    color: var(--mo-destaque);
+    justify-self: start;
+    padding: 12px 16px 0;
+    font-family: var(--mo-fonte-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-texto);
+}
+
+.linkMensagemVazia:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 
@@ -936,10 +1015,9 @@ is-nivel i.cheio {
     place-items: center;
     width: 28px;
     height: 28px;
-    border-radius: 5px;
-    color: var(--mo-decorativa);
+    color: var(--is-regua-forte);
     cursor: pointer;
-    transition: color var(--mo-dur-toque) ease, transform var(--mo-dur-toque) var(--mo-ease-saida);
+    transition: color var(--mo-dur-toque) ease;
 }
 
 .estrelas label svg {
@@ -950,15 +1028,11 @@ is-nivel i.cheio {
 .estrelas label:hover,
 .estrelas label:hover ~ label,
 .estrelas input:checked ~ label {
-    color: var(--is-audio);
-}
-
-.estrelas label:active {
-    transform: scale(0.88);
+    color: var(--is-espera);
 }
 
 .estrelas input:focus-visible + label {
-    outline: 2px solid var(--mo-destaque);
+    outline: 2px solid var(--is-tinta);
 }
 
 .campoNota {
@@ -969,11 +1043,6 @@ is-nivel i.cheio {
 }
 
 .rotuloNota {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--mo-texto-2);
-}
-
-/* lista que veio vazia sem texto: nao mostra o quadro */
-.mensagemVazia:empty {
-    display: none;
 }

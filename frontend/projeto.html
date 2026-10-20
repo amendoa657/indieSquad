@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item">
@@ -81,7 +81,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -90,54 +90,49 @@
 
                 <main class="mo-conteudo">
                     <div class="paginaApp">
-                        <a href="busca.html" class="mo-tecla mo-tecla--sutil mo-tecla--p voltar" onclick="if (history.length > 1) { event.preventDefault(); history.back(); }">← Voltar</a>
+                        <a href="busca.html" class="voltar" onclick="if (history.length > 1) { event.preventDefault(); history.back(); }">← Voltar</a>
 
                         <p class="mensagemErro" id="mensagemErro"></p>
                         <p class="mensagemSucesso" id="mensagemSucesso"></p>
 
-                        <header class="capaProjeto">
-                            <div class="capaTexto">
-                                <div class="capaTitulo">
-                                    <is-cartucho id="avatarProjeto" nome="?" style="--is-cartucho:88px"></is-cartucho>
-                                    <div>
-                                        <span class="seloStatus" id="statusProjeto"></span>
-                                        <h1 id="nomeProjeto">…</h1>
-                                        <a class="criadorProjeto" id="linkCriador">
-                                            <is-sprite id="spriteCriador" semente="?" style="--is-sprite:27px"></is-sprite>
-                                            <span>por <strong id="criadorProjeto"></strong></span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <p class="descricaoProjeto" id="descricaoProjeto"></p>
+                        <header class="bannerProjeto" id="bannerProjeto">
+                            <div class="bannerCapa">
+                                <is-cartucho id="avatarProjeto" nome="?" style="--is-cartucho:110px"></is-cartucho>
                             </div>
 
+                            <div class="bannerTexto">
+                                <span class="seloStatus" id="statusProjeto"></span>
+                                <h1 id="nomeProjeto">…</h1>
+                                <a class="criadorProjeto" id="linkCriador">
+                                    <is-sprite id="spriteCriador" semente="?" style="--is-sprite:27px"></is-sprite>
+                                    <span>por <strong id="criadorProjeto"></strong></span>
+                                </a>
+                            </div>
+                        </header>
+
+                        <div class="introProjeto">
+                            <p class="descricaoProjeto" id="descricaoProjeto"></p>
+
                             <aside class="inspetor">
-                                <div class="inspetorTopo">
-                                    <mo-simbolo nome="opcoes"></mo-simbolo>
-                                    Ficha técnica
-                                </div>
+                                <div class="inspetorTopo">Ficha técnica</div>
                                 <div class="inspetorLinhas" id="fichaProjeto"></div>
                             </aside>
-                        </header>
+                        </div>
 
                         <div class="placar">
                             <div class="placarItem">
-                                <mo-simbolo nome="usuario"></mo-simbolo>
-                                <is-numero id="totalMembros">0</is-numero>
                                 <span class="placarRotulo">Na equipe</span>
-                            </div>
-
-                            <div class="placarItem realce">
-                                <mo-simbolo nome="pasta"></mo-simbolo>
-                                <is-numero id="totalVagasAbertas">0</is-numero>
-                                <span class="placarRotulo">Vagas abertas</span>
+                                <is-numero id="totalMembros">0</is-numero>
                             </div>
 
                             <div class="placarItem">
-                                <mo-simbolo nome="email"></mo-simbolo>
-                                <is-numero id="totalCandidaturas">—</is-numero>
+                                <span class="placarRotulo">Vagas abertas</span>
+                                <is-numero id="totalVagasAbertas">0</is-numero>
+                            </div>
+
+                            <div class="placarItem">
                                 <span class="placarRotulo">Candidaturas</span>
+                                <is-numero id="totalCandidaturas">0</is-numero>
                             </div>
                         </div>
 

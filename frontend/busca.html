@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item">
@@ -82,7 +82,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -93,26 +93,20 @@
                     <div class="paginaApp">
                         <header class="topoTela">
                             <p class="sobretitulo">Recrutar</p>
-                            <h1>Encontre quem falta na sua equipe</h1>
+                            <h1>Encontre quem falta na sua equipe.</h1>
                             <p class="apoio">Pessoas por função e nível, ou projetos com vaga aberta.</p>
                         </header>
 
                         <div class="painelBusca">
                             <div class="linhaBusca">
-                                <label class="mo-busca mo-busca--grande caixaBusca">
-                                    <i class="mo-lupa" aria-hidden="true"></i>
-                                    <input type="search" id="campoBusca" placeholder="Nome, função ou projeto" autocomplete="off" />
+                                <label class="caixaBusca">
+                                    <mo-simbolo nome="busca"></mo-simbolo>
+                                    <input type="search" id="campoBusca" placeholder="Nome, função ou projeto" autocomplete="off" aria-label="Buscar" />
                                 </label>
 
                                 <div class="abasBusca" role="tablist" aria-label="O que buscar">
-                                    <button type="button" class="abaBusca ativo" id="abaProfissionais">
-                                        <mo-simbolo nome="usuario"></mo-simbolo>
-                                        Pessoas
-                                    </button>
-                                    <button type="button" class="abaBusca" id="abaProjetos">
-                                        <mo-simbolo nome="controle"></mo-simbolo>
-                                        Projetos
-                                    </button>
+                                    <button type="button" class="abaBusca ativo" id="abaProfissionais">Pessoas</button>
+                                    <button type="button" class="abaBusca" id="abaProjetos">Projetos</button>
                                 </div>
                             </div>
 
@@ -122,9 +116,17 @@
                             </div>
                         </div>
 
-                        <p class="contagemResultados" id="contagemResultados"></p>
+                        <section class="secaoTela">
+                            <h2 class="tituloSecao">
+                                Resultados
+                                <span class="contador" id="contagemResultados">0</span>
+                            </h2>
 
-                        <div class="grade gradeResultados" id="listaResultados"></div>
+                            <div class="tabela tabelaResultados" id="tabelaResultados">
+                                <div class="tabelaTopo" id="topoResultados"></div>
+                                <div class="corpoTabela" id="listaResultados"></div>
+                            </div>
+                        </section>
                     </div>
                 </main>
             </div>

@@ -23,25 +23,25 @@ async function carregarDashboard() {
         const primeiro = comPendencia[0];
 
         escrever("avisoPendencias", `
-            <mo-simbolo nome="sino"></mo-simbolo>
-            <p><strong>${plural(total, "candidatura esperando", "candidaturas esperando")} você.</strong>
+            <span class="avisoNumero"><is-numero>${total}</is-numero></span>
+            <p><strong>${total === 1 ? "candidatura esperando" : "candidaturas esperando"} você.</strong>
             Alguém quer entrar ${comPendencia.length === 1 ? `em <em>${escapar(primeiro.nome)}</em>` : "nos seus projetos"}.</p>
-            <a class="mo-tecla mo-tecla--destaque mo-tecla--p" href="projeto.html?id=${primeiro.id}#blocoCandidaturas">Ver candidaturas</a>
+            <a class="mo-tecla mo-tecla--destaque" href="projeto.html?id=${primeiro.id}#blocoCandidaturas">Responder →</a>
         `);
         pegar("avisoPendencias").classList.remove("escondido");
     }
 
     listar("listaProjetosDashboard", dados.projetos, function (projeto) {
         const pendentes = projeto.candidaturasPendentes > 0
-            ? `<span class="selo selo-pendente">${plural(projeto.candidaturasPendentes, "nova", "novas")}</span>`
+            ? `<span class="selo selo-pendente">${plural(projeto.candidaturasPendentes, "candidatura nova", "candidaturas novas")}</span>`
             : "";
 
         const ficha = [projeto.genero, projeto.engine].filter(Boolean).map(escapar).join(" · ");
 
         return `
-            <article class="cartao cartaoClicavel mira cartaoProjetoPainel" onclick="irPara('projeto.html?id=${projeto.id}')">
+            <article class="linhaTabela cartaoClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
                 <div class="cartaoTopo">
-                    ${cartucho(projeto.nome, 46)}
+                    ${cartucho(projeto.nome, 44)}
                     <div class="cartaoTitulo">
                         <h3>${escapar(projeto.nome)}</h3>
                         <span>${ficha || "Sem ficha técnica"}</span>
@@ -50,16 +50,13 @@ async function carregarDashboard() {
                 </div>
 
                 <div class="linhaMedidor">
-                    <span>Equipe</span>
-                    <is-medidor valor="${projeto.progresso}" segmentos="12"></is-medidor>
+                    <is-medidor valor="${projeto.progresso}" segmentos="10"></is-medidor>
                     <strong>${projeto.progresso}%</strong>
                 </div>
 
-                <div class="cartaoPe">
-                    <span class="dado"><mo-simbolo nome="usuario"></mo-simbolo>${plural(projeto.membros, "membro", "membros")}</span>
-                    <span class="dado"><mo-simbolo nome="pasta"></mo-simbolo>${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
-                    <span class="dado"><mo-simbolo nome="bandeira"></mo-simbolo>${projeto.marcosConcluidos}/${projeto.totalMarcos} marcos</span>
-                </div>
+                <span class="celulaMono">${projeto.vagasAbertas}<small>abertas</small></span>
+                <span class="celulaMono">${projeto.marcosConcluidos}/${projeto.totalMarcos}<small>fases</small></span>
+                <span class="setaLinha">→</span>
             </article>
         `;
     }, "Você ainda não tem projetos ativos. Publique um e a equipe começa a se formar aqui.");
@@ -68,14 +65,15 @@ async function carregarDashboard() {
     if (pegar("listaColaboracoes")) {
         listar("listaColaboracoes", dados.participacoes, function (projeto) {
             return `
-                <article class="cartao cartaoClicavel mira" onclick="irPara('projeto.html?id=${projeto.id}')">
+                <article class="linhaTabela cartaoClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
                     <div class="cartaoTopo">
-                        ${cartucho(projeto.nome, 40)}
+                        ${cartucho(projeto.nome, 44)}
                         <div class="cartaoTitulo">
                             <h3>${escapar(projeto.nome)}</h3>
                             <span>${escapar(projeto.cargo)} · criado por ${escapar(projeto.criador)}</span>
                         </div>
                     </div>
+                    <span class="setaLinha">→</span>
                 </article>
             `;
         }, "Você ainda não entrou em nenhum projeto de outra pessoa.");

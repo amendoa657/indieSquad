@@ -8,74 +8,76 @@ let skillsDoBanco = [];
 
 
 
+// as colunas da tabela de cada aba
+const TOPOS = {
+    profissionais: ["Jogador", "Função", "Reputação", "Tempo", "Histórico", ""],
+    projetos: ["Projeto", "Ficha", "Parceria", "Equipe", "Vagas", ""],
+};
+
+function desenharTopo() {
+    escrever("topoResultados", TOPOS[abaAtiva].map((nome) => `<span>${nome}</span>`).join(""));
+    pegar("tabelaResultados").dataset.aba = abaAtiva;
+}
+
+
 function cardPessoa(pessoa) {
     const principal = funcaoPrincipal(pessoa);
+    const outras = pessoa.skills.filter((skill) => skill !== principal);
 
-    // metrica sem dado atras nao aparece
-    const metricas = [];
+    const reputacao = pessoa.reputacao.total > 0
+        ? `${numero(pessoa.reputacao.media)}<small>${plural(pessoa.reputacao.total, "avaliação", "avaliações")}</small>`
+        : `—<small>sem nota</small>`;
 
-    if (pessoa.reputacao.total > 0) {
-        metricas.push(`<mo-simbolo nome="estrela"></mo-simbolo>${numero(pessoa.reputacao.media)} <small>(${pessoa.reputacao.total})</small>`);
-    }
+    const tempo = pessoa.disponibilidadeHoras
+        ? `${pessoa.disponibilidadeHoras}h<small>por semana</small>`
+        : `—<small>não disse</small>`;
 
-    if (pessoa.disponibilidadeHoras) {
-        metricas.push(`<mo-simbolo nome="relogio"></mo-simbolo>${pessoa.disponibilidadeHoras}h/sem`);
-    }
-
-    if (pessoa.colaboracoes > 0) {
-        metricas.push(`<mo-simbolo nome="usuario"></mo-simbolo>${plural(pessoa.colaboracoes, "colab.", "colabs.")}`);
-    }
-
-    if (pessoa.projetosCriados > 0) {
-        metricas.push(`<mo-simbolo nome="bandeira"></mo-simbolo>${pessoa.taxaConclusao}% concluídos`);
-    }
-
-    const corpoMetricas = metricas.length > 0
-        ? `<div class="statusPessoa">${metricas.map((m) => `<span>${m}</span>`).join("")}</div>`
-        : `<p class="semMetrica">Perfil novo por aqui</p>`;
+    const historico = `${pessoa.colaboracoes + pessoa.projetosCriados}<small>${pessoa.colaboracoes + pessoa.projetosCriados === 1 ? "projeto" : "projetos"}</small>`;
 
     return `
-        <article class="cartao cartaoClicavel mira cartaoPessoa ${principal ? classe(principal.categoria) : ""}" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
+        <article class="linhaTabela cartaoClicavel ${principal ? classe(principal.categoria) : ""}" onclick="irPara('perfil.html?handle=${encodeURIComponent(pessoa.handle)}')">
             <div class="cartaoTopo">
-                ${sprite(pessoa, 54)}
+                ${sprite(pessoa, 45)}
                 <div class="cartaoTitulo">
                     <h3>${escapar(pessoa.nome)}</h3>
-                    <p class="classePessoa">${principal ? `${escapar(principal.nome)} · ${escapar(NIVEIS[principal.nivel])}` : "Sem função definida"}</p>
                     <span>@${escapar(pessoa.handle)}</span>
                 </div>
             </div>
-            ${corpoMetricas}
-            <div class="tags">
-                ${pessoa.skills.map((skill) => tagFuncao(skill)).join("")}
+
+            <div class="celulaFuncao">
+                ${principal
+                    ? `${tagFuncao(principal)}${outras.length ? `<small>+ ${outras.map((skill) => escapar(skill.nome)).join(", ")}</small>` : ""}`
+                    : `<small>Sem função definida</small>`}
             </div>
+
+            <span class="celulaMono">${reputacao}</span>
+            <span class="celulaMono">${tempo}</span>
+            <span class="celulaMono">${historico}</span>
+            <span class="setaLinha">→</span>
         </article>
     `;
 }
 
 function cardProjeto(projeto) {
     const parceria = TIPOS_PARCERIA[projeto.tipoParceria] || projeto.tipoParceria;
-
-    const detalhes = [projeto.genero, projeto.engine, parceria]
-        .filter((item) => item)
-        .map((item) => `<span class="tag">${escapar(item)}</span>`)
-        .join("");
+    const ficha = [projeto.genero, projeto.engine].filter(Boolean).map(escapar);
 
     return `
-        <article class="cartao cartaoClicavel mira cartaoProjeto" onclick="irPara('projeto.html?id=${projeto.id}')">
+        <article class="linhaTabela cartaoClicavel" onclick="irPara('projeto.html?id=${projeto.id}')">
             <div class="cartaoTopo">
                 ${cartucho(projeto.nome, 55)}
                 <div class="cartaoTitulo">
                     <h3>${escapar(projeto.nome)}</h3>
                     <span>por ${escapar(projeto.criador.usuario)}</span>
+                    ${selo(projeto.status)}
                 </div>
-                ${selo(projeto.status)}
             </div>
-            <p class="cartaoTexto">${escapar(projeto.descricao) || "Sem descrição"}</p>
-            <div class="tags">${detalhes}</div>
-            <div class="cartaoPe">
-                <span class="dado"><mo-simbolo nome="usuario"></mo-simbolo>${plural(projeto.totalMembros, "na equipe", "na equipe")}</span>
-                <span class="dado ${projeto.vagasAbertas > 0 ? "dadoRealce" : ""}"><mo-simbolo nome="pasta"></mo-simbolo>${plural(projeto.vagasAbertas, "vaga aberta", "vagas abertas")}</span>
-            </div>
+
+            <span class="celulaMono">${ficha[0] || "—"}<small>${ficha[1] || "sem engine"}</small></span>
+            <span class="celulaMono">${escapar(parceria || "—")}</span>
+            <span class="celulaMono">${projeto.totalMembros}<small>na equipe</small></span>
+            <span class="celulaMono ${projeto.vagasAbertas > 0 ? "dadoRealce" : ""}">${projeto.vagasAbertas}<small>abertas</small></span>
+            <span class="setaLinha">→</span>
         </article>
     `;
 }
@@ -94,13 +96,15 @@ async function buscar() {
         })}`);
         if (!pessoas) return;
 
-        escrever("contagemResultados", plural(pessoas.length, "pessoa encontrada", "pessoas encontradas"));
+        desenharTopo();
+        escrever("contagemResultados", pessoas.length);
         listar("listaResultados", pessoas, cardPessoa, "Ninguém com esse perfil ainda. Tenta outra função.");
     } else {
         const projetos = await pedir(`/busca/projetos${filtros({ q: termo })}`);
         if (!projetos) return;
 
-        escrever("contagemResultados", plural(projetos.length, "projeto encontrado", "projetos encontrados"));
+        desenharTopo();
+        escrever("contagemResultados", projetos.length);
         listar("listaResultados", projetos, cardProjeto, "Nenhum projeto com esse nome.");
     }
 }
@@ -139,7 +143,7 @@ function filtrarPorSkill(nomeDaSkill) {
 function chip(texto, ativo, acao, categoria) {
     // a categoria vira a classe: o chip ganha a cor e o simbolo dela
     const comClasse = acao === "categoria" && texto !== "Todos";
-    const simbolo = comClasse ? `<mo-simbolo nome="${simboloDaClasse(texto)}"></mo-simbolo>` : "";
+    const simbolo = acao === "categoria" ? `<mo-simbolo nome="${comClasse ? simboloDaClasse(texto) : "mosaico"}"></mo-simbolo>` : "";
 
     return `<button type="button" class="botaoFiltro ${classe(categoria || texto)} ${ativo ? "ativo" : ""}" data-valor="${escapar(texto)}" data-acao="${acao}">${simbolo}${escapar(texto)}</button>`;
 }

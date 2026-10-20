@@ -463,6 +463,7 @@ async function carregarProjeto() {
     const vagas = (await pedir(`/projetos/${idProjeto}/vagas`)) || [];
 
     pegar("avatarProjeto").setAttribute("nome", projeto.nome);
+    pegar("bannerProjeto").dataset.tom = tomDoNome(projeto.nome);
     escrever("nomeProjeto", escapar(projeto.nome));
     escrever("statusProjeto", escapar(rotulo(projeto.status)));
     pegar("statusProjeto").className = `seloStatus selo-${projeto.status}`;

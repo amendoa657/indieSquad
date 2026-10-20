@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item ativo" aria-current="page">
@@ -82,7 +82,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -93,58 +93,65 @@
                     <div class="paginaApp">
                         <header class="topoTela">
                             <p class="sobretitulo">Painel</p>
-                            <h1>Olá, <span id="nomeUsuario">…</span></h1>
+                            <h1>Olá, <span id="nomeUsuario">…</span>.</h1>
                             <p class="apoio">O resumo dos seus projetos e de onde você está jogando junto.</p>
                         </header>
 
                         <p class="mensagemErro" id="mensagemErro"></p>
 
                         <div class="placar">
-                            <div class="placarItem realce">
-                                <mo-simbolo nome="controle"></mo-simbolo>
-                                <is-numero id="totalProjetosAtivos">0</is-numero>
+                            <div class="placarItem">
                                 <span class="placarRotulo">Projetos ativos</span>
+                                <is-numero id="totalProjetosAtivos">0</is-numero>
                             </div>
 
                             <div class="placarItem">
-                                <mo-simbolo nome="usuario"></mo-simbolo>
-                                <is-numero id="totalColaboracoes">0</is-numero>
                                 <span class="placarRotulo">Colaborações</span>
+                                <is-numero id="totalColaboracoes">0</is-numero>
                             </div>
 
                             <div class="placarItem">
-                                <mo-simbolo nome="bandeira"></mo-simbolo>
-                                <is-numero id="taxaConclusao">0%</is-numero>
                                 <span class="placarRotulo">Conclusão</span>
+                                <is-numero id="taxaConclusao">0%</is-numero>
                             </div>
 
                             <div class="placarItem">
-                                <mo-simbolo nome="pasta"></mo-simbolo>
-                                <is-numero id="totalProjetosCriados">0</is-numero>
                                 <span class="placarRotulo">Projetos criados</span>
+                                <is-numero id="totalProjetosCriados">0</is-numero>
                             </div>
                         </div>
 
                         <div class="avisoPendencias escondido" id="avisoPendencias"></div>
 
-                        <div class="colunasPainel">
-                            <section class="secaoTela">
-                                <h2 class="tituloSecao">
-                                    Meus projetos ativos
-                                    <span class="contador" id="contadorProjetos">0</span>
-                                    <a class="mo-tecla mo-tecla--sutil mo-tecla--p acaoSecao" href="publicar-projeto.html"><mo-simbolo nome="mais"></mo-simbolo> Novo</a>
-                                </h2>
-                                <div class="pilha" id="listaProjetosDashboard"></div>
-                            </section>
+                        <section class="secaoTela">
+                            <h2 class="tituloSecao">
+                                Meus projetos ativos
+                                <span class="contador" id="contadorProjetos">0</span>
+                                <a class="mo-tecla mo-tecla--p acaoSecao" href="publicar-projeto.html"><mo-simbolo nome="mais"></mo-simbolo> Novo projeto</a>
+                            </h2>
 
-                            <section class="secaoTela">
-                                <h2 class="tituloSecao">
-                                    Onde eu jogo junto
-                                    <span class="contador" id="contadorParticipacoes">0</span>
-                                </h2>
-                                <div class="pilha" id="listaColaboracoes"></div>
-                            </section>
-                        </div>
+                            <div class="tabela tabelaProjetos">
+                                <div class="tabelaTopo">
+                                    <span>Projeto</span>
+                                    <span>Equipe montada</span>
+                                    <span>Vagas</span>
+                                    <span>Marcos</span>
+                                    <span></span>
+                                </div>
+                                <div class="corpoTabela" id="listaProjetosDashboard"></div>
+                            </div>
+                        </section>
+
+                        <section class="secaoTela">
+                            <h2 class="tituloSecao">
+                                Onde eu jogo junto
+                                <span class="contador" id="contadorParticipacoes">0</span>
+                            </h2>
+
+                            <div class="tabela tabelaParticipacoes">
+                                <div class="corpoTabela" id="listaColaboracoes"></div>
+                            </div>
+                        </section>
                     </div>
                 </main>
             </div>

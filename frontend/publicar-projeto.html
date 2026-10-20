@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item">
@@ -82,7 +82,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -93,7 +93,7 @@
                     <div class="paginaApp">
                         <header class="topoTela">
                             <p class="sobretitulo">Novo projeto</p>
-                            <h1>Conte pra gente sobre o seu jogo</h1>
+                            <h1>Conte pra gente sobre o seu jogo.</h1>
                             <p class="apoio">Cada função que você escolher vira uma vaga aberta, e quem combina com ela aparece pra você.</p>
                         </header>
 
@@ -101,88 +101,118 @@
 
                         <div class="colunasPublicar">
                             <form class="formPublicar formulario" id="formPublicarProjeto">
-                                <fieldset class="etapaForm">
-                                    <legend><span>1</span> O jogo</legend>
-
-                                    <div class="campoFormulario">
-                                        <label for="nomeProjeto">Nome do projeto</label>
-                                        <input type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
+                                <section class="etapaForm">
+                                    <div class="etapaTitulo">
+                                        <is-numero>01</is-numero>
+                                        <h2>O jogo</h2>
+                                        <p>Nome e uma descrição curta: o que é, qual a sensação de jogar.</p>
                                     </div>
 
-                                    <div class="campoFormulario">
-                                        <label for="descricaoProjeto">Descrição curta</label>
-                                        <textarea id="descricaoProjeto" placeholder="Do que se trata, qual a sensação de jogar, o que já existe..." required></textarea>
-                                    </div>
-                                </fieldset>
-
-                                <fieldset class="etapaForm">
-                                    <legend><span>2</span> Ficha técnica</legend>
-
-                                    <div class="tresColunas">
+                                    <div class="etapaCampos">
                                         <div class="campoFormulario">
-                                            <label for="generoProjeto">Gênero</label>
-                                            <input type="text" id="generoProjeto" placeholder="Metroidvania, RPG..." />
+                                            <label for="nomeProjeto">Nome do projeto</label>
+                                            <input type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
                                         </div>
 
                                         <div class="campoFormulario">
-                                            <label for="engineProjeto">Engine</label>
-                                            <input type="text" id="engineProjeto" placeholder="Godot, Unity..." list="engines" />
-                                            <datalist id="engines">
-                                                <option value="Godot"></option>
-                                                <option value="Unity"></option>
-                                                <option value="Unreal"></option>
-                                                <option value="GameMaker"></option>
-                                                <option value="Pico-8"></option>
-                                                <option value="Love2D"></option>
-                                            </datalist>
+                                            <label for="descricaoProjeto">Descrição curta</label>
+                                            <textarea id="descricaoProjeto" placeholder="Do que se trata, qual a sensação de jogar, o que já existe..." required></textarea>
                                         </div>
+                                    </div>
+                                </section>
 
+                                <section class="etapaForm">
+                                    <div class="etapaTitulo">
+                                        <is-numero>02</is-numero>
+                                        <h2>Ficha técnica</h2>
+                                        <p>Ajuda quem procura vaga a saber se domina as ferramentas.</p>
+                                    </div>
+
+                                    <div class="etapaCampos">
+                                        <div class="tresColunas">
+                                            <div class="campoFormulario">
+                                                <label for="generoProjeto">Gênero</label>
+                                                <input type="text" id="generoProjeto" placeholder="Metroidvania, RPG..." />
+                                            </div>
+
+                                            <div class="campoFormulario">
+                                                <label for="engineProjeto">Engine</label>
+                                                <input type="text" id="engineProjeto" placeholder="Godot, Unity..." list="engines" />
+                                                <datalist id="engines">
+                                                    <option value="Godot"></option>
+                                                    <option value="Unity"></option>
+                                                    <option value="Unreal"></option>
+                                                    <option value="GameMaker"></option>
+                                                    <option value="Pico-8"></option>
+                                                    <option value="Love2D"></option>
+                                                </datalist>
+                                            </div>
+
+                                            <div class="campoFormulario">
+                                                <label for="duracaoProjeto">Duração</label>
+                                                <input type="text" id="duracaoProjeto" placeholder="3 meses, 6 meses..." />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="etapaForm">
+                                    <div class="etapaTitulo">
+                                        <is-numero>03</is-numero>
+                                        <h2>Quem falta</h2>
+                                        <p>Cada função escolhida vira uma vaga aberta na party.</p>
+                                    </div>
+
+                                    <div class="etapaCampos">
+                                        <div class="botoesPerfil" id="botoesPerfil"></div>
+                                    </div>
+                                </section>
+
+                                <section class="etapaForm">
+                                    <div class="etapaTitulo">
+                                        <is-numero>04</is-numero>
+                                        <h2>Marcos</h2>
+                                        <p>As fases até o lançamento, separadas por vírgula.</p>
+                                    </div>
+
+                                    <div class="etapaCampos">
                                         <div class="campoFormulario">
-                                            <label for="duracaoProjeto">Duração</label>
-                                            <input type="text" id="duracaoProjeto" placeholder="3 meses, 6 meses..." />
+                                            <label for="marcoProjeto">Fases até o lançamento</label>
+                                            <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Protótipo jogável, Demo na Steam, Lançamento" />
+                                            <small class="dicaCampo">Separe por vírgula. Viram o mapa de marcos do projeto.</small>
                                         </div>
                                     </div>
-                                </fieldset>
+                                </section>
 
-                                <fieldset class="etapaForm">
-                                    <legend><span>3</span> Quem falta na equipe</legend>
-                                    <p class="dicaCampo">Escolha as funções. Cada uma vira uma vaga aberta.</p>
-                                    <div class="botoesPerfil" id="botoesPerfil"></div>
-                                </fieldset>
-
-                                <fieldset class="etapaForm">
-                                    <legend><span>4</span> Marcos</legend>
-
-                                    <div class="campoFormulario">
-                                        <label for="marcoProjeto">Fases até o lançamento</label>
-                                        <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Protótipo jogável, Demo na Steam, Lançamento" />
-                                        <small class="dicaCampo">Separe por vírgula. Viram o mapa de marcos do projeto.</small>
+                                <section class="etapaForm">
+                                    <div class="etapaTitulo">
+                                        <is-numero>05</is-numero>
+                                        <h2>Parceria</h2>
+                                        <p>Deixe claro desde o começo como cada um sai ganhando.</p>
                                     </div>
-                                </fieldset>
 
-                                <fieldset class="etapaForm">
-                                    <legend><span>5</span> Tipo de parceria</legend>
+                                    <div class="etapaCampos">
+                                        <div class="opcoesParceria">
+                                            <button type="button" class="opcaoParceria" data-parceria="portfolio">
+                                                <mo-simbolo nome="pasta"></mo-simbolo>
+                                                <strong>Portfólio</strong>
+                                                <span>Colaboração pra ganhar experiência e portfólio</span>
+                                            </button>
 
-                                    <div class="opcoesParceria">
-                                        <button type="button" class="opcaoParceria" data-parceria="portfolio">
-                                            <mo-simbolo nome="pasta"></mo-simbolo>
-                                            <strong>Portfólio</strong>
-                                            <span>Colaboração pra ganhar experiência e portfólio</span>
-                                        </button>
+                                            <button type="button" class="opcaoParceria" data-parceria="revenueShare">
+                                                <mo-simbolo nome="estrela"></mo-simbolo>
+                                                <strong>Divisão de lucro</strong>
+                                                <span>Cada um leva uma parte do que o jogo render</span>
+                                            </button>
 
-                                        <button type="button" class="opcaoParceria" data-parceria="revenueShare">
-                                            <mo-simbolo nome="estrela"></mo-simbolo>
-                                            <strong>Divisão de lucro</strong>
-                                            <span>Cada um leva uma parte do que o jogo render</span>
-                                        </button>
-
-                                        <button type="button" class="opcaoParceria" data-parceria="remunerado">
-                                            <mo-simbolo nome="raio"></mo-simbolo>
-                                            <strong>Remunerado</strong>
-                                            <span>Pagamento por tarefa ou por hora</span>
-                                        </button>
+                                            <button type="button" class="opcaoParceria" data-parceria="remunerado">
+                                                <mo-simbolo nome="raio"></mo-simbolo>
+                                                <strong>Remunerado</strong>
+                                                <span>Pagamento por tarefa ou por hora</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </fieldset>
+                                </section>
 
                                 <div class="acoes acoesPublicar">
                                     <button type="submit" class="mo-tecla mo-tecla--destaque mo-tecla--g botaoProximo">

@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item">
@@ -82,7 +82,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -105,45 +105,58 @@
                             <ul class="missaoLista" id="faltandoPerfil"></ul>
                         </section>
 
-                        <div class="fichaPersonagem">
-                            <aside class="cartao cartaoHeroi" id="cartaoHeroi">
-                                <div class="heroiTopo">
-                                    <is-sprite class="vivo" id="avatarPerfil" semente="?" style="--is-sprite:108px"></is-sprite>
-                                    <button type="button" class="mo-tecla mo-tecla--p" id="botaoEditar">
-                                        <mo-simbolo nome="editar"></mo-simbolo>
-                                        Editar
-                                    </button>
-                                </div>
+                        <header class="bannerPerfil" id="cartaoHeroi">
+                            <div class="bannerSprite">
+                                <is-sprite class="vivo" id="avatarPerfil" semente="?" style="--is-sprite:126px"></is-sprite>
+                            </div>
 
-                                <div class="heroiNome">
-                                    <h1 id="nomePerfil">…</h1>
-                                    <p class="handlePerfil" id="handlePerfil"></p>
-                                </div>
-
+                            <div class="bannerTexto">
                                 <p class="funcaoPerfil" id="funcaoPerfil"></p>
+                                <h1 id="nomePerfil">…</h1>
+                                <p class="handlePerfil" id="handlePerfil"></p>
+                            </div>
+
+                            <button type="button" class="mo-tecla" id="botaoEditar">
+                                <mo-simbolo nome="editar"></mo-simbolo>
+                                Editar perfil
+                            </button>
+                        </header>
+
+                        <div class="fichaPersonagem">
+                            <aside class="fichaLado">
                                 <p class="bioPerfil" id="bioPerfil"></p>
 
-                                <div class="tags" id="objetivoPerfil"></div>
-                                <div class="tags" id="linksPerfil"></div>
-
-                                <p class="membroDesde" id="membroDesde"></p>
+                                <dl class="fichaDados">
+                                    <div>
+                                        <dt>Objetivo e tempo</dt>
+                                        <dd class="tags" id="objetivoPerfil"></dd>
+                                    </div>
+                                    <div>
+                                        <dt>Portfólio</dt>
+                                        <dd class="tags" id="linksPerfil"></dd>
+                                    </div>
+                                    <div>
+                                        <dt>Na IndieSquad</dt>
+                                        <dd class="membroDesde" id="membroDesde"></dd>
+                                    </div>
+                                </dl>
                             </aside>
 
                             <div class="fichaDetalhes">
                                 <div class="placar">
                                     <div class="placarItem">
-                                        <is-numero id="totalProjetos">0</is-numero>
                                         <span class="placarRotulo">Projetos criados</span>
+                                        <is-numero id="totalProjetos">0</is-numero>
                                     </div>
 
                                     <div class="placarItem">
-                                        <is-numero id="totalColaboracoes">0</is-numero>
                                         <span class="placarRotulo">Colaborações</span>
+                                        <is-numero id="totalColaboracoes">0</is-numero>
                                     </div>
 
                                     <div class="placarItem">
-                                        <is-numero id="taxaConclusao">0%</is-numero>
                                         <span class="placarRotulo">Conclusão</span>
+                                        <is-numero id="taxaConclusao">0%</is-numero>
                                     </div>
                                 </div>
 
@@ -209,12 +222,12 @@
 
                                 <section class="secaoTela">
                                     <h2 class="tituloSecao">Projetos</h2>
-                                    <div class="grade gradeCompacta" id="projetosPerfil"></div>
+                                    <div class="tabela tabelaPerfil"><div class="corpoTabela" id="projetosPerfil"></div></div>
                                 </section>
 
                                 <section class="secaoTela escondido" id="blocoAvaliacoesPerfil">
                                     <h2 class="tituloSecao">Avaliações recebidas</h2>
-                                    <div class="pilha" id="listaAvaliacoesPerfil"></div>
+                                    <div class="grade" id="listaAvaliacoesPerfil"></div>
                                 </section>
 
                                 <section class="secaoTela escondido" id="blocoEdicao">

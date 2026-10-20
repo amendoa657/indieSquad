@@ -25,7 +25,7 @@
             <header class="mo-cabecalho cabecalhoApp">
                 <a class="logoIndie" href="dashboard.html" aria-label="IndieSquad, voltar pro painel">
                     <is-marca></is-marca>
-                    <span class="nomeMarca">INDIE<b>SQUAD</b></span>
+                    <span class="nomeMarca">indiesquad</span>
                 </a>
 
                 <form class="mo-busca buscaRapida" role="search">
@@ -50,7 +50,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" opacidade="0.2"></mo-pixels>
+                <mo-pixels class="mo-fundo" opacidade="0.14" cores="--is-arte --is-design --is-programacao"></mo-pixels>
 
                 <nav class="mo-lateral menuApp" aria-label="Navegação principal">
                         <a href="dashboard.html" class="mo-nav-item">
@@ -82,7 +82,7 @@
                             <span data-jogador-handle></span>
                         </div>
 
-                        <button type="button" class="mo-tecla mo-tecla--sutil botaoSair" onclick="fazerLogout()">
+                        <button type="button" class="botaoSair" onclick="fazerLogout()">
                             <mo-simbolo nome="sair"></mo-simbolo>
                             Sair
                         </button>
@@ -93,7 +93,7 @@
                     <div class="paginaApp paginaMedia">
                         <header class="topoTela">
                             <p class="sobretitulo">Candidaturas</p>
-                            <h1>As vagas em que você se candidatou</h1>
+                            <h1>As vagas em que você se candidatou.</h1>
                             <p class="apoio">Pendente ainda dá pra cancelar. Aceita, você já está na equipe.</p>
                         </header>
 
@@ -122,7 +122,15 @@
 
                         <section class="secaoTela">
                             <h2 class="tituloSecao">Histórico</h2>
-                            <div class="pilha" id="listaCandidaturas"></div>
+                            <div class="tabela tabelaCandidaturas">
+                                <div class="tabelaTopo">
+                                    <span>Vaga</span>
+                                    <span>Enviada</span>
+                                    <span>Estado</span>
+                                    <span></span>
+                                </div>
+                                <div class="corpoTabela" id="listaCandidaturas"></div>
+                            </div>
                         </section>
                     </div>
                 </main>

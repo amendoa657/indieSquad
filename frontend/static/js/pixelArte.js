@@ -231,7 +231,6 @@ class Numero extends HTMLElement {
                 :host { display: inline-block; line-height: 0; vertical-align: baseline; }
                 svg { height: var(--is-numero-altura, 28px); width: auto; display: block; overflow: visible; fill: currentColor; }
                 rect { animation: acender 260ms steps(2, end) both; animation-delay: var(--atraso); }
-                .apagado { fill: currentColor; opacity: var(--is-numero-fundo, 0.08); animation: none; }
                 @keyframes acender { from { opacity: 0; } to { opacity: 1; } }
                 @media (prefers-reduced-motion: reduce) { rect { animation: none; } }
             </style>`;
@@ -254,8 +253,8 @@ class Numero extends HTMLElement {
         const alvo = Number(texto.replace(/[^\d]/g, ""));
         const sufixo = texto.replace(/^[\d.,]+/, "");
 
-        // numero inteiro sobe contando, como placar de fliperama
-        if (/^\d+%?$/.test(texto) && alvo > 0 && !semMovimento() && this.isConnected) {
+        // numero inteiro sobe contando, como placar de fliperama ("01" fica como esta)
+        if (/^[1-9]\d*%?$/.test(texto) && !semMovimento() && this.isConnected) {
             this.contar(alvo, sufixo);
         } else {
             this.pintar(texto, true);
@@ -295,7 +294,7 @@ class Numero extends HTMLElement {
 
             linhas.forEach((linha, y) => {
                 [...linha].forEach((bit, coluna) => {
-                    quadrados.push([x + coluna, y, bit === "1"]);
+                    if (bit === "1") quadrados.push([x + coluna, y]);
                 });
             });
 
@@ -304,11 +303,11 @@ class Numero extends HTMLElement {
         }
 
         const largura = Math.max(1, x - 1);
-        const svg = desenhar(largura, 7, quadrados.map(([qx, qy, aceso]) => [qx, qy, aceso ? "" : "apagado"]));
+        const svg = desenhar(largura, 7, quadrados);
 
         // so a pintura final acende em onda; a contagem troca seca
         if (final) {
-            svg.querySelectorAll("rect:not(.apagado)").forEach((rect) => {
+            svg.querySelectorAll("rect").forEach((rect) => {
                 const atraso = (Number(rect.getAttribute("x")) * 9 + Number(rect.getAttribute("y")) * 14) % 180;
                 rect.style.setProperty("--atraso", `${atraso}ms`);
             });
@@ -380,34 +379,31 @@ class Nivel extends HTMLElement {
 }
 
 
-// ---------- a marca: um controle em pixel, com os quatro botoes coloridos ----------
+// ---------- a marca: um S de cinco blocos ----------
+//
+// Cinco blocos, um por classe (arte, audio, design, producao, programacao),
+// montando um S de squad, no formato de uma peca de tetris de cinco.
 
-const CONTROLE = [
-    "..#########..",
-    ".###########.",
-    "###.#####a###",
-    "##...###b#c##",
-    "###.#####d###",
-    "#############",
-    "####.....####",
-    ".###.....###.",
-    "..#.......#..",
+const MARCA = [
+    [1, 0, "arte"],
+    [2, 0, "audio"],
+    [1, 1, "design"],
+    [0, 2, "programacao"],
+    [1, 2, "producao"],
 ];
 
 class Marca extends HTMLElement {
     connectedCallback() {
         if (this.firstChild) return;
 
-        const quadrados = [];
+        const svg = document.createElementNS(SVG, "svg");
 
-        CONTROLE.forEach((linha, y) => {
-            [...linha].forEach((letra, x) => {
-                if (letra === "#") quadrados.push([x, y, "corpo"]);
-                else if (letra !== ".") quadrados.push([x, y, `botao botao-${letra}`]);
-            });
-        });
+        svg.setAttribute("viewBox", "0 0 30 30");
+        svg.setAttribute("aria-hidden", "true");
+        svg.innerHTML = MARCA.map(([coluna, linha, classe]) =>
+            `<rect class="bloco-${classe}" x="${coluna * 10.5}" y="${linha * 10.5}" width="9" height="9"/>`).join("");
 
-        this.append(desenhar(13, 9, quadrados));
+        this.append(svg);
     }
 }
 
