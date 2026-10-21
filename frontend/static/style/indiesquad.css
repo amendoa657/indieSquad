@@ -4,6 +4,26 @@
    !important e sem briga de especificidade. Por isso este arquivo e curto
    de proposito: o que a Mosaic ja resolve nao e reescrito aqui. */
 
+/* ==========================================================================
+   Reset de margem
+
+   A margem padrao do navegador em h1..h6, p, ul, ol e dl soma com o gap dos
+   contextos flex e grid, e era o que deixava as telas frouxas: um h1 traz
+   quase 19px em cima e embaixo por conta propria. Quem manda no espaco aqui
+   e o container, nao o elemento.
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl, dd, figure, blockquote, pre {
+    margin: 0;
+}
+
+ul, ol {
+    padding-left: 0;
+    list-style: none;
+}
+
+
 .tituloTela {
     font-size: 30px;
     font-weight: 700;
@@ -1736,4 +1756,201 @@ body.telaCentrada > mo-pixels.mo-fundo {
 .opcaoParceria:has(input:focus-visible) {
     outline: 2px solid var(--mo-foco);
     outline-offset: 2px;
+}
+
+
+/* ---------- A marca ---------- */
+
+/* a marca entra por mascara, nao por <img>: assim ela pega a cor do tema
+   (ciano no escuro, teal fundo no claro) a partir de um arquivo so */
+.marcaIndieSquad {
+    display: block;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background-color: var(--mo-destaque);
+    -webkit-mask: url("../assets/logo.svg") center / contain no-repeat;
+    mask: url("../assets/logo.svg") center / contain no-repeat;
+}
+
+.mo-logotipo span b {
+    color: var(--mo-destaque);
+    font-weight: 700;
+}
+
+
+/* ==========================================================================
+   Correcoes de alinhamento e respiro
+   ========================================================================== */
+
+/* o topo das telas e flex-column: sem isso o titulo nao estica e fica
+   centralizado no meio de conteudo alinhado a esquerda */
+.topoPagina,
+.topoBusca,
+.saudacaoDashboard,
+.topoPublicar {
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* conteudo que nao usa .mo-secao precisa do respiro na mao, senao cola
+   na lateral */
+.mo-conteudo > :not(.mo-secao):not(.landing) {
+    padding-left: var(--mo-espaco-6);
+    padding-right: var(--mo-espaco-6);
+}
+
+.mo-conteudo > :first-child:not(.mo-secao) {
+    padding-top: var(--mo-espaco-6);
+}
+
+.mo-conteudo > :last-child:not(.mo-secao) {
+    padding-bottom: var(--mo-espaco-8);
+}
+
+/* formulario longo nao deve esticar: linha de campo muito larga cansa */
+#formPublicarProjeto,
+#formEditarPerfil,
+.campoFormulario,
+.blocoSecao form {
+    max-width: 560px;
+}
+
+.conteudoMedio > * {
+    max-width: 920px;
+}
+
+
+/* ---------- O campo de pixels e o texto ----------
+   O campo fica forte nas bordas e se apaga onde o texto mora: assim ele
+   existe de verdade sem atrapalhar a leitura. */
+
+mo-pixels.mo-fundo {
+    -webkit-mask-image: radial-gradient(ellipse 62% 58% at 34% 42%,
+        transparent 0%, rgba(0, 0, 0, 0.35) 48%, #000 78%);
+    mask-image: radial-gradient(ellipse 62% 58% at 34% 42%,
+        transparent 0%, rgba(0, 0, 0, 0.35) 48%, #000 78%);
+}
+
+
+/* a marca acompanha o verde novo */
+.mo-logotipo span b {
+    color: var(--mo-destaque);
+}
+
+
+/* a biblioteca arredonda chip, selo e campo em valor fixo; aqui o canto e
+   duro, entao esses tres descem junto com o resto */
+.mo-chip,
+.mo-selo,
+.mo-campo,
+.mo-busca,
+.mo-tecla {
+    border-radius: var(--mo-raio-m);
+}
+
+.mo-nav-item,
+.mo-pilula {
+    border-radius: var(--mo-raio-g);
+}
+
+/* titulo e subtitulo sao uma unidade: o vao entre eles era de secao */
+.topoPagina,
+.topoBusca,
+.saudacaoDashboard {
+    gap: var(--mo-espaco-1);
+}
+
+.topoPagina h1,
+.topoBusca h1,
+.saudacaoDashboard h1,
+.tituloTela {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+
+/* caixa alta espacada em rotulo e um dos tiques mais obvios de pagina
+   gerada; o rotulo distingue por cor e tamanho, nao por grito */
+.legendaEstatistica,
+.itemFicha span,
+.mo-rotulo-grupo {
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+
+/* ---------- Cabecalho do perfil ----------
+   Vinha com vao de secao entre cada linha, o que deixava a identidade da
+   pessoa espalhada por meia tela. */
+
+.cabecalhoPerfil {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--mo-espaco-4);
+    margin-bottom: var(--mo-espaco-5);
+}
+
+.infoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-espaco-2);
+    min-width: 0;
+}
+
+.infoPerfil h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.handlePerfil {
+    color: var(--mo-destaque);
+    font-family: var(--mo-fonte-mono);
+    font-size: 13px;
+}
+
+.funcaoPerfil {
+    color: var(--mo-texto-2);
+    font-size: 15px;
+}
+
+.membroDesde {
+    color: var(--mo-texto-3);
+    font-size: 12px;
+    font-family: var(--mo-fonte-mono);
+}
+
+.bioPerfil {
+    max-width: 58ch;
+    margin-top: var(--mo-espaco-2);
+    color: var(--mo-texto-2);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.botoesPerfil,
+.notasRecebidas {
+    margin-top: var(--mo-espaco-3);
+}
+
+
+/* grupo de ferramentas e de funcoes: o titulo precisa respirar da lista
+   anterior, senao os grupos viram um bloco so */
+.grupoPerfil {
+    margin-top: var(--mo-espaco-4);
+}
+
+.grupoPerfil:first-of-type {
+    margin-top: 0;
+}
+
+.tituloGrupoPerfil {
+    display: block;
+    margin-bottom: var(--mo-espaco-2);
+    color: var(--mo-texto-3);
+    font-size: 12px;
 }

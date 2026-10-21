@@ -2,45 +2,48 @@
 
    A biblioteca inteira desenha a partir dos tokens --mo-*, entao trocar eles
    aqui veste a Mosaic com as cores da IndieSquad sem tocar num arquivo dela.
-   Carregar depois da mosaic.css. */
+
+   Tres cores fortes, nao uma: o campo de pixels passa uma onda por cor, e
+   com um acento so ele fica monocromatico. O fundo puxa pro violeta, como o
+   da Mosaic, porque preto neutro apaga o campo. */
 
 :root {
-    /* o ciano continua sendo a marca, agora como bloco chapado */
-    --mo-destaque: #2ed3c6;
-    --mo-destaque-fundo: #2ed3c6;
-    --mo-sobre-destaque: #06201d;
+    /* verde eletrico: a cor de "esta rolando" */
+    --mo-destaque: #3dffa8;
+    --mo-destaque-fundo: #3dffa8;
+    --mo-sobre-destaque: #00291a;
 
-    /* o laranja ganha voz propria em vez de ser so enfeite */
-    --mo-secundaria: #ff8a5c;
-    --mo-secundaria-fundo: #5c2714;
-    --mo-secundaria-texto: #ffd9c9;
+    /* rosa: o contraponto quente, pro que pede atencao */
+    --mo-secundaria: #ff4d8d;
+    --mo-secundaria-fundo: #4a0f27;
+    --mo-secundaria-texto: #ffd6e4;
 
-    /* a terceira cor fecha a triade e serve de tom pros blocos */
-    --mo-terciaria: #a9b6f2;
-    --mo-terciaria-fundo: #323c6b;
-    --mo-terciaria-texto: #dce2ff;
+    /* azul-violeta: fecha a triade e serve de tom pros blocos */
+    --mo-terciaria: #6c8cff;
+    --mo-terciaria-fundo: #1b2359;
+    --mo-terciaria-texto: #dce3ff;
 
-    --mo-perigo: #ff9a92;
-    --mo-perigo-fundo: #7a1510;
+    --mo-perigo: #ff8178;
+    --mo-perigo-fundo: #58100b;
     --mo-perigo-texto: #ffdad6;
 
-    --mo-sucesso: #5fd8a4;
-    --mo-sucesso-fundo: #10432f;
-    --mo-sucesso-texto: #c4f2dd;
+    --mo-sucesso: #3dffa8;
+    --mo-sucesso-fundo: #0c3826;
+    --mo-sucesso-texto: #c5ffe4;
 
-    /* superficies: o cinza puxa pro verde, nao pro azul */
-    --mo-fundo: #0b0d0c;
-    --mo-janela: #0e100f;
-    --mo-lateral-2: #171a18;
-    --mo-cabecalho: #141716;
-    --mo-lateral: #141716;
-    --mo-cartao: #171a18;
-    --mo-dialogo: #1d211f;
-    --mo-elevada: #262b28;
+    /* superficies: tinta violeta, da mais funda pra mais alta */
+    --mo-fundo: #0a0910;
+    --mo-janela: #0d0c15;
+    --mo-lateral-2: #13121d;
+    --mo-cabecalho: #0d0c15;
+    --mo-lateral: #13121d;
+    --mo-cartao: #15141f;
+    --mo-dialogo: #1c1a28;
+    --mo-elevada: #262337;
 
-    --mo-texto: #f0f3f1;
+    --mo-texto: #f2f0f7;
 
-    /* canto mais duro que o padrao da biblioteca: e o que a IndieSquad firmou */
+    /* canto mais duro que o padrao da biblioteca */
     --mo-raio-p: 3px;
     --mo-raio-m: 4px;
     --mo-raio-g: 5px;
@@ -48,39 +51,39 @@
 }
 
 
-/* tema claro: o ciano nao tem contraste suficiente no branco, entao escurece */
+/* tema claro: os mesmos tres tons, escurecidos ate passarem no branco */
 
 [data-tema="claro"] {
     color-scheme: light;
 
-    --mo-destaque: #0a6f69;
-    --mo-destaque-fundo: #0a6f69;
+    --mo-destaque: #047857;
+    --mo-destaque-fundo: #047857;
     --mo-sobre-destaque: #ffffff;
 
-    --mo-secundaria: #a8400d;
-    --mo-secundaria-fundo: #ffe2d6;
-    --mo-secundaria-texto: #5c2714;
+    --mo-secundaria: #b4175a;
+    --mo-secundaria-fundo: #ffe0ec;
+    --mo-secundaria-texto: #4a0f27;
 
-    --mo-terciaria: #3d4a85;
-    --mo-terciaria-fundo: #e0e5ff;
-    --mo-terciaria-texto: #232c54;
+    --mo-terciaria: #3949ab;
+    --mo-terciaria-fundo: #e2e6ff;
+    --mo-terciaria-texto: #1b2359;
 
-    --mo-perigo: #b4261d;
+    --mo-perigo: #b3261e;
     --mo-perigo-fundo: #ffdad6;
-    --mo-perigo-texto: #6d1410;
+    --mo-perigo-texto: #58100b;
 
-    --mo-sucesso: #0c7a53;
-    --mo-sucesso-fundo: #c4f2dd;
+    --mo-sucesso: #047857;
+    --mo-sucesso-fundo: #d1fae5;
     --mo-sucesso-texto: #04301f;
 
-    --mo-fundo: #eef1ef;
-    --mo-janela: #f6f8f6;
-    --mo-lateral-2: #e7ebe8;
+    --mo-fundo: #eeecf2;
+    --mo-janela: #f7f6fa;
+    --mo-lateral-2: #e8e6ee;
     --mo-cabecalho: #ffffff;
     --mo-lateral: #ffffff;
     --mo-cartao: #ffffff;
     --mo-dialogo: #ffffff;
     --mo-elevada: #ffffff;
 
-    --mo-texto: #0d100e;
+    --mo-texto: #120f1a;
 }

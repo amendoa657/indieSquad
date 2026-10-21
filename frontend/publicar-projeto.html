@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="color-scheme" content="dark light" />
         <meta name="theme-color" content="#0e100f" />
+        <link rel="icon" href="static/assets/logoCor.svg" type="image/svg+xml" />
         <title>Publicar projeto - IndieSquad</title>
 
         <link rel="preload" href="static/mosaic-ui/fontes/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
@@ -19,8 +20,8 @@
         <div class="mo-app">
             <header class="mo-cabecalho">
                 <a class="mo-logotipo" href="dashboard.html">
-                    <i class="mo-marca"></i>
-                    <span>IndieSquad</span>
+                    <span class="marcaIndieSquad" aria-hidden="true"></span>
+                    <span>Indie<b>Squad</b></span>
                 </a>
 
                 <form class="mo-busca" action="busca.html" method="get" role="search">
@@ -33,7 +34,7 @@
             </header>
 
             <div class="mo-corpo">
-                <mo-pixels class="mo-fundo" passo="18" opacidade="0.13"></mo-pixels>
+                <mo-pixels class="mo-fundo" passo="16" opacidade="0.38"></mo-pixels>
 
                 <nav class="mo-lateral" aria-label="Navegação principal">
                     <a class="mo-nav-item" href="dashboard.html" data-mo-carregando="Dashboard">
@@ -90,22 +91,22 @@
                     <div class="etapaPublicar etapaAtiva">
                         <div class="campoFormulario">
                             <label for="nomeProjeto">Nome do Projeto</label>
-                            <input type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
+                            <input class=\"mo-campo\" type="text" id="nomeProjeto" placeholder="Ex: Hollow Depths" required />
                         </div>
 
                         <div class="campoFormulario">
                             <label for="descricaoProjeto">Descrição curta</label>
-                            <textarea id="descricaoProjeto" placeholder="Descreva seu jogo em poucas linhas..." required></textarea>
+                            <textarea class=\"mo-campo\" id="descricaoProjeto" placeholder="Descreva seu jogo em poucas linhas..." required></textarea>
                         </div>
 
                         <div class="campoFormulario">
                             <label for="generoProjeto">Gênero</label>
-                            <input type="text" id="generoProjeto" placeholder="Ex: Metroidvania, RPG, Puzzle..." />
+                            <input class=\"mo-campo\" type="text" id="generoProjeto" placeholder="Ex: Metroidvania, RPG, Puzzle..." />
                         </div>
 
                         <div class="campoFormulario">
                             <label for="engineProjeto">Engine / Ferramenta</label>
-                            <input type="text" id="engineProjeto" placeholder="Ex: Unity, Godot, Unreal..." />
+                            <input class=\"mo-campo\" type="text" id="engineProjeto" placeholder="Ex: Unity, Godot, Unreal..." />
                         </div>
 
                         <div class="campoFormulario">
@@ -116,7 +117,7 @@
                         <div class="campoFormulario">
                             <label for="marcoProjeto">Marcos do projeto</label>
                             <small class="dicaCampo">Separe por vírgula</small>
-                            <input type="text" id="marcoProjeto" class="campoMarco" placeholder="Ex: Protótipo jogável, Demo na Steam..." />
+                            <input type="text" id="marcoProjeto" class="mo-campo campoMarco" placeholder="Ex: Protótipo jogável, Demo na Steam..." />
                         </div>
 
                         <div class="campoFormulario">
@@ -140,7 +141,7 @@
 
                         <div class="campoFormulario">
                             <label for="duracaoProjeto">Duração estimada</label>
-                            <input type="text" id="duracaoProjeto" placeholder="Ex: 3 meses, 6 meses..." />
+                            <input class=\"mo-campo\" type="text" id="duracaoProjeto" placeholder="Ex: 3 meses, 6 meses..." />
                         </div>
 
                         <div class="botoesEtapa">

@@ -1,0 +1,10 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IndieSquad">
+    <title>IndieSquad</title>
+    <rect x="13" y="1" width="10" height="10" rx="1" fill="#3DFFA8"/>
+    <rect x="1" y="13" width="10" height="10" rx="1" fill="#3DFFA8"/>
+    <rect x="13" y="13" width="10" height="10" rx="1" fill="#3DFFA8"/>
+    <rect x="13" y="25" width="10" height="10" rx="1" fill="#3DFFA8"/>
+
+    <!-- a vaga aberta: o lugar que ainda falta na equipe -->
+    <rect x="26.6" y="14.6" width="6.8" height="6.8" rx="0" fill="none" stroke="#3DFFA8" stroke-width="3.2"/>
+</svg>

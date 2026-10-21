@@ -163,7 +163,7 @@ function cardColega(colega) {
 
             <div class="campoFormulario">
                 <label for="comentario-${pessoa.id}">Comentário</label>
-                <textarea id="comentario-${pessoa.id}" placeholder="O que foi bom, o que daria pra melhorar..."></textarea>
+                <textarea class=\"mo-campo\" id="comentario-${pessoa.id}" placeholder="O que foi bom, o que daria pra melhorar..."></textarea>
             </div>
 
             <button type="button" class="mo-tecla mo-tecla--destaque botaoEnviar" onclick="avaliar(${pessoa.id})">Enviar avaliação</button>
