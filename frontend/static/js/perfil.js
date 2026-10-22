@@ -159,9 +159,14 @@ async function alternarFerramenta(idFerramenta, botao) {
 async function carregarLinks() {
     const links = (await pedir(`/usuarios/${idDoPerfil}/links`)) || [];
 
-    // no cabecalho os links sao clicaveis; so o dono ve a lista de gerenciar
-    listar("linksPerfil", links, function (link) {
-        return `<a class="tag tagLink" href="${escapar(link.url)}" target="_blank" rel="noopener noreferrer">${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗</a>`;
+    // no cabecalho so mostramos o GitHub por enquanto; so o dono ve a lista de gerenciar
+    // temporario (fase de desenvolvimento): o link vai para a home do GitHub, nao para o perfil
+    const linksDoCabecalho = links.filter(function (link) {
+        return link.tipo === "github";
+    });
+
+    listar("linksPerfil", linksDoCabecalho, function (link) {
+        return `<a class="tag tagLink" href="https://github.com" target="_blank" rel="noopener noreferrer">${escapar(NOMES_LINK[link.tipo] || link.tipo)} ↗</a>`;
     }, "");
 
     if (!souEu) return;
