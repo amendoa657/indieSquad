@@ -30,6 +30,44 @@ A plataforma oferece recursos para cadastro de usuários, gerenciamento de perfi
 O principal objetivo do IndieSquad é reduzir as dificuldades encontradas por desenvolvedores independentes na busca por colaboradores qualificados e comprometidos, tornando o processo de criação de jogos mais organizado, seguro e eficiente.
 
 
+## Arquitetura
+
+O backend é dividido em quatro camadas, e cada uma só conversa com a de baixo:
+
+```
+backend/
+├── controllers/    recebe a requisição HTTP e devolve a resposta
+├── services/       executa o caso de uso e as regras da aplicação
+├── repositories/   faz as consultas e a gravação no banco (SQL via ORM)
+├── models/         descreve as entidades e converte para JSON
+├── middlewares/    autenticação por token e validação de campos
+└── database/       conexão e scripts SQL do banco
+```
+
+O caminho de uma requisição é sempre o mesmo:
+
+1. O **Controller** recebe a requisição, lê o corpo ou a query string e chama o Service. Ele não conhece o banco.
+2. O **Service** executa o caso de uso: valida as regras, decide o que pode e o que não pode, e monta a resposta. Ele não escreve consulta.
+3. O **Repository** é o único lugar que fala com o banco. Toda consulta e toda gravação passam por ele.
+4. O **Model** descreve a tabela, os relacionamentos e o `to_dict` que vira JSON.
+5. A resposta sobe de volta pela API até o frontend.
+
+São doze repositórios, um por entidade (`UsuarioRepository`, `ProjetoRepository`, `CandidaturaRepository`, …). Nenhum `db.session` e nenhum `.query` existe fora de `repositories/`.
+
+O **frontend é separado da API**: a pasta `frontend` é servida por conta própria (Live Server, na porta 5500) e conversa com o backend (porta 5000) só por requisições HTTP, liberadas pelo CORS em `ORIGENS_PERMITIDAS`.
+
+
+## Diagramas
+
+Estão em `docs/`, em arquivos `.drawio.png`: são imagens normais e, ao mesmo tempo, abrem para edição no [draw.io](https://app.diagrams.net) (arrastar o arquivo para a tela).
+
+| Arquivo | O que mostra |
+| --- | --- |
+| `indieSquad-diagramaDeClasses.drawio.png` | Modelo de domínio: as 12 entidades, atributos e relacionamentos |
+| `indieSquad-fluxogramaRecuperacaoDeDados.drawio.png` | `GET /busca/profissionais` passando pelas quatro camadas |
+| `indieSquad-fluxogramaEntradaDeDados.drawio.png` | `POST /candidaturas` passando pelas quatro camadas |
+
+
 ## Como rodar o projeto
 
 O frontend e o backend são separados, então são dois servidores rodando ao mesmo tempo.
