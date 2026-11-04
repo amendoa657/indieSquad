@@ -1,7 +1,8 @@
-import models.usuario as u
 import models.linkUsuario as l
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
 from middlewares.validacao import campoFaltando, texto
+from repositories.linkUsuarioRepository import LinkUsuarioRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 LIMITE_LINKS = 6
 
@@ -13,7 +14,7 @@ class AdicionarLinkUsuarioService:
         if faltando:
             return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
-        usuario = u.buscarPorId(idUsuario)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -38,6 +39,6 @@ class AdicionarLinkUsuarioService:
             if link.url == url:
                 return {"erro": "Esse link já está no seu perfil"}, 409
 
-        link = l.registrarLink(tipo, url, usuario.id)
+        link = LinkUsuarioRepository.registrarLink(tipo, url, usuario.id)
 
         return l.to_dict(link), 201

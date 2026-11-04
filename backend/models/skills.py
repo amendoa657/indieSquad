@@ -25,37 +25,6 @@ def to_dict(self):
         "categoria": self.categoria
     }
 
-def buscarPorId(id):
-    return db.session.get(Skills, id)
-
-def salvar():
-    db.session.commit()
-
-def getSkill(id):
-    return db.session.get(Skills, id)
-
-def getSkills():
-    return Skills.query.order_by(Skills.categoria, Skills.nome).all()
-
-def buscarPorNome(nome):
-    return Skills.query.filter_by(nome=nome).first()
-
-def registrarSkill(nome, categoria="Outro"):
-    skillsTable = Skills(
-        nome=nome,
-        categoria=categoria
-    )
-
-    db.session.add(skillsTable)
-    salvar()
-
-    return skillsTable
-
-def deletarSkill(skill):
-    db.session.delete(skill)
-    salvar()
-
-
 
 def getSkillUsuarios(skill):
     return skill.usuarios

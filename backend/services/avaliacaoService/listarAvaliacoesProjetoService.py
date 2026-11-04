@@ -2,12 +2,15 @@ import models.avaliacao as a
 import models.projetos as p
 import models.usuario as u
 from middlewares.autenticacao import idUsuarioLogado
+from repositories.avaliacaoRepository import AvaliacaoRepository
+from repositories.projetoRepository import ProjetoRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 
 # monta a tela de avaliacao do ponto de vista de quem esta logado
 class ListarAvaliacoesProjetoService:
     def execute(self, idProjeto):
-        projeto = p.buscarPorId(idProjeto)
+        projeto = ProjetoRepository.buscarPorId(idProjeto)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
@@ -25,12 +28,12 @@ class ListarAvaliacoesProjetoService:
             if pessoa.id == idLogado:
                 continue
 
-            minha = a.buscarDoAvaliador(idLogado, pessoa.id, projeto.id)
-            dela = a.buscarDoAvaliador(pessoa.id, idLogado, projeto.id)
+            minha = AvaliacaoRepository.buscarDoAvaliador(idLogado, pessoa.id, projeto.id)
+            dela = AvaliacaoRepository.buscarDoAvaliador(pessoa.id, idLogado, projeto.id)
 
             # eu so leio a avaliacao que recebi quando ela estiver liberada
             recebida = None
-            if dela and a.liberada(dela):
+            if dela and ReputacaoService.liberada(dela):
                 recebida = a.to_dict(dela)
 
             colegas.append({

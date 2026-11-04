@@ -1,10 +1,10 @@
-import models.candidaturaUsuario as c
 from middlewares.autenticacao import idUsuarioLogado
+from repositories.candidaturaRepository import CandidaturaRepository
 
 
 class DeletarCandidaturaService:
     def execute(self, id):
-        candidatura = c.buscarPorId(id)
+        candidatura = CandidaturaRepository.buscarPorId(id)
 
         if candidatura is None:
             return {"erro": "Candidatura não encontrada"}, 404
@@ -15,6 +15,6 @@ class DeletarCandidaturaService:
         if candidatura.status == "aceita":
             return {"erro": "Essa candidatura foi aceita, fale com o dono do projeto"}, 409
 
-        c.removerCandidatura(candidatura)
+        CandidaturaRepository.removerCandidatura(candidatura)
 
         return {"mensagem": "Candidatura cancelada com sucesso"}, 200

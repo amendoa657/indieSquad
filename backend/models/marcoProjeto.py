@@ -28,25 +28,3 @@ def to_dict(self):
         "ordem": self.ordem,
         "projeto_id": self.projeto_id
     }
-
-def buscarPorId(id):
-    return db.session.get(MarcoProjeto, id)
-
-def salvar():
-    db.session.commit()
-
-def registrarMarco(titulo, ordem, idProjeto):
-    marcoTable = MarcoProjeto(
-        titulo=titulo,
-        ordem=ordem,
-        projeto_id=idProjeto
-    )
-
-    db.session.add(marcoTable)
-    salvar()
-
-    return marcoTable
-
-def removerMarco(marco):
-    db.session.delete(marco)
-    salvar()

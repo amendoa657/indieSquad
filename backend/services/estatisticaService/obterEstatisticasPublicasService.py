@@ -1,13 +1,13 @@
-import models.usuario as u
-import models.projetos as p
-import models.avaliacao as a
+from repositories.avaliacaoRepository import AvaliacaoRepository
+from repositories.projetoRepository import ProjetoRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 
 # os numeros que a landing mostra
 class ObterEstatisticasPublicasService:
     def execute(self):
-        usuarios = u.mostrarUsuarios()
-        projetos = p.mostrarProjetos()
+        usuarios = UsuarioRepository.mostrarUsuarios()
+        projetos = ProjetoRepository.mostrarProjetos()
 
         concluidos = [projeto for projeto in projetos if projeto.status == "concluido"]
         taxaConclusao = round((len(concluidos) / len(projetos)) * 100) if projetos else 0
@@ -15,7 +15,7 @@ class ObterEstatisticasPublicasService:
         # quantas pessoas ja tem pelo menos uma funcao no perfil
         profissionais = len([usuario for usuario in usuarios if usuario.skills])
 
-        totalAvaliacoes = len(a.mostrarAvaliacoes())
+        totalAvaliacoes = len(AvaliacaoRepository.mostrarAvaliacoes())
 
         return {
             "usuarios": len(usuarios),

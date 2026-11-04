@@ -1,9 +1,10 @@
 import models.skills as s
+from repositories.skillRepository import SkillRepository
 
 
 class BuscarSkillService:
     def execute(self, id):
-        skill = s.getSkill(id)
+        skill = SkillRepository.getSkill(id)
 
         # antes isso passava None pro to_dict e derrubava a rota
         if skill is None:

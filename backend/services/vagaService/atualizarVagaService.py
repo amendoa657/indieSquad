@@ -1,12 +1,13 @@
 import models.vagaProjeto as v
-import models.skills as s
 from middlewares.validacao import texto, inteiroNoIntervalo
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.skillRepository import SkillRepository
+from repositories.vagaProjetoRepository import VagaProjetoRepository
 
 
 class AtualizarVagaService:
     def execute(self, id, dados):
-        vaga = v.buscarPorId(id)
+        vaga = VagaProjetoRepository.buscarPorId(id)
 
         if vaga is None:
             return {"erro": "Vaga não encontrada"}, 404
@@ -46,7 +47,7 @@ class AtualizarVagaService:
                 vaga.nivelMinimo = nivel
 
         if "idSkill" in dados:
-            skill = s.buscarPorId(dados["idSkill"])
+            skill = SkillRepository.buscarPorId(dados["idSkill"])
 
             if skill is None:
                 return {"erro": "Função não encontrada"}, 404
@@ -55,6 +56,6 @@ class AtualizarVagaService:
 
         # mover a vaga pra outro projeto trocaria o dono e furaria a autorizacao
 
-        v.salvar()
+        VagaProjetoRepository.salvar()
 
         return v.to_dict(vaga), 200

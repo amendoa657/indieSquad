@@ -1,10 +1,11 @@
 import models.projetos as p
 import models.usuario as u
+from repositories.projetoRepository import ProjetoRepository
 
 
 class ListarMembrosProjetoService:
     def execute(self, idProjeto):
-        projeto = p.buscarPorId(idProjeto)
+        projeto = ProjetoRepository.buscarPorId(idProjeto)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404

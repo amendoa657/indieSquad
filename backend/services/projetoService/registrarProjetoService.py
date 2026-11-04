@@ -1,7 +1,8 @@
 import models.projetos as p
-import models.marcoProjeto as m
 from middlewares.autenticacao import idUsuarioLogado
 from middlewares.validacao import campoFaltando, texto
+from repositories.marcoProjetoRepository import MarcoProjetoRepository
+from repositories.projetoRepository import ProjetoRepository
 
 LIMITE_MARCOS = 10
 
@@ -19,7 +20,7 @@ class RegistrarProjetoService:
             return {"erro": "Status inválido"}, 400
 
         # o criador e sempre quem esta logado
-        projeto = p.registrarProjeto(
+        projeto = ProjetoRepository.registrarProjeto(
             texto(dados["nome"], 90),
             status,
             idUsuarioLogado(),
@@ -31,12 +32,12 @@ class RegistrarProjetoService:
         projeto.engine = texto(dados.get("engine"), 45)
         projeto.tipoParceria = texto(dados.get("tipoParceria"), 45)
         projeto.duracaoEstimada = texto(dados.get("duracaoEstimada"), 45)
-        p.salvar()
+        ProjetoRepository.salvar()
 
         for ordem, titulo in enumerate(dados.get("marcos", [])[:LIMITE_MARCOS], start=1):
             limpo = texto(titulo, 90)
 
             if limpo:
-                m.registrarMarco(limpo, ordem, projeto.id)
+                MarcoProjetoRepository.registrarMarco(limpo, ordem, projeto.id)
 
         return p.to_dict(projeto), 201

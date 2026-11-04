@@ -25,7 +25,6 @@ class CandidaturaUsuario(db.Model):
     )
 
 
-
     vagaProjeto_id = db.Column(
         db.Integer,
         db.ForeignKey("vagaProjeto.id"),
@@ -46,7 +45,6 @@ class CandidaturaUsuario(db.Model):
     )
 
 
-
 def to_dict(self):
     return {
         "id": self.id,
@@ -57,52 +55,9 @@ def to_dict(self):
         "usuario_id": self.usuario_id
     }
 
-def buscarPorId(id):
-    return db.session.get(CandidaturaUsuario, id)
-
-def salvar():
-    db.session.commit()
 
 def statusValido(status):
     return status in STATUS
-
-
-
-def mostrarCandidatura(id):
-    return db.session.get(CandidaturaUsuario, id)
-
-def mostrarCandidaturas():
-    return CandidaturaUsuario.query.all()
-
-def listarPorUsuario(idUsuario):
-    return CandidaturaUsuario.query.filter_by(usuario_id=idUsuario).order_by(CandidaturaUsuario.dataCriacao.desc()).all()
-
-def listarPorVaga(idVaga):
-    return CandidaturaUsuario.query.filter_by(vagaProjeto_id=idVaga).all()
-
-def buscarDoUsuarioNaVaga(idUsuario, idVaga):
-    return CandidaturaUsuario.query.filter_by(usuario_id=idUsuario, vagaProjeto_id=idVaga).first()
-
-
-
-# o status nunca vem do front: toda candidatura nasce pendente
-def registrarCandidatura(mensagem, idVagaProjeto, idUsuario):
-    CandidaturaTable = CandidaturaUsuario(
-        mensagem=mensagem,
-        status="pendente",
-        vagaProjeto_id=idVagaProjeto,
-        usuario_id=idUsuario
-    )
-
-    db.session.add(CandidaturaTable)
-    salvar()
-
-    return CandidaturaTable
-
-def removerCandidatura(candidatura):
-    db.session.delete(candidatura)
-    salvar()
-
 
 
 def getProjeto(candidatura):

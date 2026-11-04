@@ -1,6 +1,6 @@
-import models.avaliacao as a
 import models.skillUsuario as su
 from services.matchService import similaridadeTexto
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 # quanto cada criterio vale no total de 100, numa constante pra nota ser explicavel
 PESOS = {
@@ -94,7 +94,7 @@ def _disponibilidade(usuario):
 
 
 def _reputacao(usuario):
-    reputacao = a.reputacao(usuario.id)
+    reputacao = ReputacaoService.reputacao(usuario.id)
 
     # quem ainda nao foi avaliado fica no meio, nem premiado nem punido
     if reputacao["total"] == 0:

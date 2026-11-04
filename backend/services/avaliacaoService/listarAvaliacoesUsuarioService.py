@@ -1,17 +1,19 @@
 import models.avaliacao as a
 import models.usuario as u
+from repositories.usuarioRepository import UsuarioRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 
 # as avaliacoes que uma pessoa recebeu, pro perfil dela
 class ListarAvaliacoesUsuarioService:
     def execute(self, idUsuario):
-        usuario = u.buscarPorId(idUsuario)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
 
         resultado = []
-        for avaliacao in a.listarRecebidasLiberadas(usuario.id):
+        for avaliacao in ReputacaoService.listarRecebidasLiberadas(usuario.id):
             dados = a.to_dict(avaliacao)
             dados["avaliador"] = u.to_dict(avaliacao.avaliador)
             dados["projeto"] = {
@@ -21,6 +23,6 @@ class ListarAvaliacoesUsuarioService:
             resultado.append(dados)
 
         return {
-            "reputacao": a.reputacao(usuario.id),
+            "reputacao": ReputacaoService.reputacao(usuario.id),
             "avaliacoes": resultado
         }, 200

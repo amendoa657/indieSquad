@@ -1,10 +1,10 @@
-import models.projetos as p
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.projetoRepository import ProjetoRepository
 
 
 class RemoverProjetoService:
     def execute(self, id):
-        projeto = p.buscarPorId(id)
+        projeto = ProjetoRepository.buscarPorId(id)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
@@ -13,6 +13,6 @@ class RemoverProjetoService:
             return ERRO_NAO_E_DONO
 
         nome = projeto.nome
-        p.removerProjeto(projeto)
+        ProjetoRepository.removerProjeto(projeto)
 
         return {"mensagem": f"Projeto {nome} removido"}, 200

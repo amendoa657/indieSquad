@@ -1,10 +1,11 @@
 import models.vagaProjeto as v
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.vagaProjetoRepository import VagaProjetoRepository
 
 
 class DeletarVagaService:
     def execute(self, id):
-        vaga = v.buscarPorId(id)
+        vaga = VagaProjetoRepository.buscarPorId(id)
 
         if vaga is None:
             return {"erro": "Vaga não encontrada"}, 404
@@ -13,6 +14,6 @@ class DeletarVagaService:
             return ERRO_NAO_E_DONO
 
         titulo = vaga.titulo
-        v.removerVagaProjeto(vaga)
+        VagaProjetoRepository.removerVagaProjeto(vaga)
 
         return {"mensagem": f"Vaga {titulo} removida"}, 200

@@ -1,25 +1,27 @@
-import models.projetos as p
 import models.vagaProjeto as v
 import models.candidaturaUsuario as c
-import models.usuario as u
 from services.matchService import similaridadeTexto
 from services.matchService.calcularCompatibilidadeService import CalcularCompatibilidadeService
 from middlewares.autenticacao import idUsuarioLogado
+from repositories.candidaturaRepository import CandidaturaRepository
+from repositories.projetoRepository import ProjetoRepository
+from repositories.usuarioRepository import UsuarioRepository
+from repositories.vagaProjetoRepository import VagaProjetoRepository
 
 
 # as vagas de um projeto so
 class ListarVagasProjetoService:
     def execute(self, idProjeto):
-        projeto = p.buscarPorId(idProjeto)
+        projeto = ProjetoRepository.buscarPorId(idProjeto)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
 
         idLogado = idUsuarioLogado()
-        usuario = u.buscarPorId(idLogado) if idLogado else None
+        usuario = UsuarioRepository.buscarPorId(idLogado) if idLogado else None
 
         calculo = CalcularCompatibilidadeService()
-        vagas = v.listarPorProjeto(projeto.id)
+        vagas = VagaProjetoRepository.listarPorProjeto(projeto.id)
 
         # o idf sai do proprio conjunto de vagas do projeto mais a bio da pessoa
         idf = None
@@ -37,7 +39,7 @@ class ListarVagasProjetoService:
             if idLogado is None:
                 dados["minhaCandidatura"] = None
             else:
-                minha = c.buscarDoUsuarioNaVaga(idLogado, vaga.id)
+                minha = CandidaturaRepository.buscarDoUsuarioNaVaga(idLogado, vaga.id)
                 dados["minhaCandidatura"] = c.to_dict(minha) if minha else None
 
             # quem nao e o dono ve o quanto combina com a vaga

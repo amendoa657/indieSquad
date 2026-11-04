@@ -1,9 +1,9 @@
-import models.usuario as u
-import models.ferramenta as f
 import models.ferramentaUsuario as fu
 from models.ferramentaUsuario import FerramentaUsuario
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
 from middlewares.validacao import campoFaltando
+from repositories.ferramentaRepository import FerramentaRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 LIMITE_FERRAMENTAS = 12
 
@@ -15,8 +15,8 @@ class AdicionarFerramentaUsuarioService:
         if faltando:
             return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
-        usuario = u.buscarPorId(idUsuario)
-        ferramenta = f.buscarPorId(dados["idFerramenta"])
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
+        ferramenta = FerramentaRepository.buscarPorId(dados["idFerramenta"])
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -35,6 +35,6 @@ class AdicionarFerramentaUsuarioService:
             return {"erro": f"Você pode ter no máximo {LIMITE_FERRAMENTAS} ferramentas"}, 409
 
         vinculo = FerramentaUsuario(ferramenta=ferramenta, usuario=usuario)
-        u.adicionarFerramenta(usuario, vinculo)
+        UsuarioRepository.adicionarFerramenta(usuario, vinculo)
 
         return fu.to_dict(vinculo), 201

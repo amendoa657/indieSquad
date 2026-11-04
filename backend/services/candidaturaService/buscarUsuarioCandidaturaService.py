@@ -1,11 +1,12 @@
 import models.candidaturaUsuario as c
 import models.usuario as u
 from middlewares.autenticacao import idUsuarioLogado
+from repositories.candidaturaRepository import CandidaturaRepository
 
 
 class BuscarUsuarioCandidaturaService:
     def execute(self, id):
-        candidatura = c.buscarPorId(id)
+        candidatura = CandidaturaRepository.buscarPorId(id)
 
         if candidatura is None:
             return {"erro": "Candidatura não encontrada"}, 404

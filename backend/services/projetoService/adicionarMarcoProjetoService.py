@@ -1,7 +1,8 @@
-import models.projetos as p
 import models.marcoProjeto as m
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
 from middlewares.validacao import campoFaltando, texto
+from repositories.marcoProjetoRepository import MarcoProjetoRepository
+from repositories.projetoRepository import ProjetoRepository
 
 LIMITE_MARCOS = 10
 
@@ -13,7 +14,7 @@ class AdicionarMarcoProjetoService:
         if faltando:
             return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
-        projeto = p.buscarPorId(idProjeto)
+        projeto = ProjetoRepository.buscarPorId(idProjeto)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
@@ -25,6 +26,6 @@ class AdicionarMarcoProjetoService:
             return {"erro": f"O projeto pode ter no máximo {LIMITE_MARCOS} marcos"}, 409
 
         ordem = max([marco.ordem for marco in projeto.marcos], default=0) + 1
-        marco = m.registrarMarco(texto(dados["titulo"], 90), ordem, projeto.id)
+        marco = MarcoProjetoRepository.registrarMarco(texto(dados["titulo"], 90), ordem, projeto.id)
 
         return m.to_dict(marco), 201

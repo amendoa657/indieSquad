@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from functools import wraps
 from flask import request, current_app, g
 
-import models.usuario as u
+from repositories.usuarioRepository import UsuarioRepository
 
 
 # monta o token que o front guarda depois do login
@@ -52,7 +52,7 @@ def usuarioLogado():
     if carga is None:
         return None
 
-    g.usuarioLogado = u.buscarPorId(carga["idUsuario"])
+    g.usuarioLogado = UsuarioRepository.buscarPorId(carga["idUsuario"])
 
     return g.usuarioLogado
 

@@ -2,11 +2,12 @@ import models.projetos as p
 import models.usuario as u
 import models.marcoProjeto as m
 from middlewares.autenticacao import idUsuarioLogado
+from repositories.projetoRepository import ProjetoRepository
 
 
 class BuscarProjetoService:
     def execute(self, id):
-        projeto = p.buscarPorId(id)
+        projeto = ProjetoRepository.buscarPorId(id)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404

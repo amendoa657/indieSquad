@@ -1,11 +1,12 @@
 import models.projetos as p
 from middlewares.validacao import texto
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.projetoRepository import ProjetoRepository
 
 
 class AtualizarProjetoService:
     def execute(self, id, dados):
-        projeto = p.buscarPorId(id)
+        projeto = ProjetoRepository.buscarPorId(id)
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
@@ -52,6 +53,6 @@ class AtualizarProjetoService:
         if "logoProjeto" in dados:
             projeto.logoProjeto = texto(dados["logoProjeto"], 255)
 
-        p.salvar()
+        ProjetoRepository.salvar()
 
         return p.to_dict(projeto), 200

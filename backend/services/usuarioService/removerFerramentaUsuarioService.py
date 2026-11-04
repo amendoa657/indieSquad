@@ -1,13 +1,13 @@
-import models.usuario as u
-import models.ferramenta as f
-from models.ferramentaUsuario import FerramentaUsuario
+from repositories.ferramentaUsuarioRepository import FerramentaUsuarioRepository
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
+from repositories.ferramentaRepository import FerramentaRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class RemoverFerramentaUsuarioService:
     def execute(self, idUsuario, idFerramenta):
-        usuario = u.buscarPorId(idUsuario)
-        ferramenta = f.buscarPorId(idFerramenta)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
+        ferramenta = FerramentaRepository.buscarPorId(idFerramenta)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -18,14 +18,11 @@ class RemoverFerramentaUsuarioService:
         if not ehOProprio(idUsuario):
             return ERRO_NAO_E_VOCE
 
-        vinculo = FerramentaUsuario.query.filter_by(
-            ferramenta_id=ferramenta.id,
-            usuario_id=usuario.id
-        ).first()
+        vinculo = FerramentaUsuarioRepository.buscarVinculo(ferramenta.id, usuario.id)
 
         if vinculo is None:
             return {"erro": "Você não tem essa ferramenta"}, 404
 
-        u.removerFerramenta(usuario, vinculo)
+        UsuarioRepository.removerFerramenta(usuario, vinculo)
 
         return {"mensagem": f"A ferramenta {ferramenta.nome} foi removida"}, 200

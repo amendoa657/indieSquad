@@ -2,6 +2,9 @@ import models.avaliacao as a
 import models.projetos as p
 from middlewares.autenticacao import idUsuarioLogado
 from middlewares.validacao import campoFaltando, texto
+from repositories.avaliacaoRepository import AvaliacaoRepository
+from repositories.projetoRepository import ProjetoRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 
 class RegistrarAvaliacaoService:
@@ -11,7 +14,7 @@ class RegistrarAvaliacaoService:
         if faltando:
             return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
-        projeto = p.buscarPorId(dados["idProjeto"])
+        projeto = ProjetoRepository.buscarPorId(dados["idProjeto"])
 
         if projeto is None:
             return {"erro": "Projeto não encontrado"}, 404
@@ -33,7 +36,7 @@ class RegistrarAvaliacaoService:
         if not p.ehDaEquipe(projeto, idAvaliado):
             return {"erro": "Essa pessoa não participou desse projeto"}, 409
 
-        if a.buscarDoAvaliador(idAvaliador, idAvaliado, projeto.id):
+        if AvaliacaoRepository.buscarDoAvaliador(idAvaliador, idAvaliado, projeto.id):
             return {"erro": "Você já avaliou essa pessoa nesse projeto"}, 409
 
         notas = {}
@@ -43,7 +46,11 @@ class RegistrarAvaliacaoService:
 
             notas[campo] = int(dados[campo])
 
-        avaliacao = a.registrarAvaliacao(
+        # a nota geral e a media das tres, arredondada
+        nota = round((notas["notaComunicacao"] + notas["notaPrazo"] + notas["notaQualidade"]) / 3)
+
+        avaliacao = AvaliacaoRepository.registrarAvaliacao(
+            nota,
             notas["notaComunicacao"],
             notas["notaPrazo"],
             notas["notaQualidade"],
@@ -55,6 +62,6 @@ class RegistrarAvaliacaoService:
 
         return {
             "avaliacao": a.to_dict(avaliacao),
-            "liberada": a.liberada(avaliacao),
+            "liberada": ReputacaoService.liberada(avaliacao),
             "mensagem": "Avaliação enviada. Ela fica escondida até a outra pessoa enviar a dela."
         }, 201

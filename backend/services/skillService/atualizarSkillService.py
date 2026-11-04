@@ -1,10 +1,11 @@
 import models.skills as s
 from middlewares.validacao import campoFaltando, texto
+from repositories.skillRepository import SkillRepository
 
 
 class AtualizarSkillService:
     def execute(self, id, dados):
-        skill = s.buscarPorId(id)
+        skill = SkillRepository.buscarPorId(id)
 
         if skill is None:
             return {"erro": "Função não encontrada"}, 404
@@ -19,7 +20,7 @@ class AtualizarSkillService:
                 return {"erro": "O nome não pode ficar vazio"}, 400
 
             nome = texto(dados["nome"], 90)
-            emUso = s.buscarPorNome(nome)
+            emUso = SkillRepository.buscarPorNome(nome)
 
             if emUso and emUso.id != skill.id:
                 return {"erro": "Essa função já existe"}, 409
@@ -29,6 +30,6 @@ class AtualizarSkillService:
         if "categoria" in dados:
             skill.categoria = texto(dados["categoria"], 45) or "Outro"
 
-        s.salvar()
+        SkillRepository.salvar()
 
         return s.to_dict(skill), 200

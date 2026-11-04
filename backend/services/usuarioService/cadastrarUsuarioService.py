@@ -1,6 +1,7 @@
 import models.usuario as u
 from middlewares.autenticacao import gerarToken
 from middlewares.validacao import campoFaltando, texto
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class CadastrarUsuarioService:
@@ -29,16 +30,16 @@ class CadastrarUsuarioService:
         if not u.objetivoValido(objetivo):
             return {"erro": "Objetivo inválido"}, 400
 
-        if u.buscarPorEmail(email):
+        if UsuarioRepository.buscarPorEmail(email):
             return {"erro": "E-mail já cadastrado"}, 409
 
-        if u.buscarPorHandle(handle):
+        if UsuarioRepository.buscarPorHandle(handle):
             return {"erro": "Esse apelido já está em uso"}, 409
 
-        usuario = u.registrarUsuario(handle, nome, email, senha)
+        usuario = UsuarioRepository.registrarUsuario(handle, nome, email, senha)
 
         usuario.objetivo = objetivo
-        u.salvar()
+        UsuarioRepository.salvar()
 
         return {
             "token": gerarToken(usuario),

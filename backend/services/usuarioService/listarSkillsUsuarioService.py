@@ -1,10 +1,11 @@
 import models.usuario as u
 import models.skillUsuario as su
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class ListarSkillsUsuarioService:
     def execute(self, id):
-        usuario = u.buscarPorId(id)
+        usuario = UsuarioRepository.buscarPorId(id)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404

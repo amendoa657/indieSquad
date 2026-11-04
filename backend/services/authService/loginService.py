@@ -1,6 +1,7 @@
 import models.usuario as u
 from middlewares.autenticacao import gerarToken
 from middlewares.validacao import campoFaltando, texto
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class LoginService:
@@ -13,7 +14,7 @@ class LoginService:
         email = texto(dados["email"], 90).lower()
         senha = dados["senha"]
 
-        usuario = u.buscarPorEmail(email)
+        usuario = UsuarioRepository.buscarPorEmail(email)
 
         # a mensagem e a mesma pro e-mail que nao existe e pra senha errada
         if usuario is None or not u.senhaCorreta(usuario, senha):

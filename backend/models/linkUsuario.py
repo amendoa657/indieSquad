@@ -30,27 +30,6 @@ def to_dict(self):
         "url": self.url
     }
 
-def buscarPorId(id):
-    return db.session.get(LinkUsuario, id)
-
-def salvar():
-    db.session.commit()
 
 def tipoValido(tipo):
     return tipo in TIPOS
-
-def registrarLink(tipo, url, idUsuario):
-    linkTable = LinkUsuario(
-        tipo=tipo,
-        url=url,
-        usuario_id=idUsuario
-    )
-
-    db.session.add(linkTable)
-    salvar()
-
-    return linkTable
-
-def removerLink(link):
-    db.session.delete(link)
-    salvar()

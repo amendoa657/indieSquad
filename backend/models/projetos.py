@@ -60,8 +60,6 @@ class Projeto(db.Model):
     )
 
 
-
-
 def to_dict(self):
     return {
         "id": self.id,
@@ -78,58 +76,9 @@ def to_dict(self):
         "criador_id": self.criador_id
     }
 
-def buscarPorId(id):
-    return db.session.get(Projeto, id)
-
-def salvar():
-    db.session.commit()
-
-
-
-def mostrarProjeto(id):
-    return db.session.get(Projeto, id)
-
-def mostrarProjetos():
-    return Projeto.query.order_by(Projeto.dataCriacao.desc()).all()
 
 def statusValido(status):
     return status in STATUS
-
-
-
-def registrarProjeto(nome, status, usuario_id, descricao, logoProjeto):
-    ProjetoTable = Projeto(
-        nome=nome,
-        status=status,
-        criador_id=usuario_id,
-        descricao=descricao,
-        logoProjeto=logoProjeto
-    )
-
-    db.session.add(ProjetoTable)
-    salvar()
-
-    return ProjetoTable
-
-def removerProjeto(projeto):
-    db.session.delete(projeto)
-    salvar()
-
-    return f"Projeto {projeto.nome} removido com sucesso!"
-
-# fecha as vagas abertas e marca a data que libera a avaliacao
-def concluirProjeto(projeto):
-    projeto.status = "concluido"
-    projeto.dataConclusao = func.now()
-
-    for vaga in projeto.vagas:
-        if vaga.status == "aberta":
-            vaga.status = "fechada"
-
-    salvar()
-
-    return projeto
-
 
 
 def getMembrosProjeto(projeto):
@@ -149,18 +98,6 @@ def ehDaEquipe(projeto, idUsuario):
         return True
 
     return buscarMembro(projeto, idUsuario) is not None
-
-
-def adicionarMembro(projeto, membro):
-    projeto.membros.append(membro)
-    salvar()
-    return f"O membro {membro.usuario.usuario} foi adicionado com sucesso!"
-
-def removerMembro(projeto, membro):
-    projeto.membros.remove(membro)
-    salvar()
-    return f"O membro {membro.usuario.usuario} foi removido com sucesso!"
-
 
 
 def getMarcosProjeto(projeto):

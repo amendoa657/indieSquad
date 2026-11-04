@@ -1,12 +1,13 @@
 import models.candidaturaUsuario as c
 from middlewares.autenticacao import idUsuarioLogado
 from middlewares.validacao import texto
+from repositories.candidaturaRepository import CandidaturaRepository
 
 
 # aqui o candidato edita a mensagem dele enquanto a candidatura esta pendente
 class AtualizarCandidaturaService:
     def execute(self, id, dados):
-        candidatura = c.buscarPorId(id)
+        candidatura = CandidaturaRepository.buscarPorId(id)
 
         if candidatura is None:
             return {"erro": "Candidatura não encontrada"}, 404
@@ -21,6 +22,6 @@ class AtualizarCandidaturaService:
             return {"erro": "Nenhum dado foi enviado"}, 400
 
         candidatura.mensagem = texto(dados["mensagem"], 2000)
-        c.salvar()
+        CandidaturaRepository.salvar()
 
         return c.to_dict(candidatura), 200

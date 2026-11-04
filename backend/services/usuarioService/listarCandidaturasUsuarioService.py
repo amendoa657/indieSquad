@@ -1,5 +1,5 @@
-import models.candidaturaUsuario as c
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
+from repositories.candidaturaRepository import CandidaturaRepository
 
 
 class ListarCandidaturasUsuarioService:
@@ -8,7 +8,7 @@ class ListarCandidaturasUsuarioService:
         if not ehOProprio(idUsuario):
             return ERRO_NAO_E_VOCE
 
-        candidaturas = c.listarPorUsuario(idUsuario)
+        candidaturas = CandidaturaRepository.listarPorUsuario(idUsuario)
 
         resultado = []
         for candidatura in candidaturas:

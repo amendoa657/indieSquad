@@ -1,18 +1,19 @@
 import models.vagaProjeto as v
-import models.usuario as u
 from services.matchService import similaridadeTexto
 from services.matchService.calcularCompatibilidadeService import CalcularCompatibilidadeService
+from repositories.usuarioRepository import UsuarioRepository
+from repositories.vagaProjetoRepository import VagaProjetoRepository
 
 
 # a compatibilidade de quem esta logado com uma vaga, pra aparecer no card
 class CalcularCompatibilidadeVagaService:
     def execute(self, idVaga, idUsuario):
-        vaga = v.buscarPorId(idVaga)
+        vaga = VagaProjetoRepository.buscarPorId(idVaga)
 
         if vaga is None:
             return {"erro": "Vaga não encontrada"}, 404
 
-        usuario = u.buscarPorId(idUsuario)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404

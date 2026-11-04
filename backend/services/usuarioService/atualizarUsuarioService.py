@@ -1,11 +1,12 @@
 import models.usuario as u
 from middlewares.validacao import texto, inteiroNoIntervalo
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class AtualizarUsuarioService:
     def execute(self, id, dados):
-        usuario = u.buscarPorId(id)
+        usuario = UsuarioRepository.buscarPorId(id)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -30,7 +31,7 @@ class AtualizarUsuarioService:
             if not u.handleValido(handle):
                 return {"erro": "O apelido aceita só letra minúscula, número e underline, de 3 a 30 caracteres"}, 400
 
-            emUso = u.buscarPorHandle(handle)
+            emUso = UsuarioRepository.buscarPorHandle(handle)
 
             if emUso and emUso.id != usuario.id:
                 return {"erro": "Esse apelido já está em uso"}, 409
@@ -43,7 +44,7 @@ class AtualizarUsuarioService:
             if "@" not in email or "." not in email:
                 return {"erro": "E-mail inválido"}, 400
 
-            emUso = u.buscarPorEmail(email)
+            emUso = UsuarioRepository.buscarPorEmail(email)
 
             if emUso and emUso.id != usuario.id:
                 return {"erro": "E-mail já cadastrado"}, 409
@@ -93,6 +94,6 @@ class AtualizarUsuarioService:
 
         # a senha tem rota propria, que exige a senha atual antes de trocar
 
-        u.salvar()
+        UsuarioRepository.salvar()
 
         return u.to_dictCompleto(usuario), 200

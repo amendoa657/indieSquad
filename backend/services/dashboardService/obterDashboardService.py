@@ -1,11 +1,11 @@
-import models.usuario as u
-import models.avaliacao as a
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
+from repositories.usuarioRepository import UsuarioRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 
 class ObterDashboardService:
     def execute(self, idUsuario):
-        usuario = u.buscarPorId(idUsuario)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -77,7 +77,7 @@ class ObterDashboardService:
             "totalProjetos": totalProjetos,
             "candidaturasPendentes": candidaturasPendentes,
             "aguardandoResposta": aguardandoResposta,
-            "reputacao": a.reputacao(usuario.id),
+            "reputacao": ReputacaoService.reputacao(usuario.id),
             "projetos": listaProjetos,
             "participacoes": colaboracoes
         }, 200

@@ -1,9 +1,9 @@
-import models.usuario as u
-import models.skills as s
 import models.skillUsuario as su
 from models.skillUsuario import SkillUsuario
 from middlewares.validacao import campoFaltando, inteiroNoIntervalo
 from middlewares.autenticacao import ehOProprio, ERRO_NAO_E_VOCE
+from repositories.skillRepository import SkillRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 # quantas funcoes uma pessoa pode ter no perfil
 LIMITE_SKILLS = 6
@@ -16,8 +16,8 @@ class AdicionarSkillUsuarioService:
         if faltando:
             return {"erro": f"O campo {faltando} é obrigatório"}, 400
 
-        usuario = u.buscarPorId(idUsuario)
-        skill = s.buscarPorId(dados["idSkill"])
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
+        skill = SkillRepository.buscarPorId(dados["idSkill"])
 
         if usuario is None and skill is None:
             return {"erro": "Pessoa e função não encontradas"}, 404
@@ -40,7 +40,7 @@ class AdicionarSkillUsuarioService:
             if skillU.skills.id == skill.id:
                 # ja tem a skill: em vez de recusar, atualiza o nivel
                 skillU.nivel = nivel
-                u.salvar()
+                UsuarioRepository.salvar()
 
                 return su.to_dict(skillU), 200
 
@@ -53,6 +53,6 @@ class AdicionarSkillUsuarioService:
             nivel=nivel
         )
 
-        u.adicionarSkill(usuario, vinculo)
+        UsuarioRepository.adicionarSkill(usuario, vinculo)
 
         return su.to_dict(vinculo), 201

@@ -1,6 +1,7 @@
 import models.usuario as u
 from middlewares.autenticacao import usuarioLogado
 from middlewares.validacao import campoFaltando
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class AlterarSenhaService:
@@ -19,6 +20,6 @@ class AlterarSenhaService:
         if not u.senhaForte(dados["senhaNova"]):
             return {"erro": f"A senha precisa de pelo menos {u.TAMANHO_MINIMO_SENHA} caracteres"}, 400
 
-        u.definirSenha(usuario, dados["senhaNova"])
+        UsuarioRepository.definirSenha(usuario, dados["senhaNova"])
 
         return {"mensagem": "Senha alterada com sucesso"}, 200

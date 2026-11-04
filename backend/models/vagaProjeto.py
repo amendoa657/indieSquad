@@ -28,7 +28,6 @@ class VagaProjeto(db.Model):
     )
 
 
-
     skills_id = db.Column(
         db.Integer,
         db.ForeignKey("skills.id"),
@@ -48,7 +47,6 @@ class VagaProjeto(db.Model):
     )
 
 
-
 def to_dict(self):
     return {
         "id": self.id,
@@ -62,49 +60,9 @@ def to_dict(self):
         "skillNome": self.skill.nome if self.skill else None
     }
 
-def buscarPorId(id):
-    return db.session.get(VagaProjeto, id)
-
-def salvar():
-    db.session.commit()
 
 def statusValido(status):
     return status in STATUS
-
-
-
-def mostrarVagaProjeto(id):
-    return db.session.get(VagaProjeto, id)
-
-def mostrarVagaProjetos():
-    return VagaProjeto.query.all()
-
-def listarPorProjeto(idProjeto):
-    return VagaProjeto.query.filter_by(projeto_id=idProjeto).order_by(VagaProjeto.dataCriacao).all()
-
-
-
-def registrarVagaProjeto(titulo, descricao, status, idProjeto, idSkill, nivelMinimo=None):
-    VagaProjetoTable = VagaProjeto(
-        titulo=titulo,
-        descricao=descricao,
-        status=status,
-        nivelMinimo=nivelMinimo,
-        projeto_id=idProjeto,
-        skills_id=idSkill
-    )
-
-    db.session.add(VagaProjetoTable)
-    salvar()
-
-    return VagaProjetoTable
-
-def removerVagaProjeto(vagaProjeto):
-    db.session.delete(vagaProjeto)
-    salvar()
-
-    return f"Vaga {vagaProjeto.titulo} removido com sucesso!"
-
 
 
 # o relacionamento da vaga com o projeto se chama projetoCriador

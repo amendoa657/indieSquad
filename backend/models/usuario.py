@@ -3,7 +3,7 @@ import re
 from database.database import db
 from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from sqlalchemy.sql import func
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 from models.membroProjeto import MembroProjeto
 
@@ -18,7 +18,6 @@ TAMANHO_MINIMO_SENHA = 8
 # as cores que a pessoa pode escolher pro proprio perfil: as cinco da paleta
 # (uma por area do catalogo). Sem escolha, o perfil usa a cor da funcao principal
 CORES_PERFIL = ["arte", "audio", "design", "producao", "programacao"]
-
 
 
 class Usuario(db.Model):
@@ -113,74 +112,17 @@ def to_dictCompleto(self):
 
     return dados
 
-def buscarPorId(id):
-    return db.session.get(Usuario, id)
-
-def salvar():
-    db.session.commit()
-
-def mostrarUsuario(id):
-    return db.session.get(Usuario, id)
-
-def mostrarUsuarios():
-    return Usuario.query.all()
-
-# a senha chega em texto e sai daqui como hash
-def registrarUsuario(handle, usuario, email, senha):
-    usuarioTable = Usuario(
-        handle=handle,
-        usuario=usuario,
-        email=email,
-        senha=generate_password_hash(senha)
-    )
-
-    db.session.add(usuarioTable)
-    salvar()
-
-    return usuarioTable
-
-def definirSenha(usuario, senha):
-    usuario.senha = generate_password_hash(senha)
-    salvar()
 
 def senhaCorreta(usuario, senha):
     return check_password_hash(usuario.senha, senha)
-
-
-def buscarPorEmail(email):
-    return Usuario.query.filter_by(email=email).first()
-
-def buscarPorHandle(handle):
-    return Usuario.query.filter_by(handle=handle).first()
-
-def deletarUsuario(Usuario):
-    db.session.delete(Usuario)
-    salvar()
 
 
 def getSkillsUsuario(usuario):
     return usuario.skills
 
 
-def adicionarSkill(usuario, skill):
-    usuario.skills.append(skill)
-    salvar()
-
-def removerSkill(usuario, skill):
-    usuario.skills.remove(skill)
-    salvar()
-
-
 def getFerramentasUsuario(usuario):
     return usuario.ferramentas
-
-def adicionarFerramenta(usuario, ferramenta):
-    usuario.ferramentas.append(ferramenta)
-    salvar()
-
-def removerFerramenta(usuario, ferramenta):
-    usuario.ferramentas.remove(ferramenta)
-    salvar()
 
 
 def getLinksUsuario(usuario):

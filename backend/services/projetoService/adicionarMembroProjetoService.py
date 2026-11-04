@@ -1,13 +1,13 @@
-import models.projetos as p
-import models.usuario as u
 from models.membroProjeto import MembroProjeto
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.projetoRepository import ProjetoRepository
+from repositories.usuarioRepository import UsuarioRepository
 
 
 class AdicionarMembroProjetoService:
     def execute(self, idProjeto, idUsuario):
-        usuario = u.buscarPorId(idUsuario)
-        projeto = p.buscarPorId(idProjeto)
+        usuario = UsuarioRepository.buscarPorId(idUsuario)
+        projeto = ProjetoRepository.buscarPorId(idProjeto)
 
         if projeto is None and usuario is None:
             return {"erro": "Projeto e pessoa não encontrados"}, 404
@@ -34,6 +34,6 @@ class AdicionarMembroProjetoService:
             cargo="Membro"
         )
 
-        p.adicionarMembro(projeto, membro)
+        ProjetoRepository.adicionarMembro(projeto, membro)
 
         return {"mensagem": f"{usuario.usuario} entrou na equipe"}, 201

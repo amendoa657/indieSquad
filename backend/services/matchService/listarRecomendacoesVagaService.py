@@ -1,12 +1,14 @@
 import models.vagaProjeto as v
 import models.usuario as u
 import models.skillUsuario as su
-import models.candidaturaUsuario as c
-import models.avaliacao as a
 from services.matchService import similaridadeTexto
 from services.matchService.calcularCompatibilidadeService import CalcularCompatibilidadeService
 from services.iaService.explicarMatchService import ExplicarMatchService
 from middlewares.autenticacao import ehDonoDoProjeto, ERRO_NAO_E_DONO
+from repositories.candidaturaRepository import CandidaturaRepository
+from repositories.usuarioRepository import UsuarioRepository
+from repositories.vagaProjetoRepository import VagaProjetoRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 # quantos candidatos a tela mostra
 LIMITE = 8
@@ -17,7 +19,7 @@ NOTA_MINIMA = 25
 
 class ListarRecomendacoesVagaService:
     def execute(self, idVaga):
-        vaga = v.buscarPorId(idVaga)
+        vaga = VagaProjetoRepository.buscarPorId(idVaga)
 
         if vaga is None:
             return {"erro": "Vaga não encontrada"}, 404
@@ -28,7 +30,7 @@ class ListarRecomendacoesVagaService:
             return ERRO_NAO_E_DONO
 
         pessoas = [
-            pessoa for pessoa in u.mostrarUsuarios()
+            pessoa for pessoa in UsuarioRepository.mostrarUsuarios()
             if pessoa.id != projeto.criador_id and pessoa.skills
         ]
 
@@ -46,13 +48,13 @@ class ListarRecomendacoesVagaService:
             if compatibilidade["nota"] < NOTA_MINIMA:
                 continue
 
-            candidatura = c.buscarDoUsuarioNaVaga(pessoa.id, vaga.id)
+            candidatura = CandidaturaRepository.buscarDoUsuarioNaVaga(pessoa.id, vaga.id)
 
             candidatos.append({
                 "usuario": dict(
                     u.to_dict(pessoa),
                     skills=[su.to_dict(vinculo) for vinculo in pessoa.skills],
-                    reputacao=a.reputacao(pessoa.id),
+                    reputacao=ReputacaoService.reputacao(pessoa.id),
                 ),
                 "compatibilidade": compatibilidade,
                 "jaSeCandidatou": candidatura is not None,

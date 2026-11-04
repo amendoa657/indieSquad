@@ -1,11 +1,11 @@
-import models.usuario as u
-import models.avaliacao as a
+from repositories.usuarioRepository import UsuarioRepository
+from services.avaliacaoService.reputacaoService import ReputacaoService
 
 
 # numeros publicos do perfil: projetos, colaboracoes, conclusao e reputacao
 class ObterEstatisticasUsuarioService:
     def execute(self, id):
-        usuario = u.buscarPorId(id)
+        usuario = UsuarioRepository.buscarPorId(id)
 
         if usuario is None:
             return {"erro": "Pessoa não encontrada"}, 404
@@ -20,5 +20,5 @@ class ObterEstatisticasUsuarioService:
             "projetosConcluidos": concluidos,
             "colaboracoes": len(usuario.participacoes),
             "taxaConclusao": taxaConclusao,
-            "reputacao": a.reputacao(usuario.id)
+            "reputacao": ReputacaoService.reputacao(usuario.id)
         }, 200

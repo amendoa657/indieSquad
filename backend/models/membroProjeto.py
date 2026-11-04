@@ -2,7 +2,6 @@ from database.database import db
 from sqlalchemy.sql import func
 
 
-
 class MembroProjeto(db.Model):
     __tablename__ = "membroProjeto"
 
@@ -23,9 +22,3 @@ def to_dict(self):
         "cargo": self.cargo,
         "dataEntrada": self.dataEntrada
     }
-
-def buscarVinculo(idProjeto, idUsuario):
-    return MembroProjeto.query.filter_by(
-        projeto_id=idProjeto,
-        usuario_id=idUsuario
-    ).first()
