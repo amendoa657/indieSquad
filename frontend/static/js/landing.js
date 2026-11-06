@@ -1,7 +1,7 @@
 // a abertura mostra quem ja esta no sistema, como a tela de escolher a party
 // de um jogo: um cursor de menu passa de pessoa em pessoa
 
-const LIMITE_ELENCO = 4;
+const LIMITE_ELENCO = 5;
 const ESPERA_CURSOR = 1600;
 
 function primeiroESobrenome(nome) {
