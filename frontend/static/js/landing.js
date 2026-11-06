@@ -1,7 +1,7 @@
 // a abertura mostra quem ja esta no sistema, como a tela de escolher a party
 // de um jogo: um cursor de menu passa de pessoa em pessoa
 
-const LIMITE_ELENCO = 5;
+const LIMITE_ELENCO = 4;
 const ESPERA_CURSOR = 1600;
 
 function primeiroESobrenome(nome) {
@@ -30,7 +30,7 @@ async function carregarElenco() {
                 <span class="elencoNome">${escapar(primeiroESobrenome(pessoa.nome))}</span>
                 <span class="elencoFuncao">${escapar(principal.nome)}</span>
                 <is-nivel valor="${principal.nivel}"></is-nivel>
-            </li>
+            </li>            
         `;
     },
     "Ninguém por aqui ainda. Seja o primeiro.",
