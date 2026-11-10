@@ -77,6 +77,7 @@ Está em `docs/apresentacao/`:
 | [`IndieSquad-apresentacao.pdf`](docs/apresentacao/IndieSquad-apresentacao.pdf) | Os 18 slides da apresentação |
 | [`mosaic-ui.mp4`](docs/apresentacao/mosaic-ui.mp4) | O motion graphic do slide 17, sobre a identidade visual da Mosaic UI (14 s em loop, 1080p, 60 fps) |
 | [`mosaic-ui.gif`](docs/apresentacao/mosaic-ui.gif) | O mesmo motion graphic em GIF, que anima aqui embaixo |
+| [Vídeo da demonstração](https://youtu.be/r8Vkrm-VvtU) | As quatro funcionalidades principais funcionando de ponta a ponta (slide 13), no YouTube |
 
 No PDF o slide 17 aparece parado: a animação fica no vídeo e no GIF.
 
