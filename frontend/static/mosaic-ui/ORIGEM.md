@@ -8,8 +8,8 @@ A identidade da IndieSquad é aplicada por fora:
 
 - `static/style/tokens.css` define as cores (as variáveis `--cor*` que a
   Mosaic lê) nos temas escuro e claro, e as cores das classes.
-- `static/js/indie.js` liga a biblioteca e registra os símbolos de game dev.
-- `static/js/pixelArte.js` tem as peças que são só da IndieSquad: sprites,
+- `static/js/interface/indie.js` liga a biblioteca e registra os símbolos de game dev.
+- `static/js/interface/pixelArte/` tem as peças que são só da IndieSquad: sprites,
   cartuchos, números em pixel, medidores e níveis.
 
 Manter esta pasta intocada é de propósito. Quando a biblioteca mudar lá, dá

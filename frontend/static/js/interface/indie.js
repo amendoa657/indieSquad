@@ -4,10 +4,10 @@
 //   - desenha os simbolos de game dev que a Mosaic nao tem
 //   - troca o tema numa onda de pixels saindo do botao
 //
-// A logica das telas continua nos scripts de cada uma (app.js, dashboard.js...).
+// A logica das telas continua nos scripts de cada uma (dashboard/dashboard.js, perfil/perfil.js...).
 
-import { registrarSimbolo, revelar } from "../mosaic-ui/mosaic.js";
-import "./pixelArte.js";
+import { registrarSimbolo, revelar } from "../../mosaic-ui/mosaic.js";
+import "./pixelArte/pixelArte.js";
 
 const G = (texto) => texto.trim().split(/\s+/);
 
