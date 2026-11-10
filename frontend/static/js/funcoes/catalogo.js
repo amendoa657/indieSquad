@@ -25,6 +25,8 @@ let jogadoresGuardados = null;
 
 function jogadores() {
     if (!jogadoresGuardados) {
+        // guarda a promessa e nao o resultado entao se duas partes da tela pedirem ao mesmo tempo so vai um pedido pra api
+        // o map deixa achar a pessoa pelo apelido na hora sem ficar procurando na lista
         jogadoresGuardados = pedir("/busca/profissionais").then(function (pessoas) {
             return new Map((pessoas || []).map((pessoa) => [pessoa.handle, pessoa]));
         });
@@ -37,5 +39,6 @@ function jogadores() {
 async function comFuncoes(pessoa) {
     const conhecida = (await jogadores()).get(pessoa.handle);
 
+    // os tres pontinhos copiam a pessoa e so trocam as skills sem mexer no objeto original
     return conhecida ? { ...pessoa, skills: conhecida.skills } : pessoa;
 }

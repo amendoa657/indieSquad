@@ -47,6 +47,7 @@ function ligarCursor() {
 
     function escolher(indice) {
         itens[atual].classList.remove("escolhido");
+        // o modulo faz dar a volta passou do ultimo volta pro primeiro e antes do primeiro vai pro ultimo
         atual = (indice + itens.length) % itens.length;
         itens[atual].classList.add("escolhido");
     }
@@ -77,6 +78,7 @@ function ligarCursor() {
             const caixa = document.querySelector(".selecao").getBoundingClientRect();
 
             // so rouba as setas quando a party esta na tela
+            // se a lista saiu da tela deixa as setas rolarem a pagina normal
             if (caixa.bottom < 0 || caixa.top > innerHeight) return;
 
             evento.preventDefault();

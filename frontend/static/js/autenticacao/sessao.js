@@ -38,6 +38,7 @@ function destinoGuardado() {
     const destino = sessionStorage.getItem("destino");
     sessionStorage.removeItem("destino");
 
+    // isso barra endereco de outro site pra ninguem usar o login pra mandar a pessoa pra fora do indiesquad
     if (!destino || destino.startsWith("//") || destino.includes(":")) return null;
 
     return destino;

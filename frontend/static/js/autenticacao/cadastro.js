@@ -34,6 +34,7 @@ function atualizarSprite() {
 pegar("nome").oninput = function () {
     const campoHandle = pegar("handle");
 
+    // se a pessoa ja mexeu no apelido na mao para de sugerir pra nao apagar o que ela escreveu
     if (campoHandle.dataset.editado === "sim") {
         return;
     }

@@ -10,6 +10,8 @@ function desenhar(colunas, linhas, quadrados, extra = "") {
     const svg = document.createElementNS(SVG, "svg");
 
     svg.setAttribute("viewBox", `0 0 ${colunas} ${linhas}`);
+    // o viewbox faz cada quadradinho valer 1 e o svg estica pro tamanho que o css mandar
+    // o crispedges deixa a borda seca sem borrar que e o que faz parecer pixel
     svg.setAttribute("shape-rendering", "crispEdges");
     svg.setAttribute("aria-hidden", "true");
 

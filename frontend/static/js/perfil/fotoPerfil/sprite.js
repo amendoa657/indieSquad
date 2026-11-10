@@ -19,10 +19,12 @@ function montarSprite(semente) {
     for (let y = 0; y < 7; y++) {
         const linha = [];
 
+        // so sorteia 4 colunas porque as outras 3 sao o espelho dessas
         for (let x = 0; x < 4; x++) {
             // a coluna do meio e o tronco: nunca fica vazia no corpo
             const meio = x === 3 && y >= 1 && y <= 4;
             const borda = x === 0 && (y === 0 || y === 6);
+            // se for tronco ja e cheio se for canto fica vazio e no resto joga o dado com a chance da linha
             linha.push(meio || (!borda && sorte() < chance[y]));
         }
 
@@ -30,6 +32,7 @@ function montarSprite(semente) {
     }
 
     // os olhos: buraco na coluna 2 (e no espelho), com corpo em volta
+    // sorteia se o olho fica na linha 2 ou 3 e depois forca corpo em volta pro buraco parecer olho
     const olho = 2 + Math.floor(sorte() * 2);
     grade[olho][2] = false;
     grade[olho][1] = true;
@@ -41,6 +44,7 @@ function montarSprite(semente) {
 
     for (let y = 0; y < 7; y++) {
         for (let x = 0; x < 7; x++) {
+            // da coluna 4 em diante pega a coluna do outro lado tipo 4 vira 2 e 6 vira 0
             const fonte = x <= 3 ? x : 6 - x;
 
             if (grade[y][fonte]) quadrados.push([x, y]);
@@ -65,6 +69,7 @@ class Sprite extends HTMLElement {
     desenhar() {
         const semente = this.getAttribute("semente") || "?";
 
+        // o bichinho tem 7x7 mas o desenho e 9x9 entao soma 1 em tudo pra sobrar uma margem em volta
         this.replaceChildren(desenhar(9, 9, montarSprite(semente).map(([x, y]) => [x + 1, y + 1])));
     }
 }

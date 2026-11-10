@@ -29,6 +29,7 @@ class Cartucho extends HTMLElement {
         });
 
         // o tom sai do nome: o mesmo projeto tem sempre a mesma cor
+        // o % 5 pega o resto da divisao entao sempre da um numero de 0 a 4 que e uma das 5 cores
         this.dataset.tom = hash(nome) % 5;
 
         const fenda = `<rect class="fenda" x="2" y="0" width="5" height="1"/>`;

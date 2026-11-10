@@ -132,11 +132,13 @@ for (const [nome, grade] of Object.entries(SIMBOLOS)) {
 
 // troca de tema em onda: a tela cobre em pixels, troca as cores e revela a
 // partir do botao que foi clicado
+// guarda a troca de tema antiga do tema js antes de substituir pra poder chamar ela la dentro
 const trocarSemOnda = window.trocarTema;
 
 window.trocarTema = function (evento) {
     const botao = evento?.currentTarget || document.activeElement;
     const caixa = botao?.getBoundingClientRect?.();
+    // pega o meio do botao clicado pra onda sair dali e se nao achar o botao usa o canto de cima
     const x = caixa ? caixa.left + caixa.width / 2 : innerWidth - 40;
     const y = caixa ? caixa.top + caixa.height / 2 : 30;
 
@@ -145,5 +147,6 @@ window.trocarTema = function (evento) {
         document.dispatchEvent(new CustomEvent("mo-tema", { bubbles: true }));
     };
 
+    // o revelar e da mosaic ele cobre a tela de pixels chama o trocar no meio e depois descobre
     revelar(document.body, { x, y, trocar });
 };

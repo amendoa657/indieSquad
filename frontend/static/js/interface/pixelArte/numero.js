@@ -19,6 +19,7 @@ class Numero extends HTMLElement {
             </style>`;
 
         // o texto de dentro e o valor: o JS da tela so escreve nele
+        // o mutationobserver fica vigiando o texto de dentro e quando alguem troca o numero ele chama o mudou sozinho
         this.observador = new MutationObserver(() => this.mudou());
         this.observador.observe(this, { childList: true, characterData: true, subtree: true });
 
@@ -33,6 +34,7 @@ class Numero extends HTMLElement {
         this.setAttribute("aria-label", texto);
         this.setAttribute("role", "img");
 
+        // separa o numero do resto tipo 65% vira alvo 65 e sufixo %
         const alvo = Number(texto.replace(/[^\d]/g, ""));
         const sufixo = texto.replace(/^[\d.,]+/, "");
 
@@ -48,14 +50,17 @@ class Numero extends HTMLElement {
         cancelAnimationFrame(this.quadro);
 
         const inicio = performance.now();
+        // numero maior conta mais devagar mas nunca passa de 900 ms
         const duracao = Math.min(900, 260 + alvo * 18);
 
         const passo = (agora) => {
             const t = Math.min(1, (agora - inicio) / duracao);
+            // o t vai de 0 a 1 no tempo e essa conta faz a contagem comecar rapido e frear no final
             const atual = Math.round(alvo * (1 - Math.pow(1 - t, 3)));
 
             this.pintar(`${atual}${sufixo}`, t === 1);
 
+            // enquanto nao chegou no fim pede pro navegador chamar de novo no proximo quadro da tela
             if (t < 1) this.quadro = requestAnimationFrame(passo);
         };
 
@@ -91,6 +96,7 @@ class Numero extends HTMLElement {
         // so a pintura final acende em onda; a contagem troca seca
         if (final) {
             svg.querySelectorAll("rect").forEach((rect) => {
+                // cada pixel ganha um atraso pela posicao dele entao eles acendem em onda e nao todos juntos
                 const atraso = (Number(rect.getAttribute("x")) * 9 + Number(rect.getAttribute("y")) * 14) % 180;
                 rect.style.setProperty("--atraso", `${atraso}ms`);
             });

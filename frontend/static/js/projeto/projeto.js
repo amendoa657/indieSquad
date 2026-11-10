@@ -238,6 +238,7 @@ function seloCompatibilidade(compatibilidade) {
             const feito = compatibilidade.criterios[chave] || 0;
             const peso = (compatibilidade.pesos && compatibilidade.pesos[chave]) || 0;
 
+            // a largura e o peso dividido por 35 que e o maior peso entao a barra da funcao ocupa tudo e as outras ficam proporcionais
             // cada segmento vale 5 pontos: a barra do criterio que pesa mais e mais comprida
             return `
                 <div class="criterio" title="${feito} de ${peso} pontos">

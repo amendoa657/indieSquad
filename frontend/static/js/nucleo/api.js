@@ -21,6 +21,7 @@ async function pedir(caminho, metodo = "GET", dados = null) {
         });
 
         // traduz a resposta do servidor (texto) pra algo que o JS entende
+        // se a resposta nao for json o catch devolve objeto vazio pra nao quebrar
         const resultado = await resposta.json().catch(() => ({}));
 
         // token vencido manda pro login em vez de deixar a tela quebrada
